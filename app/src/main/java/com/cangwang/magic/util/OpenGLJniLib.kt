@@ -6,7 +6,7 @@ package com.cangwang.magic.util
  */
 object OpenGLJniLib{
     init {
-        System.loadLibrary("MagicJni")
+        System.loadLibrary("MagicJni-lib")
     }
 
     /**
@@ -22,7 +22,7 @@ object OpenGLJniLib{
     /**
      * 变更触发magicBaseView
      */
-    external fun magicBaseChange()
+    external fun magicBaseChange(width:Int,height:Int)
 
     /**
      * 绘制

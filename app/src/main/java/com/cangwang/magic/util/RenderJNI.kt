@@ -14,12 +14,12 @@ class RenderJNI(context: Context):GLSurfaceView.Renderer{
         init {
             System.loadLibrary("triangle-lib")
         }
-
-        external fun glesInit()
-        external fun glesRender()
-        external fun glesResize(width:Int,height:Int)
-        external fun readShaderFile(assetManager: AssetManager)
     }
+
+    external fun glesInit()
+    external fun glesRender()
+    external fun glesResize(width:Int,height:Int)
+    external fun readShaderFile(assetManager: AssetManager)
 
     val assetMaanager:AssetManager = context.assets
 
