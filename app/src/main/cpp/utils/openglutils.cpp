@@ -104,6 +104,6 @@ char* OpenGlUtils::readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject 
     }
 }
 
-OpenGlUtils::freeResource(char *pData){
+void OpenGlUtils::freeResource(char *pData){
     free(pData);
 }

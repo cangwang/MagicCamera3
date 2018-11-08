@@ -19,15 +19,28 @@ class GPUImageFilter {
 public:
     virtual ~GPUImageFilter();
     void init();
+    void onInputSizeChanged(const int width, const int height);
+    int onDrawFrame(const GLint textureId, const float* cubeBuffer, const float* textureBuffer);
+    int onDrawFrame(const GLint textureId);
 
 protected:
     GPUImageFilter();
     GPUImageFilter(char* vertexShader,char* fragmentShader);
     void onInit();
     void onInitialized();
+    bool mIsInitialized;
+    GLuint mGLProgId;
+    GLint mGLAttribPosition;
+    GLint mGLUniformTexture;
+    GLint mGLAttribTexureCoordinate;
+    int mInputWidth;
+    int mInputHeight;
+    void onDrawArraysPre(){}
+    void onDrawArraysAffter(){}
 
 private:
-    char* vertexShader;
-    char* fragmentShader;
-
+    char* mVertexShader;
+    char* mFragmentShader;
+    float mGLCubeBuffer[];
+    float mGLTextureBuffer[];
 };
