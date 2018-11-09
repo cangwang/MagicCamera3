@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <GLES3/gl3.h>
-#include "rotation.h"
+#include "Rotation.h"
 
 int RotationUtil::asInt(RotationUtil::Rotation rotation) {
     switch (rotation){

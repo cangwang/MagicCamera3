@@ -28,4 +28,9 @@ object OpenGLJniLib{
      * 绘制
      */
     external fun magicBaseDraw()
+
+    /**
+     * 调整大小
+     */
+    external fun magicAdjustSize(orientation:Int,isFront:Boolean,flipVertical:Boolean)
 }

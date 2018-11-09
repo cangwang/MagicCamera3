@@ -28,6 +28,15 @@ JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseChange(JNIEnv *env, jobject obj,jint width,jint height) {
     //视口变换，可视区域
     glViewport(0,0,width,height);
+}
+
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseDraw(JNIEnv *env, jobject obj) {
+
+}
+
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicAdjustSize(JNIEnv *env, jobject obj,jint orientation,jboolean isFront,jboolean flipVertical) {
 
 }
 

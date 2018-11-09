@@ -1,4 +1,4 @@
-#include "textureroationutil.h"
+#include "TextureRoationUtil.h"
 
 //获取角度
 static float* TextureRoationUtil::getRotation(const RotationUtil::Rotation rotation, const bool flipHorizontal, const bool flipVertical){

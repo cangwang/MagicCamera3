@@ -1,11 +1,6 @@
-#include <jni.h>
-#include <android/log.h>
-#include <stdio.h>
-#include <malloc.h>
-#include <GLES3/gl3.h>
-#include "gpuimagefilter.h"
-#include "src/main/cpp/utils/textureroationutil.h"
-#include "src/main/cpp/utils/openglutils.h"
+#include "GpuImageFilter.h"
+#include "src/main/cpp/utils/TextureRoationUtil.h"
+#include "src/main/cpp/utils/OpenglUtils.h"
 
 
 GPUImageFilter::GPUImageFilter(){
@@ -28,11 +23,15 @@ void GPUImageFilter::init() {
 void GPUImageFilter::onInit() {
     mGLProgId = OpenGlUtils::loadProgram(mVertexShader,mFragmentShader);
     GLchar *name = const_cast<GLchar *>("position");
+    //获取顶点着色器
     mGLAttribPosition = glGetAttribLocation(mGLProgId,name);
     GLchar *texture = const_cast<GLchar *>("inputImageTexture");
+    //获取纹理统一变量索引
     mGLUniformTexture = glGetUniformLocation(mGLProgId,texture);
     GLchar *coordinate = const_cast<GLchar *>("inputTextureCoordinate");
+    //获取混合顶点着色器
     mGLAttribTexureCoordinate = glGetAttribLocation(mGLProgId,coordinate);
+    //初始化成功标志
     mIsInitialized = true;
 }
 
@@ -46,29 +45,33 @@ void GPUImageFilter::onInputSizeChanged(const int width, const int height) {
 }
 
 int GPUImageFilter::onDrawFrame(const GLint textureId) {
+    //加载着色器程序
     glUseProgram(mGLProgId);
 //    runPendingOnDrawTasks()
-    if(!mIsInitialized)
+    if(!mIsInitialized) //未初始化则返回
         return OpenGlUtils::NOT_INIT;
 
     mGLCubeBuffer[0];
+    //从Cube中一次取两个Float值，下次偏移为0
     glVertexAttribPointer(static_cast<GLuint>(mGLAttribPosition), 2, GL_FLOAT, false, 0, mGLCubeBuffer);
+    //开启通用顶点属性数据
     glEnableVertexAttribArray(static_cast<GLuint>(mGLAttribPosition));
     mGLTextureBuffer[0];
+    //从纹理中一次取两个Float值，下次偏移为0
     glVertexAttribPointer(static_cast<GLuint>(mGLAttribTexureCoordinate), 2, GL_FLOAT, false, 0, mGLTextureBuffer);
     glEnableVertexAttribArray(static_cast<GLuint>(mGLAttribTexureCoordinate));
-    if(textureId !=OpenGlUtils::NO_TEXTURE){
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D,textureId);
-        glUniform1i(mGLUniformTexture,0);
+    if(textureId !=OpenGlUtils::NO_TEXTURE){ //如果纹理id不为-1，则纹理存在
+        glActiveTexture(GL_TEXTURE0);  //初始化纹理必须调用
+        glBindTexture(GL_TEXTURE_2D,textureId); //绑定2D纹理
+        glUniform1i(mGLUniformTexture,0); //纹理采样
     }
     onDrawArraysPre();
-    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
-    glDisableVertexAttribArray(mGLAttribPosition);
-    glDisableVertexAttribArray(mGLAttribTexureCoordinate);
-    onDrawArraysAffter();
-    glBindTexture(GL_TEXTURE_2D,0);
-    return OpenGlUtils::ON_DRAWN;
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4); //绘制连接的三角形（4个点为四边形）
+    glDisableVertexAttribArray(mGLAttribPosition); //关闭顶点属性数据
+    glDisableVertexAttribArray(mGLAttribTexureCoordinate); //关闭纹理顶点属性数据
+    onDrawArraysAfter();
+    glBindTexture(GL_TEXTURE_2D,0); //解除纹理绑定
+    return OpenGlUtils::ON_DRAWN;  //返回绘画成功
 }
 
 int GPUImageFilter::onDrawFrame(const GLint textureId, const float *cubeBuffer,
@@ -93,7 +96,7 @@ int GPUImageFilter::onDrawFrame(const GLint textureId, const float *cubeBuffer,
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTexureCoordinate);
-    onDrawArraysAffter();
+    onDrawArraysAfter();
     glBindTexture(GL_TEXTURE_2D,0);
     return OpenGlUtils::ON_DRAWN;
 }

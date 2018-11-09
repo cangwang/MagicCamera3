@@ -4,7 +4,7 @@
 #include <malloc.h>
 #include <GLES3/gl3.h>
 #include <src/main/cpp/bitmap/BitmapOperation.h>
-#include "rotation.h"
+#include "Rotation.h"
 
 
 #define LOG_TAG "GPUImageFilter"

@@ -4,7 +4,7 @@
 #include <malloc.h>
 #include <GLES3/gl3.h>
 #include <src/main/cpp/bitmap/BitmapOperation.h>
-#include "src/main/cpp/filter/gpuimage/gpuimagefilter.h"
+#include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
 #define LOG_TAG "GPUImageFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)

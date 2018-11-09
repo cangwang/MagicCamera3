@@ -1,16 +1,23 @@
 #include <jni.h>
+#include <string.h>
 #include <android/log.h>
 #include <stdio.h>
 #include <malloc.h>
 #include <GLES3/gl3.h>
-#include "openglutils.h"
+#include <string>
+#include "OpenglUtils.h"
 #include "android/asset_manager_jni.h"
 
+//检测错误
 void OpenGlUtils::checkGLError(char *op) {
     GLint error = glGetError();
+    char err = (char)error;
     if(error!= GL_NO_ERROR){
-        char *msg = op+":glError 0x" +error;
-        ALOGE(msg);
+        std::string msg ="";
+        msg.append(op);
+        msg.append(":glError 0x");
+        msg.append(&err);
+        ALOGE(msg.c_str());
     }
 }
 
