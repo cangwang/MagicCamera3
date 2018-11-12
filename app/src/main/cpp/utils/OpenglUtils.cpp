@@ -9,7 +9,7 @@
 #include "android/asset_manager_jni.h"
 
 //检测错误
-void OpenGlUtils::checkGLError(char *op) {
+void checkGLError(char *op) {
     GLint error = glGetError();
     char err = (char)error;
     if(error!= GL_NO_ERROR){
@@ -21,15 +21,45 @@ void OpenGlUtils::checkGLError(char *op) {
     }
 }
 
-BitmapOperation OpenGlUtils::getImageFromAssetsFile(JNIEnv *env, char *filename) {
+BitmapOperation getImageFromAssetsFile(JNIEnv *env, char *filename) {
 
 }
 
-GLuint OpenGlUtils::loadShader(const char *strSource, const int iType) {
+std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName){
+
+    //打开asset文件夹
+    AAssetDir *dir = AAssetManager_openDir(manager,"");
+    const char *file = nullptr;
+    std::string *result = new std::string;
+    while ((file =AAssetDir_getNextFileName(dir))!= nullptr){
+        if (strcmp(file,fileName) == 0){
+            AAsset *asset = AAssetManager_open(manager,file,AASSET_MODE_STREAMING);
+            char buf[1024];
+            int nb_read = 0;
+            while ((nb_read =AAsset_read(asset,buf, 1024))>0){
+                result->append(buf,(unsigned long)nb_read);
+            }
+            AAsset_close(asset);
+            break;
+        }
+    }
+    AAssetDir_close(dir);
+    return result;
+}
+
+GLuint loadShader(const char *strSource, const int iType) {
     GLint compiled;
     GLuint iShader = glCreateShader(iType);
+    if (iShader == 0){
+        ALOGE("create shader fail");
+        return 0;
+    }
+    //加载shader源码
     glShaderSource(iShader,1,&strSource,NULL);
+    //编译shader
     glCompileShader(iShader);
+
+    //检查编译状态
     glGetShaderiv(iShader,GL_COMPILE_STATUS,&compiled);
     if(!compiled){
         GLint infoLen = 0;
@@ -47,29 +77,33 @@ GLuint OpenGlUtils::loadShader(const char *strSource, const int iType) {
     return iShader;
 }
 
-GLuint OpenGlUtils::loadProgram(const char *strVSource, const char *strFSource) {
-    GLuint iVShader;
-    GLuint iFShader;
-    GLuint iProgId;
-    GLint lint;
-    iVShader = loadShader(strVSource,GL_VERTEX_SHADER);
-    if(iVShader == 0){
-        ALOGE("Vertex Shader Failed");
+GLuint loadProgram(const char *strVSource, const char *strFSource) {
+    GLuint iProgId = glCreateProgram();
+    if (iProgId ==0){
+        ALOGE("create program failed");
         return 0;
     }
-    iFShader = loadShader(strFSource,GL_FRAGMENT_SHADER);
-    if(iFShader == 0){
-        ALOGE("Fragment Shader Failed");
-        return 0;
-    }
-
-    iProgId = glCreateProgram();
+    GLuint iVShader = loadShader(strVSource,GL_VERTEX_SHADER);
+    GLuint iFShader = loadShader(strFSource,GL_FRAGMENT_SHADER);
     glAttachShader(iProgId,iVShader);
     glAttachShader(iProgId,iFShader);
+
+    //链接shader到程序
     glLinkProgram(iProgId);
-    glGetProgramiv(iProgId,GL_LINK_STATUS,&lint);
-    if(lint <=0){
-        ALOGE("linking Fialed");
+
+    GLint linked;
+    glGetProgramiv(iProgId,GL_LINK_STATUS,&linked);
+    if (!linked) {
+        GLint infoLen = 0;
+        glGetProgramiv(iProgId, GL_INFO_LOG_LENGTH, &infoLen);
+        if (infoLen > 1) {
+            char *infoLog = (char *) malloc(sizeof(char) * infoLen);
+            glGetProgramInfoLog(iProgId, infoLen, nullptr, infoLog);
+            ALOGE("loadProgram failed: %s", infoLog);
+            free(infoLog);
+        }
+
+        glDeleteProgram(iProgId);
         return 0;
     }
     glDeleteShader(iVShader);
@@ -82,11 +116,11 @@ GLuint OpenGlUtils::loadProgram(const char *strVSource, const char *strFSource) 
  * 只能android传了
  * @return
  */
-GLuint OpenGlUtils::getExternalOESTextureID() {
+GLuint getExternalOESTextureID() {
 
 }
 
-char* OpenGlUtils::readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager,
+char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager,
                                                char* fileName) {
     ALOGV("ReadAssets");
     AAssetManager* mgr =AAssetManager_fromJava(env,assetManager);
@@ -111,6 +145,6 @@ char* OpenGlUtils::readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject 
     }
 }
 
-void OpenGlUtils::freeResource(char *pData){
+void freeResource(char *pData){
     free(pData);
 }
