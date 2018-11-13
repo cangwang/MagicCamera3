@@ -1,5 +1,8 @@
 package com.cangwang.magic.util
 
+import android.content.res.AssetManager
+import android.view.Surface
+
 /**
  * openGL辅助类
  * Created by cangwang on 2018/10/12.
@@ -12,7 +15,7 @@ object OpenGLJniLib{
     /**
      * 初始化magicBaseView
      */
-    external fun magicBaseInit()
+    external fun magicBaseInit(surface:Surface, width:Int, height:Int, manager: AssetManager):Int
 
     /**
      * 创建magicBaseView
@@ -27,7 +30,9 @@ object OpenGLJniLib{
     /**
      * 绘制
      */
-    external fun magicBaseDraw()
+    external fun magicBaseDraw(matrix:FloatArray)
+
+    external fun magicBaseRelease()
 
     /**
      * 调整大小

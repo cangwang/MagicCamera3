@@ -5,6 +5,9 @@
 #include <GLES3/gl3.h>
 #include "Rotation.h"
 
+#define LOG_TAG "Rotation"
+#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+
 int RotationUtil::asInt(RotationUtil::Rotation rotation) {
     switch (rotation){
         case NORMAL:

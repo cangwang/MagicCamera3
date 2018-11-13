@@ -6,9 +6,6 @@
 #include <src/main/cpp/bitmap/BitmapOperation.h>
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
-#define LOG_TAG "Rotation"
-#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
-
 
 class RotationUtil{
 public:

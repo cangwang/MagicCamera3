@@ -8,6 +8,9 @@
 #include "OpenglUtils.h"
 #include "android/asset_manager_jni.h"
 
+#define LOG_TAG "GPUImageFilter"
+#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+
 //检测错误
 void checkGLError(char *op) {
     GLint error = glGetError();

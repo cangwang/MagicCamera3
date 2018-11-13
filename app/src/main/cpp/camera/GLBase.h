@@ -1,9 +1,5 @@
 #include <GLES3/gl3.h>
 
-#define LOG_TAG "GLBase"
-#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
-#define ALOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
-
 #define ClearRed 0.66f
 #define ClearGreen 0.66f
 #define ClearBlue 0.66f

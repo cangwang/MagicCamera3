@@ -1,7 +1,10 @@
-#include "TextureRoationUtil.h"
+#include "TextureRotationUtil.h"
+
+#define LOG_TAG "GPUImageFilter"
+#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
 //获取角度
-static float* TextureRoationUtil::getRotation(const RotationUtil::Rotation rotation, const bool flipHorizontal, const bool flipVertical){
+static float* TextureRotationUtil::getRotation(const RotationUtil::Rotation rotation, const bool flipHorizontal, const bool flipVertical){
     const float* rotateTex;
     switch (rotation){
         case RotationUtil::ROTATION_90:
@@ -41,7 +44,7 @@ static float* TextureRoationUtil::getRotation(const RotationUtil::Rotation rotat
     return const_cast<float *>(rotateTex);
 }
 
-float TextureRoationUtil::flip(const float i) {
+float TextureRotationUtil::flip(const float i) {
     if (i == 0.0f){
         return 1.0f;
     }

@@ -7,10 +7,7 @@
 #include "Rotation.h"
 
 
-#define LOG_TAG "GPUImageFilter"
-#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
-
-class TextureRoationUtil{
+class TextureRotationUtil{
 public:
     const static float TEXTUTRE_NO_ROTATION[] = {
             0.0f, 1.0f,

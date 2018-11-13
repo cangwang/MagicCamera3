@@ -1,7 +1,14 @@
 #include "GpuImageFilter.h"
-#include "src/main/cpp/utils/TextureRoationUtil.h"
+#include "src/main/cpp/utils/TextureRotationUtil.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
+#define LOG_TAG "GPUImageFilter"
+#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#if DEBUG
+#define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
+#else
+#define ALOGV(...)
+#endif
 
 GPUImageFilter::GPUImageFilter(){
 
@@ -10,9 +17,9 @@ GPUImageFilter::GPUImageFilter(){
 GPUImageFilter::GPUImageFilter(char *vertexShader, char *fragmentShader) {
     mVertexShader = vertexShader;
     mFragmentShader = fragmentShader;
-    mGLCubeBuffer = (float*) malloc(sizeof(TextureRoationUtil::CUBE));
-    mGLTextureBuffer = (float*) malloc(sizeof(TextureRoationUtil::TEXTUTRE_NO_ROTATION));
-    mGLTextureBuffer[0] = TextureRoationUtil::getRotation(RotationUtil::NORMAL, false, true)[0];
+    mGLCubeBuffer = (float*) malloc(sizeof(TextureRotationUtil::CUBE));
+    mGLTextureBuffer = (float*) malloc(sizeof(TextureRotationUtil::TEXTUTRE_NO_ROTATION));
+    mGLTextureBuffer[0] = TextureRotationUtil::getRotation(RotationUtil::NORMAL, false, true)[0];
 }
 
 void GPUImageFilter::init() {
@@ -21,7 +28,7 @@ void GPUImageFilter::init() {
 }
 
 void GPUImageFilter::onInit() {
-    mGLProgId = OpenGlUtils::loadProgram(mVertexShader,mFragmentShader);
+    mGLProgId = loadProgram(mVertexShader,mFragmentShader);
     GLchar *name = const_cast<GLchar *>("position");
     //获取顶点着色器
     mGLAttribPosition = glGetAttribLocation(mGLProgId,name);
@@ -49,7 +56,7 @@ int GPUImageFilter::onDrawFrame(const GLint textureId) {
     glUseProgram(mGLProgId);
 //    runPendingOnDrawTasks()
     if(!mIsInitialized) //未初始化则返回
-        return OpenGlUtils::NOT_INIT;
+        return NOT_INIT;
 
     mGLCubeBuffer[0];
     //从Cube中一次取两个Float值，下次偏移为0
@@ -60,7 +67,7 @@ int GPUImageFilter::onDrawFrame(const GLint textureId) {
     //从纹理中一次取两个Float值，下次偏移为0
     glVertexAttribPointer(static_cast<GLuint>(mGLAttribTexureCoordinate), 2, GL_FLOAT, false, 0, mGLTextureBuffer);
     glEnableVertexAttribArray(static_cast<GLuint>(mGLAttribTexureCoordinate));
-    if(textureId !=OpenGlUtils::NO_TEXTURE){ //如果纹理id不为-1，则纹理存在
+    if(textureId !=NO_TEXTURE){ //如果纹理id不为-1，则纹理存在
         glActiveTexture(GL_TEXTURE0);  //初始化纹理必须调用
         glBindTexture(GL_TEXTURE_2D,textureId); //绑定2D纹理
         glUniform1i(mGLUniformTexture,0); //纹理采样
@@ -71,7 +78,7 @@ int GPUImageFilter::onDrawFrame(const GLint textureId) {
     glDisableVertexAttribArray(mGLAttribTexureCoordinate); //关闭纹理顶点属性数据
     onDrawArraysAfter();
     glBindTexture(GL_TEXTURE_2D,0); //解除纹理绑定
-    return OpenGlUtils::ON_DRAWN;  //返回绘画成功
+    return ON_DRAWN;  //返回绘画成功
 }
 
 int GPUImageFilter::onDrawFrame(const GLint textureId, const float *cubeBuffer,
@@ -79,7 +86,7 @@ int GPUImageFilter::onDrawFrame(const GLint textureId, const float *cubeBuffer,
     glUseProgram(mGLProgId);
 //    runPendingOnDrawTasks()
     if(!mIsInitialized)
-        return OpenGlUtils::NOT_INIT;
+        return NOT_INIT;
 
     cubeBuffer[0];
     glVertexAttribPointer(static_cast<GLuint>(mGLAttribPosition), 2, GL_FLOAT, false, 0, mGLCubeBuffer);
@@ -87,7 +94,7 @@ int GPUImageFilter::onDrawFrame(const GLint textureId, const float *cubeBuffer,
     textureBuffer[0];
     glVertexAttribPointer(static_cast<GLuint>(mGLAttribTexureCoordinate), 2, GL_FLOAT, false, 0, mGLTextureBuffer);
     glEnableVertexAttribArray(static_cast<GLuint>(mGLAttribTexureCoordinate));
-    if(textureId !=OpenGlUtils::NO_TEXTURE){
+    if(textureId !=NO_TEXTURE){
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D,textureId);
         glUniform1i(mGLUniformTexture,0);
@@ -98,7 +105,7 @@ int GPUImageFilter::onDrawFrame(const GLint textureId, const float *cubeBuffer,
     glDisableVertexAttribArray(mGLAttribTexureCoordinate);
     onDrawArraysAfter();
     glBindTexture(GL_TEXTURE_2D,0);
-    return OpenGlUtils::ON_DRAWN;
+    return ON_DRAWN;
 }
 
 

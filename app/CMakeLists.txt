@@ -30,13 +30,20 @@ add_library( # Sets the name of the library.
              src/main/cpp/triangle.cpp )
 
 add_library( # Sets the name of the library.
-             MagicJni-lib
+             magicjni-lib
 
              # Sets the library as a shared library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/cpp/MagicJni.cpp )
+        src/main/cpp/magicjni.cpp
+        src/main/cpp/utils/OpenglUtils.cpp
+#        src/main/cpp/utils/Rotation.cpp
+#        src/main/cpp/utils/TextureRotationUtil.cpp
+#        src/main/cpp/filter/advanced/MagicCoolFilter.cpp
+#        src/main/cpp/filter/gpuimage/GpuImageFilter.cpp
+        src/main/cpp/camera/CameraEngine.cpp
+        src/main/cpp/camera/EGLCore.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -72,7 +79,7 @@ target_link_libraries( # Specifies the target library.
                        ${log-lib} )
 
 target_link_libraries( # Specifies the target library.
-                       MagicJni-lib
+                       magicjni-lib
                        android
                        GLESv3
 

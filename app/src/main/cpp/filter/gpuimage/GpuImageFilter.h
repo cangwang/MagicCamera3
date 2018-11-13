@@ -5,14 +5,6 @@
 #include <string.h>
 #include <GLES3/gl3.h>
 
-#define LOG_TAG "GPUImageFilter"
-#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
-#if DEBUG
-#define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
-#else
-#define ALOGV(...)
-#endif
-
 
 class GPUImageFilter {
 
@@ -42,6 +34,6 @@ protected:
 private:
     char* mVertexShader;
     char* mFragmentShader;
-    float mGLCubeBuffer[];
-    float mGLTextureBuffer[];
+    float* mGLCubeBuffer;
+    float* mGLTextureBuffer;
 };

@@ -8,12 +8,10 @@
 #include <android/asset_manager.h>
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
-#define LOG_TAG "GPUImageFilter"
-#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+//const int NO_TEXTURE = -1;
+//const int NOT_INIT = -1;
+//const int ON_DRAWN = 1;
 
-const int NO_TEXTURE = -1;
-const int NOT_INIT = -1;
-const int ON_DRAWN = 1;
 int loadTexture(const char *img,const int userTexId);
 int loadTexture(const char *img,const int userTexId, bool recyled);
 int loadTexture(const char data[],const int width,const int height,const int userTexId);
