@@ -10,6 +10,7 @@
 
 #define LOG_TAG "GPUImageFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
 
 //检测错误
 void checkGLError(char *op) {
@@ -24,9 +25,9 @@ void checkGLError(char *op) {
     }
 }
 
-BitmapOperation getImageFromAssetsFile(JNIEnv *env, char *filename) {
-
-}
+//BitmapOperation getImageFromAssetsFile(JNIEnv *env, char *filename) {
+//
+//}
 
 std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName){
 
@@ -119,9 +120,9 @@ GLuint loadProgram(const char *strVSource, const char *strFSource) {
  * 只能android传了
  * @return
  */
-GLuint getExternalOESTextureID() {
-
-}
+//GLuint getExternalOESTextureID() {
+//
+//}
 
 char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager,
                                                char* fileName) {
@@ -146,6 +147,7 @@ char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager,
         AAsset_close(asset);
         return pData;
     }
+    return NULL;
 }
 
 void freeResource(char *pData){

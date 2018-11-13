@@ -36,4 +36,7 @@ private:
     char* mFragmentShader;
     float* mGLCubeBuffer;
     float* mGLTextureBuffer;
+    const int NO_TEXTURE = -1;
+    const int NOT_INIT = -1;
+    const int ON_DRAWN = 1;
 };

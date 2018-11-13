@@ -11,7 +11,6 @@
 
 class CameraEngine:public GLBase{
 public:
-    GPUImageFilter filter;
     CameraEngine(ANativeWindow *window);
     ~CameraEngine();
     void setAssetManager(AAssetManager *assetManager);
