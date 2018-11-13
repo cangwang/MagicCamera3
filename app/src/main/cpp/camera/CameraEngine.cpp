@@ -125,3 +125,7 @@ void CameraEngine::stop() {
     //清空资源
     mEGLCore->release();
 }
+
+void CameraEngine::setAssetManager(AAssetManager *assetManager) {
+    mAssetManager = assetManager;
+}

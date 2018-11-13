@@ -9,7 +9,7 @@
 #include "android/asset_manager_jni.h"
 
 #define LOG_TAG "GPUImageFilter"
-#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
 
 //检测错误
@@ -21,7 +21,7 @@ void checkGLError(char *op) {
         msg.append(op);
         msg.append(":glError 0x");
         msg.append(&err);
-        ALOGE(msg.c_str());
+//        LOGE(msg.c_str());
     }
 }
 
@@ -55,7 +55,7 @@ GLuint loadShader(const char *strSource, const int iType) {
     GLint compiled;
     GLuint iShader = glCreateShader(iType);
     if (iShader == 0){
-        ALOGE("create shader fail");
+        LOGE("create shader fail");
         return 0;
     }
     //加载shader源码
@@ -72,7 +72,7 @@ GLuint loadShader(const char *strSource, const int iType) {
         if(infoLen >1){
             char *infoLog= (char*)malloc(sizeof(char*) *infoLen);
             glGetShaderInfoLog(iShader,infoLen,NULL,infoLog);
-            ALOGE("Error compiling shader:[%s]",infoLog);
+            LOGE("Error compiling shader:[%s]",infoLog);
             free(infoLog);
         }
         glDeleteShader(iShader);
@@ -84,7 +84,7 @@ GLuint loadShader(const char *strSource, const int iType) {
 GLuint loadProgram(const char *strVSource, const char *strFSource) {
     GLuint iProgId = glCreateProgram();
     if (iProgId ==0){
-        ALOGE("create program failed");
+        LOGE("create program failed");
         return 0;
     }
     GLuint iVShader = loadShader(strVSource,GL_VERTEX_SHADER);
@@ -103,7 +103,7 @@ GLuint loadProgram(const char *strVSource, const char *strFSource) {
         if (infoLen > 1) {
             char *infoLog = (char *) malloc(sizeof(char) * infoLen);
             glGetProgramInfoLog(iProgId, infoLen, nullptr, infoLog);
-            ALOGE("loadProgram failed: %s", infoLog);
+            LOGE("loadProgram failed: %s", infoLog);
             free(infoLog);
         }
 
@@ -129,13 +129,13 @@ char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager,
     ALOGV("ReadAssets");
     AAssetManager* mgr =AAssetManager_fromJava(env,assetManager);
     if(mgr == NULL){
-        ALOGE("AAssetManager = null");
+        LOGE("AAssetManager = null");
         return NULL;
     }
 
     AAsset* asset = AAssetManager_open(mgr,fileName,AASSET_MODE_UNKNOWN);
     if(asset == NULL){
-        ALOGE("asset = null");
+        LOGE("asset = null");
         return NULL;
     }
 
@@ -143,7 +143,7 @@ char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager,
     if (size>0){
         char* pData = (char *)malloc(size+1);
         int numBytesRead = AAsset_read(asset,pData,size);
-        ALOGE(":%s",pData);
+        LOGE(":%s",pData);
         AAsset_close(asset);
         return pData;
     }
