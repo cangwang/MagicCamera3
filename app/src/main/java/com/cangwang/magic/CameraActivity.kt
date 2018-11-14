@@ -1,6 +1,7 @@
 package com.cangwang.magic
 
 import android.Manifest
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Point
 import android.hardware.Camera
@@ -9,6 +10,8 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
 import android.support.v7.app.AppCompatActivity
 import android.view.SurfaceHolder
+import android.view.Window
+import android.view.WindowManager
 import android.widget.RelativeLayout
 import com.cangwang.magic.util.CameraHelper
 import com.cangwang.magic.view.CameraSurfaceCallback
@@ -33,6 +36,9 @@ class CameraActivity:AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_camera)
         if (PermissionChecker.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) run {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),CAMERA_PERMISSION_REQ)
@@ -69,7 +75,7 @@ class CameraActivity:AppCompatActivity(){
         windowManager.defaultDisplay.getSize(screenSize)
         val params = glsurfaceview_camera.layoutParams as RelativeLayout.LayoutParams
         params.width= screenSize.x;
-        params.height = screenSize.x* 4/3
+        params.height = screenSize.x* 16/9
         glsurfaceview_camera.layoutParams = params
         mCamera = openCamera(glsurfaceview_camera.holder)
         glsurfaceview_camera.holder.addCallback(CameraSurfaceCallback(mCamera))
@@ -111,7 +117,7 @@ class CameraActivity:AppCompatActivity(){
         mCamera = CameraHelper.openCamera(mCameraId)
 
         mCamera?.let {
-            CameraHelper.setOptimalSize(it,mAspectRatio,CameraHelper.getScreenWidth(), CameraHelper.getScreenWidth())
+            CameraHelper.setOptimalSize(it,mAspectRatio,CameraHelper.getScreenWidth(), CameraHelper.getScreenHeight())
             CameraHelper.setDisplayOritation(this,it,mCameraId)
         }
         return mCamera

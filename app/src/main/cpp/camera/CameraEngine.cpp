@@ -13,7 +13,7 @@
 const static GLfloat VERTICES[]= {
         -1.0f,1.0f,
         1.0f,1.0f,
-        -1.0f,1.0f,
+        -1.0f,-1.0f,
         1.0f,-1.0f
 };
 
@@ -100,7 +100,7 @@ void CameraEngine::draw(GLfloat *matrix) {
     glEnableVertexAttribArray(ATTRIB_POSITION);
     //参数1：顶点数组索引，参数2：每次取的数量 参数3：数据格式 参数4：是否需要浮点转换 参数5：跨距取值，参数6：保存顶点属性数据的缓冲区指针
     glVertexAttribPointer(ATTRIB_POSITION,VERTEX_POS_SIZE,GL_FLOAT,GL_FALSE,0,VERTICES);
-    //开启G顶点数组缓冲区 第1个
+    //开启顶点数组缓冲区 第1个
     glEnableVertexAttribArray(ATTRIB_TEXCOORD);
     glVertexAttribPointer(ATTRIB_TEXCOORD,TEX_COORD_POS_SZIE,GL_FLOAT,GL_FALSE,0,TEX_COORDS);
     //画方形
