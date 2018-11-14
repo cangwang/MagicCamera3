@@ -117,7 +117,8 @@ class CameraActivity:AppCompatActivity(){
         mCamera = CameraHelper.openCamera(mCameraId)
 
         mCamera?.let {
-            CameraHelper.setOptimalSize(it,mAspectRatio,CameraHelper.getScreenWidth(), CameraHelper.getScreenHeight())
+            //这里android 相机长和宽默认偏移90度，所以传入要对调
+            CameraHelper.setOptimalSize(it,mAspectRatio,CameraHelper.getScreenHeight(),CameraHelper.getScreenWidth())
             CameraHelper.setDisplayOritation(this,it,mCameraId)
         }
         return mCamera
