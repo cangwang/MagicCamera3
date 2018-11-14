@@ -9,7 +9,7 @@ import android.view.Surface
  */
 object OpenGLJniLib{
     init {
-        System.loadLibrary("MagicJni-lib")
+        System.loadLibrary("magicjni")
     }
 
     /**

@@ -27,7 +27,7 @@ object CameraHelper{
             return null
         }
 
-        val camera = Camera.open(cameraId);
+        val camera = Camera.open(cameraId)
         if (camera == null){
             Log.e(TAG, "openCamera failed")
             return null
@@ -37,7 +37,7 @@ object CameraHelper{
     }
 
     private fun haveFeature(name: String): Boolean {
-        return BaseApplication.context?.packageManager?.hasSystemFeature(name)?:false
+        return BaseApplication.context.packageManager?.hasSystemFeature(name)?:false
     }
 
     fun setOptimalSize(camera:Camera,aspectRatio:Float,maxWidth:Int,maxHeight:Int){

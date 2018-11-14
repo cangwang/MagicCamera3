@@ -30,7 +30,7 @@ add_library( # Sets the name of the library.
              src/main/cpp/triangle.cpp )
 
 add_library( # Sets the name of the library.
-             magicjni-lib
+             magicjni
 
              # Sets the library as a shared library.
              SHARED
@@ -79,9 +79,10 @@ target_link_libraries( # Specifies the target library.
                        ${log-lib} )
 
 target_link_libraries( # Specifies the target library.
-                       magicjni-lib
+                       magicjni
                        android
                        GLESv3
+                       EGL
 
                        # Links the target library to the log library
                        # included in the NDK.

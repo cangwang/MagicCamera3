@@ -66,12 +66,12 @@
                 android:src="@drawable/btn_camera_filter">
             </ImageView>
         </LinearLayout>
-        <include
-            android:id="@+id/layout_filter"
-            layout="@layout/filter_layout"
-            android:visibility="invisible"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"/>
+        <!--<include-->
+            <!--android:id="@+id/layout_filter"-->
+            <!--layout="@layout/filter_layout"-->
+            <!--android:visibility="invisible"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom"/>-->
     </FrameLayout>
 </LinearLayout>

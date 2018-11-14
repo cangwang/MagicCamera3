@@ -59,8 +59,8 @@ int CameraEngine::create() {
     if (!mEGLCore->buildContext(mWindow)){
         return -1;
     }
-    std::string *vShader = readShaderFromAsset(mAssetManager,"");
-    std::string *fShader = readShaderFromAsset(mAssetManager,"");
+    std::string *vShader = readShaderFromAsset(mAssetManager,"camera.vert");
+    std::string *fShader = readShaderFromAsset(mAssetManager,"camera.frag");
     //加载程序
     mProgram = loadProgram(vShader->c_str(),fShader->c_str());
 
@@ -69,7 +69,7 @@ int CameraEngine::create() {
     //绑定纹理
     glBindTexture(GL_TEXTURE_EXTERNAL_OES,mTextureId);
     glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
 

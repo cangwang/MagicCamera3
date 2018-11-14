@@ -62,7 +62,7 @@ class CameraSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
 
     fun drawOpenGL(){
         mExecutor.execute {
-            mSurfaceTexture?.updateTexImage();
+            mSurfaceTexture?.updateTexImage()
             mSurfaceTexture?.getTransformMatrix(mMatrix)
             OpenGLJniLib.magicBaseDraw(mMatrix)
         }
