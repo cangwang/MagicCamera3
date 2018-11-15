@@ -6,14 +6,16 @@ import android.hardware.Camera
 import android.util.Log
 import android.view.Surface
 import com.cangwang.magic.BaseApplication
+import com.cangwang.magic.info.CameraInfo
 import java.util.*
 
 
 object CameraHelper{
     val TAG = CameraHelper::class.java.simpleName
+    val cameraId= Camera.CameraInfo.CAMERA_FACING_BACK
 
     fun openCamera(): Camera? {
-        return openCamera(Camera.CameraInfo.CAMERA_FACING_BACK)
+        return openCamera(cameraId)
     }
 
     fun openCamera(cameraId:Int):Camera?{
@@ -42,10 +44,26 @@ object CameraHelper{
 
     fun setOptimalSize(camera:Camera,aspectRatio:Float,maxWidth:Int,maxHeight:Int){
         val parameters= camera.parameters
-        val size = chooseOptimalSize(parameters.supportedPreviewSizes,aspectRatio,maxWidth,maxHeight);
-        parameters.setPreviewSize(size.width,size.height)
-        Log.d(TAG, "input max: (" + maxWidth + ", " + maxHeight + "), output size: ("
-                + size.width + ", " + size.height + ")")
+//        val size = chooseOptimalSize(parameters.supportedPreviewSizes,aspectRatio,maxWidth,maxHeight)
+//        parameters.setPreviewSize(size.width,size.height)
+        if (parameters.supportedFocusModes.contains(
+                        Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+            parameters.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
+        }
+        val size = getLargePreviewSize(camera)
+        size?.let {
+            parameters.setPreviewSize(it.width,it.height)
+            Log.d(TAG, "input max: (" + maxWidth + ", " + maxHeight + "), output size: ("
+                    + it.width + ", " + it.height + ")")
+        }
+
+        val pictureSize = getLargePictureSize(camera)
+        pictureSize?.let {
+            parameters.setPictureSize(it.width,it.height)
+            Log.d(TAG, "picture max: (" + maxWidth + ", " + maxHeight + "), output size: ("
+                    + it.width + ", " + it.height + ")")
+        }
+
         camera.parameters = parameters
     }
 
@@ -98,12 +116,12 @@ object CameraHelper{
     }
 
     fun getScreenWidth(): Int {
-        val metrics = BaseApplication.context?.resources?.displayMetrics
+        val metrics = BaseApplication.context.resources?.displayMetrics
         return metrics?.widthPixels?:0
     }
 
     fun getScreenHeight(): Int {
-        val metrics = BaseApplication.context?.resources?.displayMetrics
+        val metrics = BaseApplication.context.resources?.displayMetrics
         return metrics?.heightPixels?:0
     }
 
@@ -114,5 +132,38 @@ object CameraHelper{
             parameters.focusMode = focusMode
         }
         camera.parameters = parameters
+    }
+
+    fun getCameraInfo(camera:Camera):CameraInfo{
+        val size = camera.parameters.previewSize
+        val picSize = camera.parameters.pictureSize
+        return CameraInfo(size.width,size.height,Camera.CameraInfo().orientation, cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT,picSize.width,picSize.height)
+    }
+
+    fun getLargePictureSize(camera: Camera?): Camera.Size? {
+        if (camera != null) {
+            val sizes = camera.parameters.supportedPictureSizes
+            var temp: Camera.Size = sizes[0]
+            for (i in 1 until sizes.size) {
+                val scale = sizes[i].height.toFloat() / sizes[i].width
+                if (temp.width < sizes[i].width && scale < 0.6f && scale > 0.5f)
+                    temp = sizes[i]
+            }
+            return temp
+        }
+        return null
+    }
+
+    fun getLargePreviewSize(camera: Camera?): Camera.Size? {
+        if (camera != null) {
+            val sizes = camera.parameters.supportedPreviewSizes
+            var temp: Camera.Size = sizes[0]
+            for (i in 1 until sizes.size) {
+                if (temp.width < sizes[i].width)
+                    temp = sizes[i]
+            }
+            return temp
+        }
+        return null
     }
 }

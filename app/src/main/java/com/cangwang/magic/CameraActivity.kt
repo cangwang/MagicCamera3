@@ -77,8 +77,19 @@ class CameraActivity:AppCompatActivity(){
         params.width= screenSize.x;
         params.height = screenSize.x* 16/9
         glsurfaceview_camera.layoutParams = params
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         mCamera = openCamera(glsurfaceview_camera.holder)
         glsurfaceview_camera.holder.addCallback(CameraSurfaceCallback(mCamera))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mCamera?.stopPreview()
+        mCamera?.release()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
