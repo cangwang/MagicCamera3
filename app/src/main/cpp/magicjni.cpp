@@ -86,8 +86,6 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicAdjustSize(JNIEnv *env, jobject o
 
 }
 
-}
-
 JNIEXPORT jint JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterCreate(JNIEnv *env, jobject obj,
                                                         jobject surface,jobject assetManager) {
@@ -139,4 +137,6 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobjec
         delete glCameraFilter;
         glCameraFilter = nullptr;
     }
+}
+
 }
