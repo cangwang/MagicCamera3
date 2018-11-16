@@ -4,19 +4,19 @@
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
 //获取角度
-static float* TextureRotationUtil::getRotation(const RotationUtil::Rotation rotation, const bool flipHorizontal, const bool flipVertical){
+float* TextureRotationUtil::getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical){
     const float* rotateTex;
     switch (rotation){
-        case RotationUtil::ROTATION_90:
+        case ROTATION_90:
             rotateTex = TEXTURE_ROTATED_90;
             break;
-        case RotationUtil::ROTATION_180:
+        case ROTATION_180:
             rotateTex = TEXTURE_ROTATED_180;
             break;
-        case RotationUtil::ROTATION_270:
+        case ROTATION_270:
             rotateTex = TEXTURE_ROTATED_270;
             break;
-        case RotationUtil::NORMAL:
+        case NORMAL:
         default:
             rotateTex = TEXTUTRE_NO_ROTATION;
             break;

@@ -8,7 +8,7 @@
 #define LOG_TAG "Rotation"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
-int RotationUtil::asInt(RotationUtil::Rotation rotation) {
+int RotationUtil::asInt(Rotation rotation) {
     switch (rotation){
         case NORMAL:
             return 0;
@@ -18,11 +18,13 @@ int RotationUtil::asInt(RotationUtil::Rotation rotation) {
             return 180;
         case ROTATION_270:
             return 270;
-        default: ALOGE("Unknown Rotation!");
+        default:
+            ALOGE("Unknown Rotation!");
+            return 0;
     }
 }
 
-RotationUtil::Rotation RotationUtil::fromInt(int roation) {
+Rotation RotationUtil::fromInt(int roation) {
     switch(roation){
         case 0:
             return NORMAL;
@@ -32,6 +34,8 @@ RotationUtil::Rotation RotationUtil::fromInt(int roation) {
             return ROTATION_180;
         case 270:
             return ROTATION_270;
-        default: ALOGE(roation+"is an unknown rotation. Needs to be either 0, 90, 180 or 270!");
+        default:
+            ALOGE("roation is an unknown rotation. Needs to be either 0, 90, 180 or 270!");
+            return NORMAL;
     }
 }

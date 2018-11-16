@@ -6,42 +6,41 @@
 #include <src/main/cpp/bitmap/BitmapOperation.h>
 #include "Rotation.h"
 
+const static GLfloat TEXTUTRE_NO_ROTATION[] = {
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+};
+const static GLfloat TEXTURE_ROTATED_90[] = {
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+};
+
+const static GLfloat TEXTURE_ROTATED_180[] = {
+        1.0f, 0.0f,
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+};
+const static GLfloat TEXTURE_ROTATED_270[] = {
+        0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+};
+const static GLfloat CUBE[] = {
+        -1.0f, -1.0f,
+        1.0f, -1.0f,
+        -1.0f, 1.0f,
+        1.0f, 1.0f,
+};
 
 class TextureRotationUtil{
 public:
-    const static float TEXTUTRE_NO_ROTATION[] = {
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-            0.0f, 0.0f,
-            1.0f, 0.0f,
-    };
-    const static float TEXTURE_ROTATED_90[] = {
-            1.0f, 1.0f,
-            1.0f, 0.0f,
-            0.0f, 1.0f,
-            0.0f, 0.0f,
-    };
-
-    const static float TEXTURE_ROTATED_180[] = {
-            1.0f, 0.0f,
-            0.0f, 0.0f,
-            1.0f, 1.0f,
-            0.0f, 1.0f,
-    };
-    const static float TEXTURE_ROTATED_270[] = {
-            0.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 0.0f,
-            1.0f, 1.0f,
-    };
-    const static float CUBE[] = {
-            -1.0f, -1.0f,
-            1.0f, -1.0f,
-            -1.0f, 1.0f,
-            1.0f, 1.0f,
-    };
-
-    static float* getRotation(const RotationUtil::Rotation rotation, const bool flipHorizontal, const bool flipVertical);
+    static float* getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical);
     static float flip(const float i);
 };
 

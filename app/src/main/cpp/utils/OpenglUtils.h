@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <GLES3/gl3.h>
-#include <src/main/cpp/bitmap/BitmapOperation.h>
 #include <string>
 #include <android/asset_manager.h>
 

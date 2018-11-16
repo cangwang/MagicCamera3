@@ -1,6 +1,9 @@
 #include <EGL/egl.h>
 #include <GLES3/gl3.h>
 
+#ifndef _EGLCore
+#define _EGLCore
+
 class EGLCore{
 public:
     EGLCore();
@@ -21,3 +24,4 @@ private:
     EGLContext mContext;
 };
 
+#endif

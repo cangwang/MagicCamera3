@@ -9,6 +9,8 @@
 #include <malloc.h>
 #include <GLES3/gl3.h>
 #include "src/main/cpp/camera/CameraEngine.h"
+#include "src/main/cpp/camera/CameraFilter.h"
+
 
 #define LOG_TAG "magicjni"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -17,6 +19,7 @@ extern "C" {
 
 std::mutex gMutex;
 CameraEngine *glCamera = nullptr;
+CameraFilter *glCameraFilter = nullptr;
 
 JNIEXPORT jint JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseInit(JNIEnv *env, jobject obj,
@@ -85,3 +88,55 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicAdjustSize(JNIEnv *env, jobject o
 
 }
 
+JNIEXPORT jint JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterCreate(JNIEnv *env, jobject obj,
+                                                        jobject surface,jobject assetManager) {
+    std::unique_lock<std::mutex> lock(gMutex);
+    if(glCameraFilter){
+        glCameraFilter->stop();
+        delete glCameraFilter;
+    }
+
+    ANativeWindow *window = ANativeWindow_fromSurface(env,surface);
+    AAssetManager *manager = AAssetManager_fromJava(env,assetManager);
+    glCameraFilter = new CameraFilter(window,manager);
+//    glCameraFilter->setAssetManager(manager);
+//    glCameraFilter->resize(width,height);
+
+    return glCameraFilter->create();
+}
+
+
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {
+    std::unique_lock<std::mutex> lock(gMutex);
+    //视口变换，可视区域
+    if (!glCameraFilter){
+        ALOGE("draw error, glCamera is null");
+        return;
+    }
+    glCameraFilter->change(width,height);
+}
+
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterDraw(JNIEnv *env, jobject obj,jfloatArray matrix_) {
+    jfloat *matrix = env->GetFloatArrayElements(matrix_,NULL);
+
+    std::unique_lock<std::mutex> lock(gMutex);
+    if (!glCameraFilter){
+        ALOGE("draw error, glCamera is null");
+        return;
+    }
+    glCameraFilter->draw(matrix);
+    env->ReleaseFloatArrayElements(matrix_,matrix,0);
+}
+
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobject obj) {
+    std::unique_lock<std::mutex> lock(gMutex);
+    if (glCameraFilter){
+        glCameraFilter->stop();
+        delete glCameraFilter;
+        glCameraFilter = nullptr;
+    }
+}

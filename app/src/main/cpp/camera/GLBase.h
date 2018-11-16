@@ -5,6 +5,9 @@
 #define ClearBlue 0.66f
 #define ClearAlpha 1.0f
 
+#ifndef _GLBase
+#define _GLBase
+
 class GLBase{
 public:
     GLBase():mProgram(0),mWidth(0),mHeight(0){
@@ -25,3 +28,4 @@ private:
 
 };
 
+#endif

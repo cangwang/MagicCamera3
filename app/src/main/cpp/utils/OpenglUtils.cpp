@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <GLES3/gl3.h>
+#include <GLES2/gl2ext.h>
 #include <string>
 #include "OpenglUtils.h"
 #include "android/asset_manager_jni.h"
@@ -28,6 +29,16 @@ void checkGLError(char *op) {
 //BitmapOperation getImageFromAssetsFile(JNIEnv *env, char *filename) {
 //
 //}
+GLuint getExternalOESTextureID(){
+    GLuint textureId;
+    glGenTextures(1,&textureId);
+    glBindTexture(GL_TEXTURE_EXTERNAL_OES,textureId);
+    glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+    return textureId;
+}
 
 std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName){
 

@@ -9,28 +9,34 @@
 #define ALOGV(...)
 #endif
 
-MagicCoolFilter::MagicCoolFilter(){
-    GPUImageFilter::GPUImageFilter(readerShaderFromRawResource(),readerShaderFromRawResource());
+MagicCoolFilter::MagicCoolFilter() {
+
 }
 
+MagicCoolFilter::MagicCoolFilter(AAssetManager *assetManager){
+    GPUImageFilter(readShaderFromAsset(assetManager,"nofilter_v"),readShaderFromAsset(assetManager,"nofilter_v"));
+}
+
+MagicCoolFilter::~MagicCoolFilter() {
+
+}
 
 void MagicCoolFilter::onDestroy() {
-    glDeleteTextures(1,mToneCurveTexture);
-    mToneCurveTexture[0] = -1;
+    glDeleteTextures(1,&mToneCurveTexture);
 }
 
 void MagicCoolFilter::onDrawArraysPre() {
-    if (this->mToneCurveTexture[0] != -1){
+    if (this->mToneCurveTexture != -1){
         glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D,mToneCurveTexture[0]);
+        glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glActiveTexture(GL_TEXTURE0);
     }
 }
 
 void MagicCoolFilter::onDrawArraysAfter() {
-    if(this->mToneCurveTexture[0]!=-1){
+    if(this->mToneCurveTexture !=-1){
         glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D,mToneCurveTexture[0]);
+        glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glUniform1i(this->mToneCurveTextureUniformLocation,3);
     }
 }
@@ -43,8 +49,8 @@ void MagicCoolFilter::onInit() {
 void MagicCoolFilter::onInitialized() {
     GPUImageFilter::onInitialized();
 
-    glGenTextures(1,mToneCurveTexture);
-    glBindTexture(GL_TEXTURE_2D,*mToneCurveTexture);
+    glGenTextures(1,&mToneCurveTexture);
+    glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);

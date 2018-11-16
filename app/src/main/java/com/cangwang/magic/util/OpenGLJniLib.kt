@@ -38,4 +38,17 @@ object OpenGLJniLib{
      * 调整大小
      */
     external fun magicAdjustSize(orientation:Int,isFront:Boolean,flipVertical:Boolean)
+
+
+    /**
+     * 滤镜
+     */
+    external fun magicFilterCreate(surface:Surface,manager: AssetManager):Int
+
+    external fun magicFilterChange(width:Int,height:Int)
+
+    external fun magicFilterDraw(matrix:FloatArray)
+
+    external fun magicFilterRelease()
+
 }

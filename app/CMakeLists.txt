@@ -38,10 +38,11 @@ add_library( # Sets the name of the library.
              # Provides a relative path to your source file(s).
         src/main/cpp/magicjni.cpp
         src/main/cpp/utils/OpenglUtils.cpp
-#        src/main/cpp/utils/Rotation.cpp
-#        src/main/cpp/utils/TextureRotationUtil.cpp
-#        src/main/cpp/filter/advanced/MagicCoolFilter.cpp
-#        src/main/cpp/filter/gpuimage/GpuImageFilter.cpp
+        src/main/cpp/utils/Rotation.cpp
+        src/main/cpp/utils/TextureRotationUtil.cpp
+        src/main/cpp/camera/CameraFilter.cpp
+        src/main/cpp/filter/advanced/MagicCoolFilter.cpp
+        src/main/cpp/filter/gpuimage/GpuImageFilter.cpp
         src/main/cpp/camera/CameraEngine.cpp
         src/main/cpp/camera/EGLCore.cpp)
 

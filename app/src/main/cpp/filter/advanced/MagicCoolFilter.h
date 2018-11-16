@@ -6,12 +6,13 @@
 #include <GLES3/gl3.h>
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
-class MagicCoolFilter: protected GPUImageFilter{
+class MagicCoolFilter: public GPUImageFilter{
 
 public:
     MagicCoolFilter();
+    MagicCoolFilter(AAssetManager *assetManager);
     ~MagicCoolFilter();
-    void onDestroy();
+    void onDestroy() override ;
 
 protected:
     void onInit();
@@ -20,6 +21,6 @@ protected:
     void onDrawArraysAfter() override;
 
 private:
-    GLuint mToneCurveTexture[]={-1};
+    GLuint mToneCurveTexture = static_cast<GLuint>(-1);
     GLint mToneCurveTextureUniformLocation;
 };
