@@ -1,8 +1,11 @@
-varying highp vec2 textureCoordinate;
+#version 300 es
+
+out highp vec2 textureCoordinate;
 precision highp float;
 
 uniform sampler2D inputImageTexture;
 uniform sampler2D curve;
+layout(location=0) out vec4 fragColor;
 
 void main()
 { 
@@ -16,16 +19,16 @@ void main()
 	highp float greenCurveValue;
 	highp float blueCurveValue;
 	
-	textureColor = texture2D( inputImageTexture, vec2(xCoordinate, yCoordinate));
+	textureColor = texture( inputImageTexture, vec2(xCoordinate, yCoordinate));
 	textureColorOri = textureColor;
 	// step1 curve 
-	redCurveValue = texture2D(curve, vec2(textureColor.r, 0.0)).r;
-	greenCurveValue = texture2D(curve, vec2(textureColor.g, 0.0)).g;
-	blueCurveValue = texture2D(curve, vec2(textureColor.b, 0.0)).b;
+	redCurveValue = texture(curve, vec2(textureColor.r, 0.0)).r;
+	greenCurveValue = texture(curve, vec2(textureColor.g, 0.0)).g;
+	blueCurveValue = texture(curve, vec2(textureColor.b, 0.0)).b;
 	// step2 level
-	redCurveValue = texture2D(curve, vec2(redCurveValue, 0.0)).a;
-	greenCurveValue = texture2D(curve, vec2(greenCurveValue, 0.0)).a;
-	blueCurveValue = texture2D(curve, vec2(blueCurveValue, 0.0)).a;
+	redCurveValue = texture(curve, vec2(redCurveValue, 0.0)).a;
+	greenCurveValue = texture(curve, vec2(greenCurveValue, 0.0)).a;
+	blueCurveValue = texture(curve, vec2(blueCurveValue, 0.0)).a;
 	// step3 brightness/constrast adjust 
 	redCurveValue = redCurveValue * 1.25 - 0.12549;
 	greenCurveValue = greenCurveValue * 1.25 - 0.12549; 
@@ -37,6 +40,6 @@ void main()
 	textureColor = vec4(redCurveValue, greenCurveValue, blueCurveValue, 1.0);
 	textureColor = (textureColorOri - textureColor) * 0.549 + textureColor;
 	
-	gl_FragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
+	fragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
 } 
   

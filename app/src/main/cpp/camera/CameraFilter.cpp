@@ -78,7 +78,6 @@ void CameraFilter::setFilter(GPUImageFilter *gpuImageFilter) {
         filter->destroy();
     }
     filter = gpuImageFilter;
-    filter->init();
 }
 
 int CameraFilter::create() {
@@ -94,7 +93,8 @@ int CameraFilter::create() {
 //    std::string *fShader = readShaderFromAsset(mAssetManager,"camera.frag");
 //    //加载程序
 //    mProgram = loadProgram(vShader->c_str(),fShader->c_str());
-
+    if (filter!= nullptr)
+        filter->init();
     mTextureId = getExternalOESTextureID();
 //
 //    //生成纹理贴图
