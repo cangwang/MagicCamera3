@@ -9,12 +9,13 @@
 #define ALOGV(...)
 #endif
 
-MagicCoolFilter::MagicCoolFilter() {
+MagicCoolFilter::MagicCoolFilter(){
 
 }
 
-MagicCoolFilter::MagicCoolFilter(AAssetManager *assetManager){
-    GPUImageFilter(readShaderFromAsset(assetManager,"nofilter_v"),readShaderFromAsset(assetManager,"nofilter_v"));
+MagicCoolFilter::MagicCoolFilter(AAssetManager *assetManager)
+    : GPUImageFilter(readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"cool.glsl")){
+   
 }
 
 MagicCoolFilter::~MagicCoolFilter() {

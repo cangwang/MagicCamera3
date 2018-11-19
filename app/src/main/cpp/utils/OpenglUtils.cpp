@@ -9,7 +9,7 @@
 #include "OpenglUtils.h"
 #include "android/asset_manager_jni.h"
 
-#define LOG_TAG "GPUImageFilter"
+#define LOG_TAG "OpenglUtils"
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
 

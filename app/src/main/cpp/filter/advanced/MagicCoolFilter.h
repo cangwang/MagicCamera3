@@ -15,7 +15,7 @@ public:
     void onDestroy() override ;
 
 protected:
-    void onInit();
+    void onInit() override;
     void onInitialized();
     void onDrawArraysPre() override;
     void onDrawArraysAfter() override;

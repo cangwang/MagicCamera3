@@ -44,7 +44,7 @@ CameraFilter::CameraFilter(ANativeWindow *window): mWindow(window),mEGLCore(new 
 
 CameraFilter::CameraFilter(ANativeWindow *window,AAssetManager* assetManager): mWindow(window),mEGLCore(new EGLCore()),
                                                    mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
-                                                   mMatrixLoc(0){
+                                                   mMatrixLoc(0),filter(nullptr){
     //清空mMatrix数组
     memset(mMatrix,0, sizeof(mMatrix));
     mMatrix[0] = 1;

@@ -35,8 +35,8 @@ public:
     }
 
 protected:
-    void onInit();
-    void onInitialized();
+    virtual void onInit();
+    virtual void onInitialized();
     bool mIsInitialized;
     GLuint mGLProgId;
     GLint mGLAttribPosition;
