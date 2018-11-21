@@ -22,7 +22,7 @@ GPUImageFilter::GPUImageFilter(AAssetManager *assetManager)
 
 GPUImageFilter::GPUImageFilter(std::string *vertexShader, std::string *fragmentShader):mVertexShader(vertexShader),mFragmentShader(fragmentShader),mMatrixLoc(0){
     mGLCubeBuffer = CUBE;
-    mGLTextureBuffer = getRotation(ROTATION_90, false, false);
+    mGLTextureBuffer = getRotation(ROTATION_90, false, true);
 }
 
 GPUImageFilter::~GPUImageFilter() {

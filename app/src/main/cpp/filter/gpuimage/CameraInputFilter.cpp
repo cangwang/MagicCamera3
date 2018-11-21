@@ -111,11 +111,13 @@ GLuint CameraInputFilter::onDrawToTexture(const GLuint textureId, GLfloat *matri
     if (!mIsInitialized){
         return NOT_INIT;
     }
-    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
+
     glVertexAttribPointer(mGLAttribPosition,2,GL_FLOAT,GL_FALSE,0,mGLCubeBuffer);
     glEnableVertexAttribArray(mGLAttribPosition);
     glVertexAttribPointer(mGLAttribTextureCoordinate,2,GL_FLOAT,GL_FALSE,0,mGLTextureBuffer);
     glEnableVertexAttribArray(mGLAttribTextureCoordinate);
+    //加载矩阵
+    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
 
     if (textureId != NO_TEXTURE){
         glActiveTexture(GL_TEXTURE0);
