@@ -44,6 +44,7 @@ add_library( # Sets the name of the library.
         src/main/cpp/camera/CameraEngine.cpp
         src/main/cpp/camera/EGLCore.cpp
         src/main/cpp/filter/advanced/MagicCoolFilter.cpp
+        src/main/cpp/filter/advanced/MagicCalmFilter.cpp
         src/main/cpp/filter/gpuimage/GpuImageFilter.cpp
         src/main/cpp/filter/gpuimage/CameraInputFilter.cpp)
 

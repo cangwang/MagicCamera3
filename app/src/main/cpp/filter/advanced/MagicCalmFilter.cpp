@@ -1,4 +1,4 @@
-#include "MagicCoolFilter.h"
+#include "MagicCalmFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
 #define LOG_TAG "MagicCoolFilter"
@@ -12,49 +12,74 @@
 /**
  * cool滤镜
  */
-MagicCoolFilter::MagicCoolFilter(){
+MagicCalmFilter::MagicCalmFilter(){
 
 }
 
-MagicCoolFilter::MagicCoolFilter(AAssetManager *assetManager)
-    : GPUImageFilter(readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"cool.glsl")),mToneCurveTexture(-1){
+MagicCalmFilter::MagicCalmFilter(AAssetManager *assetManager)
+    : GPUImageFilter(readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"cool.glsl")),
+      mToneCurveTexture(-1),
+      mMaskGery1TextureId(-1),
+      mMaskGery2TextureId(-1){
 
 }
 
-MagicCoolFilter::~MagicCoolFilter() {
+MagicCalmFilter::~MagicCalmFilter() {
 
 }
 
-void MagicCoolFilter::onDestroy() {
-    glDeleteTextures(1,&mToneCurveTexture);
+void MagicCalmFilter::onDestroy() {
+    glDeleteTextures(1, reinterpret_cast<const GLuint *>(&mToneCurveTexture));
 }
 
-void MagicCoolFilter::onDrawArraysPre() {
+void MagicCalmFilter::onDrawArraysPre() {
     if(this->mToneCurveTexture !=-1){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glUniform1i(this->mToneCurveTextureUniformLocation,3);
     }
+    if(this->mMaskGery1TextureId !=-1){
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D,mMaskGery1TextureId);
+        glUniform1i(this->mToneCurveTextureUniformLocation,4);
+    }
+    if(this->mMaskGery2TextureId !=-1){
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D,mMaskGery2TextureId);
+        glUniform1i(this->mToneCurveTextureUniformLocation,5);
+    }
 }
 
-void MagicCoolFilter::onDrawArraysAfter() {
+void MagicCalmFilter::onDrawArraysAfter() {
+
     if (this->mToneCurveTexture != -1){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glActiveTexture(GL_TEXTURE0);
     }
+    if (this->mMaskGery1TextureId != -1){
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D,mMaskGery1TextureId);
+        glActiveTexture(GL_TEXTURE0);
+    }
+    if (this->mMaskGery2TextureId != -1){
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D,mMaskGery2TextureId);
+        glActiveTexture(GL_TEXTURE0);
+    }
 }
 
-
-void MagicCoolFilter::onInit() {
+void MagicCalmFilter::onInit() {
     GPUImageFilter::onInit();
     mToneCurveTextureUniformLocation = glGetUniformLocation(mGLProgId,"curve");
+    mMaskGery1UniformLocation = glGetUniformLocation(mGLProgId,"grey1Frame");
+    mMaskGery2UniformLocation = glGetUniformLocation(mGLProgId,"grey2Frame");
 }
 
-void MagicCoolFilter::onInitialized() {
+void MagicCalmFilter::onInitialized() {
     GPUImageFilter::onInitialized();
 
-    glGenTextures(1,&mToneCurveTexture);
+    glGenTextures(1, reinterpret_cast<GLuint *>(&mToneCurveTexture));
     glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
