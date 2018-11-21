@@ -12,7 +12,7 @@
         android:layout_height="94.0dip"
         android:padding="5.0dip"
         android:scrollbars="none"
-        android:background="@android:color/white"/>       
+        android:background="@android:color/transparent"/>
     <View 
         android:layout_width="match_parent"
         android:layout_height="1px"

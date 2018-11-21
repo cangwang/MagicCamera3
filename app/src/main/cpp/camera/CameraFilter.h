@@ -22,6 +22,7 @@ public:
     void change(int width,int height);
     void stop();
     void setFilter(AAssetManager* assetManager);
+    void setFilter(std::string filterName);
 
 protected:
 

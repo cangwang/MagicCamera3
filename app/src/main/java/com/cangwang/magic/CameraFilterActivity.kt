@@ -1,6 +1,8 @@
 package com.cangwang.magic
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Point
@@ -9,14 +11,19 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.SurfaceHolder
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.RelativeLayout
+import com.cangwang.magic.adapter.FilterAdapter
+import com.cangwang.magic.helper.MagicFilterType
 import com.cangwang.magic.util.CameraHelper
 import com.cangwang.magic.view.CameraFilterSurfaceCallback
 import com.cangwang.magic.view.CameraSurfaceCallback
 import kotlinx.android.synthetic.main.activity_camera.*
+import kotlinx.android.synthetic.main.filter_layout.*
 
 /**
  * Created by cangwang on 2018/9/12.
@@ -28,6 +35,7 @@ class CameraFilterActivity:AppCompatActivity(){
     private val MODE_VIDEO = 2
     private var mode = MODE_PIC
     private var CAMERA_PERMISSION_REQ = 1
+    private var mAdapter: FilterAdapter? = null
 
     var mCamera: Camera?=null
     private val ASPECT_RATIO_ARRAY = floatArrayOf(9.0f / 16, 3.0f / 4)
@@ -48,14 +56,31 @@ class CameraFilterActivity:AppCompatActivity(){
         }
     }
 
+    private val types = arrayOf(MagicFilterType.NONE, MagicFilterType.FAIRYTALE, MagicFilterType.SUNRISE,
+            MagicFilterType.SUNSET, MagicFilterType.WHITECAT, MagicFilterType.BLACKCAT, MagicFilterType.SKINWHITEN, MagicFilterType.HEALTHY,
+            MagicFilterType.SWEETS, MagicFilterType.ROMANCE, MagicFilterType.SAKURA, MagicFilterType.WARM, MagicFilterType.ANTIQUE,
+            MagicFilterType.NOSTALGIA, MagicFilterType.CALM, MagicFilterType.LATTE, MagicFilterType.TENDER, MagicFilterType.COOL,
+            MagicFilterType.EMERALD, MagicFilterType.EVERGREEN, MagicFilterType.CRAYON, MagicFilterType.SKETCH, MagicFilterType.AMARO,
+            MagicFilterType.BRANNAN, MagicFilterType.BROOKLYN, MagicFilterType.EARLYBIRD, MagicFilterType.FREUD, MagicFilterType.HEFE, MagicFilterType.HUDSON,
+            MagicFilterType.INKWELL, MagicFilterType.KEVIN, MagicFilterType.LOMO, MagicFilterType.N1977, MagicFilterType.NASHVILLE,
+            MagicFilterType.PIXAR, MagicFilterType.RISE, MagicFilterType.SIERRA, MagicFilterType.SUTRO, MagicFilterType.TOASTER2,
+            MagicFilterType.VALENCIA, MagicFilterType.WALDEN, MagicFilterType.XPROII)
 
     fun initView(){
-        btn_camera_filter.setOnClickListener {
+        filter_listView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        mAdapter = FilterAdapter(this, types)
+        mAdapter?.filterListener= object:FilterAdapter.onFilterChangeListener{
+            override fun onFilterChanged(filterType: MagicFilterType) {
 
+            }
         }
-//        btn_camera_closefilter.setOnClickListener {
-//
-//        }
+        filter_listView.adapter= mAdapter
+        btn_camera_filter.setOnClickListener {
+            showFilters()
+        }
+        btn_camera_closefilter.setOnClickListener {
+            hideFilters()
+        }
 
         btn_camera_shutter.setOnClickListener {
 
@@ -134,6 +159,60 @@ class CameraFilterActivity:AppCompatActivity(){
             CameraHelper.setDisplayOritation(this,it,mCameraId)
         }
         return mCamera
+    }
+
+    private fun showFilters() {
+        val animator = ObjectAnimator.ofInt(layout_filter, "translationY", layout_filter.height, 0)
+        animator.duration = 200
+        animator.addListener(object : Animator.AnimatorListener {
+
+            override fun onAnimationStart(animation: Animator) {
+                findViewById<View>(R.id.btn_camera_shutter).isClickable = false
+                layout_filter.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+
+            }
+        })
+        animator.start()
+    }
+
+    private fun hideFilters() {
+        val animator = ObjectAnimator.ofInt(layout_filter, "translationY", 0, layout_filter.height)
+        animator.duration = 200
+        animator.addListener(object : Animator.AnimatorListener {
+
+            override fun onAnimationStart(animation: Animator) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+                // TODO Auto-generated method stub
+
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                // TODO Auto-generated method stub
+                layout_filter.visibility = View.INVISIBLE
+                findViewById<View>(R.id.btn_camera_shutter).isClickable = true
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+                // TODO Auto-generated method stub
+                layout_filter.visibility = View.INVISIBLE
+                findViewById<View>(R.id.btn_camera_shutter).isClickable = true
+            }
+        })
+        animator.start()
     }
 
 }

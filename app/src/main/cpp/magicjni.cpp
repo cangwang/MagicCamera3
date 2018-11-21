@@ -105,6 +105,18 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterCreate(JNIEnv *env, jobject
     return glCameraFilter->create();
 }
 
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterSet(JNIEnv *env, jobject obj,
+                                                            jobject surface,jobject assetManager) {
+    std::unique_lock<std::mutex> lock(gMutex);
+    if (!glCameraFilter){
+        ALOGE("draw error, glCamera is null");
+        return;
+    }
+    AAssetManager *manager = AAssetManager_fromJava(env,assetManager);
+    glCameraFilter->setFilter(manager);
+}
+
 
 JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {

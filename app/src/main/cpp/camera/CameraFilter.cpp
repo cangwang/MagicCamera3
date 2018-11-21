@@ -93,6 +93,10 @@ void CameraFilter::setFilter(AAssetManager* assetManager) {
     ALOGD("set filter success");
 }
 
+void CameraFilter::setFilter(std::string filterName) {
+
+}
+
 int CameraFilter::create() {
     glDisable(GL_DITHER);
     glClearColor(0,0,0,0);
