@@ -6,6 +6,7 @@
 #include <GLES3/gl3.h>
 #include <android/asset_manager.h>
 #include <string>
+#include "src/main/cpp/utils/TextureRotationUtil.h"
 
 #ifndef _GPUImageFilter
 #define _GPUImageFilter
@@ -17,11 +18,11 @@ public:
     GPUImageFilter(AAssetManager *assetManager);
     GPUImageFilter(std::string *vertexShader, std::string *fragmentShader);
     virtual ~GPUImageFilter();
-    void init();
-    void onInputSizeChanged(const int width, const int height);
-    int onDrawFrame(const GLint textureId, const float* cubeBuffer, const float* textureBuffer);
-    int onDrawFrame(const GLint textureId);
-    void destroy();
+    virtual void init();
+    virtual void onInputSizeChanged(const int width, const int height);
+    virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix,const float* cubeBuffer, const float* textureBuffer);
+    virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix);
+    virtual void destroy();
     virtual void onDestroy() {
 
     }
@@ -41,18 +42,19 @@ protected:
     GLuint mGLProgId;
     GLint mGLAttribPosition;
     GLint mGLUniformTexture;
-    GLint mGLAttribTexureCoordinate;
+    GLint mGLAttribTextureCoordinate;
     int mInputWidth;
     int mInputHeight;
 
 private:
     std::string* mVertexShader;
     std::string* mFragmentShader;
-    float* mGLCubeBuffer;
-    float* mGLTextureBuffer;
+    GLfloat* mGLCubeBuffer;
+    GLfloat* mGLTextureBuffer;
     const int NO_TEXTURE = -1;
     const int NOT_INIT = -1;
     const int ON_DRAWN = 1;
+    GLint mMatrixLoc;
 };
 
 #endif

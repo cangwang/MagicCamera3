@@ -1,10 +1,38 @@
 #include "TextureRotationUtil.h"
 
-#define LOG_TAG "GPUImageFilter"
+#define LOG_TAG "TextureRotationUtil"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 
+
+GLfloat TEXTURE_NO_ROTATION[] = {
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+};
+
+GLfloat TEXTURE_ROTATED_90[] = {
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+};
+
+GLfloat TEXTURE_ROTATED_180[] = {
+        1.0f, 0.0f,
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+};
+GLfloat TEXTURE_ROTATED_270[] = {
+        0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+};
+
 //获取角度
-float* TextureRotationUtil::getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical){
+float* getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical){
     const float* rotateTex;
     switch (rotation){
         case ROTATION_90:
@@ -18,7 +46,7 @@ float* TextureRotationUtil::getRotation(const Rotation rotation, const bool flip
             break;
         case NORMAL:
         default:
-            rotateTex = TEXTUTRE_NO_ROTATION;
+            rotateTex = TEXTURE_NO_ROTATION;
             break;
     }
     if (flipHorizontal){
@@ -44,7 +72,7 @@ float* TextureRotationUtil::getRotation(const Rotation rotation, const bool flip
     return const_cast<float *>(rotateTex);
 }
 
-float TextureRotationUtil::flip(const float i) {
+float flip(const float i) {
     if (i == 0.0f){
         return 1.0f;
     }

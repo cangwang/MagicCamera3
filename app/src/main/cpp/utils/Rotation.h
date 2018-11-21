@@ -4,6 +4,9 @@
 #include <malloc.h>
 #include <GLES3/gl3.h>
 
+#ifndef _RotationUtil
+#define _RotationUtil
+
 enum Rotation {
     NORMAL, ROTATION_90, ROTATION_180, ROTATION_270
 };
@@ -14,4 +17,4 @@ public:
     static Rotation fromInt(int roation);
 };
 
-
+#endif

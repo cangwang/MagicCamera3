@@ -8,6 +8,7 @@
 #include "EGLCore.h"
 #include <android/asset_manager.h>
 #include <src/main/cpp/filter/gpuimage/GpuImageFilter.h>
+#include <src/main/cpp/filter/gpuimage/CameraInputFilter.h>
 #include <android/native_window.h>
 
 class CameraFilter:public GLBase{
@@ -20,12 +21,13 @@ public:
     void draw(GLfloat *matrix);
     void change(int width,int height);
     void stop();
-    void setFilter(GPUImageFilter *gpuImageFilter);
+    void setFilter(AAssetManager* assetManager);
 
 protected:
 
 private:
     GPUImageFilter *filter;
+    CameraInputFilter *cameraInputFilter;
     AAssetManager *mAssetManager;
     ANativeWindow *mWindow;
     GLuint mTextureId;

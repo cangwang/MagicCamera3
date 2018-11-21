@@ -29,8 +29,9 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseInit(JNIEnv *env, jobject obj
         glCamera->stop();
         delete glCamera;
     }
-
+    //创建window
     ANativeWindow *window = ANativeWindow_fromSurface(env,surface);
+    //获取文件管理
     AAssetManager *manager = AAssetManager_fromJava(env,assetManager);
     glCamera = new CameraEngine(window);
     glCamera->setAssetManager(manager);

@@ -41,10 +41,11 @@ add_library( # Sets the name of the library.
         src/main/cpp/utils/Rotation.cpp
         src/main/cpp/utils/TextureRotationUtil.cpp
         src/main/cpp/camera/CameraFilter.cpp
+        src/main/cpp/camera/CameraEngine.cpp
+        src/main/cpp/camera/EGLCore.cpp
         src/main/cpp/filter/advanced/MagicCoolFilter.cpp
         src/main/cpp/filter/gpuimage/GpuImageFilter.cpp
-        src/main/cpp/camera/CameraEngine.cpp
-        src/main/cpp/camera/EGLCore.cpp)
+        src/main/cpp/filter/gpuimage/CameraInputFilter.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

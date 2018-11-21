@@ -16,11 +16,11 @@ public:
 
 protected:
     void onInit() override;
-    void onInitialized();
+    void onInitialized() override ;
     void onDrawArraysPre() override;
     void onDrawArraysAfter() override;
 
 private:
-    GLuint mToneCurveTexture = static_cast<GLuint>(-1);
+    GLuint mToneCurveTexture;
     GLint mToneCurveTextureUniformLocation;
 };

@@ -1,8 +1,13 @@
 #version 300 es
+#extension GL_OES_EGL_image_external_essl3 : require
 
-out highp vec2 textureCoordinate;
-uniform sampler2D inputImageTexture;
-out vec4 fragColor;
+precision highp float;
+//从vertex中输入
+in highp vec2 textureCoordinate;
+//取出OES相机中的纹理
+uniform samplerExternalOES inputImageTexture;
+//输出色值
+layout(location=0) out vec4 fragColor;
 
 void main() {
     fragColor = texture(inputImageTexture,textureCoordinate);

@@ -14,8 +14,8 @@ MagicCoolFilter::MagicCoolFilter(){
 }
 
 MagicCoolFilter::MagicCoolFilter(AAssetManager *assetManager)
-    : GPUImageFilter(readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"cool.glsl")){
-   
+    : GPUImageFilter(readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"cool.glsl")),mToneCurveTexture(-1){
+
 }
 
 MagicCoolFilter::~MagicCoolFilter() {
@@ -49,6 +49,8 @@ void MagicCoolFilter::onInit() {
 
 void MagicCoolFilter::onInitialized() {
     GPUImageFilter::onInitialized();
+
+//    mToneCurveTexture = getExternalOESTextureID();
 
     glGenTextures(1,&mToneCurveTexture);
     glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
