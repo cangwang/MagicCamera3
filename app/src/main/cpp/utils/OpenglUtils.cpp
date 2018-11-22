@@ -8,6 +8,8 @@
 #include <string>
 #include "OpenglUtils.h"
 #include "android/asset_manager_jni.h"
+#include <fstream>
+#include <unistd.h>
 
 #define LOG_TAG "OpenglUtils"
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -47,6 +49,7 @@ std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName){
 
     const char *file = nullptr;
     std::string *result = new std::string;
+
     while ((file =AAssetDir_getNextFileName(dir))!= nullptr){
         if (strcmp(file,fileName) == 0){
             AAsset *asset = AAssetManager_open(manager,file,AASSET_MODE_STREAMING);
@@ -61,6 +64,47 @@ std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName){
     }
     AAssetDir_close(dir);
     return result;
+}
+
+/**
+ * 获取文件路径
+ */
+std::string *getAddressFromAsset(AAssetManager *manager, const char *fileName){
+    //打开asset文件夹
+    AAssetDir *dir = AAssetManager_openDir(manager,"");
+
+    const char *file = nullptr;
+    std::string *result;
+    while ((file =AAssetDir_getNextFileName(dir))!= nullptr) {
+        if (strcmp(file, fileName) == 0) {
+            AAsset* asset =AAssetManager_open(manager,file,AASSET_MODE_STREAMING);
+            //获取文件长度
+            off_t length = AAsset_getLength(asset);
+            //获取文件描述符
+            int fd = AAsset_openFileDescriptor(asset,0,&length);
+            //获取文件路径
+            result = new std::string(getFileAddress(fd));
+            AAsset_close(asset);
+            break;
+        }
+    }
+    AAssetDir_close(dir);
+    return result;
+}
+
+std::string getFileAddress(const int fd) {
+    if (0 >= fd) {
+        return std::string ();
+    }
+
+    char buf[1024] = {'\0'};
+    char file_path[PATH_MAX] = {'0'}; // PATH_MAX in limits.h
+    snprintf(buf, sizeof (buf), "/proc/self/fd/%d", fd);
+    if (readlink(buf, file_path, sizeof(file_path) - 1) != -1) {
+        return std::string (file_path);
+    }
+
+    return std::string ();
 }
 
 GLuint loadShader(const char *strSource, const int iType) {

@@ -20,5 +20,7 @@ char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager,
 void checkGLError(char *op);
 void freeResource(char *pData);
 std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName);
+std::string *getAddressFromAsset(AAssetManager *manager, const char *fileName)
+std::string getFileAddress(const int fd);
 
 
