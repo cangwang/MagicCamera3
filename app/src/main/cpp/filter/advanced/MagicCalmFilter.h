@@ -27,4 +27,5 @@ private:
     GLint mMaskGery1UniformLocation;
     GLint mMaskGery2TextureId;
     GLint mMaskGery2UniformLocation;
+    AAssetManager* assetManager;
 };

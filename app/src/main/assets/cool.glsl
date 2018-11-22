@@ -1,5 +1,4 @@
 #version 300 es
-#extension GL_OES_EGL_image_external_essl3 : require
 
 in highp vec2 textureCoordinate;
 precision highp float;

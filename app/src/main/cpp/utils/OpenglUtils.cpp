@@ -10,6 +10,7 @@
 #include "android/asset_manager_jni.h"
 #include <fstream>
 #include <unistd.h>
+#include "src/main/cpp/utils/stb_image.h"
 
 #define LOG_TAG "OpenglUtils"
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -26,6 +27,24 @@ void checkGLError(char *op) {
         msg.append(&err);
 //        LOGE(msg.c_str());
     }
+}
+
+int loadTextureFromAssets(AAssetManager *manager, const char *fileName){
+    GLuint textureHandler=0;
+    glGenTextures(1,&textureHandler);
+    if (textureHandler!=0){
+        glBindTexture(GL_TEXTURE_2D,textureHandler);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+        int width,height,n;
+        std::string* path = getAddressFromAsset(manager,fileName);
+        unsigned char* data = stbi_load(path->c_str(),&width,&height,&n,0);
+        glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,256,2,0,GL_RGBA,GL_UNSIGNED_BYTE,data);
+        return textureHandler;
+    }
+    return textureHandler;
 }
 
 //BitmapOperation getImageFromAssetsFile(JNIEnv *env, char *filename) {
