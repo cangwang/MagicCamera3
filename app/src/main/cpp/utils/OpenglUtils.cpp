@@ -44,6 +44,7 @@ std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName){
 
     //打开asset文件夹
     AAssetDir *dir = AAssetManager_openDir(manager,"");
+
     const char *file = nullptr;
     std::string *result = new std::string;
     while ((file =AAssetDir_getNextFileName(dir))!= nullptr){

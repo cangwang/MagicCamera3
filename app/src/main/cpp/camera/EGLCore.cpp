@@ -99,7 +99,7 @@ void EGLCore::swapBuffer() {
     //2）完成buffer内容的填充，然后将previousBuffer指向buffer，同时queue buffer。
     //3）Dequeue一块新的buffer，并等待fence。如果等待超时，就将buffer cancel掉。
     //4）按需重新计算buffer
-    // 5）Lock buffer，这样就实现page flip，也就是swapbuffer
+    //5）Lock buffer，这样就实现page flip，也就是swapbuffer
     eglSwapBuffers(mDisplay,mSurface);
 }
 
