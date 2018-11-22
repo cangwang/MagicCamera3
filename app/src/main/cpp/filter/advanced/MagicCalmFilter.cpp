@@ -40,12 +40,12 @@ void MagicCalmFilter::onDrawArraysPre() {
         glUniform1i(this->mToneCurveTextureUniformLocation,3);
     }
     if(this->mMaskGery1TextureId !=-1){
-        glActiveTexture(GL_TEXTURE3);
+        glActiveTexture(GL_TEXTURE4);
         glBindTexture(GL_TEXTURE_2D,mMaskGery1TextureId);
         glUniform1i(this->mMaskGery1UniformLocation,4);
     }
     if(this->mMaskGery2TextureId !=-1){
-        glActiveTexture(GL_TEXTURE3);
+        glActiveTexture(GL_TEXTURE5);
         glBindTexture(GL_TEXTURE_2D,mMaskGery2TextureId);
         glUniform1i(this->mMaskGery2UniformLocation,5);
     }
@@ -59,12 +59,12 @@ void MagicCalmFilter::onDrawArraysAfter() {
         glActiveTexture(GL_TEXTURE0);
     }
     if (this->mMaskGery1TextureId != -1){
-        glActiveTexture(GL_TEXTURE3);
+        glActiveTexture(GL_TEXTURE4);
         glBindTexture(GL_TEXTURE_2D,mMaskGery1TextureId);
         glActiveTexture(GL_TEXTURE0);
     }
     if (this->mMaskGery2TextureId != -1){
-        glActiveTexture(GL_TEXTURE3);
+        glActiveTexture(GL_TEXTURE5);
         glBindTexture(GL_TEXTURE_2D,mMaskGery2TextureId);
         glActiveTexture(GL_TEXTURE0);
     }

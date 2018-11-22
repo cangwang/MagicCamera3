@@ -39,9 +39,16 @@ int loadTextureFromAssets(AAssetManager *manager, const char *fileName){
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
         int width,height,n;
-        std::string* path = getAddressFromAsset(manager,fileName);
-        unsigned char* data = stbi_load(path->c_str(),&width,&height,&n,0);
-        glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,256,2,0,GL_RGBA,GL_UNSIGNED_BYTE,data);
+        unsigned char* buff = getAddressFromAsset(manager,fileName);
+        int size = getSizeFromAsset(manager,fileName);
+        unsigned char* data = stbi_load_from_memory(reinterpret_cast<const stbi_uc *>(buff), size, &width, &height, &n, 0);
+        ALOGV("loadTextureFromAssets,width = %d,height=%d,n=%d",width,height,n);
+        free(buff);
+        if(data!=NULL) {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        } else{
+            LOGE("load texture from assets is null,fileName = %s",fileName);
+        }
         return textureHandler;
     }
     return textureHandler;
@@ -88,43 +95,52 @@ std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName){
 /**
  * 获取文件路径
  */
-std::string *getAddressFromAsset(AAssetManager *manager, const char *fileName){
+
+unsigned char* getAddressFromAsset(AAssetManager *manager, const char *fileName){
     //打开asset文件夹
     AAssetDir *dir = AAssetManager_openDir(manager,"");
 
     const char *file = nullptr;
-    std::string *result;
+
     while ((file =AAssetDir_getNextFileName(dir))!= nullptr) {
         if (strcmp(file, fileName) == 0) {
             AAsset* asset =AAssetManager_open(manager,file,AASSET_MODE_STREAMING);
             //获取文件长度
-            off_t length = AAsset_getLength(asset);
-            //获取文件描述符
-            int fd = AAsset_openFileDescriptor(asset,0,&length);
-            //获取文件路径
-            result = new std::string(getFileAddress(fd));
+            int length = AAsset_getLength(asset);
+//            off_t start =0;
+//            //获取文件描述符
+//            int fd = AAsset_openFileDescriptor(asset,&start,&length);
+//            //获取文件路径
+//            result = new std::string(getFileAddress(fd));
+            unsigned char* buf = (unsigned char *) malloc(sizeof(unsigned char) * length);
+            AAsset_read(asset, buf, length);
+            AAsset_close(asset);
+            return buf;
+        }
+    }
+    AAssetDir_close(dir);
+    return NULL;
+}
+
+int getSizeFromAsset(AAssetManager *manager, const char *fileName){
+    //打开asset文件夹
+    AAssetDir *dir = AAssetManager_openDir(manager,"");
+
+    const char *file = nullptr;
+    int length =0;
+    while ((file =AAssetDir_getNextFileName(dir))!= nullptr) {
+        if (strcmp(file, fileName) == 0) {
+            AAsset* asset =AAssetManager_open(manager,file,AASSET_MODE_STREAMING);
+            //获取文件长度
+            length = AAsset_getLength(asset);
             AAsset_close(asset);
             break;
         }
     }
     AAssetDir_close(dir);
-    return result;
+    return length;
 }
 
-std::string getFileAddress(const int fd) {
-    if (0 >= fd) {
-        return std::string ();
-    }
-
-    char buf[1024] = {'\0'};
-    char file_path[PATH_MAX] = {'0'}; // PATH_MAX in limits.h
-    snprintf(buf, sizeof (buf), "/proc/self/fd/%d", fd);
-    if (readlink(buf, file_path, sizeof(file_path) - 1) != -1) {
-        return std::string (file_path);
-    }
-
-    return std::string ();
-}
 
 GLuint loadShader(const char *strSource, const int iType) {
     GLint compiled;
