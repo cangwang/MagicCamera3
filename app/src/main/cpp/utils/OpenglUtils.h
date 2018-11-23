@@ -11,7 +11,7 @@ int loadTexture(const char *img,const int userTexId, bool recyled);
 int loadTexture(const char data[],const int width,const int height,const int userTexId);
 int loadTexture(const char data[],const int width,const int height,const int userTexId,int type);
 int loadTexture(const JNIEnv *env,const char* name);
-int loadTextureFromAssets(AAssetManager *manager, const char *fileName);
+GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName);
 //BitmapOperation getImageFromAssetsFile(JNIEnv *env,char *filename);
 GLuint loadProgram(const char *strVSource, const char *strFSource);
 GLuint loadShader(const char *strSource,const int iType);
