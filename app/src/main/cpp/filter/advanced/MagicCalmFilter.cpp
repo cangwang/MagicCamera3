@@ -17,16 +17,15 @@ MagicCalmFilter::MagicCalmFilter(){
 }
 
 MagicCalmFilter::MagicCalmFilter(AAssetManager *assetManager)
-    : GPUImageFilter(readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"calm.glsl")),
-      mToneCurveTexture(-1),
-      mMaskGery1TextureId(-1),
-      mMaskGery2TextureId(-1),
-      assetManager(assetManager){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"calm.glsl")),
+      mToneCurveTexture(0),
+      mMaskGery1TextureId(0),
+      mMaskGery2TextureId(0){
 
 }
 
 MagicCalmFilter::~MagicCalmFilter() {
-    assetManager= nullptr;
+    mAssetManager= nullptr;
 }
 
 void MagicCalmFilter::onDestroy() {
@@ -34,7 +33,7 @@ void MagicCalmFilter::onDestroy() {
 }
 
 void MagicCalmFilter::onDrawArraysPre() {
-    if(this->mToneCurveTexture !=-1){
+    if(this->mToneCurveTexture !=0){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glUniform1i(this->mToneCurveTextureUniformLocation,3);
@@ -115,6 +114,6 @@ void MagicCalmFilter::onInitialized() {
         arrayOfByte[(3 + (2048 + k * 4))] = static_cast<unsigned char>(-1);;
     }
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,256,3,0,GL_RGBA,GL_UNSIGNED_BYTE,arrayOfByte);
-    mMaskGery1TextureId=loadTextureFromAssets(assetManager,"calm_mask1.jpg");
-    mMaskGery2TextureId=loadTextureFromAssets(assetManager,"calm_mask2.jpg");
+    mMaskGery1TextureId=loadTextureFromAssets(mAssetManager,"calm_mask1.jpg");
+    mMaskGery2TextureId=loadTextureFromAssets(mAssetManager,"calm_mask2.jpg");
 }

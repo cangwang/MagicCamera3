@@ -16,7 +16,7 @@ class GPUImageFilter {
 public:
     GPUImageFilter();
     GPUImageFilter(AAssetManager *assetManager);
-    GPUImageFilter(std::string *vertexShader, std::string *fragmentShader);
+    GPUImageFilter(AAssetManager *assetManager,std::string *vertexShader, std::string *fragmentShader);
     virtual ~GPUImageFilter();
     virtual void init();
     virtual void onInputSizeChanged(const int width, const int height);
@@ -34,6 +34,7 @@ public:
     virtual void onDrawArraysAfter() {
 
     }
+    AAssetManager* mAssetManager;
 
 protected:
     virtual void onInit();

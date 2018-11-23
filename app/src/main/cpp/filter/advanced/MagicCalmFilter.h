@@ -21,11 +21,10 @@ protected:
     void onDrawArraysAfter() override;
 
 private:
-    GLint mToneCurveTexture;
+    GLuint mToneCurveTexture;
     GLint mToneCurveTextureUniformLocation;
-    GLint mMaskGery1TextureId;
+    GLuint mMaskGery1TextureId;
     GLint mMaskGery1UniformLocation;
-    GLint mMaskGery2TextureId;
+    GLuint mMaskGery2TextureId;
     GLint mMaskGery2UniformLocation;
-    AAssetManager* assetManager;
 };

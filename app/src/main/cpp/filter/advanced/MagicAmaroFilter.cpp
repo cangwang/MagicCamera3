@@ -20,7 +20,7 @@ MagicAmaroFilter::MagicAmaroFilter(){
 }
 
 MagicAmaroFilter::MagicAmaroFilter(AAssetManager *assetManager)
-    : GPUImageFilter(readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"amaro.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"amaro.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 
@@ -65,7 +65,7 @@ void MagicAmaroFilter::onInit() {
 void MagicAmaroFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     glUniform1f(mGLStrengthLocation, 1.0f);
-    inputTextureHandles[0] = loadTextureFromAssets(assetManager,"brannan_blowout.png");
-    inputTextureHandles[1] = loadTextureFromAssets(assetManager,"overlaymap.png");
-    inputTextureHandles[2] = loadTextureFromAssets(assetManager,"amaromap.png");
+    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"brannan_blowout.png");
+    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"overlaymap.png");
+    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"amaromap.png");
 }

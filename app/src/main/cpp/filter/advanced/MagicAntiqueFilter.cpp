@@ -17,7 +17,7 @@ MagicAntiqueFilter::MagicAntiqueFilter(){
 }
 
 MagicAntiqueFilter::MagicAntiqueFilter(AAssetManager *assetManager)
-        : GPUImageFilter(readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"antique.glsl")),mToneCurveTexture(0){
+        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"antique.glsl")),mToneCurveTexture(0){
 
 }
 

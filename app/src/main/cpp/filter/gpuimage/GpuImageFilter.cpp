@@ -15,15 +15,16 @@ GPUImageFilter::GPUImageFilter() {
 }
 
 GPUImageFilter::GPUImageFilter(AAssetManager *assetManager)
-        : GPUImageFilter(readShaderFromAsset(assetManager,"default_vertex.glsl"),readShaderFromAsset(assetManager,"nofilter_f.glsl"))
+        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"),readShaderFromAsset(assetManager,"nofilter_f.glsl"))
 {
 
 }
 
-GPUImageFilter::GPUImageFilter(std::string *vertexShader, std::string *fragmentShader):
+GPUImageFilter::GPUImageFilter(AAssetManager *assetManager,std::string *vertexShader, std::string *fragmentShader):
         mVertexShader(vertexShader),
         mFragmentShader(fragmentShader),
-        mMatrixLoc(0){
+        mMatrixLoc(0),
+        mAssetManager(assetManager){
     mGLCubeBuffer = CUBE;
     mGLTextureBuffer = getRotation(ROTATION_90, false, true);
 }
