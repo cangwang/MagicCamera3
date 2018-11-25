@@ -44,8 +44,16 @@ add_library( # Sets the name of the library.
         src/main/cpp/camera/CameraFilter.cpp
         src/main/cpp/camera/CameraEngine.cpp
         src/main/cpp/camera/EGLCore.cpp
+        src/main/cpp/filter/advanced/MagicAmaroFilter.cpp
+        src/main/cpp/filter/advanced/MagicAntiqueFilter.cpp
+        src/main/cpp/filter/advanced/MagicBlackCatFilter.cpp
+        src/main/cpp/filter/advanced/MagicBrannanFilter.cpp
+        src/main/cpp/filter/advanced/MagicBrooklynFilter.cpp
         src/main/cpp/filter/advanced/MagicCoolFilter.cpp
         src/main/cpp/filter/advanced/MagicCalmFilter.cpp
+        src/main/cpp/filter/advanced/MagicCrayonFilter.cpp
+        src/main/cpp/filter/advanced/MagicEarlyBirdFilter.cpp
+        src/main/cpp/filter/advanced/MagicEmeraldFilter.cpp
         src/main/cpp/filter/gpuimage/GpuImageFilter.cpp
         src/main/cpp/filter/gpuimage/CameraInputFilter.cpp)
 

@@ -42,16 +42,19 @@ object CameraHelper{
         return BaseApplication.context.packageManager?.hasSystemFeature(name)?:false
     }
 
+    /**
+     * 图片预览大小
+     */
     fun setOptimalSize(camera:Camera,aspectRatio:Float,maxWidth:Int,maxHeight:Int){
         val parameters= camera.parameters
-//        val size = chooseOptimalSize(parameters.supportedPreviewSizes,aspectRatio,maxWidth,maxHeight)
-//        parameters.setPreviewSize(size.width,size.height)
+        //使用自动对焦
         if (parameters.supportedFocusModes.contains(
                         Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
             parameters.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
         }
         val size = getLargePreviewSize(camera)
         size?.let {
+            //设置相机预览大小
             parameters.setPreviewSize(it.width,it.height)
             Log.d(TAG, "input max: (" + maxWidth + ", " + maxHeight + "), output size: ("
                     + it.width + ", " + it.height + ")")
@@ -59,6 +62,7 @@ object CameraHelper{
 
         val pictureSize = getLargePictureSize(camera)
         pictureSize?.let {
+            //图片参数
             parameters.setPictureSize(it.width,it.height)
             Log.d(TAG, "picture max: (" + maxWidth + ", " + maxHeight + "), output size: ("
                     + it.width + ", " + it.height + ")")
@@ -140,8 +144,12 @@ object CameraHelper{
         return CameraInfo(size.width,size.height,Camera.CameraInfo().orientation, cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT,picSize.width,picSize.height)
     }
 
+    /**
+     * 获取最大的图片大小
+     */
     fun getLargePictureSize(camera: Camera?): Camera.Size? {
         if (camera != null) {
+            //获取可选比例
             val sizes = camera.parameters.supportedPictureSizes
             var temp: Camera.Size = sizes[0]
             for (i in 1 until sizes.size) {
@@ -154,8 +162,12 @@ object CameraHelper{
         return null
     }
 
+    /**
+     * 获取最大的预览大小
+     */
     fun getLargePreviewSize(camera: Camera?): Camera.Size? {
         if (camera != null) {
+            //获取可选比例
             val sizes = camera.parameters.supportedPreviewSizes
             var temp: Camera.Size = sizes[0]
             for (i in 1 until sizes.size) {

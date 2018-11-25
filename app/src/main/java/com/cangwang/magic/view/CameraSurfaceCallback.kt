@@ -43,15 +43,20 @@ class CameraSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
 
     fun initOpenGL(surface: Surface, width: Int, height: Int){
         mExecutor.execute {
+            //获取纹理id
             val textureId = OpenGLJniLib.magicBaseInit(surface,width,height,BaseApplication.context.assets)
             if (textureId < 0){
                 Log.e(TAG, "surfaceCreated init OpenGL ES failed!")
                 return@execute
             }
+            //需要使用surfaceTexture来做纹理装载
             mSurfaceTexture = SurfaceTexture(textureId)
+            //添加纹理变化回调
             mSurfaceTexture?.setOnFrameAvailableListener { drawOpenGL() }
             try {
+                //把摄像头采样关联到纹理
                 mCamera?.setPreviewTexture(mSurfaceTexture)
+                //开始摄像头采样
                 doStartPreview()
             }catch (e:IOException){
                 Log.e(TAG,e.localizedMessage)
@@ -62,8 +67,11 @@ class CameraSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
 
     fun drawOpenGL(){
         mExecutor.execute {
+            //重新获取纹理图像
             mSurfaceTexture?.updateTexImage()
+            //获取纹理矩阵
             mSurfaceTexture?.getTransformMatrix(mMatrix)
+            //绘制
             OpenGLJniLib.magicBaseDraw(mMatrix)
         }
     }

@@ -9,7 +9,7 @@ uniform sampler2D grey2Frame;
 uniform sampler2D curve;
 
 const mediump vec3 luminanceWeighting = vec3(0.2125, 0.7154, 0.0721);
-layout(location=0) out vec4 fragColor;
+layout(location=0) out vec4 gl_FragColor;
 
 void main()
 {
@@ -68,5 +68,5 @@ void main()
 	textureColor = (base - overlayer) * (1.0 - grey2Color.r) + overlayer;
 	//base * (grey2Color.r) + overlayer * (1.0 - grey2Color.r);
 	
-	fragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
+	gl_FragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
 }

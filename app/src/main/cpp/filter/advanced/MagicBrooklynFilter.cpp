@@ -1,7 +1,7 @@
-#include "MagicAmaroFilter.h"
+#include "MagicBrooklynFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicAmaroFilter"
+#define LOG_TAG "MagicBrooklynFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -15,25 +15,25 @@
  * cool滤镜
  */
 
-MagicAmaroFilter::MagicAmaroFilter(){
+MagicBrooklynFilter::MagicBrooklynFilter(){
 
 }
 
-MagicAmaroFilter::MagicAmaroFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"amaro.glsl")){
+MagicBrooklynFilter::MagicBrooklynFilter(AAssetManager *assetManager)
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"brooklyn.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 
-MagicAmaroFilter::~MagicAmaroFilter() {
+MagicBrooklynFilter::~MagicBrooklynFilter() {
 
 }
 
-void MagicAmaroFilter::onDestroy() {
+void MagicBrooklynFilter::onDestroy() {
     glDeleteTextures(len,inputTextureHandles);
     *inputTextureHandles={-0};
 }
 
-void MagicAmaroFilter::onDrawArraysPre() {
+void MagicBrooklynFilter::onDrawArraysPre() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -43,7 +43,7 @@ void MagicAmaroFilter::onDrawArraysPre() {
     }
 }
 
-void MagicAmaroFilter::onDrawArraysAfter() {
+void MagicBrooklynFilter::onDrawArraysAfter() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -54,7 +54,7 @@ void MagicAmaroFilter::onDrawArraysAfter() {
 }
 
 
-void MagicAmaroFilter::onInit() {
+void MagicBrooklynFilter::onInit() {
     GPUImageFilter::onInit();
     for (int i = 0; i < len; ++i) {
         inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,"inputImageTexture"+(2+i));
@@ -62,10 +62,10 @@ void MagicAmaroFilter::onInit() {
     }
 }
 
-void MagicAmaroFilter::onInitialized() {
+void MagicBrooklynFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     glUniform1f(mGLStrengthLocation, 1.0f);
-    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"brannan_blowout.png");
-    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"overlaymap.png");
-    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"amaromap.png");
+    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"bookluynCurves1.png");
+    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"filter_map_first.png");
+    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"bookluynCurves2.png");
 }

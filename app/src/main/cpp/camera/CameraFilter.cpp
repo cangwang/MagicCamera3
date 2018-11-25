@@ -6,6 +6,7 @@
 #include <GLES3/gl3ext.h>
 #include <GLES2/gl2ext.h>
 #include <src/main/cpp/filter/advanced/MagicCoolFilter.h>
+#include <src/main/cpp/filter/advanced/MagicAmaroFilter.h>
 #include <src/main/cpp/filter/advanced/MagicCalmFilter.h>
 #include <src/main/cpp/filter/gpuimage/CameraInputFilter.h>
 
@@ -90,7 +91,7 @@ void CameraFilter::setFilter(AAssetManager* assetManager) {
     if(filter != nullptr){
         filter->destroy();
     }
-    filter = new MagicCalmFilter(assetManager);
+    filter = new MagicAmaroFilter(assetManager);
     ALOGD("set filter success");
 }
 

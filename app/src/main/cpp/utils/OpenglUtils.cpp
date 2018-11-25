@@ -47,7 +47,7 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
         unsigned char* data = stbi_load_from_memory(reinterpret_cast<const stbi_uc *>(buff), size, &width, &height, &n, 0);
         ALOGV("loadTextureFromAssets,width = %d,height=%d,n=%d",width,height,n);
         free(buff);
-        if(data!=NULL) {
+         if(data!=NULL) {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         } else{
             LOGE("load texture from assets is null,fileName = %s",fileName);
