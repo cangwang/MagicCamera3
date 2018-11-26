@@ -4,12 +4,12 @@ in highp vec2 textureCoordinate;
 precision highp float;
 
 uniform sampler2D inputImageTexture;
-uniform sampler2D grey1Frame; 
+uniform sampler2D grey1Frame;
 uniform sampler2D grey2Frame;
 uniform sampler2D curve;
 
 const mediump vec3 luminanceWeighting = vec3(0.2125, 0.7154, 0.0721);
-layout(location=0) out vec4 gl_FragColor;
+out vec4 gl_FragColor;
 
 void main()
 {

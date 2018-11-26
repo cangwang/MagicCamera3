@@ -25,28 +25,43 @@ MagicCalmFilter::MagicCalmFilter(AAssetManager *assetManager)
 }
 
 MagicCalmFilter::~MagicCalmFilter() {
-    mAssetManager= nullptr;
+
 }
 
 void MagicCalmFilter::onDestroy() {
-    glDeleteTextures(1, reinterpret_cast<const GLuint *>(&mToneCurveTexture));
+    glDeleteTextures(1, &mToneCurveTexture);
+    glDeleteTextures(1, &mMaskGery1TextureId);
+    glDeleteTextures(1, &mMaskGery2TextureId);
 }
 
 void MagicCalmFilter::onDrawArraysPre() {
     if(this->mToneCurveTexture !=0){
         glActiveTexture(GL_TEXTURE3);
+        glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
-        glUniform1i(this->mToneCurveTextureUniformLocation,3);
+        glUniform1i(mToneCurveTextureUniformLocation,3);
     }
+
     if(this->mMaskGery1TextureId !=0){
         glActiveTexture(GL_TEXTURE4);
+        glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D,mMaskGery1TextureId);
-        glUniform1i(this->mMaskGery1UniformLocation,4);
+        glUniform1i(mMaskGery1UniformLocation,4);
+        GLuint error= glGetError();
+        if (error !=GL_NO_ERROR){
+            ALOGE("mMaskGery1UniformLocation error");
+        }
     }
+
     if(this->mMaskGery2TextureId !=0){
         glActiveTexture(GL_TEXTURE5);
+        glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D,mMaskGery2TextureId);
-        glUniform1i(this->mMaskGery2UniformLocation,5);
+        glUniform1i(mMaskGery2UniformLocation,5);
+        GLuint error= glGetError();
+        if (error !=GL_NO_ERROR){
+            ALOGE("mMaskGery2UniformLocation error");
+        }
     }
 }
 
@@ -79,7 +94,7 @@ void MagicCalmFilter::onInit() {
 void MagicCalmFilter::onInitialized() {
     GPUImageFilter::onInitialized();
 
-    glGenTextures(1, reinterpret_cast<GLuint *>(&mToneCurveTexture));
+    glGenTextures(1, &mToneCurveTexture);
     glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);

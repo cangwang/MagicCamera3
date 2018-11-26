@@ -32,6 +32,7 @@ GPUImageFilter::GPUImageFilter(AAssetManager *assetManager,std::string *vertexSh
 GPUImageFilter::~GPUImageFilter() {
     mGLCubeBuffer = nullptr;
     mGLTextureBuffer = nullptr;
+    mAssetManager= nullptr;
 }
 
 void GPUImageFilter::init() {
@@ -80,8 +81,10 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
                                 const float *textureBuffer) {
     glUseProgram(mGLProgId);
 //    runPendingOnDrawTasks()
-    if(!mIsInitialized)
+    if (!mIsInitialized) {
+        ALOGE("NOT_INIT");
         return NOT_INIT;
+    }
     //加载矩阵
     glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
     glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, cubeBuffer);
@@ -100,7 +103,8 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
     onDrawArraysAfter();
-    glBindTexture(GL_TEXTURE_2D,0);
+    if(textureId !=NO_TEXTURE)
+        glBindTexture(GL_TEXTURE_2D,0);
 
     return ON_DRAWN;
 }

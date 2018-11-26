@@ -61,12 +61,10 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
              }
              //相当于2.0的gluBuild2DMipmaps
              glGenerateMipmap(GL_TEXTURE_2D);
-//             free(&s);
         } else{
             LOGE("load texture from assets is null,fileName = %s",fileName);
         }
         stbi_image_free(data);
-//        free(data);
         return textureHandler;
     }
     return textureHandler;
