@@ -10,7 +10,7 @@ uniform float texelWidthOffset ;
 uniform float texelHeightOffset;
 
 in mediump vec2 textureCoordinate;
-layout(location=0) out vec4 gl_FragColor;
+out vec4 gl_FragColor;
 
 vec4 level0c(vec4 color, sampler2D sampler) 
 { 

@@ -6,7 +6,7 @@ uniform sampler2D inputImageTexture;
 uniform vec2 singleStepOffset; 
 uniform float strength;
 
-layout(location=0) out vec4 gl_FragColor;
+out vec4 gl_FragColor;
 
 const highp vec3 W = vec3(0.299,0.587,0.114);
 

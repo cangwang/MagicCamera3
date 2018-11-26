@@ -7,7 +7,7 @@
  uniform sampler2D inputImageTexture4;
  
  uniform float strength;
- layout(location=0) out vec4 gl_FragColor;
+ out vec4 gl_FragColor;
 
  // gray
  float NCGray(vec4 color)

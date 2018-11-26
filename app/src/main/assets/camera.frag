@@ -7,7 +7,7 @@ uniform samplerExternalOES sTexture;
 
 in vec2 vTexCoord;
 
-layout(location=0) out vec4 fragColor;
+out vec4 fragColor;
 
 void main() {
     fragColor = texture(sTexture, vTexCoord);

@@ -38,7 +38,7 @@ void MagicBrannanFilter::onDrawArraysPre() {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
             glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
-            glUniform1i(inputTextureUniformLocations[i], 3);
+            glUniform1i(inputTextureUniformLocations[i], (i+3);
         }
     }
 }
@@ -58,8 +58,8 @@ void MagicBrannanFilter::onInit() {
     GPUImageFilter::onInit();
     for (int i = 0; i < len; ++i) {
         inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,"inputImageTexture"+(2+i));
-        mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
     }
+    mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 
 void MagicBrannanFilter::onInitialized() {

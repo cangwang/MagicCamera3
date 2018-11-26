@@ -4,7 +4,7 @@ precision highp float;
 
 uniform sampler2D inputImageTexture;
 uniform sampler2D curve;
-layout(location=0) out vec4 gl_FragColor;
+vec4 gl_FragColor;
 vec3 rgb2hsv(vec3 c) 
 { 
 	vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0); 

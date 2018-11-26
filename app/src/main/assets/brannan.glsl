@@ -8,7 +8,7 @@ precision mediump float;
  uniform sampler2D inputImageTexture4;  //contrast
  uniform sampler2D inputImageTexture5;  //luma
  uniform sampler2D inputImageTexture6;  //screen
- layout(location=0) out vec4 gl_FragColor;
+ out vec4 gl_FragColor;
  
  mat3 saturateMatrix = mat3(
                             1.105150, -0.044850,-0.046000,

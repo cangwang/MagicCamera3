@@ -11,7 +11,7 @@
  float texture2Size = 1024.0;
  
  uniform float strength;
- layout(location=0) out vec4 gl_FragColor;
+ out vec4 gl_FragColor;
 
  // gray
  float NCGray(vec4 color)

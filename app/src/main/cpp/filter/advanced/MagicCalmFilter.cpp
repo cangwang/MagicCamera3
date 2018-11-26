@@ -126,7 +126,7 @@ void MagicCalmFilter::onInitialized() {
         arrayOfByte[(2048 + k * 4)] = arrayOfInt4[k];
         arrayOfByte[(1 + (2048 + k * 4))] = arrayOfInt5[k];
         arrayOfByte[(2 + (2048 + k * 4))] = arrayOfInt6[k];
-        arrayOfByte[(3 + (2048 + k * 4))] = static_cast<unsigned char>(-1);;
+        arrayOfByte[(3 + (2048 + k * 4))] = static_cast<unsigned char>(-1);
     }
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,256,3,0,GL_RGBA,GL_UNSIGNED_BYTE,arrayOfByte);
     mMaskGery1TextureId=loadTextureFromAssets(mAssetManager,"calm_mask1.jpg");
