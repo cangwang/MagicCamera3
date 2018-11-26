@@ -52,17 +52,17 @@ void MagicCalmFilter::onDrawArraysPre() {
 
 void MagicCalmFilter::onDrawArraysAfter() {
 
-    if (this->mToneCurveTexture != -1){
+    if (this->mToneCurveTexture != 0){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glActiveTexture(GL_TEXTURE0);
     }
-    if (this->mMaskGery1TextureId != -1){
+    if (this->mMaskGery1TextureId != 0){
         glActiveTexture(GL_TEXTURE4);
         glBindTexture(GL_TEXTURE_2D,mMaskGery1TextureId);
         glActiveTexture(GL_TEXTURE0);
     }
-    if (this->mMaskGery2TextureId != -1){
+    if (this->mMaskGery2TextureId != 0){
         glActiveTexture(GL_TEXTURE5);
         glBindTexture(GL_TEXTURE_2D,mMaskGery2TextureId);
         glActiveTexture(GL_TEXTURE0);

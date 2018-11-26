@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include "src/main/cpp/utils/stb_image.h"
 
+
 #define LOG_TAG "OpenglUtils"
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -35,7 +36,7 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
     if (textureHandler!=0){
         glBindTexture(GL_TEXTURE_2D,textureHandler);
         //纹理放大缩小使用线性插值
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         //超出的部份会重复纹理坐标的边缘，产生一种边缘被拉伸的效果，s/t相当于x/y轴坐标
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
@@ -48,10 +49,24 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
         ALOGV("loadTextureFromAssets,width = %d,height=%d,n=%d",width,height,n);
         free(buff);
          if(data!=NULL) {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+             stbi s;
+
+             start_mem(&s, reinterpret_cast<const stbi_uc *>(buff), size);
+             if (stbi_jpeg_test(&s)) { //判断是jpg格式
+                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+             } else if (stbi_png_test(&s)) {  //判断是png格式
+                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+             } else{
+                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+             }
+             //相当于2.0的gluBuild2DMipmaps
+             glGenerateMipmap(GL_TEXTURE_2D);
+//             free(&s);
         } else{
             LOGE("load texture from assets is null,fileName = %s",fileName);
         }
+        stbi_image_free(data);
+//        free(data);
         return textureHandler;
     }
     return textureHandler;

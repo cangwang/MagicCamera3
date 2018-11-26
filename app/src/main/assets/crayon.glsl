@@ -1,3 +1,4 @@
+#version 300 es
 in highp vec2 textureCoordinate;
 precision mediump float;
 

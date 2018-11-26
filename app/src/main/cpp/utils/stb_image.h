@@ -322,6 +322,35 @@ enum
 typedef unsigned char stbi_uc;
 typedef unsigned short stbi_us;
 
+typedef uint8_t  stbi__uint8;
+typedef uint16_t stbi__uint16;
+typedef int16_t  stbi__int16;
+typedef uint32_t stbi__uint32;
+typedef int32_t  stbi__int32;
+
+typedef struct
+{
+    int      (*read)  (void *user,char *data,int size);   // fill 'data' with 'size' bytes.  return number of bytes actually read
+    void     (*skip)  (void *user,int n);                 // skip the next 'n' bytes, or 'unget' the last -n bytes if negative
+    int      (*eof)   (void *user);                       // returns nonzero if we are at end of file/data
+} stbi_io_callbacks;
+
+typedef struct
+{
+    stbi__uint32 img_x, img_y;
+    int img_n, img_out_n;
+
+    stbi_io_callbacks io;
+    void *io_user_data;
+
+    int read_from_callbacks;
+    int buflen;
+    stbi__uint8 buffer_start[128];
+
+    stbi__uint8 *img_buffer, *img_buffer_end;
+    stbi__uint8 *img_buffer_original;
+} stbi;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -341,12 +370,7 @@ extern "C" {
 // load image by filename, open file, or memory buffer
 //
 
-typedef struct
-{
-   int      (*read)  (void *user,char *data,int size);   // fill 'data' with 'size' bytes.  return number of bytes actually read
-   void     (*skip)  (void *user,int n);                 // skip the next 'n' bytes, or 'unget' the last -n bytes if negative
-   int      (*eof)   (void *user);                       // returns nonzero if we are at end of file/data
-} stbi_io_callbacks;
+
 
 ////////////////////////////////////
 //
@@ -359,6 +383,9 @@ STBIDEF stbi_uc *stbi_load_from_callbacks(stbi_io_callbacks const *clbk  , void 
 STBIDEF stbi_uc *stbi_load_gif_from_memory(stbi_uc const *buffer, int len, int **delays, int *x, int *y, int *z, int *comp, int req_comp);
 #endif
 
+STBIDEF int stbi_jpeg_test(stbi *s);
+STBIDEF int stbi_png_test(stbi *s);
+STBIDEF void start_mem(stbi *s, stbi__uint8 const *buffer, int len);
 
 #ifndef STBI_NO_STDIO
 STBIDEF stbi_uc *stbi_load            (char const *filename, int *x, int *y, int *channels_in_file, int desired_channels);

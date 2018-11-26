@@ -17,7 +17,7 @@ MagicEmeraldFilter::MagicEmeraldFilter(){
 }
 
 MagicEmeraldFilter::MagicEmeraldFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"cool.glsl")),mToneCurveTexture(-1){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"emerald.glsl")),mToneCurveTexture(0){
 
 }
 
@@ -30,7 +30,7 @@ void MagicEmeraldFilter::onDestroy() {
 }
 
 void MagicEmeraldFilter::onDrawArraysPre() {
-    if(this->mToneCurveTexture !=-1){
+    if(this->mToneCurveTexture !=0){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glUniform1i(this->mToneCurveTextureUniformLocation,3);
@@ -38,7 +38,7 @@ void MagicEmeraldFilter::onDrawArraysPre() {
 }
 
 void MagicEmeraldFilter::onDrawArraysAfter() {
-    if (this->mToneCurveTexture != -1){
+    if (this->mToneCurveTexture != 0){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glActiveTexture(GL_TEXTURE0);

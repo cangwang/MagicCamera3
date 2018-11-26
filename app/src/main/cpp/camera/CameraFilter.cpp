@@ -91,7 +91,8 @@ void CameraFilter::setFilter(AAssetManager* assetManager) {
     if(filter != nullptr){
         filter->destroy();
     }
-    filter = new MagicAmaroFilter(assetManager);
+//    filter = new MagicAmaroFilter(assetManager);
+    filter = new MagicCalmFilter(assetManager);
     ALOGD("set filter success");
 }
 

@@ -31,7 +31,7 @@ void MagicBlackCatFilter::onDestroy() {
 }
 
 void MagicBlackCatFilter::onDrawArraysPre() {
-    if(this->mToneCurveTexture !=-1){
+    if(this->mToneCurveTexture !=0){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glUniform1i(this->mToneCurveTextureUniformLocation,3);
@@ -39,7 +39,7 @@ void MagicBlackCatFilter::onDrawArraysPre() {
 }
 
 void MagicBlackCatFilter::onDrawArraysAfter() {
-    if (this->mToneCurveTexture != -1){
+    if (this->mToneCurveTexture != 0){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glActiveTexture(GL_TEXTURE0);

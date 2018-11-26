@@ -1,3 +1,4 @@
+#version 300 es
  precision mediump float;
 
  in mediump vec2 textureCoordinate;

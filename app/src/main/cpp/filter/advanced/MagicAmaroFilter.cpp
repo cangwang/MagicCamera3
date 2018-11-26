@@ -30,7 +30,7 @@ MagicAmaroFilter::~MagicAmaroFilter() {
 
 void MagicAmaroFilter::onDestroy() {
     glDeleteTextures(len,inputTextureHandles);
-    *inputTextureHandles={-0};
+    *inputTextureHandles={0};
 }
 
 void MagicAmaroFilter::onDrawArraysPre() {

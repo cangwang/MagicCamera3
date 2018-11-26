@@ -211,6 +211,35 @@ enum
 
 typedef unsigned char stbi_uc;
 
+typedef uint8_t  stbi__uint8;
+typedef uint16_t stbi__uint16;
+typedef int16_t  stbi__int16;
+typedef uint32_t stbi__uint32;
+typedef int32_t  stbi__int32;
+
+typedef struct
+{
+    int      (*read)  (void *user,char *data,int size);   // fill 'data' with 'size' bytes.  return number of bytes actually read
+    void     (*skip)  (void *user,int n);                 // skip the next 'n' bytes, or 'unget' the last -n bytes if negative
+    int      (*eof)   (void *user);                       // returns nonzero if we are at end of file/data
+} stbi_io_callbacks;
+
+typedef struct
+{
+    stbi__uint32 img_x, img_y;
+    int img_n, img_out_n;
+
+    stbi_io_callbacks io;
+    void *io_user_data;
+
+    int read_from_callbacks;
+    int buflen;
+    stbi__uint8 buffer_start[128];
+
+    stbi__uint8 *img_buffer, *img_buffer_end;
+    stbi__uint8 *img_buffer_original;
+} stbi;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -231,13 +260,6 @@ extern stbi_uc *stbi_load            (char const *filename,     int *x, int *y, 
 extern stbi_uc *stbi_load_from_file  (FILE *f,                  int *x, int *y, int *comp, int req_comp);
 // for stbi_load_from_file, file pointer is left pointing immediately after image
 #endif
-
-typedef struct
-{
-   int      (*read)  (void *user,char *data,int size);   // fill 'data' with 'size' bytes.  return number of bytes actually read 
-   void     (*skip)  (void *user,int n);                 // skip the next 'n' bytes, or 'unget' the last -n bytes if negative
-   int      (*eof)   (void *user);                       // returns nonzero if we are at end of file/data
-} stbi_io_callbacks;
 
 extern stbi_uc *stbi_load_from_callbacks  (stbi_io_callbacks const *clbk, void *user, int *x, int *y, int *comp, int req_comp);
 
@@ -306,6 +328,9 @@ extern int   stbi_zlib_decode_buffer(char *obuffer, int olen, const char *ibuffe
 extern char *stbi_zlib_decode_noheader_malloc(const char *buffer, int len, int *outlen);
 extern int   stbi_zlib_decode_noheader_buffer(char *obuffer, int olen, const char *ibuffer, int ilen);
 
+extern int stbi_jpeg_test(stbi *s);
+extern int stbi_png_test(stbi *s);
+extern void start_mem(stbi *s, stbi__uint8 const *buffer, int len);
 
 // define faster low-level operations (typically SIMD support)
 #ifdef STBI_SIMD
@@ -371,11 +396,11 @@ typedef unsigned int   stbi__uint32;
 typedef   signed int   stbi__int32;
 #else
 #include <stdint.h>
-typedef uint8_t  stbi__uint8;
-typedef uint16_t stbi__uint16;
-typedef int16_t  stbi__int16;
-typedef uint32_t stbi__uint32;
-typedef int32_t  stbi__int32;
+//typedef uint8_t  stbi__uint8;
+//typedef uint16_t stbi__uint16;
+//typedef int16_t  stbi__int16;
+//typedef uint32_t stbi__uint32;
+//typedef int32_t  stbi__int32;
 #endif
 
 // should produce compiler error if size is wrong
@@ -403,27 +428,11 @@ typedef unsigned char validate_uint32[sizeof(stbi__uint32)==4 ? 1 : -1];
 
 // stbi structure is our basic context used by all images, so it
 // contains all the IO context, plus some basic image information
-typedef struct
-{
-   stbi__uint32 img_x, img_y;
-   int img_n, img_out_n;
-   
-   stbi_io_callbacks io;
-   void *io_user_data;
-
-   int read_from_callbacks;
-   int buflen;
-   stbi__uint8 buffer_start[128];
-
-   stbi__uint8 *img_buffer, *img_buffer_end;
-   stbi__uint8 *img_buffer_original;
-} stbi;
-
 
 static void refill_buffer(stbi *s);
 
 // initialize a memory-decode context
-static void start_mem(stbi *s, stbi__uint8 const *buffer, int len)
+void start_mem(stbi *s, stbi__uint8 const *buffer, int len)
 {
    s->io.read = NULL;
    s->read_from_callbacks = 0;
@@ -483,10 +492,10 @@ static void stbi_rewind(stbi *s)
    s->img_buffer = s->img_buffer_original;
 }
 
-static int      stbi_jpeg_test(stbi *s);
+int      stbi_jpeg_test(stbi *s);
 static stbi_uc *stbi_jpeg_load(stbi *s, int *x, int *y, int *comp, int req_comp);
 static int      stbi_jpeg_info(stbi *s, int *x, int *y, int *comp);
-static int      stbi_png_test(stbi *s);
+int      stbi_png_test(stbi *s);
 static stbi_uc *stbi_png_load(stbi *s, int *x, int *y, int *comp, int req_comp);
 static int      stbi_png_info(stbi *s, int *x, int *y, int *comp);
 static int      stbi_bmp_test(stbi *s);
@@ -1935,7 +1944,7 @@ static unsigned char *stbi_jpeg_load(stbi *s, int *x, int *y, int *comp, int req
    return load_jpeg_image(&j, x,y,comp,req_comp);
 }
 
-static int stbi_jpeg_test(stbi *s)
+int stbi_jpeg_test(stbi *s)
 {
    int r;
    jpeg j;
@@ -2880,7 +2889,7 @@ static unsigned char *stbi_png_load(stbi *s, int *x, int *y, int *comp, int req_
    return do_png(&p, x,y,comp,req_comp);
 }
 
-static int stbi_png_test(stbi *s)
+int stbi_png_test(stbi *s)
 {
    int r;
    r = check_png_header(s);
