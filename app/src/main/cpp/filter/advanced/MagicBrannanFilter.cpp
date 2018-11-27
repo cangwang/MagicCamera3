@@ -38,7 +38,7 @@ void MagicBrannanFilter::onDrawArraysPre() {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
             glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
-            glUniform1i(inputTextureUniformLocations[i], (i+3);
+            glUniform1i(inputTextureUniformLocations[i], i+3);
         }
     }
 }

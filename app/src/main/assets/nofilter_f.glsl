@@ -7,7 +7,7 @@ in highp vec2 textureCoordinate;
 //取出OES相机中的纹理
 uniform samplerExternalOES inputImageTexture;
 //输出色值
-layout(location=0) out vec4 fragColor;
+ out vec4 fragColor;
 
 void main() {
     fragColor = texture(inputImageTexture,textureCoordinate);
