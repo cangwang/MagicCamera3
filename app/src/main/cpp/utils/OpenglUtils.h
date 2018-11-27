@@ -23,5 +23,6 @@ void freeResource(char *pData);
 std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName);
 unsigned char* getAddressFromAsset(AAssetManager *manager, const char *fileName);
 int getSizeFromAsset(AAssetManager *manager, const char *fileName);
+unsigned char* getAddressFromAssetFilter(AAssetManager *manager, const char *fileName,int* length);
 
 

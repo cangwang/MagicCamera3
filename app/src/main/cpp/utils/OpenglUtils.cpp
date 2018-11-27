@@ -41,9 +41,8 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
         //超出的部份会重复纹理坐标的边缘，产生一种边缘被拉伸的效果，s/t相当于x/y轴坐标
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
-        int width,height,n;
-        unsigned char* buff = getAddressFromAsset(manager,fileName);
-        int size = getSizeFromAsset(manager,fileName);
+        int width,height,n,size;
+        unsigned char* buff = getAddressFromAssetFilter(manager,fileName,&size);
         //读取图片长宽高数据
         unsigned char* data = stbi_load_from_memory(reinterpret_cast<const stbi_uc *>(buff), size, &width, &height, &n, 0);
         ALOGV("loadTextureFromAssets,width = %d,height=%d,n=%d",width,height,n);
@@ -123,15 +122,37 @@ unsigned char* getAddressFromAsset(AAssetManager *manager, const char *fileName)
             AAsset* asset =AAssetManager_open(manager,file,AASSET_MODE_STREAMING);
             //获取文件长度
             int length = AAsset_getLength(asset);
-//            off_t start =0;
-//            //获取文件描述符
-//            int fd = AAsset_openFileDescriptor(asset,&start,&length);
-//            //获取文件路径
-//            result = new std::string(getFileAddress(fd));
             unsigned char* buf = (unsigned char *) malloc(sizeof(unsigned char) * length);
             AAsset_read(asset, buf, static_cast<size_t>(length));
             AAsset_close(asset);
             return buf;
+        }
+    }
+    AAssetDir_close(dir);
+    return NULL;
+}
+
+unsigned char* getAddressFromAssetFilter(AAssetManager *manager, const char *fileName ,int* length){
+    //打开asset文件夹
+    AAssetDir *dir = AAssetManager_openDir(manager,"filter");
+
+    const char *file = nullptr;
+
+    while ((file =AAssetDir_getNextFileName(dir))!= nullptr) {
+        if (strcmp(file, fileName) == 0) {
+            std::string *name = new std::string("filter/");
+            name->append(file);
+            AAsset *asset = AAssetManager_open(manager, name->c_str(), AASSET_MODE_STREAMING);
+            if (asset != NULL) {
+                //获取文件长度
+                int len = AAsset_getLength(asset);
+                *length = len;
+                unsigned char *buf = (unsigned char *) malloc(sizeof(unsigned char) * len);
+                AAsset_read(asset, buf, static_cast<size_t>(len));
+                AAsset_close(asset);
+                AAssetDir_close(dir);
+                return buf;
+            }
         }
     }
     AAssetDir_close(dir);
