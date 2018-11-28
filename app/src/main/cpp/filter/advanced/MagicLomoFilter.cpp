@@ -1,7 +1,7 @@
-#include "MagicHudsonFilter.h"
+#include "MagicLomoFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicHudsonFilter"
+#define LOG_TAG "MagicLomoFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -15,25 +15,25 @@
  * cool滤镜
  */
 
-MagicHudsonFilter::MagicHudsonFilter(){
+MagicLomoFilter::MagicLomoFilter(){
 
 }
 
-MagicHudsonFilter::MagicHudsonFilter(AAssetManager *assetManager)
+MagicLomoFilter::MagicLomoFilter(AAssetManager *assetManager)
     : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"hudson.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 
-MagicHudsonFilter::~MagicHudsonFilter() {
+MagicLomoFilter::~MagicLomoFilter() {
 
 }
 
-void MagicHudsonFilter::onDestroy() {
+void MagicLomoFilter::onDestroy() {
     glDeleteTextures(len,inputTextureHandles);
     *inputTextureHandles={0};
 }
 
-void MagicHudsonFilter::onDrawArraysPre() {
+void MagicLomoFilter::onDrawArraysPre() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -43,7 +43,7 @@ void MagicHudsonFilter::onDrawArraysPre() {
     }
 }
 
-void MagicHudsonFilter::onDrawArraysAfter() {
+void MagicLomoFilter::onDrawArraysAfter() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -54,7 +54,7 @@ void MagicHudsonFilter::onDrawArraysAfter() {
 }
 
 
-void MagicHudsonFilter::onInit() {
+void MagicLomoFilter::onInit() {
     GPUImageFilter::onInit();
     for (int i = 0; i < len; ++i) {
         inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,"inputImageTexture"+(2+i));
@@ -62,10 +62,9 @@ void MagicHudsonFilter::onInit() {
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 
-void MagicHudsonFilter::onInitialized() {
+void MagicLomoFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     glUniform1f(mGLStrengthLocation, 1.0f);
     inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"hudsonbackground.png");
     inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"overlaymap.png");
-    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"hudsonmap.png");
 }
