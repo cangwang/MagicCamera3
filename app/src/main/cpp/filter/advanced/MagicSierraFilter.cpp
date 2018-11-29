@@ -1,7 +1,7 @@
-#include "MagicLomoFilter.h"
+#include "MagicAmaroFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicLomoFilter"
+#define LOG_TAG "MagicAmaroFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -15,35 +15,35 @@
  * cool滤镜
  */
 
-MagicLomoFilter::MagicLomoFilter(){
+MagicAmaroFilter::MagicAmaroFilter(){
 
 }
 
-MagicLomoFilter::MagicLomoFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"lomo.glsl")){
+MagicAmaroFilter::MagicAmaroFilter(AAssetManager *assetManager)
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"rise.sierra")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 
-MagicLomoFilter::~MagicLomoFilter() {
+MagicAmaroFilter::~MagicAmaroFilter() {
 
 }
 
-void MagicLomoFilter::onDestroy() {
+void MagicAmaroFilter::onDestroy() {
     glDeleteTextures(len,inputTextureHandles);
     *inputTextureHandles={0};
 }
 
-void MagicLomoFilter::onDrawArraysPre() {
+void MagicAmaroFilter::onDrawArraysPre() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
             glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
-            glUniform1i(inputTextureUniformLocations[i], (i+3));
+            glUniform1i(inputTextureUniformLocations[i], i+3);
         }
     }
 }
 
-void MagicLomoFilter::onDrawArraysAfter() {
+void MagicAmaroFilter::onDrawArraysAfter() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -54,17 +54,19 @@ void MagicLomoFilter::onDrawArraysAfter() {
 }
 
 
-void MagicLomoFilter::onInit() {
+void MagicAmaroFilter::onInit() {
     GPUImageFilter::onInit();
+
     for (int i = 0; i < len; ++i) {
         inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,"inputImageTexture"+(2+i));
     }
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 
-void MagicLomoFilter::onInitialized() {
+void MagicAmaroFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     glUniform1f(mGLStrengthLocation, 1.0f);
-    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"lomomap_new.png");
-    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"vignette_map.png");
+    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"sierravignette.png");
+    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"overlaymap.png");
+    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"sierramap.png");
 }

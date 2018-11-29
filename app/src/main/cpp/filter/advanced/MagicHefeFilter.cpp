@@ -15,7 +15,7 @@
  * cool滤镜
  */
 
-MagicHefeFilter::MagicHefeFilter(){x
+MagicHefeFilter::MagicHefeFilter(){
 
 }
 

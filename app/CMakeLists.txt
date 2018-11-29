@@ -54,6 +54,19 @@ add_library( # Sets the name of the library.
         src/main/cpp/filter/advanced/MagicCrayonFilter.cpp
         src/main/cpp/filter/advanced/MagicEarlyBirdFilter.cpp
         src/main/cpp/filter/advanced/MagicEmeraldFilter.cpp
+        src/main/cpp/filter/advanced/MagicEvergreenFilter.cpp
+        src/main/cpp/filter/advanced/MagicFreudFilter.cpp
+        src/main/cpp/filter/advanced/MagicHefeFilter.cpp
+        src/main/cpp/filter/advanced/MagicHealthyFilter.cpp
+        src/main/cpp/filter/advanced/MagicInkwellFilter.cpp
+        src/main/cpp/filter/advanced/MagicKevinFilter.cpp
+        src/main/cpp/filter/advanced/MagicLomoFilter.cpp
+        src/main/cpp/filter/advanced/MagicLatteFilter.cpp
+        src/main/cpp/filter/advanced/MagicN1977Filter.cpp
+        src/main/cpp/filter/advanced/MagicNashvilleFilter.cpp
+        src/main/cpp/filter/advanced/MagicNostalgiaFilter.cpp
+        src/main/cpp/filter/advanced/MagicPixarFilter.cpp
+        src/main/cpp/filter/advanced/MagicRiseFilter.cpp
         src/main/cpp/filter/gpuimage/GpuImageFilter.cpp
         src/main/cpp/filter/gpuimage/CameraInputFilter.cpp)
 

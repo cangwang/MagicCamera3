@@ -1,7 +1,7 @@
-#include "MagicInkwellFilter.h"
+#include "MagicNashvilleFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicInkwellFilter"
+#define LOG_TAG "MagicNashvilleFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -15,24 +15,24 @@
  * cool滤镜
  */
 
-MagicInkwellFilter::MagicInkwellFilter(){
+MagicNashvilleFilter::MagicNashvilleFilter(){
 
 }
 
-MagicInkwellFilter::MagicInkwellFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"inkwell.glsl")),inputTextureHandles(0){
+MagicNashvilleFilter::MagicNashvilleFilter(AAssetManager *assetManager)
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"nashville.glsl")){
 
 }
 
-MagicInkwellFilter::~MagicInkwellFilter() {
+MagicNashvilleFilter::~MagicNashvilleFilter() {
 
 }
 
-void MagicInkwellFilter::onDestroy() {
+void MagicNashvilleFilter::onDestroy() {
     glDeleteTextures(1,&inputTextureHandles);
 }
 
-void MagicInkwellFilter::onDrawArraysPre() {
+void MagicNashvilleFilter::onDrawArraysPre() {
     if (inputTextureHandles != 0) {
         glActiveTexture(static_cast<GLenum>(GL_TEXTURE3));
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles);
@@ -40,7 +40,7 @@ void MagicInkwellFilter::onDrawArraysPre() {
     }
 }
 
-void MagicInkwellFilter::onDrawArraysAfter() {
+void MagicNashvilleFilter::onDrawArraysAfter() {
     if (inputTextureHandles != 0) {
         glActiveTexture(static_cast<GLenum>(GL_TEXTURE3));
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles);
@@ -49,14 +49,14 @@ void MagicInkwellFilter::onDrawArraysAfter() {
 }
 
 
-void MagicInkwellFilter::onInit() {
+void MagicNashvilleFilter::onInit() {
     GPUImageFilter::onInit();
     inputTextureUniformLocations = glGetUniformLocation(mGLProgId,"inputImageTexture2");
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 
-void MagicInkwellFilter::onInitialized() {
+void MagicNashvilleFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     glUniform1f(mGLStrengthLocation, 1.0f);
-    inputTextureHandles = loadTextureFromAssets(mAssetManager,"hudsonbackground.png");
+    inputTextureHandles = loadTextureFromAssets(mAssetManager,"nashvillemap.png");
 }

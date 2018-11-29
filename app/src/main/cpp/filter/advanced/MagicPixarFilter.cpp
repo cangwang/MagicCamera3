@@ -1,7 +1,7 @@
-#include "MagicInkwellFilter.h"
+#include "MagicPixarFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicInkwellFilter"
+#define LOG_TAG "MagicPixarFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -15,24 +15,24 @@
  * cool滤镜
  */
 
-MagicInkwellFilter::MagicInkwellFilter(){
+MagicPixarFilter::MagicPixarFilter(){
 
 }
 
-MagicInkwellFilter::MagicInkwellFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"inkwell.glsl")),inputTextureHandles(0){
+MagicPixarFilter::MagicPixarFilter(AAssetManager *assetManager)
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"pixar.glsl")){
 
 }
 
-MagicInkwellFilter::~MagicInkwellFilter() {
+MagicPixarFilter::~MagicPixarFilter() {
 
 }
 
-void MagicInkwellFilter::onDestroy() {
+void MagicPixarFilter::onDestroy() {
     glDeleteTextures(1,&inputTextureHandles);
 }
 
-void MagicInkwellFilter::onDrawArraysPre() {
+void MagicPixarFilter::onDrawArraysPre() {
     if (inputTextureHandles != 0) {
         glActiveTexture(static_cast<GLenum>(GL_TEXTURE3));
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles);
@@ -40,7 +40,7 @@ void MagicInkwellFilter::onDrawArraysPre() {
     }
 }
 
-void MagicInkwellFilter::onDrawArraysAfter() {
+void MagicPixarFilter::onDrawArraysAfter() {
     if (inputTextureHandles != 0) {
         glActiveTexture(static_cast<GLenum>(GL_TEXTURE3));
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles);
@@ -49,14 +49,14 @@ void MagicInkwellFilter::onDrawArraysAfter() {
 }
 
 
-void MagicInkwellFilter::onInit() {
+void MagicPixarFilter::onInit() {
     GPUImageFilter::onInit();
     inputTextureUniformLocations = glGetUniformLocation(mGLProgId,"inputImageTexture2");
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 
-void MagicInkwellFilter::onInitialized() {
+void MagicPixarFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     glUniform1f(mGLStrengthLocation, 1.0f);
-    inputTextureHandles = loadTextureFromAssets(mAssetManager,"hudsonbackground.png");
+    inputTextureHandles = loadTextureFromAssets(mAssetManager,"pixar_curves.png");
 }
