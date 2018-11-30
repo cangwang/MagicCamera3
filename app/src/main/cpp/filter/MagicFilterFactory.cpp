@@ -46,7 +46,8 @@ GPUImageFilter* initFilters(MagicFilterType type,AAssetManager* assetManager){
     }
 }
 
-int* getFilterTypes(){
+int* getFilterTypes(int &len){
     static int types[]={NONE,AMARO,ANTIQUE,BRANNAN,BROOKLYN,CALM,COOL};
+    len = sizeof(types)/ sizeof(types[0]);
     return types;
 }

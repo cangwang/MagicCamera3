@@ -59,7 +59,7 @@ enum MagicFilterType{
     IMAGE_ADJUST
 };
 
-int* getFilterTypes();
+int* getFilterTypes(int &len);
 
 //MagicFilterType filterType = NONE;
 

@@ -32,7 +32,7 @@ class FilterAdapter(private val context: Context, private val filters: IntArray)
     }
 
     override fun onBindViewHolder(holder: FilterHolder, position: Int) {
-        holder.thumbImage.setImageResource(FilterTypeHelper.FilterType2Thumb(filters!![position]))
+        holder.thumbImage.setImageResource(FilterTypeHelper.FilterType2Thumb(filters[position]))
         holder.filterName.setText(FilterTypeHelper.FilterType2Name(filters[position]))
         holder.filterName.setBackgroundColor(context.resources.getColor(
                 FilterTypeHelper.FilterType2Color(filters[position])))
@@ -58,7 +58,7 @@ class FilterAdapter(private val context: Context, private val filters: IntArray)
     }
 
     override fun getItemCount(): Int {
-        return filters?.size ?: 0
+        return filters.size
     }
 
     inner class FilterHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -155,10 +155,10 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobjec
 
 JNIEXPORT jintArray JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_getFilterTypes(JNIEnv *env, jobject obj) {
-    int* types = getFilterTypes();
-    int len = sizeof(types) / sizeof(types[0]);
+    int len =0;
+    jint* types = getFilterTypes(len);
     jintArray jin_arr=(env)->NewIntArray(len);
-    (env)->ReleaseIntArrayElements(jin_arr,types,0);
+    (env)->SetIntArrayRegion(jin_arr,0,len,types);
     return jin_arr;
 }
 

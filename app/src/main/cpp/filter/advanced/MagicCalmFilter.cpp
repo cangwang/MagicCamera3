@@ -1,7 +1,7 @@
 #include "MagicCalmFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicCoolFilter"
+#define LOG_TAG "MagicCalmFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -40,6 +40,10 @@ void MagicCalmFilter::onDrawArraysPre() {
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
         glUniform1i(mToneCurveTextureUniformLocation,3);
+//        GLuint error= glGetError();
+//        if (error !=GL_NO_ERROR){
+//            ALOGE("mToneCurveTextureUniformLocation error");
+//        }
     }
 
     if(this->mMaskGery1TextureId !=0){
@@ -47,10 +51,10 @@ void MagicCalmFilter::onDrawArraysPre() {
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D,mMaskGery1TextureId);
         glUniform1i(mMaskGery1UniformLocation,4);
-        GLuint error= glGetError();
-        if (error !=GL_NO_ERROR){
-            ALOGE("mMaskGery1UniformLocation error");
-        }
+//        GLuint error= glGetError();
+//        if (error !=GL_NO_ERROR){
+//            ALOGE("mMaskGery1UniformLocation error");
+//        }
     }
 
     if(this->mMaskGery2TextureId !=0){
@@ -58,10 +62,10 @@ void MagicCalmFilter::onDrawArraysPre() {
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D,mMaskGery2TextureId);
         glUniform1i(mMaskGery2UniformLocation,5);
-        GLuint error= glGetError();
-        if (error !=GL_NO_ERROR){
-            ALOGE("mMaskGery2UniformLocation error");
-        }
+//        GLuint error= glGetError();
+//        if (error !=GL_NO_ERROR){
+//            ALOGE("mMaskGery2UniformLocation error");
+//        }
     }
 }
 
