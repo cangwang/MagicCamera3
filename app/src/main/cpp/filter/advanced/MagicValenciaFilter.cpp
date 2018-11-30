@@ -1,7 +1,7 @@
-#include "MagicRiseFilter.h"
+#include "MagicValenciaFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicRiseFilter"
+#define LOG_TAG "MagicValenciaFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -15,25 +15,25 @@
  * cool滤镜
  */
 
-MagicRiseFilter::MagicRiseFilter(){
+MagicValenciaFilter::MagicValenciaFilter(){
 
 }
 
-MagicRiseFilter::MagicRiseFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"rise.glsl")){
+MagicValenciaFilter::MagicValenciaFilter(AAssetManager *assetManager)
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"valencia.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 
-MagicRiseFilter::~MagicRiseFilter() {
+MagicValenciaFilter::~MagicValenciaFilter() {
 
 }
 
-void MagicRiseFilter::onDestroy() {
+void MagicValenciaFilter::onDestroy() {
     glDeleteTextures(len,inputTextureHandles);
     *inputTextureHandles={0};
 }
 
-void MagicRiseFilter::onDrawArraysPre() {
+void MagicValenciaFilter::onDrawArraysPre() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -43,7 +43,7 @@ void MagicRiseFilter::onDrawArraysPre() {
     }
 }
 
-void MagicRiseFilter::onDrawArraysAfter() {
+void MagicValenciaFilter::onDrawArraysAfter() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -54,19 +54,17 @@ void MagicRiseFilter::onDrawArraysAfter() {
 }
 
 
-void MagicRiseFilter::onInit() {
+void MagicValenciaFilter::onInit() {
     GPUImageFilter::onInit();
-
     for (int i = 0; i < len; ++i) {
         inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,"inputImageTexture"+(2+i));
     }
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 
-void MagicRiseFilter::onInitialized() {
+void MagicValenciaFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     glUniform1f(mGLStrengthLocation, 1.0f);
-    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"blackboard1024.png");
-    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"overlaymap.png");
-    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"risemap.png");
+    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"valenciamap.png");
+    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"valenciagradientmap.png");
 }

@@ -6,12 +6,12 @@
 #include <GLES3/gl3.h>
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
-class MagicRiseFilter: public GPUImageFilter{
+class MagicWhiteCatFilter: public GPUImageFilter{
 
 public:
-    MagicRiseFilter();
-    MagicRiseFilter(AAssetManager *assetManager);
-    ~MagicRiseFilter();
+    MagicWhiteCatFilter();
+    MagicWhiteCatFilter(AAssetManager *assetManager);
+    ~MagicWhiteCatFilter();
     void onDestroy() override ;
 
 protected:
@@ -21,8 +21,6 @@ protected:
     void onDrawArraysAfter() override;
 
 private:
-    GLuint inputTextureHandles[3]={0};
-    GLint inputTextureUniformLocations[3]={0};
-    int len;
-    int mGLStrengthLocation;
+    GLuint mToneCurveTexture;
+    GLint mToneCurveTextureUniformLocation;
 };

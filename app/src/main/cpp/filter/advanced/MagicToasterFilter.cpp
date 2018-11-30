@@ -1,7 +1,7 @@
-#include "MagicRiseFilter.h"
+#include "MagicToasterFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicRiseFilter"
+#define LOG_TAG "MagicToasterFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -15,25 +15,25 @@
  * cool滤镜
  */
 
-MagicRiseFilter::MagicRiseFilter(){
+MagicToasterFilter::MagicToasterFilter(){
 
 }
 
-MagicRiseFilter::MagicRiseFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"rise.glsl")){
+MagicToasterFilter::MagicToasterFilter(AAssetManager *assetManager)
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"toaster2_filter_shader.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 
-MagicRiseFilter::~MagicRiseFilter() {
+MagicToasterFilter::~MagicToasterFilter() {
 
 }
 
-void MagicRiseFilter::onDestroy() {
+void MagicToasterFilter::onDestroy() {
     glDeleteTextures(len,inputTextureHandles);
     *inputTextureHandles={0};
 }
 
-void MagicRiseFilter::onDrawArraysPre() {
+void MagicToasterFilter::onDrawArraysPre() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -43,7 +43,7 @@ void MagicRiseFilter::onDrawArraysPre() {
     }
 }
 
-void MagicRiseFilter::onDrawArraysAfter() {
+void MagicToasterFilter::onDrawArraysAfter() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -54,19 +54,21 @@ void MagicRiseFilter::onDrawArraysAfter() {
 }
 
 
-void MagicRiseFilter::onInit() {
+void MagicToasterFilter::onInit() {
     GPUImageFilter::onInit();
-
     for (int i = 0; i < len; ++i) {
         inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,"inputImageTexture"+(2+i));
     }
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 
-void MagicRiseFilter::onInitialized() {
+void MagicToasterFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     glUniform1f(mGLStrengthLocation, 1.0f);
-    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"blackboard1024.png");
-    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"overlaymap.png");
-    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"risemap.png");
+    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"toastermetal.png");
+    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"toastersoftlight.png");
+    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"toastercurves.png");
+    inputTextureHandles[3] = loadTextureFromAssets(mAssetManager,"toasteroverlaymapwarm.png");
+    inputTextureHandles[4] = loadTextureFromAssets(mAssetManager,"toastercolorshift.png");
+
 }

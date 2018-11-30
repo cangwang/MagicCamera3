@@ -6,12 +6,12 @@
 #include <GLES3/gl3.h>
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
-class MagicRiseFilter: public GPUImageFilter{
+class MagicToasterFilter: public GPUImageFilter{
 
 public:
-    MagicRiseFilter();
-    MagicRiseFilter(AAssetManager *assetManager);
-    ~MagicRiseFilter();
+    MagicToasterFilter();
+    MagicToasterFilter(AAssetManager *assetManager);
+    ~MagicToasterFilter();
     void onDestroy() override ;
 
 protected:
@@ -21,8 +21,8 @@ protected:
     void onDrawArraysAfter() override;
 
 private:
-    GLuint inputTextureHandles[3]={0};
-    GLint inputTextureUniformLocations[3]={0};
+    GLuint inputTextureHandles[5]={0};
+    GLint inputTextureUniformLocations[5]={0};
     int len;
     int mGLStrengthLocation;
 };
