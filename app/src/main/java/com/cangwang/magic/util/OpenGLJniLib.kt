@@ -51,4 +51,13 @@ object OpenGLJniLib{
 
     external fun magicFilterRelease()
 
+    /**
+     * 获取滤镜列表
+     */
+    external fun getFilterTypes():IntArray
+
+    /**
+     * 设置滤镜类型
+     */
+    external fun setFilterType(type:Int)
 }

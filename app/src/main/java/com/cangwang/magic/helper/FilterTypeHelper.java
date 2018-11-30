@@ -5,7 +5,9 @@ import com.cangwang.magic.R;
 
 public class FilterTypeHelper {
 	
-	public static int FilterType2Color(MagicFilterType filterType){
+	public static int FilterType2Color(int type){
+
+		MagicFilterType filterType = MagicFilterType.values()[type];
 		switch (filterType) {
 			case NONE:
 				return R.color.filter_color_grey_light;
@@ -63,7 +65,8 @@ public class FilterTypeHelper {
 		}
 	}
 	
-	public static int FilterType2Thumb(MagicFilterType filterType){
+	public static int FilterType2Thumb(int type){
+		MagicFilterType filterType = MagicFilterType.values()[type];
 		switch (filterType) {
 		case NONE:
 			return R.drawable.filter_thumb_original;
@@ -154,7 +157,8 @@ public class FilterTypeHelper {
 		}
 	}
 	
-	public static int FilterType2Name(MagicFilterType filterType){
+	public static int FilterType2Name(int type){
+		MagicFilterType filterType = MagicFilterType.values()[type];
 		switch (filterType) {
 		case NONE:
 			return R.string.filter_none;

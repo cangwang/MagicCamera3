@@ -10,6 +10,7 @@
 #include <GLES3/gl3.h>
 #include "src/main/cpp/camera/CameraEngine.h"
 #include "src/main/cpp/camera/CameraFilter.h"
+#include "src/main/cpp/filter/MagicFilterFactory.h"
 
 
 #define LOG_TAG "magicjni"
@@ -150,6 +151,20 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobjec
         delete glCameraFilter;
         glCameraFilter = nullptr;
     }
+}
+
+JNIEXPORT jintArray JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_getFilterTypes(JNIEnv *env, jobject obj) {
+    int* types = getFilterTypes();
+    int len = sizeof(types) / sizeof(types[0]);
+    jintArray jin_arr=(env)->NewIntArray(len);
+    (env)->ReleaseIntArrayElements(jin_arr,types,0);
+    return jin_arr;
+}
+
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_setFilterType(JNIEnv *env, jobject obj,jint type) {
+//    initFilters((int)type);
 }
 
 }

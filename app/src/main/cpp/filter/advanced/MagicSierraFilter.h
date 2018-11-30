@@ -6,12 +6,12 @@
 #include <GLES3/gl3.h>
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
-class MagicAmaroFilter: public GPUImageFilter{
+class MagicSierraFilter: public GPUImageFilter{
 
 public:
-    MagicAmaroFilter();
-    MagicAmaroFilter(AAssetManager *assetManager);
-    ~MagicAmaroFilter();
+    MagicSierraFilter();
+    MagicSierraFilter(AAssetManager *assetManager);
+    ~MagicSierraFilter();
     void onDestroy() override ;
 
 protected:

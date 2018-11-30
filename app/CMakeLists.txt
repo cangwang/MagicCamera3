@@ -67,8 +67,25 @@ add_library( # Sets the name of the library.
         src/main/cpp/filter/advanced/MagicNostalgiaFilter.cpp
         src/main/cpp/filter/advanced/MagicPixarFilter.cpp
         src/main/cpp/filter/advanced/MagicRiseFilter.cpp
+        src/main/cpp/filter/advanced/MagicRomanceFilter.cpp
+        src/main/cpp/filter/advanced/MagicSakuraFilter.cpp
+        src/main/cpp/filter/advanced/MagicSierraFilter.cpp
+        src/main/cpp/filter/advanced/MagicSketchFilter.cpp
+        src/main/cpp/filter/advanced/MagicSkinWhiteFilter.cpp
+        src/main/cpp/filter/advanced/MagicSunriseFilter.cpp
+        src/main/cpp/filter/advanced/MagicSunsetFilter.cpp
+        src/main/cpp/filter/advanced/MagicSutroFilter.cpp
+        src/main/cpp/filter/advanced/MagicSweetsFilter.cpp
+        src/main/cpp/filter/advanced/MagicTenderFilter.cpp
+        src/main/cpp/filter/advanced/MagicToasterFilter.cpp
+        src/main/cpp/filter/advanced/MagicValenciaFilter.cpp
+        src/main/cpp/filter/advanced/MagicWaldenFilter.cpp
+        src/main/cpp/filter/advanced/MagicWarmFilter.cpp
+        src/main/cpp/filter/advanced/MagicWhiteCatFilter.cpp
+        src/main/cpp/filter/advanced/MagicXproIIFilter.cpp
         src/main/cpp/filter/gpuimage/GpuImageFilter.cpp
-        src/main/cpp/filter/gpuimage/CameraInputFilter.cpp)
+        src/main/cpp/filter/gpuimage/CameraInputFilter.cpp
+        src/main/cpp/filter/MagicFilterFactory.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

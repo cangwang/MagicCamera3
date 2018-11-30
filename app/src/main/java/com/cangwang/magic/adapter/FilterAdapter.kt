@@ -16,11 +16,11 @@ import com.cangwang.magic.helper.MagicFilterType
 /**
  * Created by why8222 on 2016/3/17.
  */
-class FilterAdapter(private val context: Context, private val filters: Array<MagicFilterType>?) : RecyclerView.Adapter<FilterAdapter.FilterHolder>() {
+class FilterAdapter(private val context: Context, private val filters: IntArray) : RecyclerView.Adapter<FilterAdapter.FilterHolder>() {
     private var selected = 0
 
     interface onFilterChangeListener {
-        fun onFilterChanged(filterType: MagicFilterType)
+        fun onFilterChanged(filterType: Int)
     }
 
     var filterListener: onFilterChangeListener? = null

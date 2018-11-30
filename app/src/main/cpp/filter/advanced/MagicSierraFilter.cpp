@@ -1,7 +1,7 @@
-#include "MagicAmaroFilter.h"
+#include "MagicSierraFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicAmaroFilter"
+#define LOG_TAG "MagicSierraFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -15,25 +15,25 @@
  * cool滤镜
  */
 
-MagicAmaroFilter::MagicAmaroFilter(){
+MagicSierraFilter::MagicSierraFilter(){
 
 }
 
-MagicAmaroFilter::MagicAmaroFilter(AAssetManager *assetManager)
+MagicSierraFilter::MagicSierraFilter(AAssetManager *assetManager)
     : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"rise.sierra")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 
-MagicAmaroFilter::~MagicAmaroFilter() {
+MagicSierraFilter::~MagicSierraFilter() {
 
 }
 
-void MagicAmaroFilter::onDestroy() {
+void MagicSierraFilter::onDestroy() {
     glDeleteTextures(len,inputTextureHandles);
     *inputTextureHandles={0};
 }
 
-void MagicAmaroFilter::onDrawArraysPre() {
+void MagicSierraFilter::onDrawArraysPre() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -43,7 +43,7 @@ void MagicAmaroFilter::onDrawArraysPre() {
     }
 }
 
-void MagicAmaroFilter::onDrawArraysAfter() {
+void MagicSierraFilter::onDrawArraysAfter() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -54,7 +54,7 @@ void MagicAmaroFilter::onDrawArraysAfter() {
 }
 
 
-void MagicAmaroFilter::onInit() {
+void MagicSierraFilter::onInit() {
     GPUImageFilter::onInit();
 
     for (int i = 0; i < len; ++i) {
@@ -63,7 +63,7 @@ void MagicAmaroFilter::onInit() {
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 
-void MagicAmaroFilter::onInitialized() {
+void MagicSierraFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     glUniform1f(mGLStrengthLocation, 1.0f);
     inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"sierravignette.png");

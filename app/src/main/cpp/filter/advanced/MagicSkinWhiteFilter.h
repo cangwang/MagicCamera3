@@ -6,12 +6,12 @@
 #include <GLES3/gl3.h>
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
-class MagicSakuraFilter: public GPUImageFilter{
+class MagicSkinWhiteFilter: public GPUImageFilter{
 
 public:
-    MagicSakuraFilter();
-    MagicSakuraFilter(AAssetManager *assetManager);
-    ~MagicSakuraFilter();
+    MagicSkinWhiteFilter();
+    MagicSkinWhiteFilter(AAssetManager *assetManager);
+    ~MagicSkinWhiteFilter();
     virtual void onInputSizeChanged(const int width, const int height);
     void onDestroy() override ;
 

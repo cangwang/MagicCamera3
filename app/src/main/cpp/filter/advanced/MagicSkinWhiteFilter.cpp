@@ -1,7 +1,7 @@
-#include "MagicSakuraFilter.h"
+#include "MagicSkinWhiteFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicSakuraFilter"
+#define LOG_TAG "MagicSkinWhiteFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -12,24 +12,24 @@
 /**
  * cool滤镜
  */
-MagicSakuraFilter::MagicSakuraFilter(){
+MagicSkinWhiteFilter::MagicSkinWhiteFilter(){
 
 }
 
-MagicSakuraFilter::MagicSakuraFilter(AAssetManager *assetManager)
+MagicSkinWhiteFilter::MagicSkinWhiteFilter(AAssetManager *assetManager)
     : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"skinwhiten.glsl")),mToneCurveTexture(0){
 
 }
 
-MagicSakuraFilter::~MagicSakuraFilter() {
+MagicSkinWhiteFilter::~MagicSkinWhiteFilter() {
 
 }
 
-void MagicSakuraFilter::onDestroy() {
+void MagicSkinWhiteFilter::onDestroy() {
     glDeleteTextures(1,&mToneCurveTexture);
 }
 
-void MagicSakuraFilter::onDrawArraysPre() {
+void MagicSkinWhiteFilter::onDrawArraysPre() {
     if(this->mToneCurveTexture !=0){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
@@ -37,7 +37,7 @@ void MagicSakuraFilter::onDrawArraysPre() {
     }
 }
 
-void MagicSakuraFilter::onDrawArraysAfter() {
+void MagicSkinWhiteFilter::onDrawArraysAfter() {
     if (this->mToneCurveTexture != 0){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
@@ -46,14 +46,14 @@ void MagicSakuraFilter::onDrawArraysAfter() {
 }
 
 
-void MagicSakuraFilter::onInit() {
+void MagicSkinWhiteFilter::onInit() {
     GPUImageFilter::onInit();
     mToneCurveTextureUniformLocation = glGetUniformLocation(mGLProgId,"curve");
     mTexelWidthUniformLocation = glGetUniformLocation(mGLProgId, "texelWidthOffset");
     mTexelHeightUniformLocation = glGetUniformLocation(mGLProgId, "texelHeightOffset");
 }
 
-void MagicSakuraFilter::onInitialized() {
+void MagicSkinWhiteFilter::onInitialized() {
     GPUImageFilter::onInitialized();
 
     glGenTextures(1,&mToneCurveTexture);
@@ -76,7 +76,7 @@ void MagicSakuraFilter::onInitialized() {
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,256,1,0,GL_RGBA,GL_UNSIGNED_BYTE,arrayOfByte);
 }
 
-void MagicSakuraFilter::onInputSizeChanged(const int width, const int height) {
+void MagicSkinWhiteFilter::onInputSizeChanged(const int width, const int height) {
     glUniform1f(mTexelWidthUniformLocation,1.0f/width);
     glUniform1f(mTexelHeightUniformLocation,1.0f/height);
 }
