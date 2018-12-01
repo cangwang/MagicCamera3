@@ -58,6 +58,7 @@ add_library( # Sets the name of the library.
         src/main/cpp/filter/advanced/MagicFreudFilter.cpp
         src/main/cpp/filter/advanced/MagicHefeFilter.cpp
         src/main/cpp/filter/advanced/MagicHealthyFilter.cpp
+        src/main/cpp/filter/advanced/MagicHudsonFilter.cpp
         src/main/cpp/filter/advanced/MagicInkwellFilter.cpp
         src/main/cpp/filter/advanced/MagicKevinFilter.cpp
         src/main/cpp/filter/advanced/MagicLomoFilter.cpp
