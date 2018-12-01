@@ -25,6 +25,10 @@
 #define ALOGV(...)
 #endif
 
+/**
+ * cangwang 2018.12.1
+ */
+
 GPUImageFilter* initFilters(MagicFilterType type,AAssetManager* assetManager){
     switch (type){
         case AMARO:

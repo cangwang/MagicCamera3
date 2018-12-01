@@ -4,6 +4,9 @@
 #ifndef _EGLCore
 #define _EGLCore
 
+/**
+ * cangwang 2018.12.1
+ */
 class EGLCore{
 public:
     EGLCore();

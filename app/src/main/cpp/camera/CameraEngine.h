@@ -9,6 +9,9 @@
 #include "EGLCore.h"
 #include "GLBase.h"
 
+/**
+ * cangwang 2018.12.1
+ */
 class CameraEngine:public GLBase{
 public:
     CameraEngine(ANativeWindow *window);

@@ -6,6 +6,9 @@
 #include <GLES3/gl3.h>
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
+/**
+ * cangwang 2018.12.1
+ */
 class MagicSierraFilter: public GPUImageFilter{
 
 public:

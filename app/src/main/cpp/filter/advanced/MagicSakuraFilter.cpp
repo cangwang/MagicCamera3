@@ -10,7 +10,7 @@
 #endif
 
 /**
- * cool滤镜
+ * cangwang 2018.12.1
  */
 MagicSakuraFilter::MagicSakuraFilter(){
 

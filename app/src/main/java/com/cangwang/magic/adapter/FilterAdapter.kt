@@ -62,10 +62,18 @@ class FilterAdapter(private val context: Context, private val filters: IntArray)
     }
 
     inner class FilterHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var thumbImage: ImageView = itemView.findViewById(R.id.filter_thumb_image)
-        var filterName: TextView = itemView.findViewById(R.id.filter_thumb_name)
-        var thumbSelected: FrameLayout = itemView.findViewById(R.id.filter_root)
-        var filterRoot: FrameLayout = itemView.findViewById(R.id.filter_thumb_selected)
-        var thumbSelected_bg: View = itemView.findViewById(R.id.filter_thumb_selected_bg)
+        var thumbImage: ImageView
+        var filterName: TextView
+        var thumbSelected: FrameLayout
+        var filterRoot: FrameLayout
+        var thumbSelected_bg: View
+
+        init {
+            thumbImage = itemView.findViewById(R.id.filter_thumb_image)
+            filterName = itemView.findViewById(R.id.filter_thumb_name)
+            thumbSelected = itemView.findViewById(R.id.filter_thumb_selected)
+            filterRoot = itemView.findViewById(R.id.filter_root)
+            thumbSelected_bg = itemView.findViewById(R.id.filter_thumb_selected_bg)
+        }
     }
 }

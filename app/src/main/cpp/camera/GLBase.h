@@ -8,6 +8,9 @@
 #ifndef _GLBase
 #define _GLBase
 
+/**
+ * cangwang 2018.12.1
+ */
 class GLBase{
 public:
     GLBase():mProgram(0),mWidth(0),mHeight(0){

@@ -11,6 +11,9 @@
 #include <src/main/cpp/filter/gpuimage/CameraInputFilter.h>
 #include <android/native_window.h>
 
+/**
+ * cangwang 2018.12.1
+ */
 class CameraFilter:public GLBase{
 public:
     CameraFilter(ANativeWindow *window);

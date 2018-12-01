@@ -12,9 +12,8 @@
 #define GET_ARRAY_LEN(array,len){len = (sizeof(array) / sizeof(array[0]));}
 
 /**
- * cool滤镜
+ * cangwang 2018.12.1
  */
-
 MagicBrooklynFilter::MagicBrooklynFilter(){
 
 }
