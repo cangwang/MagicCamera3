@@ -37,6 +37,7 @@ class CameraFilterActivity:AppCompatActivity(){
     private var mode = MODE_PIC
     private var CAMERA_PERMISSION_REQ = 1
     private var mAdapter: FilterAdapter? = null
+    private var mSurfaceCallback:CameraFilterSurfaceCallback?=null
 
     var mCamera: Camera?=null
     private val ASPECT_RATIO_ARRAY = floatArrayOf(9.0f / 16, 3.0f / 4)
@@ -110,14 +111,20 @@ class CameraFilterActivity:AppCompatActivity(){
 
     override fun onResume() {
         super.onResume()
+
         mCamera = openCamera(glsurfaceview_camera.holder)
-        glsurfaceview_camera.holder.addCallback(CameraFilterSurfaceCallback(mCamera))
+        mSurfaceCallback = CameraFilterSurfaceCallback(mCamera)
+        glsurfaceview_camera.holder.addCallback(mSurfaceCallback)
+
     }
 
     override fun onPause() {
         super.onPause()
+        mSurfaceCallback?.releaseOpenGL()
+        mCamera?.setPreviewCallback(null)
         mCamera?.stopPreview()
         mCamera?.release()
+        mCamera =null
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

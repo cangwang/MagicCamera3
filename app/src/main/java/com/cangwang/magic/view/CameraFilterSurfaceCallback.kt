@@ -20,7 +20,7 @@ class CameraFilterSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
 
     private val TAG= CameraFilterSurfaceCallback::class.java.simpleName!!
     private var mSurfaceTexture:SurfaceTexture?=null
-    private val mCamera=camera
+    private var mCamera=camera
     private val mMatrix = FloatArray(16)
     private var width = 0
     private var height = 0
@@ -80,6 +80,7 @@ class CameraFilterSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
             mSurfaceTexture=null
             OpenGLJniLib.magicFilterRelease()
         }
+        mCamera =null
     }
 
     fun doStartPreview(){
