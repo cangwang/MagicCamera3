@@ -211,7 +211,7 @@ GLuint loadShader(const char *strSource, const int iType) {
 
 GLuint loadProgram(const char *strVSource, const char *strFSource) {
     GLuint iProgId = glCreateProgram();
-    if (iProgId ==0){
+    if (iProgId == 0){
         LOGE("create program failed");
         return 0;
     }

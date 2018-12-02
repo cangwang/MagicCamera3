@@ -8,10 +8,9 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <GLES3/gl3.h>
+#include <src/main/cpp/filter/MagicFilterFactory.h>
 #include "src/main/cpp/camera/CameraEngine.h"
 #include "src/main/cpp/camera/CameraFilter.h"
-#include "src/main/cpp/filter/MagicFilterFactory.h"
-
 
 #define LOG_TAG "magicjni"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -21,6 +20,7 @@ extern "C" {
 std::mutex gMutex;
 CameraEngine *glCamera = nullptr;
 CameraFilter *glCameraFilter = nullptr;
+AAssetManager *aAssetManager = nullptr;
 
 JNIEXPORT jint JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseInit(JNIEnv *env, jobject obj,
@@ -98,8 +98,8 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterCreate(JNIEnv *env, jobject
     }
 
     ANativeWindow *window = ANativeWindow_fromSurface(env,surface);
-    AAssetManager *manager = AAssetManager_fromJava(env,assetManager);
-    glCameraFilter = new CameraFilter(window,manager);
+    aAssetManager= AAssetManager_fromJava(env,assetManager);
+    glCameraFilter = new CameraFilter(window,aAssetManager);
 //    glCameraFilter->setAssetManager(manager);
 //    glCameraFilter->resize(width,height);
 
@@ -164,7 +164,8 @@ Java_com_cangwang_magic_util_OpenGLJniLib_getFilterTypes(JNIEnv *env, jobject ob
 
 JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_setFilterType(JNIEnv *env, jobject obj,jint type) {
-//    initFilters((int)type);
+   if(glCameraFilter!= nullptr)
+       glCameraFilter->setFilter(type);
 }
 
 }

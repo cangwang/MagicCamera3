@@ -18,11 +18,9 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import com.cangwang.magic.adapter.FilterAdapter
-import com.cangwang.magic.helper.MagicFilterType
 import com.cangwang.magic.util.CameraHelper
 import com.cangwang.magic.util.OpenGLJniLib
 import com.cangwang.magic.view.CameraFilterSurfaceCallback
-import com.cangwang.magic.view.CameraSurfaceCallback
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.filter_layout.*
 
@@ -74,7 +72,7 @@ class CameraFilterActivity:AppCompatActivity(){
         mAdapter = FilterAdapter(this, types)
         mAdapter?.filterListener= object:FilterAdapter.onFilterChangeListener{
             override fun onFilterChanged(type: Int) {
-                OpenGLJniLib.setFilterType(type)
+                mSurfaceCallback?.setsetFilterType(type)
             }
         }
         filter_listView.adapter= mAdapter
@@ -111,7 +109,6 @@ class CameraFilterActivity:AppCompatActivity(){
 
     override fun onResume() {
         super.onResume()
-
         mCamera = openCamera(glsurfaceview_camera.holder)
         mSurfaceCallback = CameraFilterSurfaceCallback(mCamera)
         glsurfaceview_camera.holder.addCallback(mSurfaceCallback)

@@ -66,4 +66,4 @@ int* getFilterTypes(int &len);
 
 //MagicFilterType filterType = NONE;
 
-GPUImageFilter* initFilters(MagicFilterType type,AAssetManager* assetManager);
+GPUImageFilter* initFilters(int type,AAssetManager* assetManager);

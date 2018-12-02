@@ -9,6 +9,7 @@
 #include <src/main/cpp/filter/advanced/MagicAmaroFilter.h>
 #include <src/main/cpp/filter/advanced/MagicCalmFilter.h>
 #include <src/main/cpp/filter/gpuimage/CameraInputFilter.h>
+#include <src/main/cpp/filter/MagicFilterFactory.h>
 
 
 #define LOG_TAG "CameraFilter"
@@ -58,6 +59,10 @@ CameraFilter::CameraFilter(ANativeWindow *window,AAssetManager* assetManager): m
     mMatrix[5] = 1;
     mMatrix[10] = 1;
     mMatrix[15] = 1;
+
+    if (cameraInputFilter == nullptr){
+        cameraInputFilter = new CameraInputFilter(assetManager);
+    }
     setFilter(assetManager);
 }
 
@@ -88,19 +93,20 @@ CameraFilter::~CameraFilter() {
 }
 
 void CameraFilter::setFilter(AAssetManager* assetManager) {
-    if (cameraInputFilter == nullptr){
-        cameraInputFilter = new CameraInputFilter(assetManager);
-    }
+//    if (cameraInputFilter == nullptr){
+//        cameraInputFilter = new CameraInputFilter(assetManager);
+//    }
     if(filter != nullptr){
         filter->destroy();
     }
 //    filter = new MagicAmaroFilter(assetManager);
-    filter = new MagicCalmFilter(assetManager);
+    filter = new GPUImageFilter(assetManager);
     ALOGD("set filter success");
 }
 
-void CameraFilter::setFilter(std::string filterName) {
-
+void CameraFilter::setFilter(int type) {
+    GPUImageFilter* filter = initFilters(type,mAssetManager);
+    setFilter(filter);
 }
 
 int CameraFilter::create() {
@@ -165,7 +171,13 @@ void CameraFilter::stop() {
 
 }
 
-void CameraFilter::setAssetManager(AAssetManager *assetManager) {
-    mAssetManager = assetManager;
-    setFilter(mAssetManager);
+void CameraFilter::setFilter(GPUImageFilter* gpuImageFilter) {
+    if(filter != nullptr){
+        filter->destroy();
+        filter= nullptr;
+    }
+    filter = gpuImageFilter;
+    ALOGD("set filter success");
+    if (filter!= nullptr)
+        filter->init();
 }

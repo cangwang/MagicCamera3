@@ -19,13 +19,13 @@ public:
     CameraFilter(ANativeWindow *window);
     CameraFilter(ANativeWindow *window,AAssetManager *assetManager);
     ~CameraFilter();
-    void setAssetManager(AAssetManager *assetManager);
+    void setFilter(GPUImageFilter* gpuImageFilter);
     int create();
     void draw(GLfloat *matrix);
     void change(int width,int height);
     void stop();
     void setFilter(AAssetManager* assetManager);
-    void setFilter(std::string filterName);
+    void setFilter(int type);
 
 protected:
 

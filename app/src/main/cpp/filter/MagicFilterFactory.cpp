@@ -53,7 +53,7 @@
  * cangwang 2018.12.1
  */
 
-GPUImageFilter* initFilters(MagicFilterType type,AAssetManager* assetManager){
+GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
     switch (type){
         case AMARO:
             return new MagicAmaroFilter(assetManager);
@@ -97,6 +97,8 @@ GPUImageFilter* initFilters(MagicFilterType type,AAssetManager* assetManager){
             return new MagicN1977Filter(assetManager);
         case NASHVILLE:
             return new MagicNashvilleFilter(assetManager);
+        case NONE:
+            return new GPUImageFilter(assetManager);
         case PIXAR:
             return new MagicPixarFilter(assetManager);
         case RISE:
@@ -134,7 +136,7 @@ GPUImageFilter* initFilters(MagicFilterType type,AAssetManager* assetManager){
         case XPROII:
             return new MagicXproIIFilter(assetManager);
         default:
-            return nullptr;
+            return new GPUImageFilter(assetManager);
     }
 }
 
