@@ -21,6 +21,7 @@
 #include "src/main/cpp/filter/advanced/MagicN1977Filter.h"
 #include "src/main/cpp/filter/advanced/MagicNashvilleFilter.h"
 #include "src/main/cpp/filter/advanced/MagicNostalgiaFilter.h"
+#include <src/main/cpp/filter/advanced/MagicNoneFilter.h>
 #include "src/main/cpp/filter/advanced/MagicPixarFilter.h"
 #include "src/main/cpp/filter/advanced/MagicRiseFilter.h"
 #include "src/main/cpp/filter/advanced/MagicRomanceFilter.h"
@@ -98,7 +99,7 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
         case NASHVILLE:
             return new MagicNashvilleFilter(assetManager);
         case NONE:
-            return new GPUImageFilter(assetManager);
+            return new MagicNoneFilter(assetManager);
         case PIXAR:
             return new MagicPixarFilter(assetManager);
         case RISE:
@@ -136,7 +137,7 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
         case XPROII:
             return new MagicXproIIFilter(assetManager);
         default:
-            return new GPUImageFilter(assetManager);
+            return new MagicNoneFilter(assetManager);
     }
 }
 

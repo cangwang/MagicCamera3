@@ -8,6 +8,7 @@
 #include <src/main/cpp/filter/advanced/MagicCoolFilter.h>
 #include <src/main/cpp/filter/advanced/MagicAmaroFilter.h>
 #include <src/main/cpp/filter/advanced/MagicCalmFilter.h>
+#include <src/main/cpp/filter/advanced/MagicNoneFilter.h>
 #include <src/main/cpp/filter/gpuimage/CameraInputFilter.h>
 #include <src/main/cpp/filter/MagicFilterFactory.h>
 
@@ -100,7 +101,7 @@ void CameraFilter::setFilter(AAssetManager* assetManager) {
         filter->destroy();
     }
 //    filter = new MagicAmaroFilter(assetManager);
-    filter = new GPUImageFilter(assetManager);
+    filter = new MagicNoneFilter(assetManager);
     ALOGD("set filter success");
 }
 

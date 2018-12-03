@@ -66,6 +66,7 @@ add_library( # Sets the name of the library.
         src/main/cpp/filter/advanced/MagicN1977Filter.cpp
         src/main/cpp/filter/advanced/MagicNashvilleFilter.cpp
         src/main/cpp/filter/advanced/MagicNostalgiaFilter.cpp
+        src/main/cpp/filter/advanced/MagicNoneFilter.cpp
         src/main/cpp/filter/advanced/MagicPixarFilter.cpp
         src/main/cpp/filter/advanced/MagicRiseFilter.cpp
         src/main/cpp/filter/advanced/MagicRomanceFilter.cpp
