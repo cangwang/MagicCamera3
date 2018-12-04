@@ -41,11 +41,11 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
         //超出的部份会重复纹理坐标的边缘，产生一种边缘被拉伸的效果，s/t相当于x/y轴坐标
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
-        int width,height,n,size;
+        int width=0,height=0,n=0,size=0;
         unsigned char* buff = getAddressFromAssetFilter(manager,fileName,&size);
         //读取图片长宽高数据
         unsigned char* data = stbi_load_from_memory(reinterpret_cast<const stbi_uc *>(buff), size, &width, &height, &n, 0);
-        ALOGV("loadTextureFromAssets,width = %d,height=%d,n=%d",width,height,n);
+        ALOGV("loadTextureFromAssets fileName = %s,width = %d,height=%d,n=%d,size = %d",fileName,width,height,n,size);
         free(buff);
          if(data!=NULL) {
              stbi s;
@@ -61,7 +61,8 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
              //相当于2.0的gluBuild2DMipmaps
              glGenerateMipmap(GL_TEXTURE_2D);
         } else{
-            LOGE("load texture from assets is null,fileName = %s",fileName);
+             LOGE("load texture from assets is null,fileName = %s",fileName);
+             return 0; //代表加载图片失败
         }
         stbi_image_free(data);
         return textureHandler;

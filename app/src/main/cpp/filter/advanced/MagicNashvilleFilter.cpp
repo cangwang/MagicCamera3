@@ -33,7 +33,7 @@ void MagicNashvilleFilter::onDestroy() {
 
 void MagicNashvilleFilter::onDrawArraysPre() {
     if (inputTextureHandles != 0) {
-        glActiveTexture(static_cast<GLenum>(GL_TEXTURE3));
+        glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles);
         glUniform1i(inputTextureUniformLocations,3);
     }
@@ -41,7 +41,7 @@ void MagicNashvilleFilter::onDrawArraysPre() {
 
 void MagicNashvilleFilter::onDrawArraysAfter() {
     if (inputTextureHandles != 0) {
-        glActiveTexture(static_cast<GLenum>(GL_TEXTURE3));
+        glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles);
         glActiveTexture(GL_TEXTURE0);
     }

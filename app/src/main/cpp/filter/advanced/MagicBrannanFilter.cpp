@@ -29,13 +29,13 @@ MagicBrannanFilter::~MagicBrannanFilter() {
 
 void MagicBrannanFilter::onDestroy() {
     glDeleteTextures(len,inputTextureHandles);
-    *inputTextureHandles={0};
+    *inputTextureHandles= {0};
 }
 
 void MagicBrannanFilter::onDrawArraysPre() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
-            glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
+            glActiveTexture(GL_TEXTURE3 + i);
             glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
             glUniform1i(inputTextureUniformLocations[i], i+3);
         }
@@ -45,7 +45,7 @@ void MagicBrannanFilter::onDrawArraysPre() {
 void MagicBrannanFilter::onDrawArraysAfter() {
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
-            glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
+            glActiveTexture(GL_TEXTURE3 + i);
             glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
             glActiveTexture(GL_TEXTURE0);
         }

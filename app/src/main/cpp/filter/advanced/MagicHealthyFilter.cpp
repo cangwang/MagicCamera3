@@ -27,6 +27,7 @@ MagicHealthyFilter::~MagicHealthyFilter() {
 
 void MagicHealthyFilter::onDestroy() {
     glDeleteTextures(1,&mToneCurveTexture);
+    glDeleteTextures(1,&mMaskGery1TextureId);
 }
 
 void MagicHealthyFilter::onDrawArraysPre() {

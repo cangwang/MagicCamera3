@@ -1,7 +1,7 @@
 #version 300 es
  precision mediump float;
  
- varying mediump vec2 textureCoordinate;
+ in mediump vec2 textureCoordinate;
  
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2;  //edgeBurn
