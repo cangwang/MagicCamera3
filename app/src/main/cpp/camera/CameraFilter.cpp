@@ -142,6 +142,7 @@ void CameraFilter::change(int width, int height) {
         cameraInputFilter->onInputSizeChanged(width, height);
         if (filter != nullptr){
             cameraInputFilter->initCameraFrameBuffer(width,height);
+            filter->onInputSizeChanged(width,height);
         } else{
             cameraInputFilter->destroyCameraFrameBuffers();
         }
@@ -181,4 +182,5 @@ void CameraFilter::setFilter(GPUImageFilter* gpuImageFilter) {
     ALOGD("set filter success");
     if (filter!= nullptr)
         filter->init();
+    filter->onInputSizeChanged(cameraInputFilter->mInputWidth,cameraInputFilter->mInputHeight);
 }

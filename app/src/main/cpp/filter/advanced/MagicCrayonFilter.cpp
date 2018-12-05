@@ -3,11 +3,7 @@
 
 #define LOG_TAG "MagicCrayonFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
-#if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
-#else
-#define ALOGV(...)
-#endif
 
 /**
  * cangwang 2018.12.1
@@ -42,7 +38,7 @@ void MagicCrayonFilter::onInit() {
     GPUImageFilter::onInit();
     mSingleStepOffsetLocation = glGetUniformLocation(mGLProgId,"singleStepOffset");
     mStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
-    glUniform1f(mStrengthLocation, 2.0f);
+//    glUniform1f(mStrengthLocation, 2.0f);
 }
 
 void MagicCrayonFilter::onInitialized() {
@@ -55,6 +51,8 @@ void MagicCrayonFilter::onInputSizeChanged(const int width, const int height){
 }
 
 void MagicCrayonFilter::setTexelSize(const float w, const float h){
-    float arrayValue[] = {1.0f/w,1.0f/h};
+    GLfloat arrayValue[] = {1.0f/w,1.0f/h};
     glUniform2fv(mSingleStepOffsetLocation,1,arrayValue);
+    ALOGV("setTexlSize width =%f,height=%f",w,h);
 }
+
