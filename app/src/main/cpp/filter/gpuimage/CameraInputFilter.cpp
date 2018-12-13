@@ -27,7 +27,7 @@ CameraInputFilter::CameraInputFilter(std::string *vertexShader, std::string *fra
          mMatrixLoc(0)
 {
     mGLCubeBuffer = CUBE;
-    mGLTextureBuffer = getRotation(ROTATION_180, false, false);
+    mGLTextureBuffer = getRotation(ROTATION_90, false, false);
 }
 
 CameraInputFilter::~CameraInputFilter() {

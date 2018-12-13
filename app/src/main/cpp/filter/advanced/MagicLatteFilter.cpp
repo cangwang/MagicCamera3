@@ -85,5 +85,5 @@ void MagicLatteFilter::onInitialized() {
         arrayOfByte[(2 + (1024 + j * 4))] = arrayOfInt6[j];
         arrayOfByte[(3 + (1024 + j * 4))] = static_cast<unsigned char>(-1);
     }
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,256,3,0,GL_RGBA,GL_UNSIGNED_BYTE,arrayOfByte);
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,256,2,0,GL_RGBA,GL_UNSIGNED_BYTE,arrayOfByte);
 }
