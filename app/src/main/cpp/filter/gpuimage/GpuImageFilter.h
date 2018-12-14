@@ -35,6 +35,8 @@ public:
 
     }
     AAssetManager* mAssetManager;
+    int mInputWidth;
+    int mInputHeight;
 
 protected:
     virtual void onInit();
@@ -44,8 +46,6 @@ protected:
     GLint mGLAttribPosition;
     GLint mGLUniformTexture;
     GLint mGLAttribTextureCoordinate;
-    int mInputWidth;
-    int mInputHeight;
 
 private:
     std::string* mVertexShader;
