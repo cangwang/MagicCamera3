@@ -40,7 +40,6 @@ add_library( # Sets the name of the library.
         src/main/cpp/utils/OpenglUtils.cpp
         src/main/cpp/utils/Rotation.cpp
         src/main/cpp/utils/TextureRotationUtil.cpp
-        src/main/cpp/utils/stb_image.c
         src/main/cpp/camera/CameraFilter.cpp
         src/main/cpp/camera/CameraEngine.cpp
         src/main/cpp/camera/EGLCore.cpp
