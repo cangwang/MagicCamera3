@@ -19,7 +19,7 @@ MagicNoneFilter::MagicNoneFilter(){
 }
 
 MagicNoneFilter::MagicNoneFilter(AAssetManager *assetManager)
-        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"none.glsl")){
+        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"none.glsl")){
 
 }
 

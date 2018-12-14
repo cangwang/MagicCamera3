@@ -17,7 +17,7 @@ MagicSunriseFilter::MagicSunriseFilter(){
 }
 
 MagicSunriseFilter::MagicSunriseFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"sunrise.glsl")),
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"sunrise.glsl")),
       mToneCurveTexture(0),
       mMaskGery1TextureId(0),
       mMaskGery2TextureId(0),

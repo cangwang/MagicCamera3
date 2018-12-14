@@ -19,7 +19,7 @@ MagicLomoFilter::MagicLomoFilter(){
 }
 
 MagicLomoFilter::MagicLomoFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"lomo.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"lomo.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

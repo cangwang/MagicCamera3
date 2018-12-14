@@ -17,7 +17,7 @@ MagicEmeraldFilter::MagicEmeraldFilter(){
 }
 
 MagicEmeraldFilter::MagicEmeraldFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"emerald.glsl")),mToneCurveTexture(0){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"emerald.glsl")),mToneCurveTexture(0){
 
 }
 

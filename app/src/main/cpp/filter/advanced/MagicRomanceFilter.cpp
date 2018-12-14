@@ -17,7 +17,7 @@ MagicRomanceFilter::MagicRomanceFilter(){
 }
 
 MagicRomanceFilter::MagicRomanceFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"romance.glsl")),mToneCurveTexture(0){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"romance.glsl")),mToneCurveTexture(0){
 
 }
 

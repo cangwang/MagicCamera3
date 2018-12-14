@@ -17,7 +17,7 @@ MagicBlackCatFilter::MagicBlackCatFilter(){
 }
 
 MagicBlackCatFilter::MagicBlackCatFilter(AAssetManager *assetManager)
-        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"blackcat.glsl")),mToneCurveTexture(0){
+        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"blackcat.glsl")),mToneCurveTexture(0){
 
 }
 

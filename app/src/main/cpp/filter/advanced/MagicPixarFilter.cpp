@@ -19,7 +19,7 @@ MagicPixarFilter::MagicPixarFilter(){
 }
 
 MagicPixarFilter::MagicPixarFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"pixar.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"pixar.glsl")){
 
 }
 

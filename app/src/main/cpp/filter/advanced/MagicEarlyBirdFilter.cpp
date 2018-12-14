@@ -19,7 +19,7 @@ MagicEarlyBirdFilter::MagicEarlyBirdFilter(){
 }
 
 MagicEarlyBirdFilter::MagicEarlyBirdFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"brannan.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"brannan.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

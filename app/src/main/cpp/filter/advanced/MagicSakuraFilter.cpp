@@ -17,7 +17,7 @@ MagicSakuraFilter::MagicSakuraFilter(){
 }
 
 MagicSakuraFilter::MagicSakuraFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"sakura.glsl")),mToneCurveTexture(0){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"sakura.glsl")),mToneCurveTexture(0){
 
 }
 

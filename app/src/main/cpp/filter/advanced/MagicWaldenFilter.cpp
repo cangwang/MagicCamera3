@@ -19,7 +19,7 @@ MagicWaldenFilter::MagicWaldenFilter(){
 }
 
 MagicWaldenFilter::MagicWaldenFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"walden.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"walden.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

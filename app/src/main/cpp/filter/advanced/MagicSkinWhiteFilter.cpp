@@ -17,7 +17,7 @@ MagicSkinWhiteFilter::MagicSkinWhiteFilter(){
 }
 
 MagicSkinWhiteFilter::MagicSkinWhiteFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"skinwhiten.glsl")),mToneCurveTexture(0){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"skinwhiten.glsl")),mToneCurveTexture(0){
 
 }
 

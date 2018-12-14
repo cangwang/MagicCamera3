@@ -17,7 +17,7 @@ MagicCoolFilter::MagicCoolFilter(){
 }
 
 MagicCoolFilter::MagicCoolFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"cool.glsl")),mToneCurveTexture(-1){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"cool.glsl")),mToneCurveTexture(-1){
 
 }
 

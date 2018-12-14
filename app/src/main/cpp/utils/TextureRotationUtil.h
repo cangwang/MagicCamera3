@@ -9,10 +9,10 @@
 #define _TextureRotationUtil
 
 static GLfloat CUBE[] = {
-        -1.0f,1.0f,
-        1.0f,1.0f,
         -1.0f,-1.0f,
-        1.0f,-1.0f
+        1.0f,-1.0f,
+        -1.0f,1.0f,
+        1.0f,1.0f
 };
 
 float* getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical);

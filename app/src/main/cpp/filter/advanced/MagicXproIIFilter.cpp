@@ -19,7 +19,7 @@ MagicXproIIFilter::MagicXproIIFilter(){
 }
 
 MagicXproIIFilter::MagicXproIIFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"xproii_filter_shader.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"xproii_filter_shader.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

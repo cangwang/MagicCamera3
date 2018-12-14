@@ -19,7 +19,7 @@ MagicAmaroFilter::MagicAmaroFilter(){
 }
 
 MagicAmaroFilter::MagicAmaroFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"amaro.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"amaro.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

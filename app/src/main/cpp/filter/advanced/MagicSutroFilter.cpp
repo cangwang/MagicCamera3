@@ -19,7 +19,7 @@ MagicSutroFilter::MagicSutroFilter(){
 }
 
 MagicSutroFilter::MagicSutroFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"sutro.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"sutro.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

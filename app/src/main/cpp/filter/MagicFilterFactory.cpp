@@ -137,7 +137,7 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
         case XPROII:
             return new MagicXproIIFilter(assetManager);
         default:
-            return new MagicNoneFilter(assetManager);
+            return new GPUImageFilter(assetManager);
     }
 }
 

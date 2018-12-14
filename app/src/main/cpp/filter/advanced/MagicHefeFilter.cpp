@@ -17,7 +17,6 @@ MagicHefeFilter::MagicHefeFilter(){
 MagicHefeFilter::MagicHefeFilter(AAssetManager *assetManager)
     : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"hefe.glsl")){
 //    GET_ARRAY_LEN(inputTextureHandles,len);
-    mGLTextureBuffer = getRotation(ROTATION_90, true, false);
 }
 
 MagicHefeFilter::~MagicHefeFilter() {
@@ -27,14 +26,14 @@ MagicHefeFilter::~MagicHefeFilter() {
 void MagicHefeFilter::onDestroy() {
 //    glDeleteTextures(len,inputTextureHandles);
 //    *inputTextureHandles={0};
-    glDeleteTextures(1,&inputTextureHandles0);
-    glDeleteTextures(1,&inputTextureHandles1);
-    glDeleteTextures(1,&inputTextureHandles2);
-    glDeleteTextures(1,&inputTextureHandles3);
-    inputTextureHandles0 =0;
-    inputTextureHandles1 =0;
-    inputTextureHandles2 =0;
-    inputTextureHandles3 =0;
+    glDeleteTextures(1,&inputTextureHandles[0]);
+    glDeleteTextures(1,&inputTextureHandles[1]);
+    glDeleteTextures(1,&inputTextureHandles[2]);
+    glDeleteTextures(1,&inputTextureHandles[3]);
+    inputTextureHandles[0] =0;
+    inputTextureHandles[1] =0;
+    inputTextureHandles[2] =0;
+    inputTextureHandles[3] =0;
 }
 
 void MagicHefeFilter::onDrawArraysPre() {
@@ -48,28 +47,28 @@ void MagicHefeFilter::onDrawArraysPre() {
 //        }
 //    }
 
-    if (inputTextureHandles0 != 0) {
+    if (inputTextureHandles[0] != 0) {
         glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles0);
-        glUniform1i(inputTextureUniformLocations0, 3);
+        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[0]);
+        glUniform1i(inputTextureUniformLocations[0], 3);
     }
 
-    if (inputTextureHandles1 != 0) {
+    if (inputTextureHandles[1] != 0) {
         glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles1);
-        glUniform1i(inputTextureUniformLocations1, 4);
+        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[1]);
+        glUniform1i(inputTextureUniformLocations[1], 4);
     }
 
-    if (inputTextureHandles2 != 0) {
+    if (inputTextureHandles[2] != 0) {
         glActiveTexture(GL_TEXTURE5);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles2);
-        glUniform1i(inputTextureUniformLocations2, 5);
+        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[2]);
+        glUniform1i(inputTextureUniformLocations[2], 5);
     }
 
-    if (inputTextureHandles3 != 0) {
+    if (inputTextureHandles[3] != 0) {
         glActiveTexture(GL_TEXTURE6);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles3);
-        glUniform1i(inputTextureUniformLocations3, 6);
+        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[3]);
+        glUniform1i(inputTextureUniformLocations[3], 6);
     }
 }
 
@@ -84,27 +83,27 @@ void MagicHefeFilter::onDrawArraysAfter() {
 //        }
 //    }
 
-    if (inputTextureHandles0 != 0) {
+    if (inputTextureHandles[0] != 0) {
         glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles0);
+        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[0]);
         glActiveTexture(GL_TEXTURE0);
     }
 
-    if (inputTextureHandles1 != 0) {
+    if (inputTextureHandles[1] != 0) {
         glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles1);
+        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[1]);
         glActiveTexture(GL_TEXTURE0);
     }
 
-    if (inputTextureHandles2 != 0) {
+    if (inputTextureHandles[2] != 0) {
         glActiveTexture(GL_TEXTURE5);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles2);
+        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[2]);
         glActiveTexture(GL_TEXTURE0);
     }
 
-    if (inputTextureHandles3 != 0) {
+    if (inputTextureHandles[3] != 0) {
         glActiveTexture(GL_TEXTURE6);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles3);
+        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[3]);
         glActiveTexture(GL_TEXTURE0);
     }
 }
@@ -115,10 +114,10 @@ void MagicHefeFilter::onInit() {
 //    for (int i = 0; i < len; ++i) {
 //        inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,"inputImageTexture"+(2+i));
 //    }
-    inputTextureUniformLocations0 = glGetUniformLocation(mGLProgId,"inputImageTexture2");
-    inputTextureUniformLocations1 = glGetUniformLocation(mGLProgId,"inputImageTexture3");
-    inputTextureUniformLocations2 = glGetUniformLocation(mGLProgId,"inputImageTexture4");
-    inputTextureUniformLocations3 = glGetUniformLocation(mGLProgId,"inputImageTexture5");
+    inputTextureUniformLocations[0] = glGetUniformLocation(mGLProgId,"inputImageTexture2");
+    inputTextureUniformLocations[1]= glGetUniformLocation(mGLProgId,"inputImageTexture3");
+    inputTextureUniformLocations[2] = glGetUniformLocation(mGLProgId,"inputImageTexture4");
+    inputTextureUniformLocations[3] = glGetUniformLocation(mGLProgId,"inputImageTexture5");
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 
@@ -129,8 +128,8 @@ void MagicHefeFilter::onInitialized() {
 //    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"hefemap.png");
 //    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"rise_mask2.jpg");
 //    inputTextureHandles[3] = loadTextureFromAssets(mAssetManager,"hefesoftlight.png");
-    inputTextureHandles0 = loadTextureFromAssets(mAssetManager,"edgeburn.png");
-    inputTextureHandles1 = loadTextureFromAssets(mAssetManager,"hefemap.png");
-    inputTextureHandles2 = loadTextureFromAssets(mAssetManager,"hefemetal.png");
-    inputTextureHandles3 = loadTextureFromAssets(mAssetManager,"hefesoftlight.png");
+    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"edgeburn.png");
+    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"hefemap.png");
+    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"hefemetal.png");
+    inputTextureHandles[3] = loadTextureFromAssets(mAssetManager,"hefesoftlight.png");
 }

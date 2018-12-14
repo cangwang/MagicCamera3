@@ -153,10 +153,11 @@ void CameraFilter::change(int width, int height) {
 void CameraFilter::draw(GLfloat *matrix) {
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    if (filter != nullptr && cameraInputFilter != nullptr){
+    if (cameraInputFilter != nullptr){
 //        cameraInputFilter->onDrawFrame(mTextureId,matrix,VERTICES,TEX_COORDS);
         GLuint id = cameraInputFilter->onDrawToTexture(mTextureId,matrix);
-        filter->onDrawFrame(id,matrix);
+        if (filter != nullptr)
+            filter->onDrawFrame(id,matrix);
         //缓冲区交换
         glFlush();
         mEGLCore->swapBuffer();

@@ -19,7 +19,7 @@ MagicBrooklynFilter::MagicBrooklynFilter(){
 }
 
 MagicBrooklynFilter::MagicBrooklynFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"brooklyn.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"brooklyn.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

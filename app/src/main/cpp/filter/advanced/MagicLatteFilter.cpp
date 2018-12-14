@@ -17,7 +17,7 @@ MagicLatteFilter::MagicLatteFilter(){
 }
 
 MagicLatteFilter::MagicLatteFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"latte.glsl")),
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"latte.glsl")),
       mToneCurveTexture(0){
 
 }

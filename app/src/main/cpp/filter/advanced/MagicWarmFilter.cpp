@@ -17,7 +17,7 @@ MagicWarmFilter::MagicWarmFilter(){
 }
 
 MagicWarmFilter::MagicWarmFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"warm.glsl")),
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"warm.glsl")),
       mToneCurveTexture(0),
       mMaskGery1TextureId(0),
       mMaskGery2TextureId(0){

@@ -17,7 +17,7 @@ MagicCalmFilter::MagicCalmFilter(){
 }
 
 MagicCalmFilter::MagicCalmFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"calm.glsl")),
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"calm.glsl")),
       mToneCurveTexture(0),
       mMaskGery1TextureId(0),
       mMaskGery2TextureId(0){

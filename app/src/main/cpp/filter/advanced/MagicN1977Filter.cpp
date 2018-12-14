@@ -19,7 +19,7 @@ MagicN1977Filter::MagicN1977Filter(){
 }
 
 MagicN1977Filter::MagicN1977Filter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"n1977.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"n1977.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

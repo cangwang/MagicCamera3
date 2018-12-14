@@ -19,7 +19,7 @@ MagicToasterFilter::MagicToasterFilter(){
 }
 
 MagicToasterFilter::MagicToasterFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"toaster2_filter_shader.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"toaster2_filter_shader.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

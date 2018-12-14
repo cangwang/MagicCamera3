@@ -17,7 +17,7 @@ MagicTenderFilter::MagicTenderFilter(){
 }
 
 MagicTenderFilter::MagicTenderFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"tender.glsl")),
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"tender.glsl")),
       mToneCurveTexture(0),
       mMaskGery1TextureId(0){
 

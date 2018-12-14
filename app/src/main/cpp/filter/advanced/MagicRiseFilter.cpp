@@ -19,7 +19,7 @@ MagicRiseFilter::MagicRiseFilter(){
 }
 
 MagicRiseFilter::MagicRiseFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"rise.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"rise.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

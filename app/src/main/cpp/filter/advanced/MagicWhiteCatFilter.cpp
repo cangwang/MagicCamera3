@@ -17,7 +17,7 @@ MagicWhiteCatFilter::MagicWhiteCatFilter(){
 }
 
 MagicWhiteCatFilter::MagicWhiteCatFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"whitecat.glsl")),
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"whitecat.glsl")),
       mToneCurveTexture(0){
 
 }

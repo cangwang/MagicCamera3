@@ -19,7 +19,7 @@ MagicNashvilleFilter::MagicNashvilleFilter(){
 }
 
 MagicNashvilleFilter::MagicNashvilleFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"nashville.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"nashville.glsl")){
 
 }
 

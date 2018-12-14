@@ -19,7 +19,7 @@ MagicSketchFilter::MagicSketchFilter(){
 }
 
 MagicSketchFilter::MagicSketchFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"sketch.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"sketch.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

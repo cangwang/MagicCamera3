@@ -15,7 +15,7 @@ GPUImageFilter::GPUImageFilter() {
 }
 
 GPUImageFilter::GPUImageFilter(AAssetManager *assetManager)
-        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"),readShaderFromAsset(assetManager,"nofilter_f.glsl"))
+        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"),readShaderFromAsset(assetManager,"nofilter_f.glsl"))
 {
 
 }
@@ -26,7 +26,7 @@ GPUImageFilter::GPUImageFilter(AAssetManager *assetManager,std::string *vertexSh
         mMatrixLoc(0),
         mAssetManager(assetManager){
     mGLCubeBuffer = CUBE;
-    mGLTextureBuffer = getRotation(NORMAL, true, false);
+    mGLTextureBuffer = getRotation(NORMAL, false, true);
 }
 
 GPUImageFilter::~GPUImageFilter() {
@@ -59,7 +59,7 @@ void GPUImageFilter::onInit() {
     mGLUniformTexture = glGetUniformLocation(mGLProgId,"inputImageTexture");
 
 
-    mMatrixLoc = glGetUniformLocation(mGLProgId,"textureTransform");
+//    mMatrixLoc = glGetUniformLocation(mGLProgId,"textureTransform");
     //初始化成功标志
     mIsInitialized = true;
 }
@@ -86,7 +86,7 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         return NOT_INIT;
     }
     //加载矩阵
-    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
+//    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
     glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, cubeBuffer);
     glEnableVertexAttribArray(mGLAttribPosition);
     glVertexAttribPointer(mGLAttribTextureCoordinate, 2, GL_FLOAT, GL_FALSE, 0, textureBuffer);

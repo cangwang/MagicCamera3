@@ -19,7 +19,7 @@ MagicKevinFilter::MagicKevinFilter(){
 }
 
 MagicKevinFilter::MagicKevinFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"kevin_new.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"kevin_new.glsl")){
 
 }
 

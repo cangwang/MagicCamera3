@@ -17,7 +17,7 @@ MagicNostalgiaFilter::MagicNostalgiaFilter(){
 }
 
 MagicNostalgiaFilter::MagicNostalgiaFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"nostalgia.glsl")),
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"nostalgia.glsl")),
       mToneCurveTexture(0),
       mToneCurveTexture2(0){
 

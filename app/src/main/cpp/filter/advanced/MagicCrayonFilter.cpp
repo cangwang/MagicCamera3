@@ -13,7 +13,7 @@ MagicCrayonFilter::MagicCrayonFilter(){
 }
 
 MagicCrayonFilter::MagicCrayonFilter(AAssetManager *assetManager)
-        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"crayon.glsl")){
+        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"crayon.glsl")){
 
 }
 

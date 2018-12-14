@@ -8,7 +8,7 @@
 #include "EGLCore.h"
 #include <android/asset_manager.h>
 #include <src/main/cpp/filter/gpuimage/GpuImageFilter.h>
-#include <src/main/cpp/filter/gpuimage/CameraInputFilter.h>
+#include <src/main/cpp/filter/gpuimage/CameraInputFilterV2.h>
 #include <android/native_window.h>
 
 /**

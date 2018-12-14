@@ -19,7 +19,7 @@ MagicHudsonFilter::MagicHudsonFilter(){
 }
 
 MagicHudsonFilter::MagicHudsonFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"), readShaderFromAsset(assetManager,"hudson.glsl")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"hudson.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 
