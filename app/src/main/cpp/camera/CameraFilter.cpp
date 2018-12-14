@@ -142,6 +142,7 @@ void CameraFilter::change(int width, int height) {
         cameraInputFilter->onInputSizeChanged(width, height);
         if (filter != nullptr){
             cameraInputFilter->initCameraFrameBuffer(width,height);
+            filter->onInputSizeChanged(width,height);
         } else{
             cameraInputFilter->destroyCameraFrameBuffers();
         }
