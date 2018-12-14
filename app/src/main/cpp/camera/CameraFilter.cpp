@@ -9,7 +9,7 @@
 #include <src/main/cpp/filter/advanced/MagicAmaroFilter.h>
 #include <src/main/cpp/filter/advanced/MagicCalmFilter.h>
 #include <src/main/cpp/filter/advanced/MagicNoneFilter.h>
-#include <src/main/cpp/filter/gpuimage/CameraInputFilter.h>
+#include <src/main/cpp/filter/gpuimage/CameraInputFilterV2.h>
 #include <src/main/cpp/filter/MagicFilterFactory.h>
 
 

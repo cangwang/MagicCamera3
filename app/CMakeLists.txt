@@ -86,6 +86,7 @@ add_library( # Sets the name of the library.
         src/main/cpp/filter/advanced/MagicXproIIFilter.cpp
         src/main/cpp/filter/gpuimage/GpuImageFilter.cpp
         src/main/cpp/filter/gpuimage/CameraInputFilter.cpp
+        src/main/cpp/filter/gpuimage/CameraInputFilterV2.cpp
         src/main/cpp/filter/MagicFilterFactory.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
