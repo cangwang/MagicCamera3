@@ -102,6 +102,6 @@ void MagicBrooklynFilter::onInit() {
 void MagicBrooklynFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"brooklynCurves1.png");
-    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"filter_map_first.jpg");
+    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"filter_map_first.png");
     inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"brooklynCurves2.png");
 }

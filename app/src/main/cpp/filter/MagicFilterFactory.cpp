@@ -96,6 +96,8 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
             return new MagicLomoFilter(assetManager);
         case N1977:
             return new MagicN1977Filter(assetManager);
+        case NOSTALGIA:
+            return new MagicNostalgiaFilter(assetManager);
         case NASHVILLE:
             return new MagicNashvilleFilter(assetManager);
         case NONE:

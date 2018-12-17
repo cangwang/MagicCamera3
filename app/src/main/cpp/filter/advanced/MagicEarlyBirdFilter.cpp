@@ -120,7 +120,7 @@ void MagicEarlyBirdFilter::onInit() {
     inputTextureUniformLocations[1] = glGetUniformLocation(mGLProgId,"inputImageTexture3");
     inputTextureUniformLocations[2] = glGetUniformLocation(mGLProgId,"inputImageTexture4");
     inputTextureUniformLocations[3] = glGetUniformLocation(mGLProgId,"inputImageTexture5");
-    inputTextureUniformLocations[4] = glGetUniformLocation(mGLProgId,"inputImageTexture5");
+    inputTextureUniformLocations[4] = glGetUniformLocation(mGLProgId,"inputImageTexture6");
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 
@@ -130,7 +130,7 @@ void MagicEarlyBirdFilter::onInitialized() {
     inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"earlybirdcurves.png");
     inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"earlybirdoverlaymap_new.png");
     inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"vignettemap_new.png");
-    inputTextureHandles[3] = loadTextureFromAssets(mAssetManager,"earlybirdlowout.png");
+    inputTextureHandles[3] = loadTextureFromAssets(mAssetManager,"earlybirdblowout.png");
     inputTextureHandles[4] = loadTextureFromAssets(mAssetManager,"earlybirdmap.png");
 
 }

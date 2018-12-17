@@ -121,7 +121,7 @@ void MagicBrannanFilter::onInit() {
     inputTextureUniformLocations[1] = glGetUniformLocation(mGLProgId,"inputImageTexture3");
     inputTextureUniformLocations[2] = glGetUniformLocation(mGLProgId,"inputImageTexture4");
     inputTextureUniformLocations[3] = glGetUniformLocation(mGLProgId,"inputImageTexture5");
-    inputTextureUniformLocations[4] = glGetUniformLocation(mGLProgId,"inputImageTexture5");
+    inputTextureUniformLocations[4] = glGetUniformLocation(mGLProgId,"inputImageTexture6");
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 

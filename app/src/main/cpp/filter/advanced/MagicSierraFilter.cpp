@@ -19,7 +19,7 @@ MagicSierraFilter::MagicSierraFilter(){
 }
 
 MagicSierraFilter::MagicSierraFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"rise.sierra")){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"sierra.glsl")){
     GET_ARRAY_LEN(inputTextureHandles,len);
 }
 

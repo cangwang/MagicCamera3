@@ -80,5 +80,4 @@ void MagicSakuraFilter::onInitialized() {
 void MagicSakuraFilter::onInputSizeChanged(const int width, const int height) {
     mChangeWidth = 1.0f/width;
     mChangeHeight = 1.0f/height;
-
 }
