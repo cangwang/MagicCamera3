@@ -20,7 +20,6 @@ MagicSketchFilter::MagicSketchFilter(){
 
 MagicSketchFilter::MagicSketchFilter(AAssetManager *assetManager)
     : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"sketch.glsl")){
-    GET_ARRAY_LEN(inputTextureHandles,len);
 }
 
 MagicSketchFilter::~MagicSketchFilter() {
@@ -28,14 +27,13 @@ MagicSketchFilter::~MagicSketchFilter() {
 }
 
 void MagicSketchFilter::onDestroy() {
-    glDeleteTextures(len,inputTextureHandles);
-    *inputTextureHandles={0};
+
 }
 
 void MagicSketchFilter::onDrawArraysPre() {
     glUniform1f(mGLStrengthLocation, 0.5f);
     float size[]={mChangeWidth,mChangeHeight};
-    glUniform1f(mSingleStepOffsetLocation, *size);
+    glUniform2fv(mSingleStepOffsetLocation,1,size);
 }
 
 void MagicSketchFilter::onDrawArraysAfter() {

@@ -11,6 +11,7 @@
 #include "src/main/cpp/filter/advanced/MagicEmeraldFilter.h"
 #include "src/main/cpp/filter/advanced/MagicEvergreenFilter.h"
 #include "src/main/cpp/filter/advanced/MagicFreudFilter.h"
+#include "src/main/cpp/filter/advanced/MagicFairytableFilter.h"
 #include "src/main/cpp/filter/advanced/MagicHealthyFilter.h"
 #include "src/main/cpp/filter/advanced/MagicHefeFilter.h"
 #include "src/main/cpp/filter/advanced/MagicHudsonFilter.h"
@@ -80,6 +81,8 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
             return new MagicEvergreenFilter(assetManager);
         case FREUD:
             return new MagicFreudFilter(assetManager);
+        case FAIRYTALE:
+            return new MagicFairytableFilter(assetManager);
         case HEALTHY:
             return new MagicHealthyFilter(assetManager);
         case HEFE:
@@ -195,6 +198,6 @@ int* getFilterTypes(int &len){
             SATURATION,
             SHARPEN,
             IMAGE_ADJUST};
-    len = sizeof(types)/ sizeof(types[0]);
+    len = sizeof(types)/ sizeof(types[0]) - 7;
     return types;
 }

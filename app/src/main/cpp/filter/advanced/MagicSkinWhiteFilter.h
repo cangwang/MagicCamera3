@@ -15,7 +15,7 @@ public:
     MagicSkinWhiteFilter();
     MagicSkinWhiteFilter(AAssetManager *assetManager);
     ~MagicSkinWhiteFilter();
-    virtual void onInputSizeChanged(const int width, const int height);
+    void onInputSizeChanged(const int width, const int height) override ;
     void onDestroy() override ;
 
 protected:

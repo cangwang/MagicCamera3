@@ -7,15 +7,14 @@
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
 /**
- * cangwang 2018.12.1
+ * cangwang 2018.12.17
  */
-class MagicSketchFilter: public GPUImageFilter{
+class MagicLookupFilter: public GPUImageFilter{
 
 public:
-    MagicSketchFilter();
-    MagicSketchFilter(AAssetManager *assetManager);
-    ~MagicSketchFilter();
-    void onInputSizeChanged(const int width, const int height) override ;
+    MagicLookupFilter();
+    MagicLookupFilter(AAssetManager *assetManager,std::string);
+    ~MagicLookupFilter();
     void onDestroy() override ;
 
 protected:
@@ -25,8 +24,8 @@ protected:
     void onDrawArraysAfter() override;
 
 private:
-    GLint mGLStrengthLocation;
-    GLint mSingleStepOffsetLocation;
-    GLfloat mChangeWidth;
-    GLfloat mChangeHeight;
+    GLuint inputTextureHandles;
+    GLint inputTextureUniformLocations;
+    int mGLStrengthLocation;
+    std::string table;
 };
