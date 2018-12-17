@@ -33,6 +33,7 @@ void MagicBrannanFilter::onDestroy() {
 }
 
 void MagicBrannanFilter::onDrawArraysPre() {
+    glUniform1f(mGLStrengthLocation, 1.0f);
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(GL_TEXTURE3 + i);
@@ -63,7 +64,6 @@ void MagicBrannanFilter::onInit() {
 
 void MagicBrannanFilter::onInitialized() {
     GPUImageFilter::onInitialized();
-    glUniform1f(mGLStrengthLocation, 1.0f);
     inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"brannan_process.png");
     inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"brannan_blowout.png");
     inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"brannan_contrast.png");

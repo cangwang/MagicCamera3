@@ -28,8 +28,9 @@ precision mediump float;
      mapped.g = texture(inputImageTexture4, vec2(texel.g, .5)).g;
      mapped.b = texture(inputImageTexture4, vec2(texel.b, .83333)).b;
      mapped.a = 1.0;
-     
+
      mapped.rgb = mix(originColor.rgb, mapped.rgb, strength);
+//     mapped.rgb = originColor.rgb*(1.0f-strength)+mapped.rgb*strength;
 
      gl_FragColor = mapped;
  }

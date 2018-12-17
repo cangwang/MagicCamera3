@@ -46,7 +46,7 @@ void MagicHefeFilter::onDrawArraysPre() {
 //            ALOGV("onDrawArraysPre inputTextureUniformLocations[%d]",i);
 //        }
 //    }
-
+    glUniform1f(mGLStrengthLocation, 1.0f);
     if (inputTextureHandles[0] != 0) {
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles[0]);
@@ -115,7 +115,7 @@ void MagicHefeFilter::onInit() {
 //        inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,"inputImageTexture"+(2+i));
 //    }
     inputTextureUniformLocations[0] = glGetUniformLocation(mGLProgId,"inputImageTexture2");
-    inputTextureUniformLocations[1]= glGetUniformLocation(mGLProgId,"inputImageTexture3");
+    inputTextureUniformLocations[1] = glGetUniformLocation(mGLProgId,"inputImageTexture3");
     inputTextureUniformLocations[2] = glGetUniformLocation(mGLProgId,"inputImageTexture4");
     inputTextureUniformLocations[3] = glGetUniformLocation(mGLProgId,"inputImageTexture5");
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
@@ -123,7 +123,6 @@ void MagicHefeFilter::onInit() {
 
 void MagicHefeFilter::onInitialized() {
     GPUImageFilter::onInitialized();
-    glUniform1f(mGLStrengthLocation, 0.0f);
 //    inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"rise_mask1.jpg");
 //    inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"hefemap.png");
 //    inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"rise_mask2.jpg");

@@ -27,5 +27,5 @@ private:
     GLuint inputTextureHandles[3]={0};
     GLint inputTextureUniformLocations[3]={0};
     int len;
-    int mGLStrengthLocation;
+    GLint mGLStrengthLocation;
 };

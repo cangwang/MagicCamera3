@@ -49,12 +49,9 @@ void checkGLError(char *op) {
 //        ALOGV("loadTextureFromAssets fileName = %s,width = %d,height=%d,n=%d,size = %d",fileName,width,height,n,size);
 //        free(buff);
 //         if(data!=NULL) {
-//             stbi s;
-//
-//             start_mem(&s, reinterpret_cast<const stbi_uc *>(buff), size);
-//             if (stbi_jpeg_test(&s)) { //判断是jpg格式
+//             if (n==3) { //判断是jpg格式
 //                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-//             } else if (stbi_png_test(&s)) {  //判断是png格式
+//             } else if (n==4) {  //判断是png格式
 //                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 //             } else{
 //                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -77,7 +74,7 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
     if (textureHandler!=0){
         glBindTexture(GL_TEXTURE_2D,textureHandler);
         //纹理放大缩小使用线性插值
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         //超出的部份会重复纹理坐标的边缘，产生一种边缘被拉伸的效果，s/t相当于x/y轴坐标
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
@@ -94,12 +91,13 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
                 AAsset *asset = AAssetManager_open(manager, name->c_str(), AASSET_MODE_STREAMING);
                 if (asset != NULL) {
                     //获取文件长度
-                    off_t len = AAsset_getLength(asset);
+                    int len = AAsset_getLength(asset);
                     int width=0,height=0,n=0;
                     unsigned char* buff = (unsigned char *) AAsset_getBuffer(asset);
                     //读取图片长宽高数据
                     unsigned char* data = stbi_load_from_memory(buff, len, &width, &height, &n, 0);
                     ALOGV("loadTextureFromAssets fileName = %s,width = %d,height=%d,n=%d,size = %d",fileName,width,height,n,len);
+
                     AAsset_close(asset);
                     AAssetDir_close(dir);
                     if(data!=NULL) {
@@ -111,9 +109,8 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
                             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
                         }
                         //相当于2.0的gluBuild2DMipmaps
-                        glGenerateMipmap(GL_TEXTURE_2D);
+//                        glGenerateMipmap(GL_TEXTURE_2D);
                         stbi_image_free(data);
-
                         return textureHandler;
                     } else{
                         LOGE("load texture from assets is null,fileName = %s",fileName);

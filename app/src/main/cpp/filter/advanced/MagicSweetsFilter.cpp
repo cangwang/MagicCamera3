@@ -33,6 +33,7 @@ void MagicSweetsFilter::onDestroy() {
 }
 
 void MagicSweetsFilter::onDrawArraysPre() {
+    glUniform1f(mLowPerformanceUniformLocation,1);
     if(this->mToneCurveTexture !=0){
         glActiveTexture(GL_TEXTURE3);
         glEnable(GL_TEXTURE_2D);
@@ -67,7 +68,6 @@ void MagicSweetsFilter::onInit() {
     mToneCurveTextureUniformLocation = glGetUniformLocation(mGLProgId,"curve");
     mMaskGery1UniformLocation = glGetUniformLocation(mGLProgId,"grey1Frame");
     mLowPerformanceUniformLocation = glGetUniformLocation(mGLProgId,"lowPerformance");
-    glUniform1f(mLowPerformanceUniformLocation,1);
 }
 
 void MagicSweetsFilter::onInitialized() {

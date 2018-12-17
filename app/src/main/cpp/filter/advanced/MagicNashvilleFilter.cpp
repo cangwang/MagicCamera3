@@ -32,6 +32,7 @@ void MagicNashvilleFilter::onDestroy() {
 }
 
 void MagicNashvilleFilter::onDrawArraysPre() {
+    glUniform1f(mGLStrengthLocation, 1.0f);
     if (inputTextureHandles != 0) {
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles);
@@ -56,6 +57,6 @@ void MagicNashvilleFilter::onInit() {
 
 void MagicNashvilleFilter::onInitialized() {
     GPUImageFilter::onInitialized();
-    glUniform1f(mGLStrengthLocation, 1.0f);
+
     inputTextureHandles = loadTextureFromAssets(mAssetManager,"nashvillemap.png");
 }

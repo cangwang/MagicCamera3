@@ -33,6 +33,7 @@ void MagicSierraFilter::onDestroy() {
 }
 
 void MagicSierraFilter::onDrawArraysPre() {
+    glUniform1f(mGLStrengthLocation, 1.0f);
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -64,7 +65,6 @@ void MagicSierraFilter::onInit() {
 
 void MagicSierraFilter::onInitialized() {
     GPUImageFilter::onInitialized();
-    glUniform1f(mGLStrengthLocation, 1.0f);
     inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"sierravignette.png");
     inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"overlaymap.png");
     inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"sierramap.png");

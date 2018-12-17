@@ -31,6 +31,8 @@ void MagicHealthyFilter::onDestroy() {
 }
 
 void MagicHealthyFilter::onDrawArraysPre() {
+    glUniform1f(mTexelWidthUniformLocation,mChangeWidth);
+    glUniform1f(mTexelHeightUniformLocation,mChangeHeight);
     if(this->mToneCurveTexture !=0){
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D,mToneCurveTexture);
@@ -92,6 +94,6 @@ void MagicHealthyFilter::onInitialized() {
 }
 
 void MagicHealthyFilter::onInputSizeChanged(const int width, const int height) {
-    glUniform1f(mTexelWidthUniformLocation,1.0f/width);
-    glUniform1f(mTexelHeightUniformLocation,1.0f/height);
+    mChangeWidth = 1.0f/width;
+    mChangeHeight = 1.0f/height;
 }

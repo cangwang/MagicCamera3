@@ -26,7 +26,9 @@ void MagicCrayonFilter::onDestroy() {
 }
 
 void MagicCrayonFilter::onDrawArraysPre() {
-
+    glUniform1f(mStrengthLocation, 0.5f);
+    GLfloat arrayValue[] = {mChangeWidth,mChangeHeight};
+    glUniform2fv(mSingleStepOffsetLocation,1,arrayValue);
 }
 
 void MagicCrayonFilter::onDrawArraysAfter() {
@@ -38,12 +40,11 @@ void MagicCrayonFilter::onInit() {
     GPUImageFilter::onInit();
     mSingleStepOffsetLocation = glGetUniformLocation(mGLProgId,"singleStepOffset");
     mStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
-//    glUniform1f(mStrengthLocation, 2.0f);
 }
 
 void MagicCrayonFilter::onInitialized() {
     GPUImageFilter::onInitialized();
-    glUniform1f(mStrengthLocation, 0.5f);
+
 }
 
 void MagicCrayonFilter::onInputSizeChanged(const int width, const int height){
@@ -51,8 +52,9 @@ void MagicCrayonFilter::onInputSizeChanged(const int width, const int height){
 }
 
 void MagicCrayonFilter::setTexelSize(const float w, const float h){
-    GLfloat arrayValue[] = {1.0f/w,1.0f/h};
-    glUniform2fv(mSingleStepOffsetLocation,1,arrayValue);
-    ALOGV("setTexlSize width =%f,height=%f",w,h);
+    mChangeWidth = 1.0f/w;
+    mChangeHeight = 1.0f/h;
+
+//    ALOGV("setTexlSize width =%f,height=%f",w,h);
 }
 

@@ -28,4 +28,6 @@ protected:
 private:
     GLint mSingleStepOffsetLocation;
     GLint mStrengthLocation;
+    GLfloat mChangeWidth;
+    GLfloat mChangeHeight;
 };

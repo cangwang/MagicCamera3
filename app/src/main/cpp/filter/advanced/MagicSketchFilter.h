@@ -30,4 +30,6 @@ private:
     int len;
     GLint mGLStrengthLocation;
     GLint mSingleStepOffsetLocation;
+    GLfloat mChangeWidth;
+    GLfloat mChangeHeight;
 };

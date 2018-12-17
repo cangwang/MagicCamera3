@@ -33,6 +33,7 @@ void MagicN1977Filter::onDestroy() {
 }
 
 void MagicN1977Filter::onDrawArraysPre() {
+    glUniform1f(mGLStrengthLocation, 1.0f);
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -63,7 +64,7 @@ void MagicN1977Filter::onInit() {
 
 void MagicN1977Filter::onInitialized() {
     GPUImageFilter::onInitialized();
-    glUniform1f(mGLStrengthLocation, 1.0f);
+
     inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"n1977map.png");
     inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"n1977blowout.png");
 }

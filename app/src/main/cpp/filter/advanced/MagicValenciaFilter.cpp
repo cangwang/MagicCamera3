@@ -33,6 +33,7 @@ void MagicValenciaFilter::onDestroy() {
 }
 
 void MagicValenciaFilter::onDrawArraysPre() {
+    glUniform1f(mGLStrengthLocation, 1.0f);
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -63,7 +64,6 @@ void MagicValenciaFilter::onInit() {
 
 void MagicValenciaFilter::onInitialized() {
     GPUImageFilter::onInitialized();
-    glUniform1f(mGLStrengthLocation, 1.0f);
     inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"valenciamap.png");
     inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"valenciagradientmap.png");
 }

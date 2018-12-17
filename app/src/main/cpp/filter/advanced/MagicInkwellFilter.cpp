@@ -32,6 +32,7 @@ void MagicInkwellFilter::onDestroy() {
 }
 
 void MagicInkwellFilter::onDrawArraysPre() {
+    glUniform1f(mGLStrengthLocation, 1.0f);
     if (inputTextureHandles != 0) {
         glActiveTexture(static_cast<GLenum>(GL_TEXTURE3));
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles);
@@ -56,6 +57,6 @@ void MagicInkwellFilter::onInit() {
 
 void MagicInkwellFilter::onInitialized() {
     GPUImageFilter::onInitialized();
-    glUniform1f(mGLStrengthLocation, 1.0f);
+
     inputTextureHandles = loadTextureFromAssets(mAssetManager,"hudsonbackground.png");
 }

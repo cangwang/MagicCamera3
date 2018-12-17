@@ -29,8 +29,8 @@ private:
     GLint mToneCurveTextureUniformLocation;
     GLuint mMaskGery1TextureId;
     GLint mMaskGery1UniformLocation;
-
     GLint mTexelHeightUniformLocation;
     GLint mTexelWidthUniformLocation;
-
+    GLfloat mChangeWidth;
+    GLfloat mChangeHeight;
 };

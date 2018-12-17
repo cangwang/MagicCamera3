@@ -29,4 +29,6 @@ private:
     GLint mToneCurveTextureUniformLocation;
     GLint mTexelHeightUniformLocation;
     GLint mTexelWidthUniformLocation;
+    GLfloat mChangeWidth;
+    GLfloat mChangeHeight;
 };

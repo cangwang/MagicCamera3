@@ -33,6 +33,7 @@ void MagicBrooklynFilter::onDestroy() {
 }
 
 void MagicBrooklynFilter::onDrawArraysPre() {
+    glUniform1f(mGLStrengthLocation, 1.0f);
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -63,7 +64,6 @@ void MagicBrooklynFilter::onInit() {
 
 void MagicBrooklynFilter::onInitialized() {
     GPUImageFilter::onInitialized();
-    glUniform1f(mGLStrengthLocation, 1.0f);
     inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"brooklynCurves1.png");
     inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"filter_map_first.jpg");
     inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"brooklynCurves2.png");

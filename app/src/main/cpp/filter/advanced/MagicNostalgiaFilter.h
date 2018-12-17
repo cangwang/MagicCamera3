@@ -32,5 +32,6 @@ private:
     GLint mBlurSizeUniformLocation;
     GLint mTexelHeightUniformLocation;
     GLint mTexelWidthUniformLocation;
-
+    GLfloat mChangeWidth;
+    GLfloat mChangeHeight;
 };

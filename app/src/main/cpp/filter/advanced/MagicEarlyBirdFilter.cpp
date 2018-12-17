@@ -33,6 +33,7 @@ void MagicEarlyBirdFilter::onDestroy() {
 }
 
 void MagicEarlyBirdFilter::onDrawArraysPre() {
+    glUniform1f(mGLStrengthLocation, 1.0f);
     for (int i = 0; i < len; ++i) {
         if (inputTextureHandles[i] != 0) {
             glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
@@ -63,7 +64,7 @@ void MagicEarlyBirdFilter::onInit() {
 
 void MagicEarlyBirdFilter::onInitialized() {
     GPUImageFilter::onInitialized();
-    glUniform1f(mGLStrengthLocation, 1.0f);
+
     inputTextureHandles[0] = loadTextureFromAssets(mAssetManager,"earlybirdcurves.png");
     inputTextureHandles[1] = loadTextureFromAssets(mAssetManager,"earlybirdoverlaymap_new.png");
     inputTextureHandles[2] = loadTextureFromAssets(mAssetManager,"vignettemap_new.png");

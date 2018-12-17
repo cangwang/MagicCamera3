@@ -33,7 +33,8 @@ void MagicSketchFilter::onDestroy() {
 }
 
 void MagicSketchFilter::onDrawArraysPre() {
-
+    float size[]={mChangeWidth,mChangeHeight};
+    glUniform1f(mSingleStepOffsetLocation, *size);
 }
 
 void MagicSketchFilter::onDrawArraysAfter() {
@@ -53,6 +54,7 @@ void MagicSketchFilter::onInitialized() {
 }
 
 void MagicSketchFilter::onInputSizeChanged(const int width, const int height) {
-    float size[]={1.0f/width,1.0f/height};
-    glUniform1f(mSingleStepOffsetLocation, *size);
+    mChangeWidth = 1.0f/width;
+    mChangeHeight = 1.0f/height;
+
 }
