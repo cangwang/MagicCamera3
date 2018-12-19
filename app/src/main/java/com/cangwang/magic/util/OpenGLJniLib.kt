@@ -60,4 +60,9 @@ object OpenGLJniLib{
      * 设置滤镜类型
      */
     external fun setFilterType(type:Int)
+
+    /**
+     * 设置美颜级别
+     */
+    external fun setBeautyLevel(level:Int)
 }

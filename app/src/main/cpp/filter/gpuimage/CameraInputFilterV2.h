@@ -26,11 +26,13 @@ public:
     void destroy();
     void initCameraFrameBuffer(int width,int height);
     void destroyCameraFrameBuffers();
+    void setBeautyLevel(int level);
 
 protected:
     virtual void onInit();
     virtual void onInitialized();
     bool mIsInitialized;
+    void setBeautyLevelOnDraw(int level);
 
 private:
     std::string* mVertexShader;
@@ -49,6 +51,7 @@ private:
     GLuint mFrameBufferTextures;
     int mFrameWidth = -1;
     int mFrameHeight = -1;
+    int beautyLevel = 5;
 };
 
 #endif

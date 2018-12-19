@@ -26,6 +26,7 @@ public:
     void stop();
     void setFilter(AAssetManager* assetManager);
     void setFilter(int type);
+    void setBeautyLevel(int level);
 
 protected:
 

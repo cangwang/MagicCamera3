@@ -5,11 +5,7 @@
 
 #define LOG_TAG "CameraInputFilterV2"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
-#if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
-#else
-#define ALOGV(...)
-#endif
 
 CameraInputFilter::CameraInputFilter() {
 
@@ -64,7 +60,7 @@ void CameraInputFilter::onInit() {
     mTexturetransformMatrixlocation = glGetUniformLocation(mGLProgId,"textureTransform");
     mSingleStepOffsetLocation = glGetUniformLocation(mGLProgId,"singleStepOffset");
     mParamsLocation = glGetUniformLocation(mGLProgId,"params");
-    glUniform1f(mParamsLocation,0.0f);
+//    glUniform1f(mParamsLocation,0.0f);
 }
 
 void CameraInputFilter::onInitialized() {
@@ -83,6 +79,7 @@ int CameraInputFilter::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
 int CameraInputFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const float *cubeBuffer,
                                 const float *textureBuffer) {
     glUseProgram(mGLProgId);
+    setBeautyLevelOnDraw(beautyLevel);
 //    runPendingOnDrawTasks()
     if(!mIsInitialized)
         return NOT_INIT;
@@ -176,5 +173,34 @@ void CameraInputFilter::destroyCameraFrameBuffers() {
     mFrameWidth = -1;
     mFrameHeight = -1;
 }
+
+void CameraInputFilter::setBeautyLevel(int level){
+    ALOGV("beauty Level = %d",level);
+    beautyLevel = level;
+}
+
+void CameraInputFilter::setBeautyLevelOnDraw(int level){
+    ALOGV("setbeautyLevel = %d",level);
+    switch (level){
+        case 1:
+            glUniform1f(mParamsLocation,1.0f);
+            break;
+        case 2:
+            glUniform1f(mParamsLocation,0.8f);
+            break;
+        case 3:
+            glUniform1f(mParamsLocation,0.6f);
+            break;
+        case 4:
+            glUniform1f(mParamsLocation,0.4f);
+            break;
+        case 5:
+            glUniform1f(mParamsLocation,0.33f);
+            break;
+        default:
+            break;
+    }
+}
+
 
 

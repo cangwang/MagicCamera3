@@ -3,6 +3,8 @@ package com.cangwang.magic
 import android.Manifest
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Point
@@ -36,6 +38,7 @@ class CameraFilterActivity:AppCompatActivity(){
     private var CAMERA_PERMISSION_REQ = 1
     private var mAdapter: FilterAdapter? = null
     private var mSurfaceCallback:CameraFilterSurfaceCallback?=null
+    private var beautyLevel:Int = 5
 
     var mCamera: Camera?=null
     private val ASPECT_RATIO_ARRAY = floatArrayOf(9.0f / 16, 3.0f / 4)
@@ -96,7 +99,15 @@ class CameraFilterActivity:AppCompatActivity(){
         }
 
         btn_camera_beauty.setOnClickListener {
-
+            AlertDialog.Builder(this)
+                    .setSingleChoiceItems(arrayOf("关闭", "1", "2", "3", "4", "5"), beautyLevel) {
+                        dialog, which ->
+                        beautyLevel = which
+                        OpenGLJniLib.setBeautyLevel(which)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("取消", null)
+                    .show()
         }
         val screenSize =Point()
         windowManager.defaultDisplay.getSize(screenSize)

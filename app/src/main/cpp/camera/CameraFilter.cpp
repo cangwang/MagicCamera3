@@ -68,6 +68,7 @@ CameraFilter::CameraFilter(ANativeWindow *window,AAssetManager* assetManager): m
 }
 
 CameraFilter::~CameraFilter() {
+    stop();
     if (mWindow){
         ANativeWindow_release(mWindow);
         mWindow = nullptr;
@@ -171,7 +172,6 @@ void CameraFilter::stop() {
     glDeleteProgram(mProgram);
     //清空资源
     mEGLCore->release();
-
 }
 
 void CameraFilter::setFilter(GPUImageFilter* gpuImageFilter) {
@@ -184,4 +184,10 @@ void CameraFilter::setFilter(GPUImageFilter* gpuImageFilter) {
     if (filter!= nullptr)
         filter->init();
     filter->onInputSizeChanged(cameraInputFilter->mInputWidth,cameraInputFilter->mInputHeight);
+}
+
+void CameraFilter::setBeautyLevel(int level) {
+    if (cameraInputFilter != nullptr){
+        cameraInputFilter->setBeautyLevel(level);
+    }
 }
