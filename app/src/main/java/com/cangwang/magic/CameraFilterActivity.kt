@@ -38,7 +38,7 @@ class CameraFilterActivity:AppCompatActivity(){
     private var CAMERA_PERMISSION_REQ = 1
     private var mAdapter: FilterAdapter? = null
     private var mSurfaceCallback:CameraFilterSurfaceCallback?=null
-    private var beautyLevel:Int = 5
+    private var beautyLevel:Int = 0
 
     var mCamera: Camera?=null
     private val ASPECT_RATIO_ARRAY = floatArrayOf(9.0f / 16, 3.0f / 4)
@@ -91,7 +91,7 @@ class CameraFilterActivity:AppCompatActivity(){
         }
 
         btn_camera_switch.setOnClickListener {
-
+            switchCamera()
         }
 
         btn_camera_mode.setOnClickListener {
@@ -120,10 +120,14 @@ class CameraFilterActivity:AppCompatActivity(){
 
     override fun onResume() {
         super.onResume()
+        initCamera()
+    }
+
+    private fun initCamera(){
+        releaseCamera()
         mCamera = openCamera(glsurfaceview_camera.holder)
         mSurfaceCallback = CameraFilterSurfaceCallback(mCamera)
         glsurfaceview_camera.holder.addCallback(mSurfaceCallback)
-
     }
 
     override fun onPause() {
@@ -146,6 +150,7 @@ class CameraFilterActivity:AppCompatActivity(){
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == CAMERA_PERMISSION_REQ &&(grantResults.size != 1 || grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
             initView()
+            initCamera()
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
@@ -158,6 +163,19 @@ class CameraFilterActivity:AppCompatActivity(){
 
     fun takeVideo(){
 
+    }
+
+    fun switchCamera(){
+        mCameraId = if (mCameraId == Camera.CameraInfo.CAMERA_FACING_BACK ) Camera.CameraInfo.CAMERA_FACING_FRONT else Camera.CameraInfo.CAMERA_FACING_BACK
+        initCamera()
+    }
+
+    fun releaseCamera(){
+        mSurfaceCallback?.releaseOpenGL()
+        mCamera?.setPreviewCallback(null)
+        mCamera?.stopPreview()
+        mCamera?.release()
+        mCamera = null
     }
 
     fun openCamera(holder: SurfaceHolder?):Camera?{

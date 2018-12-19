@@ -51,7 +51,7 @@ private:
     GLuint mFrameBufferTextures;
     int mFrameWidth = -1;
     int mFrameHeight = -1;
-    int beautyLevel = 5;
+    int beautyLevel = 0;
 };
 
 #endif

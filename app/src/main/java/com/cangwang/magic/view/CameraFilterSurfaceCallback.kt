@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.Surface
 import android.view.SurfaceHolder
 import com.cangwang.magic.BaseApplication
-import com.cangwang.magic.helper.MagicFilterType
 import com.cangwang.magic.util.CameraHelper
 import com.cangwang.magic.util.OpenGLJniLib
 import java.io.IOException
@@ -81,8 +80,8 @@ class CameraFilterSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
             mSurfaceTexture?.release()
             mSurfaceTexture=null
             OpenGLJniLib.magicFilterRelease()
+            mCamera =null
         }
-        mCamera =null
     }
 
     fun setsetFilterType(type:Int){

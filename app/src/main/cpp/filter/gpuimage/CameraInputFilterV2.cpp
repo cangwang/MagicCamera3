@@ -108,6 +108,7 @@ int CameraInputFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const
 
 GLuint CameraInputFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix) {
     glViewport(0,0,mFrameWidth,mFrameHeight);
+    setBeautyLevelOnDraw(beautyLevel);
     glBindFramebuffer(GL_FRAMEBUFFER,mFrameBuffer);
     glUseProgram(mGLProgId);
     if (!mIsInitialized){
@@ -180,7 +181,7 @@ void CameraInputFilter::setBeautyLevel(int level){
 }
 
 void CameraInputFilter::setBeautyLevelOnDraw(int level){
-    ALOGV("setbeautyLevel = %d",level);
+//    ALOGV("setbeautyLevel = %d",level);
     switch (level){
         case 1:
             glUniform1f(mParamsLocation,1.0f);
