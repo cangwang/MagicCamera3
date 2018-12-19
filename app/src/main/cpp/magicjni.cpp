@@ -111,7 +111,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterSet(JNIEnv *env, jobject ob
                                                             jobject surface,jobject assetManager) {
     std::unique_lock<std::mutex> lock(gMutex);
     if (!glCameraFilter){
-        ALOGE("draw error, glCamera is null");
+        ALOGE("filter set error, glCameraFilter is null");
         return;
     }
     AAssetManager *manager = AAssetManager_fromJava(env,assetManager);
@@ -124,7 +124,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterChange(JNIEnv *env, jobject
     std::unique_lock<std::mutex> lock(gMutex);
     //视口变换，可视区域
     if (!glCameraFilter){
-        ALOGE("draw error, glCamera is null");
+        ALOGE("change error, glCameraFilter is null");
         return;
     }
     glCameraFilter->change(width,height);
@@ -136,7 +136,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterDraw(JNIEnv *env, jobject o
 
     std::unique_lock<std::mutex> lock(gMutex);
     if (!glCameraFilter){
-        ALOGE("draw error, glCamera is null");
+        ALOGE("draw error, glCameraFilter is null");
         return;
     }
     glCameraFilter->draw(matrix);

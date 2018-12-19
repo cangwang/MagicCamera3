@@ -48,6 +48,7 @@ class CameraFilterActivity:AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        window.setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -132,11 +133,12 @@ class CameraFilterActivity:AppCompatActivity(){
 
     override fun onPause() {
         super.onPause()
+    }
+
+    override fun onDestroy() {
         mSurfaceCallback?.releaseOpenGL()
-        mCamera?.setPreviewCallback(null)
-        mCamera?.stopPreview()
-        mCamera?.release()
-        mCamera =null
+        releaseCamera()
+        super.onDestroy()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -167,16 +169,18 @@ class CameraFilterActivity:AppCompatActivity(){
 
     fun switchCamera(){
         mCameraId = if (mCameraId == Camera.CameraInfo.CAMERA_FACING_BACK ) Camera.CameraInfo.CAMERA_FACING_FRONT else Camera.CameraInfo.CAMERA_FACING_BACK
-        initCamera()
+        releaseCamera()
+        mCamera = openCamera(glsurfaceview_camera.holder)
+        mSurfaceCallback?.changeCamera(mCamera)
     }
 
     fun releaseCamera(){
-        mSurfaceCallback?.releaseOpenGL()
         mCamera?.setPreviewCallback(null)
         mCamera?.stopPreview()
         mCamera?.release()
         mCamera = null
     }
+
 
     fun openCamera(holder: SurfaceHolder?):Camera?{
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {

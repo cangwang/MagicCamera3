@@ -61,6 +61,19 @@ class CameraFilterSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
         }
     }
 
+    fun changeCamera(camera:Camera? ){
+        mExecutor.execute {
+            mCamera = camera
+            try {
+                mCamera?.setPreviewTexture(mSurfaceTexture)
+                doStartPreview()
+            } catch (e: IOException) {
+                Log.e(TAG, e.localizedMessage)
+                releaseOpenGL()
+            }
+        }
+    }
+
     fun changeOpenGL(width:Int,height:Int){
         mExecutor.execute {
             OpenGLJniLib.magicFilterChange(width,height)
@@ -77,9 +90,9 @@ class CameraFilterSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
 
     fun releaseOpenGL(){
         mExecutor.execute {
+            OpenGLJniLib.magicFilterRelease()
             mSurfaceTexture?.release()
             mSurfaceTexture=null
-            OpenGLJniLib.magicFilterRelease()
             mCamera =null
         }
     }

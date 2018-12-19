@@ -68,18 +68,6 @@ CameraFilter::CameraFilter(ANativeWindow *window,AAssetManager* assetManager): m
 }
 
 CameraFilter::~CameraFilter() {
-    stop();
-    if (mWindow){
-        ANativeWindow_release(mWindow);
-        mWindow = nullptr;
-    }
-
-    if (mEGLCore){
-        delete mEGLCore;
-        mEGLCore = nullptr;
-    }
-    mAssetManager = nullptr;
-
     if (filter!= nullptr){
         filter->destroy();
         delete filter;
@@ -92,6 +80,19 @@ CameraFilter::~CameraFilter() {
         delete cameraInputFilter;
         cameraInputFilter = nullptr;
     }
+
+    if (mEGLCore){
+        //清空资源
+        mEGLCore->release();
+        delete mEGLCore;
+        mEGLCore = nullptr;
+    }
+    if (mWindow){
+        ANativeWindow_release(mWindow);
+        mWindow = nullptr;
+    }
+
+    mAssetManager = nullptr;
 }
 
 void CameraFilter::setFilter(AAssetManager* assetManager) {
@@ -168,10 +169,6 @@ void CameraFilter::draw(GLfloat *matrix) {
 void CameraFilter::stop() {
     //删除纹理
     glDeleteTextures(1,&mTextureId);
-    //停止程序
-    glDeleteProgram(mProgram);
-    //清空资源
-    mEGLCore->release();
 }
 
 void CameraFilter::setFilter(GPUImageFilter* gpuImageFilter) {
