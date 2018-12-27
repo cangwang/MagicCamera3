@@ -1,15 +1,24 @@
 package com.cangwang.magic.view
 
 
+import android.annotation.SuppressLint
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
+import android.os.Build
+import android.os.Environment
 import android.util.Log
 import android.view.Surface
 import android.view.SurfaceHolder
+import android.widget.Toast
 import com.cangwang.magic.BaseApplication
 import com.cangwang.magic.util.CameraHelper
 import com.cangwang.magic.util.OpenGLJniLib
+import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.io.IOException
+import java.util.*
 import java.util.concurrent.Executors
 
 /**
@@ -24,6 +33,7 @@ class CameraFilterSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
     private val mMatrix = FloatArray(16)
     private var width = 0
     private var height = 0
+    private var isTakePhoto = false
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
         this.width = width
@@ -84,7 +94,16 @@ class CameraFilterSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
         mExecutor.execute {
             mSurfaceTexture?.updateTexImage()
             mSurfaceTexture?.getTransformMatrix(mMatrix)
-            OpenGLJniLib.magicFilterDraw(mMatrix)
+            if (isTakePhoto){
+                val photoAddress = if(Build.BRAND == "Xiaomi"){ // 小米手机
+                    Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
+                }else{  // Meizu 、Oppo
+                    Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
+                }
+                OpenGLJniLib.magicFilterDraw(mMatrix,photoAddress)
+            }else {
+                OpenGLJniLib.magicFilterDraw(mMatrix,"")
+            }
         }
     }
 
@@ -113,5 +132,30 @@ class CameraFilterSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
             it.cancelAutoFocus()
             CameraHelper.setFocusMode(it, Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)
         }
+    }
+
+    @SuppressLint("CheckResult")
+    fun takePhoto(){
+        val rootAddress = if(Build.BRAND == "Xiaomi"){ // 小米手机
+            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
+        }else{  // Meizu 、Oppo
+            Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
+        }
+//        mCamera?.stopPreview()
+        Observable.create(ObservableOnSubscribe<Boolean> {
+            it.onNext(OpenGLJniLib.savePhoto(rootAddress))
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+//                    mCamera?.startPreview()
+                    if (!it){
+                        Toast.makeText(BaseApplication.context,"save fail",Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(BaseApplication.context,"save success",Toast.LENGTH_SHORT).show()
+                    }
+                },{
+//                    mCamera?.startPreview()
+                    Log.e(TAG,it.toString())
+                })
     }
 }

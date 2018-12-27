@@ -131,7 +131,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterChange(JNIEnv *env, jobject
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterDraw(JNIEnv *env, jobject obj,jfloatArray matrix_) {
+Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jstring address) {
     jfloat *matrix = env->GetFloatArrayElements(matrix_,NULL);
 
     std::unique_lock<std::mutex> lock(gMutex);
@@ -172,6 +172,17 @@ JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_setBeautyLevel(JNIEnv *env, jobject obj,jint level) {
     if(glCameraFilter!= nullptr)
         glCameraFilter->setBeautyLevel(level);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_savePhoto(JNIEnv *env, jobject obj,jstring address) {
+    if (glCameraFilter != nullptr) {
+        const char* addressStr = env->GetStringUTFChars(address,0);
+        std::string nativeAddress = addressStr;
+        bool result = glCameraFilter->savePhoto(nativeAddress);
+        env->ReleaseStringUTFChars(address, addressStr);
+        return static_cast<jboolean>(result);
+    }
 }
 
 }

@@ -47,7 +47,7 @@ object OpenGLJniLib{
 
     external fun magicFilterChange(width:Int,height:Int)
 
-    external fun magicFilterDraw(matrix:FloatArray)
+    external fun magicFilterDraw(matrix:FloatArray,isTakePhoto:String)
 
     external fun magicFilterRelease()
 
@@ -65,4 +65,6 @@ object OpenGLJniLib{
      * 设置美颜级别
      */
     external fun setBeautyLevel(level:Int)
+
+    external fun savePhoto(address:String):Boolean
 }

@@ -58,7 +58,12 @@ void MagicBeautyFilter::setTexelSize(const float w, const float h){
 //    ALOGV("setTexlSize width =%f,height=%f",w,h);
 }
 
-void  MagicBeautyFilter::setBeautyLevel(int level){
+void MagicBeautyFilter::setBeautyLevel(int level){
+    ALOGV("beauty Level = %d",level);
+    beautyLevel = level;
+}
+
+void MagicBeautyFilter::setBeautyLevelOnDraw(int level){
     switch (level){
         case 1:
             glUniform1f(mParamsLocation,1.0f);

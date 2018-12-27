@@ -254,7 +254,7 @@ GLuint loadShader(const char *strSource, const int iType) {
         glGetShaderiv(iShader,GL_INFO_LOG_LENGTH,&infoLen);
 
         if(infoLen >1){
-            char *infoLog= (char*)malloc(sizeof(char*) *infoLen);
+            char *infoLog= (char*)malloc(sizeof(char) *infoLen);
             glGetShaderInfoLog(iShader,infoLen,NULL,infoLog);
             LOGE("Error compiling shader:[%s]",infoLog);
             free(infoLog);

@@ -18,17 +18,19 @@ public:
     void onInputSizeChanged(const int width, const int height) override ;
     void onDestroy() override ;
     void setTexelSize(const float w, const float h);
+    void setBeautyLevel(int level);
 
 protected:
     void onInit() override;
     void onInitialized() override ;
     void onDrawArraysPre() override;
     void onDrawArraysAfter() override;
-    void setBeautyLevel(int level);
+    void setBeautyLevelOnDraw(int level);
 
 private:
     GLint mSingleStepOffsetLocation;
     GLint mParamsLocation;
     GLfloat mChangeWidth;
     GLfloat mChangeHeight;
+    int beautyLevel = 0;
 };

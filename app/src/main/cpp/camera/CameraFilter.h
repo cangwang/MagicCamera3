@@ -10,6 +10,7 @@
 #include <src/main/cpp/filter/gpuimage/GpuImageFilter.h>
 #include <src/main/cpp/filter/gpuimage/CameraInputFilterV2.h>
 #include <android/native_window.h>
+#include <src/main/cpp/filter/advanced/MagicBeautyFilter.h>
 
 /**
  * cangwang 2018.12.1
@@ -27,6 +28,7 @@ public:
     void setFilter(AAssetManager* assetManager);
     void setFilter(int type);
     void setBeautyLevel(int level);
+    bool savePhoto(std::string saveFileAddress);
 
 protected:
 
@@ -40,5 +42,6 @@ private:
     GLint mMatrixLoc;
     GLfloat mMatrix[16];
     EGLCore *mEGLCore;
+    MagicBeautyFilter* beautyFilter;
 };
 

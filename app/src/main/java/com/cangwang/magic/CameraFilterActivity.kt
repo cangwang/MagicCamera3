@@ -2,6 +2,7 @@ package com.cangwang.magic
 
 import android.Manifest
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.DialogInterface
@@ -9,7 +10,9 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Point
 import android.hardware.Camera
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
 import android.support.v7.app.AppCompatActivity
@@ -36,6 +39,7 @@ class CameraFilterActivity:AppCompatActivity(){
     private val MODE_VIDEO = 2
     private var mode = MODE_PIC
     private var CAMERA_PERMISSION_REQ = 1
+    private var STORGE_PERMISSION_REQ = 2
     private var mAdapter: FilterAdapter? = null
     private var mSurfaceCallback:CameraFilterSurfaceCallback?=null
     private var beautyLevel:Int = 0
@@ -57,6 +61,9 @@ class CameraFilterActivity:AppCompatActivity(){
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),CAMERA_PERMISSION_REQ)
         }else {
             initView()
+        }
+        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) run {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),STORGE_PERMISSION_REQ)
         }
     }
 
@@ -88,7 +95,7 @@ class CameraFilterActivity:AppCompatActivity(){
         }
 
         btn_camera_shutter.setOnClickListener {
-
+            takePhoto()
         }
 
         btn_camera_switch.setOnClickListener {
@@ -159,8 +166,7 @@ class CameraFilterActivity:AppCompatActivity(){
     }
 
     fun takePhoto(){
-
-
+        mSurfaceCallback?.takePhoto()
     }
 
     fun takeVideo(){
@@ -203,42 +209,20 @@ class CameraFilterActivity:AppCompatActivity(){
     private fun showFilters() {
         val animator = ObjectAnimator.ofInt(layout_filter, "translationY", layout_filter.height, 0)
         animator.duration = 200
-        animator.addListener(object : Animator.AnimatorListener {
-
+        animator.addListener(object :AnimatorListenerAdapter(){
             override fun onAnimationStart(animation: Animator) {
                 findViewById<View>(R.id.btn_camera_shutter).isClickable = false
                 layout_filter.visibility = View.VISIBLE
             }
-
-            override fun onAnimationRepeat(animation: Animator) {
-
-            }
-
-            override fun onAnimationEnd(animation: Animator) {
-
-            }
-
-            override fun onAnimationCancel(animation: Animator) {
-
-            }
         })
+
         animator.start()
     }
 
     private fun hideFilters() {
         val animator = ObjectAnimator.ofInt(layout_filter, "translationY", 0, layout_filter.height)
         animator.duration = 200
-        animator.addListener(object : Animator.AnimatorListener {
-
-            override fun onAnimationStart(animation: Animator) {
-                // TODO Auto-generated method stub
-            }
-
-            override fun onAnimationRepeat(animation: Animator) {
-                // TODO Auto-generated method stub
-
-            }
-
+        animator.addListener(object :AnimatorListenerAdapter(){
             override fun onAnimationEnd(animation: Animator) {
                 // TODO Auto-generated method stub
                 layout_filter.visibility = View.INVISIBLE
@@ -253,5 +237,4 @@ class CameraFilterActivity:AppCompatActivity(){
         })
         animator.start()
     }
-
 }

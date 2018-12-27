@@ -34,6 +34,9 @@ public:
     virtual void onDrawArraysAfter() {
 
     }
+
+    bool savePhoto(const GLuint textureId,std::string directory);
+
     AAssetManager* mAssetManager;
     int mInputWidth;
     int mInputHeight;
@@ -56,6 +59,7 @@ private:
     const int NOT_INIT = -1;
     const int ON_DRAWN = 1;
     GLint mMatrixLoc;
+    GLuint mFrameBuffer;
 };
 
 #endif
