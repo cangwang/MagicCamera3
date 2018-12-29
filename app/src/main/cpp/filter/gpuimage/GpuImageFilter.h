@@ -60,6 +60,8 @@ private:
     const int ON_DRAWN = 1;
     GLint mMatrixLoc;
     GLuint mFrameBuffer;
+    bool isSavePhoto = false;
+    std::string savePhotoAddress;
 };
 
 #endif

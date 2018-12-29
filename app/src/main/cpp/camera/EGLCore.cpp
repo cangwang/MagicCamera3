@@ -9,6 +9,7 @@
 #define ALOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
 /**
+ * EGL是介于诸如OpenGL 或OpenVG的Khronos渲染API与底层本地平台窗口系统的接口。它被用于处理图形管理、表面/缓冲捆绑、渲染同步及支援使用其他Khronos API进行的高效、加速、混合模式2D和3D渲染。
  * cangwang 2018.12.1
  */
 EGLCore::EGLCore():mDisplay(EGL_NO_DISPLAY),mSurface(EGL_NO_SURFACE),mContext(EGL_NO_CONTEXT) {
@@ -42,10 +43,10 @@ GLboolean EGLCore::buildContext(ANativeWindow *window) {
     EGLint numConfigs = 0;
     //颜色使用565，读写类型需要egl扩展
     EGLint attribList[] = {
-            EGL_RED_SIZE,5,
-            EGL_GREEN_SIZE,6,
-            EGL_BLUE_SIZE,5,
-            EGL_RENDERABLE_TYPE,EGL_OPENGL_ES3_BIT_KHR, //渲染类型，为扩展类型
+            EGL_RED_SIZE,5, //指定RGB中的R大小（bits）
+            EGL_GREEN_SIZE,6, //指定G大小
+            EGL_BLUE_SIZE,5,  //指定B大小
+            EGL_RENDERABLE_TYPE,EGL_OPENGL_ES3_BIT_KHR, //渲染类型，为相机扩展类型
             EGL_SURFACE_TYPE,EGL_WINDOW_BIT,  //绘图类型，
             EGL_NONE
     };

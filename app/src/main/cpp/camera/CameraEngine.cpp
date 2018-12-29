@@ -71,14 +71,19 @@ int CameraEngine::create() {
     glGenTextures(1,&mTextureId);
     //绑定纹理
     glBindTexture(GL_TEXTURE_EXTERNAL_OES,mTextureId);
+    //设置缩小过滤为使用纹理中坐标最接近的一个像素的颜色作为需要绘制的像素颜色，少量计算，渲染比较快，但是效果差
     glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    //设置放大过滤为使用纹理中坐标最接近的若干个颜色，通过加权平均算法得到需要绘制的像素颜色，需要算法计算，用时相对变长，效果好
     glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    //这里GL_TEXTURE_WRAP_S 纹理坐标是以S轴方向与T轴方向纹理（对应平面坐标x，y方向）
     glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_EXTERNAL_OES,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
 
+    //初始化矩阵绑定
     mMatrixLoc = glGetUniformLocation(mProgram,"mMatrix");
+    //初始化纹理绑定
     mTextureLoc = glGetUniformLocation(mProgram,"sTexture");
-
+    //使用白色清屏
     glClearColor(1.0f,1.0f,1.0f,1.0f);
 
     delete vShader;

@@ -31,6 +31,7 @@ GPUImageFilter::~GPUImageFilter() {
     mGLCubeBuffer = nullptr;
     mGLTextureBuffer = nullptr;
     mAssetManager= nullptr;
+    savePhotoAddress = nullptr;
 }
 
 void GPUImageFilter::init() {
@@ -98,11 +99,23 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     }
     onDrawArraysPre();
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    if (isSavePhoto && mInputWidth > 0 && mInputHeight > 0) {
+        isSavePhoto = false;
+        ALOGV("save address = %s",savePhotoAddress.c_str());
+        long size = mInputWidth*mInputHeight*4;
+        unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
+        glReadPixels(0, 0, mInputWidth, mInputHeight, GL_RGBA, GL_UNSIGNED_BYTE,data);
+        if(stbi_write_png(savePhotoAddress.c_str(),mInputWidth,mInputHeight,4,data,0)){
+            ALOGV("save address = %s success",savePhotoAddress.c_str());
+        } else{
+            ALOGV("save address = %s fail",savePhotoAddress.c_str());
+        };
+        free(data);
+    }
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
     onDrawArraysAfter();
 
-//    glReadPixels(0,0,mInputWidth,mInputHeight,GL_RGBA,GL_UNSIGNED_BYTE,)
     if(textureId !=NO_TEXTURE)
         glBindTexture(GL_TEXTURE_2D,0);
 
@@ -154,22 +167,25 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
 //}
 
 bool GPUImageFilter::savePhoto(const GLuint textureId,std::string saveFileAddress) {
-
-    bool result= false;
-    if (mInputWidth > 0 && mInputHeight > 0) {
-        ALOGV("save directory = %s",saveFileAddress.c_str());
-        long size = mInputWidth*mInputHeight*4;
-        unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
-//        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-//        glPixelStorei(GL_PACK_ALIGNMENT, 1);
-        glReadPixels(0, 0, mInputWidth, mInputHeight, GL_RGBA, GL_UNSIGNED_BYTE,data);
-//        unsigned char* last_row = data + (mInputWidth * 4 * (mInputHeight - 1));
-        if(stbi_write_png(saveFileAddress.c_str(),mInputWidth,mInputHeight,4,data,0)){
-            result = true;
-        };
-        free(data);
-    }
-    return result;
+    isSavePhoto = true;
+    savePhotoAddress =saveFileAddress;
+    return true;
+//    bool result= false;
+//    if (mInputWidth > 0 && mInputHeight > 0) {
+//        ALOGV("save directory = %s",saveFileAddress.c_str());
+//        long size = mInputWidth*mInputHeight*4;
+//        unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
+////        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+////        glPixelStorei(GL_PACK_ALIGNMENT, 1);
+//        glReadPixels(0, 0, mInputWidth, mInputHeight, GL_RGBA, GL_UNSIGNED_BYTE,data);
+////        unsigned char* last_row = data + (mInputWidth * 4 * (mInputHeight - 1));
+//        if(stbi_write_png(saveFileAddress.c_str(),mInputWidth,mInputHeight,4,data,0)){
+//            result = true;
+//        };
+//        free(data);
+//    }
+//
+//    return result;
 }
 
 
