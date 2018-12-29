@@ -6,6 +6,8 @@
 #include <GLES3/gl3.h>
 #include <android/asset_manager.h>
 #include <string>
+#include <mutex>
+#include <thread>
 #include "src/main/cpp/utils/TextureRotationUtil.h"
 
 #ifndef _GPUImageFilter
@@ -35,7 +37,8 @@ public:
 
     }
 
-    bool savePhoto(const GLuint textureId,std::string directory);
+    bool savePhoto(std::string directory);
+    bool savePicture(unsigned char* data,std::string saveFileAddress);
 
     AAssetManager* mAssetManager;
     int mInputWidth;
@@ -62,6 +65,8 @@ private:
     GLuint mFrameBuffer;
     bool isSavePhoto = false;
     std::string savePhotoAddress;
+    std::mutex gMutex;
+    std::thread thread;
 };
 
 #endif

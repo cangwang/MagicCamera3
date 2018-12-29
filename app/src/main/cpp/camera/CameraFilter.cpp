@@ -191,25 +191,7 @@ void CameraFilter::setBeautyLevel(int level) {
 
 bool CameraFilter::savePhoto(std::string saveFileAddress){
     if(cameraInputFilter != nullptr){
-        filter->savePhoto(mTextureId,saveFileAddress);
+        return filter->savePhoto(saveFileAddress);
     }
-//    GLuint mFrameBuffer = 0;
-//    GLuint mFrameBufferTexture = 0;
-//    if (beautyFilter == nullptr){
-//        beautyFilter = new MagicBeautyFilter(mAssetManager);
-//    }
-//    beautyFilter->init();
-//
-//    glGenFramebuffers(1, &mFrameBuffer);
-//    glGenTextures(1,&mFrameBufferTexture);
-//    glBindTexture(GL_TEXTURE_2D,mFrameBufferTexture);
-//    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,cameraInputFilter->mInputWidth,cameraInputFilter->mInputHeight,0,GL_RGBA,GL_UNSIGNED_BYTE, nullptr);
-//    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-//    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-//    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
-//    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
-//    glBindTexture(GL_FRAMEBUFFER,mFrameBuffer);
-//    glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,mFrameBufferTexture,0);
-//    glViewport(0,0,cameraInputFilter->mInputWidth,cameraInputFilter->mInputHeight);
-
+    return false;
 }

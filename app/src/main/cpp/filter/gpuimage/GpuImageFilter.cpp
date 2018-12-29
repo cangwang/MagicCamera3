@@ -1,6 +1,7 @@
 #include "GpuImageFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 #include <GLES2/gl2ext.h>
+#include <thread>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "src/main/cpp/utils/stb_image_write.h"
 
@@ -32,6 +33,7 @@ GPUImageFilter::~GPUImageFilter() {
     mGLTextureBuffer = nullptr;
     mAssetManager= nullptr;
     savePhotoAddress = nullptr;
+    thread.join();
 }
 
 void GPUImageFilter::init() {
@@ -100,17 +102,19 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     onDrawArraysPre();
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     if (isSavePhoto && mInputWidth > 0 && mInputHeight > 0) {
+        //加锁
+        std::unique_lock<std::mutex> lock(gMutex);
         isSavePhoto = false;
         ALOGV("save address = %s",savePhotoAddress.c_str());
+        //字节大小为长*宽*4
         long size = mInputWidth*mInputHeight*4;
         unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
-        glReadPixels(0, 0, mInputWidth, mInputHeight, GL_RGBA, GL_UNSIGNED_BYTE,data);
-        if(stbi_write_png(savePhotoAddress.c_str(),mInputWidth,mInputHeight,4,data,0)){
-            ALOGV("save address = %s success",savePhotoAddress.c_str());
-        } else{
-            ALOGV("save address = %s fail",savePhotoAddress.c_str());
-        };
-        free(data);
+
+        //对齐像素字节
+        glPixelStorei(GL_PACK_ALIGNMENT, 1);
+        //获取帧内字节
+        glReadPixels(0, 0, mInputWidth, mInputHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        thread = std::thread(std::bind(&GPUImageFilter::savePicture, this, data, savePhotoAddress));
     }
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
@@ -122,70 +126,25 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     return ON_DRAWN;
 }
 
-//bool GPUImageFilter::savePhoto(const GLuint textureId,std::string saveFileAddress) {
-//    glGenFramebuffers(1, &mFrameBuffer);
-//    glBindFramebuffer(GL_FRAMEBUFFER, mFrameBuffer);
-//    glUseProgram(mGLProgId);
-//    //加载矩阵
-////    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
-//    glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, mGLCubeBuffer);
-//    glEnableVertexAttribArray(mGLAttribPosition);
-//    glVertexAttribPointer(mGLAttribTextureCoordinate, 2, GL_FLOAT, GL_FALSE, 0, mGLTextureBuffer);
-//    glEnableVertexAttribArray(mGLAttribTextureCoordinate);
-//
-//    if (textureId != NO_TEXTURE) {
-//        glActiveTexture(GL_TEXTURE0);
-//        glBindTexture(GL_TEXTURE_2D, textureId);
-//        //加载纹理
-//        glUniform1i(mGLUniformTexture, 0);
-//    }
-//    onDrawArraysPre();
-//    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-//    bool result= false;
-//    if (mInputWidth > 0 && mInputHeight > 0) {
-//        ALOGV("save directory = %s",saveFileAddress.c_str());
-//        long size = mInputWidth*mInputHeight*4;
-//        unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
-////        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-////        glPixelStorei(GL_PACK_ALIGNMENT, 1);
-//        glReadBuffer(GL_COLOR_ATTACHMENT0);
-//        glReadPixels(0, 0, mInputWidth, mInputHeight, GL_RGBA, GL_UNSIGNED_BYTE,data);
-////        unsigned char* last_row = data + (mInputWidth * 4 * (mInputHeight - 1));
-//        if(stbi_write_png(saveFileAddress.c_str(),mInputWidth,mInputHeight,4,data,0)){
-//            result = true;
-//        };
-//        free(data);
-//    }
-//    glDisableVertexAttribArray(mGLAttribPosition);
-//    glDisableVertexAttribArray(mGLAttribTextureCoordinate);
-//    onDrawArraysAfter();
-//
-//    if(textureId !=NO_TEXTURE)
-//        glBindTexture(GL_TEXTURE_2D,0);
-//    glBindFramebuffer(GL_FRAMEBUFFER,0);
-//    return result;
-//}
-
-bool GPUImageFilter::savePhoto(const GLuint textureId,std::string saveFileAddress) {
+bool GPUImageFilter::savePhoto(std::string saveFileAddress) {
+    savePhotoAddress = saveFileAddress;
     isSavePhoto = true;
-    savePhotoAddress =saveFileAddress;
     return true;
-//    bool result= false;
-//    if (mInputWidth > 0 && mInputHeight > 0) {
-//        ALOGV("save directory = %s",saveFileAddress.c_str());
-//        long size = mInputWidth*mInputHeight*4;
-//        unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
-////        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-////        glPixelStorei(GL_PACK_ALIGNMENT, 1);
-//        glReadPixels(0, 0, mInputWidth, mInputHeight, GL_RGBA, GL_UNSIGNED_BYTE,data);
-////        unsigned char* last_row = data + (mInputWidth * 4 * (mInputHeight - 1));
-//        if(stbi_write_png(saveFileAddress.c_str(),mInputWidth,mInputHeight,4,data,0)){
-//            result = true;
-//        };
-//        free(data);
-//    }
-//
-//    return result;
+}
+
+bool GPUImageFilter::savePicture(unsigned char* data,std::string saveFileAddress) {
+    //屏幕到文件保存需要使用
+    stbi_flip_vertically_on_write(1);
+    //保存图片到本地文件
+    if (stbi_write_png(saveFileAddress.c_str(), mInputWidth, mInputHeight, 4, data, 0)) {
+        ALOGV("save address = %s success", saveFileAddress.c_str());
+        free(data);
+        return true;
+    } else {
+        free(data);
+        ALOGV("save address = %s fail", saveFileAddress.c_str());
+        return false;
+    };
 }
 
 
