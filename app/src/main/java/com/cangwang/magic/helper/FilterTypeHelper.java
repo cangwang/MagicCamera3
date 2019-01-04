@@ -162,6 +162,8 @@ public class FilterTypeHelper {
 		switch (filterType) {
 		case NONE:
 			return R.string.filter_none;
+		case SOULOUT:
+			return R.string.filter_soul_out;
 		case WHITECAT:
 			return R.string.filter_whitecat;
 		case BLACKCAT:

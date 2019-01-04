@@ -5,6 +5,7 @@ package com.cangwang.magic.helper;
  */
 public enum  MagicFilterType {
     NONE,
+    SOULOUT,
     FAIRYTALE,
     SUNRISE,
     SUNSET,

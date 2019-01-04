@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MagicCamera</string>
     <string name="filter_none">Original</string>
+    <string name="filter_soul_out">SoulOut</string>
     <string name="filter_amaro">Amaro</string>
     <string name="filter_brannan">Brannan</string>
     <string name="filter_brooklyn">Brooklyn</string>

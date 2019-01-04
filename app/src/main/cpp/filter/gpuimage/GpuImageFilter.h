@@ -39,6 +39,7 @@ public:
 
     bool savePhoto(std::string directory);
     bool savePicture(unsigned char* data,std::string saveFileAddress);
+    void enableBlend(GLenum srcBlend,GLenum dstBlend);
 
     AAssetManager* mAssetManager;
     int mInputWidth;
@@ -67,6 +68,8 @@ private:
     std::string savePhotoAddress;
     std::mutex gMutex;
     std::thread thread;
+    GLenum srcBlend;
+    GLenum dstBlend;
 };
 
 #endif

@@ -86,6 +86,13 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         ALOGE("NOT_INIT");
         return NOT_INIT;
     }
+
+    if (srcBlend != GL_NONE &&dstBlend != GL_NONE){
+        //开启颜色混合
+        glEnable(GL_BLEND);
+        //透明度混合
+        glBlendFunc(srcBlend,dstBlend);
+    }
     //加载矩阵
 //    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
     glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, cubeBuffer);
@@ -101,6 +108,7 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     }
     onDrawArraysPre();
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    onDrawArraysAfter();
     if (isSavePhoto && mInputWidth > 0 && mInputHeight > 0) {
         //加锁
         std::unique_lock<std::mutex> lock(gMutex);
@@ -118,11 +126,15 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     }
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
-    onDrawArraysAfter();
+//    onDrawArraysAfter();
 
     if(textureId !=NO_TEXTURE)
         glBindTexture(GL_TEXTURE_2D,0);
 
+    if (srcBlend != GL_NONE &&dstBlend != GL_NONE){
+        //关闭颜色混合
+       glDisable(GL_BLEND);
+    }
     return ON_DRAWN;
 }
 
@@ -145,6 +157,11 @@ bool GPUImageFilter::savePicture(unsigned char* data,std::string saveFileAddress
         ALOGV("save address = %s fail", saveFileAddress.c_str());
         return false;
     };
+}
+
+void GPUImageFilter:: enableBlend(GLenum src,GLenum dst){
+    srcBlend = src;
+    dstBlend = dst;
 }
 
 

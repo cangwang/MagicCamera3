@@ -11,6 +11,7 @@
  */
 enum MagicFilterType{
     NONE = 0,
+    SOULOUT,
     FAIRYTALE,
     SUNRISE,
     SUNSET,

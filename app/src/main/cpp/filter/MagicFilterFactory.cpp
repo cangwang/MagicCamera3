@@ -41,6 +41,7 @@
 #include "src/main/cpp/filter/advanced/MagicWarmFilter.h"
 #include "src/main/cpp/filter/advanced/MagicWhiteCatFilter.h"
 #include "src/main/cpp/filter/advanced/MagicXproIIFilter.h"
+#include "src/main/cpp/filter/douyin/MagicSoulOutFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
 #define LOG_TAG "MagicFilterFactory"
@@ -119,6 +120,8 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
             return new MagicSketchFilter(assetManager);
         case SKINWHITEN:
             return new MagicSkinWhiteFilter(assetManager);
+        case SOULOUT:
+            return new MagicSoulOutFilter(assetManager);
         case SUNRISE:
             return new MagicSunriseFilter(assetManager);
         case SUNSET:
@@ -149,6 +152,7 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
 int* getFilterTypes(int &len){
     static int types[]={
             NONE,
+            SOULOUT,
             FAIRYTALE,
             SUNRISE,
             SUNSET,
