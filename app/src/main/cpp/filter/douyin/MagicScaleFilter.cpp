@@ -1,0 +1,64 @@
+#include "MagicScaleFilter.h"
+#include "src/main/cpp/utils/OpenglUtils.h"
+#include "src/main/cpp/utils/Matrix.h"
+
+#define LOG_TAG "MagicScaleFilter"
+#define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
+
+
+#define GET_ARRAY_LEN(array,len){len = (sizeof(array) / sizeof(array[0]));}
+
+/**
+ * cangwang 2019.1.4
+ * 放大
+ */
+MagicScaleFilter::MagicScaleFilter(){
+
+}
+
+MagicScaleFilter::MagicScaleFilter(AAssetManager *assetManager)
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"soulout_v.glsl"), readShaderFromAsset(assetManager,"soulout_f.glsl")),mMvpMatrix(new float[16]){
+
+}
+
+MagicScaleFilter::~MagicScaleFilter() {
+    free(mMvpMatrix);
+}
+
+void MagicScaleFilter::onDestroy() {
+}
+
+void MagicScaleFilter::onDrawArraysPre() {
+    if (mFrames<=mMiddleFrames){
+        mProgress = mFrames*1.0f/mMiddleFrames;
+    } else{
+        mProgress = 2.0f-mFrames*1.0f/mMiddleFrames;
+    }
+    mFrames++;
+    if (mFrames>mMaxFrames){
+        mFrames = 0;
+    }
+    setIdentityM(mMvpMatrix,0);
+    float scale = 1.0f+0.3f*mProgress;
+    scaleM(mMvpMatrix,0,scale,scale,scale);
+    glUniformMatrix4fv(mMvpMatrixLocation,1,GL_FALSE,mMvpMatrix);
+}
+
+void MagicScaleFilter::onDrawArraysAfter() {
+
+}
+
+
+void MagicScaleFilter::onInit() {
+    GPUImageFilter::onInit();
+    mMvpMatrixLocation = glGetUniformLocation(mGLProgId,"uMvpMatrix");
+    mAlphaLocation = glGetUniformLocation(mGLProgId,"uAlpha");
+    //开启颜色混合
+    enableBlend(GL_SRC_ALPHA,GL_DST_ALPHA);
+}
+
+void MagicScaleFilter::onInitialized() {
+    GPUImageFilter::onInitialized();
+
+}

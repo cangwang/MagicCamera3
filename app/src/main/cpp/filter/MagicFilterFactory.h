@@ -12,6 +12,10 @@
 enum MagicFilterType{
     NONE = 0,
     SOULOUT,
+    SHAKE,
+    GLITCH,
+    SCALE,
+    SHINEWHITE,
     FAIRYTALE,
     SUNRISE,
     SUNSET,

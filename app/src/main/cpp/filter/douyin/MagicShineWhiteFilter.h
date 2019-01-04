@@ -7,14 +7,14 @@
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
 /**
- * cangwang 2019.1.4
+ * cangwang 2018.12.1
  */
-class MagicSoulOutFilter: public GPUImageFilter{
+class MagicShineWhiteFilter: public GPUImageFilter{
 
 public:
-    MagicSoulOutFilter();
-    MagicSoulOutFilter(AAssetManager *assetManager);
-    ~MagicSoulOutFilter();
+    MagicShineWhiteFilter();
+    MagicShineWhiteFilter(AAssetManager *assetManager);
+    ~MagicShineWhiteFilter();
     void onDestroy() override ;
 
 protected:
@@ -25,11 +25,9 @@ protected:
 
 private:
     float mProgress;
-    float* mMvpMatrix;
     int mFrames=0;
-    int mMaxFrames = 15;
-    int mSkipFrames = 8;
-    GLint mAlphaLocation;
-    GLint mMvpMatrixLocation;
+    int mMaxFrames = 14;
+    int mMiddleFrames = mMaxFrames/2;
+    GLint mAdditionColorLocation;
     float alpha;
 };

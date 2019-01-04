@@ -9,12 +9,12 @@
 /**
  * cangwang 2019.1.4
  */
-class MagicSoulOutFilter: public GPUImageFilter{
+class MagicShakeEffectFilter: public GPUImageFilter{
 
 public:
-    MagicSoulOutFilter();
-    MagicSoulOutFilter(AAssetManager *assetManager);
-    ~MagicSoulOutFilter();
+    MagicShakeEffectFilter();
+    MagicShakeEffectFilter(AAssetManager *assetManager);
+    ~MagicShakeEffectFilter();
     void onDestroy() override ;
 
 protected:
@@ -27,9 +27,9 @@ private:
     float mProgress;
     float* mMvpMatrix;
     int mFrames=0;
-    int mMaxFrames = 15;
-    int mSkipFrames = 8;
-    GLint mAlphaLocation;
+    int mMaxFrames = 8;
+    int mSkipFrames = 4;
+    GLint mTextureCoordOffsetLocation;
     GLint mMvpMatrixLocation;
     float alpha;
 };

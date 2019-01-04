@@ -92,7 +92,11 @@ add_library( # Sets the name of the library.
 #        src/main/cpp/filter/gpuimage/CameraInputFilter.cpp
         src/main/cpp/filter/gpuimage/CameraInputFilterV2.cpp
         src/main/cpp/filter/MagicFilterFactory.cpp
-        src/main/cpp/filter/douyin/MagicSoulOutFilter.cpp)
+        src/main/cpp/filter/douyin/MagicSoulOutFilter.cpp
+        src/main/cpp/filter/douyin/MagicScaleFilter.cpp.
+        src/main/cpp/filter/douyin/MagicGlitchFilter.cpp
+        src/main/cpp/filter/douyin/MagicShakeEffectFilter.cpp
+        src/main/cpp/filter/douyin/MagicShineWhiteFilter.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

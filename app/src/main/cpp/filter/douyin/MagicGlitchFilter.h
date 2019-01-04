@@ -7,14 +7,14 @@
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 
 /**
- * cangwang 2019.1.4
+ * cangwang  2019.1.4
  */
-class MagicSoulOutFilter: public GPUImageFilter{
+class MagicGlitchFilter: public GPUImageFilter{
 
 public:
-    MagicSoulOutFilter();
-    MagicSoulOutFilter(AAssetManager *assetManager);
-    ~MagicSoulOutFilter();
+    MagicGlitchFilter();
+    MagicGlitchFilter(AAssetManager *assetManager);
+    ~MagicGlitchFilter();
     void onDestroy() override ;
 
 protected:
@@ -24,12 +24,12 @@ protected:
     void onDrawArraysAfter() override;
 
 private:
-    float mProgress;
-    float* mMvpMatrix;
+    float* mDriftSequence;
+    float* mJitterSequence;
+    float* mThreshHoldSequence;
     int mFrames=0;
     int mMaxFrames = 15;
-    int mSkipFrames = 8;
-    GLint mAlphaLocation;
-    GLint mMvpMatrixLocation;
+    GLint mScanLineJitterLocation;
+    GLint mColorDriftLocation;
     float alpha;
 };

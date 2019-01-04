@@ -10,7 +10,8 @@
 #define GET_ARRAY_LEN(array,len){len = (sizeof(array) / sizeof(array[0]));}
 
 /**
- * cangwang 2018.12.1
+ * cangwang 2019.1.4
+ * 灵魂出窍
  */
 MagicSoulOutFilter::MagicSoulOutFilter(){
 

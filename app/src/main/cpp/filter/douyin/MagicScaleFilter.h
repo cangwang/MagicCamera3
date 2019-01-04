@@ -9,12 +9,12 @@
 /**
  * cangwang 2019.1.4
  */
-class MagicSoulOutFilter: public GPUImageFilter{
+class MagicScaleFilter: public GPUImageFilter{
 
 public:
-    MagicSoulOutFilter();
-    MagicSoulOutFilter(AAssetManager *assetManager);
-    ~MagicSoulOutFilter();
+    MagicScaleFilter();
+    MagicScaleFilter(AAssetManager *assetManager);
+    ~MagicScaleFilter();
     void onDestroy() override ;
 
 protected:
@@ -27,8 +27,8 @@ private:
     float mProgress;
     float* mMvpMatrix;
     int mFrames=0;
-    int mMaxFrames = 15;
-    int mSkipFrames = 8;
+    int mMaxFrames = 14;
+    int mMiddleFrames = mMaxFrames/2;
     GLint mAlphaLocation;
     GLint mMvpMatrixLocation;
     float alpha;

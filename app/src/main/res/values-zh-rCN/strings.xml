@@ -2,6 +2,10 @@
 <resources>
     <string name="filter_none">原图</string>
 	<string name="filter_soul_out">灵魂出窍</string>
+	<string name="filter_shake">抖动</string>
+	<string name="filter_glitch">毛刺</string>
+	<string name="filter_scale">放大</string>
+	<string name="filter_shine_white">闪白</string>
 	<string name="filter_whitecat">白猫</string>
 	<string name="filter_blackcat">黑猫</string>
 	<string name="filter_romance">浪漫</string>
