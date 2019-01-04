@@ -139,6 +139,17 @@ GLuint getExternalOESTextureID(){
     return textureId;
 }
 
+GLuint get2DTextureID(){
+    GLuint textureId;
+    glGenTextures(1,&textureId);
+    glBindTexture(GL_TEXTURE_2D,textureId);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+    return textureId;
+}
+
 std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName){
 
     //打开asset文件夹

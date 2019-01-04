@@ -34,7 +34,7 @@ void MagicInkwellFilter::onDestroy() {
 void MagicInkwellFilter::onDrawArraysPre() {
     glUniform1f(mGLStrengthLocation, 1.0f);
     if (inputTextureHandles != 0) {
-        glActiveTexture(static_cast<GLenum>(GL_TEXTURE3));
+        glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles);
         glUniform1i(inputTextureUniformLocations,3);
     }
@@ -42,7 +42,7 @@ void MagicInkwellFilter::onDrawArraysPre() {
 
 void MagicInkwellFilter::onDrawArraysAfter() {
     if (inputTextureHandles != 0) {
-        glActiveTexture(static_cast<GLenum>(GL_TEXTURE3));
+        glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, inputTextureHandles);
         glActiveTexture(GL_TEXTURE0);
     }
