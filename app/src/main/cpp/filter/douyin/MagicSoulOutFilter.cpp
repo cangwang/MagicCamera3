@@ -41,7 +41,7 @@ void MagicSoulOutFilter::onDrawArraysPre() {
     glUniformMatrix4fv(mMvpMatrixLocation,1,GL_FALSE,mMvpMatrix);
     float backAlpha = 1;
     if (mProgress >0){
-        alpha = static_cast<float>(0.2 - mProgress * 0.2);
+        alpha = 0.2f - mProgress * 0.2f;
         backAlpha = 1-alpha;
     }
 
