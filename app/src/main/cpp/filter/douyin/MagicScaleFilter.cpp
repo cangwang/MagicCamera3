@@ -35,14 +35,14 @@ void MagicScaleFilter::onDrawArraysPre() {
     } else{
         mProgress = 2.0f-mFrames*1.0f/mMiddleFrames;
     }
-    mFrames++;
-    if (mFrames>mMaxFrames){
-        mFrames = 0;
-    }
     setIdentityM(mMvpMatrix,0);
     float scale = 1.0f+0.3f*mProgress;
     scaleM(mMvpMatrix,0,scale,scale,scale);
     glUniformMatrix4fv(mMvpMatrixLocation,1,GL_FALSE,mMvpMatrix);
+    mFrames++;
+    if (mFrames>mMaxFrames){
+        mFrames = 0;
+    }
 }
 
 void MagicScaleFilter::onDrawArraysAfter() {
@@ -54,8 +54,6 @@ void MagicScaleFilter::onInit() {
     GPUImageFilter::onInit();
     mMvpMatrixLocation = glGetUniformLocation(mGLProgId,"uMvpMatrix");
     mAlphaLocation = glGetUniformLocation(mGLProgId,"uAlpha");
-    //开启颜色混合
-    enableBlend(GL_SRC_ALPHA,GL_DST_ALPHA);
 }
 
 void MagicScaleFilter::onInitialized() {

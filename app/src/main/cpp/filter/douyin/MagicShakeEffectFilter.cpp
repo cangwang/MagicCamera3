@@ -18,7 +18,7 @@ MagicShakeEffectFilter::MagicShakeEffectFilter(){
 }
 
 MagicShakeEffectFilter::MagicShakeEffectFilter(AAssetManager *assetManager)
-    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"soulout_v.glsl"), readShaderFromAsset(assetManager,"snakeeffect_f.glsl")),mMvpMatrix(new float[16]){
+    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"soulout_v.glsl"), readShaderFromAsset(assetManager,"shakeeffect_f.glsl")),mMvpMatrix(new float[16]){
 
 }
 
