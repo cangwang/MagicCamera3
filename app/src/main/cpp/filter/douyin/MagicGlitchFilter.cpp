@@ -50,12 +50,11 @@ void MagicGlitchFilter::onInit() {
     GPUImageFilter::onInit();
     mScanLineJitterLocation = glGetUniformLocation(mGLProgId,"uScanLineJitter");
     mColorDriftLocation = glGetUniformLocation(mGLProgId,"uColorDrift");
-    mDriftSequence = new float[9]{0.0f, 0.03f, 0.032f, 0.035f, 0.03f, 0.032f, 0.031f, 0.029f, 0.025f};
-    mJitterSequence = new float[9]{0.0f, 0.03f, 0.01f, 0.02f, 0.05f, 0.055f, 0.03f, 0.02f, 0.025f};
-    mThreshHoldSequence = new float[9]{1.0f, 0.965f, 0.9f, 0.9f, 0.9f, 0.6f, 0.8f, 0.5f, 0.5f};
 }
 
 void MagicGlitchFilter::onInitialized() {
     GPUImageFilter::onInitialized();
-
+    mDriftSequence = new float[9]{0.0f, 0.03f, 0.032f, 0.035f, 0.03f, 0.032f, 0.031f, 0.029f, 0.025f};
+    mJitterSequence = new float[9]{0.0f, 0.03f, 0.01f, 0.02f, 0.05f, 0.055f, 0.03f, 0.02f, 0.025f};
+    mThreshHoldSequence = new float[9]{1.0f, 0.965f, 0.9f, 0.9f, 0.9f, 0.6f, 0.8f, 0.5f, 0.5f};
 }

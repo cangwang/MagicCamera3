@@ -28,7 +28,7 @@ private:
     float* mJitterSequence;
     float* mThreshHoldSequence;
     int mFrames=0;
-    int mMaxFrames = 15;
+    int mMaxFrames = 8;
     GLint mScanLineJitterLocation;
     GLint mColorDriftLocation;
     float alpha;
