@@ -22,18 +22,12 @@ protected:
     void onInit() override;
     void onInitialized() override ;
     void onDrawArraysPre() override;
-    void onDrawArraysAfter() override;
+    void onDrawArraysAfter(GLuint textureId) override;
 
 private:
     AAssetManager* mAssetManager;
-    RenderBuffer* mRenderBuffer;
-    RenderBuffer* mRenderBuffer2;
-    RenderBuffer* mRenderBuffer3;
-    GLint mLutTexture;
-    GLuint mCurrentFrameProgram;
-    GLuint mLastFrameProgram;
-    bool mFirst = true;
-    void drawToBuffer();
-    void drawCurrentFrame();
-    void setup(GLuint programId,GLint* textureId);
+    GLuint mLutTexture;
+    GLint mLutTextureLocation;
+    GLuint mLastTexture;
+    GLint mLastTextureLocation;
 };

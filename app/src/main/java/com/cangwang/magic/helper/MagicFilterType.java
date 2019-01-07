@@ -10,6 +10,7 @@ public enum  MagicFilterType {
     GLITCH,
     SCALE,
     SHINEWHITE,
+    VERIGO,
     FAIRYTALE,
     SUNRISE,
     SUNSET,

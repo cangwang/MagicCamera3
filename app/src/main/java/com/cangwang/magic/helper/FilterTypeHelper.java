@@ -172,6 +172,8 @@ public class FilterTypeHelper {
 				return R.string.filter_scale;
 			case GLITCH:
 				return R.string.filter_glitch;
+			case VERIGO:
+				return R.string.filter_verigo;
 			case WHITECAT:
 				return R.string.filter_whitecat;
 			case BLACKCAT:

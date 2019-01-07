@@ -111,6 +111,7 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     onDrawArraysPre();
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     onDrawArraysAfter();
+    onDrawArraysAfter(textureId);
     if (isSavePhoto && mInputWidth > 0 && mInputHeight > 0) {
         //加锁
         std::unique_lock<std::mutex> lock(gMutex);

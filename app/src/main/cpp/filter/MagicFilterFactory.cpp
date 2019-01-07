@@ -46,6 +46,7 @@
 #include "src/main/cpp/filter/douyin/MagicScaleFilter.h"
 #include "src/main/cpp/filter/douyin/MagicShineWhiteFilter.h"
 #include "src/main/cpp/filter/douyin/MagicShakeEffectFilter.h"
+#include "src/main/cpp/filter/douyin/MagicVerigoFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
 #define LOG_TAG "MagicFilterFactory"
@@ -148,6 +149,8 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
             return new MagicToasterFilter(assetManager);
         case VALENCIA:
             return new MagicValenciaFilter(assetManager);
+        case VERIGO:
+            return new MagicVerigoFilter(assetManager);
         case WALDEN:
             return new MagicWaldenFilter(assetManager);
         case WARM:
@@ -169,6 +172,7 @@ int* getFilterTypes(int &len){
             GLITCH,
             SCALE,
             SHINEWHITE,
+            VERIGO,
             FAIRYTALE,
             SUNRISE,
             SUNSET,

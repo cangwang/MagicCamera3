@@ -37,6 +37,10 @@ public:
 
     }
 
+    virtual void onDrawArraysAfter(GLuint textureId) {
+
+    }
+
     bool savePhoto(std::string directory);
     bool savePicture(unsigned char* data,std::string saveFileAddress);
     void enableBlend(GLenum srcBlend,GLenum dstBlend);
