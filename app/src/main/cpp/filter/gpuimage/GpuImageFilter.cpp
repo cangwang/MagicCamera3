@@ -174,4 +174,12 @@ void GPUImageFilter::destroy() {
     onDestroy();
 }
 
+GLfloat* GPUImageFilter::getVertexBuffer(){
+    return mGLCubeBuffer;
+}
+
+GLfloat* GPUImageFilter::getTextureBuffer(){
+    return mGLTextureBuffer;
+}
+
 

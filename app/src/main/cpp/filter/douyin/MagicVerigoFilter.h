@@ -15,6 +15,7 @@ class MagicVerigoFilter: public GPUImageFilter{
 public:
     MagicVerigoFilter();
     MagicVerigoFilter(AAssetManager *assetManager);
+    void onInputSizeChanged(const int width, const int height) override ;
     ~MagicVerigoFilter();
     void onDestroy() override ;
 
@@ -22,12 +23,24 @@ protected:
     void onInit() override;
     void onInitialized() override ;
     void onDrawArraysPre() override;
-    void onDrawArraysAfter(GLuint textureId) override;
+    void onDrawArraysAfter() override;
+//    void onDrawArraysAfter(GLuint textureId) override;
 
 private:
     AAssetManager* mAssetManager;
-    GLuint mLutTexture;
-    GLint mLutTextureLocation;
-    GLuint mLastTexture;
-    GLint mLastTextureLocation;
+//    GLuint mLutTexture;
+//    GLint mLutTextureLocation;
+//    GLuint mLastTexture;
+//    GLint mLastTextureLocation;
+
+    RenderBuffer* mRenderBuffer;
+    RenderBuffer* mRenderBuffer2;
+    RenderBuffer* mRenderBuffer3;
+    GLint mLutTexture;
+    GLuint mCurrentFrameProgram;
+    GLuint mLastFrameProgram;
+    bool mFirst = true;
+    void drawToBuffer();
+    void drawCurrentFrame();
+    void setup(GLuint programId,GLint* textureId);
 };

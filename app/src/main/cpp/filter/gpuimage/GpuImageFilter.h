@@ -44,6 +44,8 @@ public:
     bool savePhoto(std::string directory);
     bool savePicture(unsigned char* data,std::string saveFileAddress);
     void enableBlend(GLenum srcBlend,GLenum dstBlend);
+    GLfloat* getVertexBuffer();
+    GLfloat* getTextureBuffer();
 
     AAssetManager* mAssetManager;
     int mInputWidth;

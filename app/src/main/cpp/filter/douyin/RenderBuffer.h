@@ -19,9 +19,9 @@ public:
 protected:
 
 private:
-    GLint mTextureId;
-    GLint mRenderBufferId;
-    GLint mFrameBufferId;
+    GLuint mTextureId;
+    GLuint mRenderBufferId;
+    GLuint mFrameBufferId;
     int mWidth;
     int mHeight;
 };
