@@ -14,7 +14,7 @@ public:
     ~RenderBuffer();
     void bind();
     void unbind();
-    int getTextureId();
+    GLuint getTextureId();
 
 protected:
 

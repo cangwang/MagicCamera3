@@ -72,7 +72,9 @@ MagicVerigoFilter::MagicVerigoFilter(AAssetManager *assetManager)
 }
 
 MagicVerigoFilter::~MagicVerigoFilter() {
-
+    free(mRenderBuffer);
+    free(mRenderBuffer2);
+    free(mRenderBuffer3);
 }
 
 void MagicVerigoFilter::onDestroy() {
@@ -81,18 +83,19 @@ void MagicVerigoFilter::onDestroy() {
 
 void MagicVerigoFilter::onDrawArraysPre() {
     mRenderBuffer->bind();
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void MagicVerigoFilter::onDrawArraysAfter() {
     mRenderBuffer->unbind();
-//    glClear(GL_COLOR_BUFFER_BIT);
-//    drawCurrentFrame();
-//    mRenderBuffer3->bind();
-//    drawCurrentFrame();
-//    mRenderBuffer3->unbind();
-//    mRenderBuffer2->bind();
-//    drawToBuffer();
-//    mRenderBuffer2->unbind();
+    glClear(GL_COLOR_BUFFER_BIT);
+    drawCurrentFrame();
+    mRenderBuffer3->bind();
+    drawCurrentFrame();
+    mRenderBuffer3->unbind();
+    mRenderBuffer2->bind();
+    drawToBuffer();
+    mRenderBuffer2->unbind();
     mFirst = false;
 }
 
@@ -106,14 +109,14 @@ void MagicVerigoFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     mLastFrameProgram = loadProgram(readShaderFromAsset(mAssetManager,"nofilter_v.glsl")->c_str(),readShaderFromAsset(mAssetManager,"common_f.glsl")->c_str());
     mCurrentFrameProgram = loadProgram(readShaderFromAsset(mAssetManager,"nofilter_v.glsl")->c_str(),readShaderFromAsset(mAssetManager,"verigo_f.glsl")->c_str());
-    mLutTexture = get2DTextureID();
+    mLutTexture = getLutTextureID();
     loadTextureFromAssets(mAssetManager,"lookup_vertigo.png");
 }
 
 void MagicVerigoFilter::onInputSizeChanged(const int width, const int height) {
-    mRenderBuffer  = new RenderBuffer(GL_TEXTURE3,width,height);
-    mRenderBuffer2 = new RenderBuffer(GL_TEXTURE4,width,height);
-    mRenderBuffer3 = new RenderBuffer(GL_TEXTURE5,width,height);
+    mRenderBuffer  = new RenderBuffer(GL_TEXTURE8,width,height);
+    mRenderBuffer2 = new RenderBuffer(GL_TEXTURE9,width,height);
+    mRenderBuffer3 = new RenderBuffer(GL_TEXTURE10,width,height);
 }
 
 void MagicVerigoFilter::drawToBuffer() {

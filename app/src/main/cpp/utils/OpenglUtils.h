@@ -17,6 +17,7 @@ GLuint loadProgram(const char *strVSource, const char *strFSource);
 GLuint loadShader(const char *strSource,const int iType);
 GLuint getExternalOESTextureID();
 GLuint get2DTextureID();
+GLuint getLutTextureID();
 char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager, char* fileName);
 //BitmapOperation drawToBitmapByFilter(jobject bitmap,GPUImageFilter filter,int displayWidth,int displayHeight, bool rotate);
 void checkGLError(char *op);
