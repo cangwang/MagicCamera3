@@ -67,7 +67,7 @@ MagicVerigoFilter::MagicVerigoFilter(){
 //}
 
 MagicVerigoFilter::MagicVerigoFilter(AAssetManager *assetManager)
-        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"soulout_v.glsl"), readShaderFromAsset(assetManager,"soulout_f.glsl")),mAssetManager(assetManager){
+        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"none.glsl")),mAssetManager(assetManager){
 
 }
 
@@ -85,14 +85,14 @@ void MagicVerigoFilter::onDrawArraysPre() {
 
 void MagicVerigoFilter::onDrawArraysAfter() {
     mRenderBuffer->unbind();
-    glClear(GL_COLOR_BUFFER_BIT);
-    drawCurrentFrame();
-    mRenderBuffer3->bind();
-    drawCurrentFrame();
-    mRenderBuffer3->unbind();
-    mRenderBuffer2->bind();
-    drawToBuffer();
-    mRenderBuffer2->unbind();
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    drawCurrentFrame();
+//    mRenderBuffer3->bind();
+//    drawCurrentFrame();
+//    mRenderBuffer3->unbind();
+//    mRenderBuffer2->bind();
+//    drawToBuffer();
+//    mRenderBuffer2->unbind();
     mFirst = false;
 }
 
@@ -117,12 +117,12 @@ void MagicVerigoFilter::onInputSizeChanged(const int width, const int height) {
 }
 
 void MagicVerigoFilter::drawToBuffer() {
-    glUseProgram(mLastFrameProgram);
+//    glUseProgram(mLastFrameProgram);
 //    setup(mLastFrameProgram,new GLint[1]{mRenderBuffer3->getTextureId()});
 
-    glUseProgram(mCurrentFrameProgram);
-    GLint position = glGetAttribLocation(mCurrentFrameProgram,"position");
-    GLint texcoord = glGetAttribLocation(mCurrentFrameProgram,"inputTextureCoordinate");
+    glUseProgram(mLastFrameProgram);
+    GLint position = glGetAttribLocation(mLastFrameProgram,"position");
+    GLint texcoord = glGetAttribLocation(mLastFrameProgram,"inputTextureCoordinate");
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getVertexBuffer());
     glEnableVertexAttribArray(texcoord);
@@ -136,9 +136,9 @@ void MagicVerigoFilter::drawToBuffer() {
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
-    glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D,mRenderBuffer3->getTextureId());
-    glActiveTexture(GL_TEXTURE0);
+//    glActiveTexture(GL_TEXTURE3);
+//    glBindTexture(GL_TEXTURE_2D,mRenderBuffer3->getTextureId());
+//    glActiveTexture(GL_TEXTURE0);
 }
 
 void MagicVerigoFilter::drawCurrentFrame() {
@@ -167,13 +167,13 @@ void MagicVerigoFilter::drawCurrentFrame() {
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
-    glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D,textureId);
-    glActiveTexture(GL_TEXTURE0);
-
-    glActiveTexture(GL_TEXTURE4);
-    glBindTexture(GL_TEXTURE_2D,mFirst?mRenderBuffer2->getTextureId():mLutTexture);
-    glActiveTexture(GL_TEXTURE0);
+//    glActiveTexture(GL_TEXTURE3);
+//    glBindTexture(GL_TEXTURE_2D,textureId);
+//    glActiveTexture(GL_TEXTURE0);
+//
+//    glActiveTexture(GL_TEXTURE4);
+//    glBindTexture(GL_TEXTURE_2D,mFirst?mRenderBuffer2->getTextureId():mLutTexture);
+//    glActiveTexture(GL_TEXTURE0);
 }
 
 void MagicVerigoFilter::setup(GLuint programId, GLint* textureId) {

@@ -31,6 +31,19 @@ void checkGLError(char *op) {
     }
 }
 
+//检测错误
+void checkGLError(std::string op) {
+    GLint error = glGetError();
+    char err = (char)error;
+    if(error!= GL_NO_ERROR){
+        std::string msg ="";
+        msg.append(op);
+        msg.append(":glError 0x");
+        msg.append(&err);
+//        LOGE(msg.c_str());
+    }
+}
+
 //GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
 //    GLuint textureHandler=0;
 //    glGenTextures(1,&textureHandler);

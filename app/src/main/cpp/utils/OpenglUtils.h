@@ -20,6 +20,7 @@ GLuint get2DTextureID();
 char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager, char* fileName);
 //BitmapOperation drawToBitmapByFilter(jobject bitmap,GPUImageFilter filter,int displayWidth,int displayHeight, bool rotate);
 void checkGLError(char *op);
+void checkGLError(std::string op);
 void freeResource(char *pData);
 std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName);
 unsigned char* getAddressFromAsset(AAssetManager *manager, const char *fileName);

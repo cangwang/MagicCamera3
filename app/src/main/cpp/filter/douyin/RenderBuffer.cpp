@@ -43,7 +43,7 @@ void RenderBuffer::bind() {
     checkGLError("glViewport");
     glBindFramebuffer(GL_FRAMEBUFFER,mFrameBufferId);
     checkGLError("glBindFramebuffer");
-    glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,mTextureId,0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,mFrameBufferId,0);
     checkGLError("glFramebufferTexture2D");
     glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,mRenderBufferId);
     checkGLError("glFramebufferRenderbuffer");
