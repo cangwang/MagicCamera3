@@ -168,13 +168,21 @@ object CameraHelper{
     fun getLargePreviewSize(camera: Camera?): Camera.Size? {
         if (camera != null) {
             //获取可选比例
-            val sizes = camera.parameters.supportedPreviewSizes
-            var temp: Camera.Size = sizes[0]
-            for (i in 1 until sizes.size) {
-                if (temp.width < sizes[i].width)
-                    temp = sizes[i]
+            Collections.sort<Camera.Size>(camera.parameters.supportedPictureSizes, Comparator<Camera.Size> { o1, o2 ->
+                if (o1.width > o2.width) {
+                    return@Comparator -1
+                } else if (o1.width < o2.width) {
+                    return@Comparator 1
+                }
+                0
+            })
+
+            for (size in camera.parameters.supportedPictureSizes) {
+                if (size.height <= 720) {
+                    //找到第一个相等或者小于width的尺寸
+                    return size
+                }
             }
-            return temp
         }
         return null
     }
