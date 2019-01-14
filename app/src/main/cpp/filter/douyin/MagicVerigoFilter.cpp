@@ -8,7 +8,7 @@
 
 /**
  * cangwang 2019.1.4
- * 幻觉
+ * 幻觉  特效还没成功
  */
 MagicVerigoFilter::MagicVerigoFilter(){
 

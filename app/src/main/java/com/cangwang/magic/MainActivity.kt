@@ -24,25 +24,36 @@ class MainActivity : AppCompatActivity() {
         init {
             System.loadLibrary("native-lib")
         }
+        const val CAMERA_REQ = 1
+        const val CAMERA_FILTER = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        findViewById<Button>(R.id.button_camera).setOnClickListener(View.OnClickListener { v ->
+        findViewById<Button>(R.id.button_camera).setOnClickListener { v ->
             if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA),
-                        v.id)
+                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA), CAMERA_REQ)
             } else {
-                startActivity(v.id)
+                startActivity(CAMERA_REQ)
             }
-        })
+        }
+        findViewById<Button>(R.id.button_filter).setOnClickListener {
+            if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
+                    PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE), CAMERA_FILTER)
+            } else {
+                startActivity(CAMERA_FILTER)
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
                                             grantResults: IntArray) {
-        if (grantResults.size != 1 || grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            startActivity(requestCode)
+        if (requestCode == CAMERA_REQ && grantResults.size != 1 || grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startActivity(CAMERA_REQ)
+        }else if (requestCode == CAMERA_FILTER && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+            startActivity(CAMERA_FILTER)
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
@@ -50,7 +61,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun startActivity(id: Int) {
         when (id) {
-            R.id.button_camera -> startActivity(Intent(this, CameraActivity::class.java))
+            CAMERA_REQ -> startActivity(Intent(this, CameraActivity::class.java))
+            CAMERA_FILTER -> startActivity(Intent(this,CameraFilterActivity::class.java))
             else -> {
             }
         }
