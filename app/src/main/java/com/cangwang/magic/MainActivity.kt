@@ -7,23 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
-import android.view.View
-import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    external fun stringFromJNI(): String
-
     companion object {
-
-        // Used to load the 'native-lib' library on application startup.
-        init {
-            System.loadLibrary("native-lib")
-        }
         const val CAMERA_REQ = 1
         const val CAMERA_FILTER = 2
     }
@@ -31,14 +18,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        findViewById<Button>(R.id.button_camera).setOnClickListener { v ->
+        button_camera.setOnClickListener { v ->
             if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
                 ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA), CAMERA_REQ)
             } else {
                 startActivity(CAMERA_REQ)
             }
         }
-        findViewById<Button>(R.id.button_filter).setOnClickListener {
+        button_filter.setOnClickListener {
             if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
                     PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE), CAMERA_FILTER)
@@ -62,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     private fun startActivity(id: Int) {
         when (id) {
             CAMERA_REQ -> startActivity(Intent(this, CameraActivity::class.java))
-            CAMERA_FILTER -> startActivity(Intent(this,CameraFilterActivity::class.java))
+            CAMERA_FILTER -> startActivity(Intent(this,CameraFilterV2Activity::class.java))
             else -> {
             }
         }

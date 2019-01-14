@@ -6,7 +6,7 @@ import android.hardware.Camera
 import android.util.Log
 import android.view.Surface
 import com.cangwang.magic.BaseApplication
-import com.cangwang.magic.info.CameraInfo
+import com.cangwang.magic.camera.CameraInfo
 import java.util.*
 
 
@@ -138,10 +138,10 @@ object CameraHelper{
         camera.parameters = parameters
     }
 
-    fun getCameraInfo(camera:Camera):CameraInfo{
+    fun getCameraInfo(camera:Camera): CameraInfo {
         val size = camera.parameters.previewSize
         val picSize = camera.parameters.pictureSize
-        return CameraInfo(size.width,size.height,Camera.CameraInfo().orientation, cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT,picSize.width,picSize.height)
+        return CameraInfo(size.width, size.height, Camera.CameraInfo().orientation, cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT, picSize.width, picSize.height)
     }
 
     /**
