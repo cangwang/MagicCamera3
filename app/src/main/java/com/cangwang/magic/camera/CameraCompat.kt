@@ -81,6 +81,10 @@ abstract class CameraCompat(protected var mContext: Context) {
 
     protected abstract fun initCameraInfo()
 
+    /**
+     * 这里会两次调用此函数，第一次会初始化走openCamera，
+     * 第二次调用才能正常开始预览
+     */
     fun startPreview() {
 //        if (Looper.myLooper() != Looper.getMainLooper()) {
 //            throw RuntimeException("you must start camera preview in main thread")

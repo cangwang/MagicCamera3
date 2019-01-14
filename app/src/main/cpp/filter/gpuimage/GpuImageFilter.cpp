@@ -34,8 +34,7 @@ GPUImageFilter::~GPUImageFilter() {
     mGLCubeBuffer = nullptr;
     mGLTextureBuffer = nullptr;
     mAssetManager= nullptr;
-    savePhotoAddress = nullptr;
-    thread.join();
+//    thread.join();
 }
 
 void GPUImageFilter::init() {
@@ -125,7 +124,8 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
         //获取帧内字节
         glReadPixels(0, 0, mInputWidth, mInputHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        thread = std::thread(std::bind(&GPUImageFilter::savePicture, this, data, savePhotoAddress));
+        std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this, data, savePhotoAddress));
+        thread.detach();
     }
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);

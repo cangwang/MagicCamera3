@@ -73,7 +73,7 @@ private:
     bool isSavePhoto = false;
     std::string savePhotoAddress;
     std::mutex gMutex;
-    std::thread thread;
+//    std::thread thread;
     GLenum srcBlend;
     GLenum dstBlend;
 };

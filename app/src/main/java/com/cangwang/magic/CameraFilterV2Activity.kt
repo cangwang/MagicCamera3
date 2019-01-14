@@ -59,15 +59,15 @@ class CameraFilterV2Activity:AppCompatActivity(){
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_camera)
-        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) run {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),CAMERA_PERMISSION_REQ)
-        }else {
+//        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) run {
+//            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),CAMERA_PERMISSION_REQ)
+//        }else {
             initView()
             initCamera()
-        }
-        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) run {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),STORGE_PERMISSION_REQ)
-        }
+//        }
+//        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) run {
+//            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),STORGE_PERMISSION_REQ)
+//        }
     }
 
 //    private val types = arrayOf(MagicFilterType.NONE, MagicFilterType.FAIRYTALE, MagicFilterType.SUNRISE,
@@ -132,7 +132,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
 
     override fun onResume() {
         super.onResume()
-//        mCamera?.startPreview()
+        mCamera?.startPreview()
     }
 
     private fun initCamera(){
@@ -143,12 +143,13 @@ class CameraFilterV2Activity:AppCompatActivity(){
 
     override fun onPause() {
         super.onPause()
+        mCamera?.stopPreview(false)
     }
 
     override fun onDestroy() {
+        mCamera?.stopPreview(true)
         mSurfaceCallback?.releaseOpenGL()
 //        releaseCamera()
-        mCamera?.stopPreview(true)
         super.onDestroy()
     }
 
@@ -161,12 +162,12 @@ class CameraFilterV2Activity:AppCompatActivity(){
 //            }
 //        }
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_PERMISSION_REQ &&(grantResults.size != 1 || grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-            initView()
-            initCamera()
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
+//        if (requestCode == CAMERA_PERMISSION_REQ &&(grantResults.size != 1 || grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+//            initView()
+//            initCamera()
+//        } else {
+//            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        }
     }
 
     fun takePhoto(){
