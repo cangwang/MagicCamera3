@@ -41,6 +41,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
+        mCamera?.stopPreview(true)
         releaseOpenGL()
     }
 
@@ -127,15 +128,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
 
     fun doStartPreview(){
         mCamera?.startPreview()
-//        cameraFocus(width/2.0f,height/2.0f)
     }
-
-//    fun cameraFocus(x:Float,y:Float){
-//        mCamera?.let {
-//            it.cancelAutoFocus()
-//            CameraHelper.setFocusMode(it, Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)
-//        }
-//    }
 
     @SuppressLint("CheckResult")
     fun takePhoto(){

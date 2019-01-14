@@ -158,18 +158,12 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
 
     override fun onStopPreview() {
         abortSession()
-        stopBackgroundThread()
         mCamera?.close()
         mCamera = null
+        stopBackgroundThread()
     }
 
     override fun onOpenCamera(@CameraType cameraType: Int) {
-//        PermissionManager.instance().checkPermission(arrayOf(Manifest.permission.CAMERA),
-//                object : SimplePermissionCallback() {
-//                    fun onPermissionGranted(permission: String) {
-//                        initialize(cameraType)
-//                    }
-//                })
         initialize(cameraType)
     }
 

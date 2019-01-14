@@ -1,11 +1,9 @@
 package com.cangwang.magic.camera
 
-import android.Manifest
 import android.content.Context
 import android.hardware.Camera
 import android.hardware.Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO
 import android.util.Log
-
 
 class CameraCompatV19(context: Context) : CameraCompat(context) {
 
@@ -44,21 +42,6 @@ class CameraCompatV19(context: Context) : CameraCompat(context) {
     }
 
     override fun onOpenCamera(cameraType: Int) {
-//        PermissionManager.instance().checkPermission(arrayOf(Manifest.permission.CAMERA),
-//                object : SimplePermissionCallback() {
-//                    fun onPermissionGranted(permission: String) {
-//                        try {
-//                            mCamera = Camera.open(if (cameraType == FRONT_CAMERA)
-//                                getFrontCameraIdV19()
-//                            else
-//                                getBackCameraIdV19())
-//                            initialize()
-//                        } catch (e: Throwable) {
-//                            Log.e(TAG, e)
-//                        }
-//
-//                    }
-//                })
         try {
             mCamera = Camera.open(if (cameraType == FRONT_CAMERA)
                 frontCameraIdV19

@@ -110,13 +110,11 @@ class CameraFilterV2Activity:AppCompatActivity(){
     }
 
     override fun onPause() {
-        super.onPause()
         mCamera?.stopPreview(false)
+        super.onPause()
     }
 
     override fun onDestroy() {
-        mCamera?.stopPreview(true)
-        mSurfaceCallback?.releaseOpenGL()
         super.onDestroy()
     }
 
@@ -133,7 +131,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
         animator.duration = 200
         animator.addListener(object :AnimatorListenerAdapter(){
             override fun onAnimationStart(animation: Animator) {
-                findViewById<View>(R.id.btn_camera_shutter).isClickable = false
+                btn_camera_shutter.isClickable = false
                 layout_filter.visibility = View.VISIBLE
             }
         })
@@ -148,15 +146,23 @@ class CameraFilterV2Activity:AppCompatActivity(){
             override fun onAnimationEnd(animation: Animator) {
                 // TODO Auto-generated method stub
                 layout_filter.visibility = View.INVISIBLE
-                findViewById<View>(R.id.btn_camera_shutter).isClickable = true
+                btn_camera_shutter.isClickable = true
             }
 
             override fun onAnimationCancel(animation: Animator) {
                 // TODO Auto-generated method stub
                 layout_filter.visibility = View.INVISIBLE
-                findViewById<View>(R.id.btn_camera_shutter).isClickable = true
+                btn_camera_shutter.isClickable = true
             }
         })
         animator.start()
+    }
+
+    override fun onBackPressed() {
+        if(layout_filter.visibility ==View.VISIBLE){
+            hideFilters()
+        }else {
+            super.onBackPressed()
+        }
     }
 }
