@@ -63,9 +63,9 @@ object CameraUtil {
         var temp = sizes[0]
         val screenWidth = getScreenWidth()
         val screenHeigth = getScreenHeight()
-        for (i in 1 until sizes.size) {
-            if (sizes[i].width >= screenWidth && sizes[i].height >= screenHeigth)
-                temp = sizes[i]
+        for (size in sizes) {
+            if (size.width >= screenHeigth && size.height >= screenWidth && size.height.toFloat()/size.width == screenWidth.toFloat()/screenHeigth)
+                temp = size
         }
         return CameraCompat.CameraSize(temp)
     }
