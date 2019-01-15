@@ -87,6 +87,6 @@ void main(){
 
         gl_FragColor = vec4(mix(smoothColor.rgb, max(smoothColor, centralColor), alpha), 1.0);
     }else{
-        gl_FragColor = vec4(centralColor.rgb,1.0);;
+        gl_FragColor = vec4(centralColor.rgb,1.0);
     }
 }

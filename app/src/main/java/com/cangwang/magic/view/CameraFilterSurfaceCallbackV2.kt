@@ -120,7 +120,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
         }
     }
 
-    fun setsetFilterType(type:Int){
+    fun setFilterType(type:Int){
         mExecutor.execute {
             OpenGLJniLib.setFilterType(type)
         }

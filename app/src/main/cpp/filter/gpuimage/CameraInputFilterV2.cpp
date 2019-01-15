@@ -79,8 +79,6 @@ int CameraInputFilter::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
 int CameraInputFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const float *cubeBuffer,
                                 const float *textureBuffer) {
     glUseProgram(mGLProgId);
-    setBeautyLevelOnDraw(beautyLevel);
-//    runPendingOnDrawTasks()
     if(!mIsInitialized)
         return NOT_INIT;
     //加载矩阵
@@ -106,9 +104,9 @@ int CameraInputFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const
     return ON_DRAWN;
 }
 
-GLuint CameraInputFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix) {
+int CameraInputFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix) {
     glViewport(0,0,mFrameWidth,mFrameHeight);
-    setBeautyLevelOnDraw(beautyLevel);
+
     glBindFramebuffer(GL_FRAMEBUFFER,mFrameBuffer);
     glUseProgram(mGLProgId);
     if (!mIsInitialized){
@@ -120,7 +118,8 @@ GLuint CameraInputFilter::onDrawToTexture(const GLuint textureId, GLfloat *matri
     glVertexAttribPointer(mGLAttribTextureCoordinate,2,GL_FLOAT,GL_FALSE,0,mGLTextureBuffer);
     glEnableVertexAttribArray(mGLAttribTextureCoordinate);
     glUniformMatrix4fv(mTexturetransformMatrixlocation,1,GL_FALSE,matrix);
-
+    setBeautyLevelOnDraw(beautyLevel);
+    setTexelSize(mInputWidth,mInputHeight);
     //加载矩阵
 //    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
 
@@ -175,6 +174,10 @@ void CameraInputFilter::destroyCameraFrameBuffers() {
     mFrameHeight = -1;
 }
 
+void CameraInputFilter::setTexelSize(int width,int height){
+    glUniform2f(mSingleStepOffsetLocation,2.0f/width,2.0f/height);
+}
+
 void CameraInputFilter::setBeautyLevel(int level){
     ALOGV("beauty Level = %d",level);
     beautyLevel = level;
@@ -183,6 +186,9 @@ void CameraInputFilter::setBeautyLevel(int level){
 void CameraInputFilter::setBeautyLevelOnDraw(int level){
 //    ALOGV("setbeautyLevel = %d",level);
     switch (level){
+        case 0:
+            glUniform1f(mParamsLocation,0.0f);
+            break;
         case 1:
             glUniform1f(mParamsLocation,1.0f);
             break;
