@@ -12,12 +12,14 @@ int loadTexture(const char data[],const int width,const int height,const int use
 int loadTexture(const char data[],const int width,const int height,const int userTexId,int type);
 int loadTexture(const JNIEnv *env,const char* name);
 GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName);
+GLuint loadTextureFromAssetsRepeat(AAssetManager *manager, const char *fileName);
 //BitmapOperation getImageFromAssetsFile(JNIEnv *env,char *filename);
 GLuint loadProgram(const char *strVSource, const char *strFSource);
 GLuint loadShader(const char *strSource,const int iType);
 GLuint getExternalOESTextureID();
 GLuint get2DTextureID();
 GLuint getLutTextureID();
+GLuint get2DTextureRepeatID();
 char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager, char* fileName);
 //BitmapOperation drawToBitmapByFilter(jobject bitmap,GPUImageFilter filter,int displayWidth,int displayHeight, bool rotate);
 void checkGLError(char *op);

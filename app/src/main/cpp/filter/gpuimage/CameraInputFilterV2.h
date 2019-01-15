@@ -22,7 +22,7 @@ public:
     void onInputSizeChanged(const int width, const int height);
     int onDrawFrame(const GLuint textureId, GLfloat *matrix,const float* cubeBuffer, const float* textureBuffer);
     int onDrawFrame(const GLuint textureId, GLfloat *matrix);
-    int onDrawToTexture(const GLuint textureId,GLfloat *matrix);
+    GLuint onDrawToTexture(const GLuint textureId,GLfloat *matrix);
     void destroy();
     void initCameraFrameBuffer(int width,int height);
     void destroyCameraFrameBuffers();

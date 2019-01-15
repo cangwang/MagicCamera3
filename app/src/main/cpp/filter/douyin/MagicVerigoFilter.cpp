@@ -67,7 +67,8 @@ MagicVerigoFilter::MagicVerigoFilter(){
 //}
 
 MagicVerigoFilter::MagicVerigoFilter(AAssetManager *assetManager)
-        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"none.glsl")),mAssetManager(assetManager){
+        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"common_f.glsl")),
+          mAssetManager(assetManager),mRenderBuffer(nullptr){
 
 }
 
@@ -109,11 +110,12 @@ void MagicVerigoFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     mLastFrameProgram = loadProgram(readShaderFromAsset(mAssetManager,"nofilter_v.glsl")->c_str(),readShaderFromAsset(mAssetManager,"common_f.glsl")->c_str());
     mCurrentFrameProgram = loadProgram(readShaderFromAsset(mAssetManager,"nofilter_v.glsl")->c_str(),readShaderFromAsset(mAssetManager,"verigo_f.glsl")->c_str());
-    mLutTexture = getLutTextureID();
-    loadTextureFromAssets(mAssetManager,"lookup_vertigo.png");
+    mLutTexture = loadTextureFromAssetsRepeat(mAssetManager,"lookup_vertigo.png");
 }
 
 void MagicVerigoFilter::onInputSizeChanged(const int width, const int height) {
+    mInputWidth = width;
+    mInputHeight = height;
     mRenderBuffer  = new RenderBuffer(GL_TEXTURE8,width,height);
     mRenderBuffer2 = new RenderBuffer(GL_TEXTURE9,width,height);
     mRenderBuffer3 = new RenderBuffer(GL_TEXTURE10,width,height);
@@ -145,7 +147,6 @@ void MagicVerigoFilter::drawToBuffer() {
 }
 
 void MagicVerigoFilter::drawCurrentFrame() {
-    glUseProgram(mCurrentFrameProgram);
     int textureId = mRenderBuffer->getTextureId();
 //    setup(mCurrentFrameProgram,new GLint[2]{textureId,mFirst?mRenderBuffer2->getTextureId():mLutTexture});
 

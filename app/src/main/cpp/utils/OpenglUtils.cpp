@@ -21,26 +21,18 @@
 //检测错误
 void checkGLError(char *op) {
     GLint error = glGetError();
-    char err = (char)error;
     if(error!= GL_NO_ERROR){
-        std::string msg ="";
-        msg.append(op);
-        msg.append(":glError 0x");
-        msg.append(&err);
-//        LOGE(msg.c_str());
+        char err = (char)error;
+        LOGE("%s :glError 0x%d",op,err);
     }
 }
 
 //检测错误
 void checkGLError(std::string op) {
     GLint error = glGetError();
-    char err = (char)error;
     if(error!= GL_NO_ERROR){
-        std::string msg ="";
-        msg.append(op);
-        msg.append(":glError 0x");
-        msg.append(&err);
-//        LOGE(msg.c_str());
+        char err = (char)error;
+        LOGE("%s :glError 0x%d",op.c_str(),err);
     }
 }
 
@@ -138,6 +130,63 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
     return textureHandler;
 }
 
+GLuint loadTextureFromAssetsRepeat(AAssetManager *manager, const char *fileName){
+    GLuint textureHandler=0;
+    glGenTextures(1,&textureHandler);
+    if (textureHandler!=0){
+        glBindTexture(GL_TEXTURE_2D,textureHandler);
+        //纹理放大缩小使用线性插值
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        //超出的部份会重复纹理坐标的边缘，产生一种边缘被拉伸的效果，s/t相当于x/y轴坐标
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+        //打开asset文件夹
+        AAssetDir *dir = AAssetManager_openDir(manager,"filter");
+
+        const char *file = nullptr;
+
+        while ((file =AAssetDir_getNextFileName(dir))!= nullptr) {
+            if (strcmp(file, fileName) == 0) {
+                std::string *name = new std::string("filter/");
+                name->append(file);
+                AAsset *asset = AAssetManager_open(manager, name->c_str(), AASSET_MODE_STREAMING);
+                if (asset != NULL) {
+                    //获取文件长度
+                    int len = AAsset_getLength(asset);
+                    int width=0,height=0,n=0;
+                    unsigned char* buff = (unsigned char *) AAsset_getBuffer(asset);
+                    //读取图片长宽高数据
+                    unsigned char* data = stbi_load_from_memory(buff, len, &width, &height, &n, 0);
+                    ALOGV("loadTextureFromAssets fileName = %s,width = %d,height=%d,n=%d,size = %d",fileName,width,height,n,len);
+
+                    AAsset_close(asset);
+                    AAssetDir_close(dir);
+                    if(data!=NULL) {
+                        if (n==3) { //判断是jpg格式
+                            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                        } else if (n==4) {  //判断是png格式
+                            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+                        } else{
+                            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                        }
+                        //相当于2.0的gluBuild2DMipmaps
+//                        glGenerateMipmap(GL_TEXTURE_2D);
+                        stbi_image_free(data);
+                        return textureHandler;
+                    } else{
+                        LOGE("load texture from assets is null,fileName = %s",fileName);
+                        stbi_image_free(data);
+
+                        return 0; //代表加载图片失败
+                    }
+                }
+            }
+        }
+    }
+    return textureHandler;
+}
+
 //BitmapOperation getImageFromAssetsFile(JNIEnv *env, char *filename) {
 //
 //}
@@ -160,6 +209,17 @@ GLuint get2DTextureID(){
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+    return textureId;
+}
+
+GLuint get2DTextureRepeatID(){
+    GLuint textureId;
+    glGenTextures(1,&textureId);
+    glBindTexture(GL_TEXTURE_2D,textureId);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
     return textureId;
 }
 

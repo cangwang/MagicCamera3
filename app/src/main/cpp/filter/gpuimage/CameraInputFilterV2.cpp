@@ -104,13 +104,13 @@ int CameraInputFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const
     return ON_DRAWN;
 }
 
-int CameraInputFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix) {
+GLuint CameraInputFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix) {
     glViewport(0,0,mFrameWidth,mFrameHeight);
 
     glBindFramebuffer(GL_FRAMEBUFFER,mFrameBuffer);
     glUseProgram(mGLProgId);
     if (!mIsInitialized){
-        return NOT_INIT;
+        return (GLuint) NOT_INIT;
     }
 
     glVertexAttribPointer(mGLAttribPosition,2,GL_FLOAT,GL_FALSE,0,mGLCubeBuffer);

@@ -190,7 +190,7 @@ void CameraFilter::setBeautyLevel(int level) {
 }
 
 bool CameraFilter::savePhoto(std::string saveFileAddress){
-    if(cameraInputFilter != nullptr){
+    if(filter != nullptr){
         return filter->savePhoto(saveFileAddress);
     }
     return false;

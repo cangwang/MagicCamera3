@@ -18,19 +18,19 @@ RenderBuffer::RenderBuffer(GLenum activeTextureUnit, int width, int height) {
     mWidth = width;
     mHeight = height;
     glActiveTexture(activeTextureUnit);
-    mTextureId = get2DTextureID();
+    mTextureId = get2DTextureRepeatID();
     unsigned char* texBuffer = (unsigned char*)malloc(sizeof(unsigned char*) * width * height * 4);
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,texBuffer);
+//    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE, nullptr);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
 
     glGenFramebuffers(1,&mFrameBufferId);
-
     glBindFramebuffer(GL_FRAMEBUFFER,mFrameBufferId);
-    glGenRenderbuffers(1,&mRenderBufferId);
 
+    glGenRenderbuffers(1,&mRenderBufferId);
     glBindRenderbuffer(GL_RENDERBUFFER,mRenderBufferId);
     glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT16,width,height);
 }
@@ -45,7 +45,7 @@ void RenderBuffer::bind() {
     glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,mRenderBufferId);
     checkGLError("glFramebufferRenderbuffer");
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
-        ALOGE("framebuffer error");
+        checkGLError("glCheckFramebufferStatus");
     }
 }
 
@@ -59,5 +59,7 @@ GLuint RenderBuffer::getTextureId() {
 
 
 RenderBuffer::~RenderBuffer() {
-
+    glDeleteBuffers(1,&mTextureId);
+    glDeleteFramebuffers(1,&mFrameBufferId);
+    glDeleteRenderbuffers(1,&mRenderBufferId);
 }
