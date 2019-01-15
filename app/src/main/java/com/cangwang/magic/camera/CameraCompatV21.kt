@@ -102,7 +102,7 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
                     ?: return
             //获取支持尺寸
             val sizes = map.getOutputSizes(SurfaceTexture::class.java)
-            outputSize = CameraUtil.findBestSize(DESIRED_HEIGHT, sizes)
+            outputSize = CameraUtil.getLargePreviewSize(sizes)
         } catch (e: CameraAccessException) {
             Log.e(TAG, e.toString())
         }
