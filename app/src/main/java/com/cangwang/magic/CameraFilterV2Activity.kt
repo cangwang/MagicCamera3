@@ -87,12 +87,12 @@ class CameraFilterV2Activity:AppCompatActivity(){
                     .setNegativeButton("取消", null)
                     .show()
         }
-        val screenSize =Point()
-        windowManager.defaultDisplay.getSize(screenSize)
-        val params = glsurfaceview_camera.layoutParams as RelativeLayout.LayoutParams
-        params.width= screenSize.x
-        params.height = screenSize.x* 16/9
-        glsurfaceview_camera.layoutParams = params
+//        val screenSize =Point()
+//        windowManager.defaultDisplay.getSize(screenSize)
+//        val params = glsurfaceview_camera.layoutParams as RelativeLayout.LayoutParams
+//        params.width= screenSize.x
+//        params.height = screenSize.x* 16/9
+//        glsurfaceview_camera.layoutParams = params
 
     }
 
