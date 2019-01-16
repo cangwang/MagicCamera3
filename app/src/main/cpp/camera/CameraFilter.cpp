@@ -137,13 +137,19 @@ int CameraFilter::create() {
 }
 
 void CameraFilter::change(int width, int height) {
+    //设置视口
     glViewport(0,0,width,height);
     mWidth = width;
     mHeight = height;
     if (cameraInputFilter!= nullptr){
-        cameraInputFilter->onInputSizeChanged(width, height);
-        if (filter != nullptr){
+        if (cameraInputFilter!= nullptr){
+            //触发输入大小更新
+            cameraInputFilter->onInputSizeChanged(width, height);
+            //初始化帧缓冲
             cameraInputFilter->initCameraFrameBuffer(width,height);
+        }
+        if (filter != nullptr){
+            //初始化滤镜的大小
             filter->onInputSizeChanged(width,height);
         } else{
             cameraInputFilter->destroyCameraFrameBuffers();
@@ -153,12 +159,15 @@ void CameraFilter::change(int width, int height) {
 
 
 void CameraFilter::draw(GLfloat *matrix) {
+    //清屏
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (cameraInputFilter != nullptr){
 //        cameraInputFilter->onDrawFrame(mTextureId,matrix,VERTICES,TEX_COORDS);
+        //获取帧缓冲id
         GLuint id = cameraInputFilter->onDrawToTexture(mTextureId,matrix);
         if (filter != nullptr)
+            //通过滤镜filter绘制
             filter->onDrawFrame(id,matrix);
         //缓冲区交换
         glFlush();

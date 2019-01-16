@@ -88,21 +88,23 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicAdjustSize(JNIEnv *env, jobject o
 
 }
 
+//surfaceView初始化的时候创建
 JNIEXPORT jint JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterCreate(JNIEnv *env, jobject obj,
                                                         jobject surface,jobject assetManager) {
     std::unique_lock<std::mutex> lock(gMutex);
-    if(glCameraFilter){
+    if(glCameraFilter){ //停止摄像头采集并销毁
         glCameraFilter->stop();
         delete glCameraFilter;
     }
 
+    //初始化native window
     ANativeWindow *window = ANativeWindow_fromSurface(env,surface);
+    //初始化app内获取数据管理
     aAssetManager= AAssetManager_fromJava(env,assetManager);
+    //初始化相机采集
     glCameraFilter = new CameraFilter(window,aAssetManager);
-//    glCameraFilter->setAssetManager(manager);
-//    glCameraFilter->resize(width,height);
-
+    //创建
     return glCameraFilter->create();
 }
 
@@ -118,7 +120,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterSet(JNIEnv *env, jobject ob
     glCameraFilter->setFilter(manager);
 }
 
-
+//窗口大小设置，SurfaceView初始化后会触发一次
 JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {
     std::unique_lock<std::mutex> lock(gMutex);
@@ -127,19 +129,24 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterChange(JNIEnv *env, jobject
         ALOGE("change error, glCameraFilter is null");
         return;
     }
+    //更改窗口大小
     glCameraFilter->change(width,height);
 }
 
 JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jstring address) {
+    //获取摄像头矩阵
     jfloat *matrix = env->GetFloatArrayElements(matrix_,NULL);
-
+    //加锁
     std::unique_lock<std::mutex> lock(gMutex);
+    //如果为空，就判断错误，中断
     if (!glCameraFilter){
         ALOGE("draw error, glCameraFilter is null");
         return;
     }
+    //摄像头采集画图
     glCameraFilter->draw(matrix);
+    //释放矩阵数据
     env->ReleaseFloatArrayElements(matrix_,matrix,0);
 }
 
