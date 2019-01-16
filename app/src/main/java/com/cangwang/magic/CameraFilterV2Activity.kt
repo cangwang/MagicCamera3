@@ -44,8 +44,6 @@ class CameraFilterV2Activity:AppCompatActivity(){
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_camera)
         initView()
-        initCamera()
-
     }
 
     private val types = OpenGLJniLib.getFilterTypes()
@@ -100,13 +98,14 @@ class CameraFilterV2Activity:AppCompatActivity(){
 
     override fun onResume() {
         super.onResume()
-        mCamera?.startPreview()
+        initCamera()
     }
 
     private fun initCamera(){
         mCamera = CameraCompat.newInstance(this)
         mSurfaceCallback = CameraFilterSurfaceCallbackV2(mCamera)
         glsurfaceview_camera.holder.addCallback(mSurfaceCallback)
+        mCamera?.startPreview()
     }
 
     override fun onPause() {
