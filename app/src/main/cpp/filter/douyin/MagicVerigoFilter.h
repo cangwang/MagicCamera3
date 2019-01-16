@@ -21,8 +21,8 @@ public:
 
 protected:
     void onInit() override;
-    void onInitialized() override ;
-    void onDrawArraysPre() override;
+    void onInitialized() override;
+    void onDrawPrepare() override;
     void onDrawArraysAfter() override;
 //    void onDrawArraysAfter(GLuint textureId) override;
 

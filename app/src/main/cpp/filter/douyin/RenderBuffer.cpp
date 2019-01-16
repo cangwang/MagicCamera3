@@ -45,7 +45,7 @@ void RenderBuffer::bind() {
     glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,mRenderBufferId);
     checkGLError("glFramebufferRenderbuffer");
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
-        checkGLError("glCheckFramebufferStatus");
+        ALOGE("framebuffer error");
     }
 }
 

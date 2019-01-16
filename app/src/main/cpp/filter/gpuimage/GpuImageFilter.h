@@ -25,21 +25,11 @@ public:
     virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix,const float* cubeBuffer, const float* textureBuffer);
     virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix);
     virtual void destroy();
-    virtual void onDestroy() {
+    virtual void onDestroy() {}
 
-    }
-
-    virtual void onDrawArraysPre() {
-
-    }
-
-    virtual void onDrawArraysAfter() {
-
-    }
-
-    virtual void onDrawArraysAfter(GLuint textureId) {
-
-    }
+    virtual void onDrawPrepare() {}
+    virtual void onDrawArraysPre() {}
+    virtual void onDrawArraysAfter() {}
 
     bool savePhoto(std::string directory);
     bool savePicture(unsigned char* data,std::string saveFileAddress);
@@ -50,6 +40,10 @@ public:
     AAssetManager* mAssetManager;
     int mInputWidth;
     int mInputHeight;
+
+    const int NO_TEXTURE = -1;
+    const int NOT_INIT = -1;
+    const int ON_DRAWN = 1;
 
 protected:
     virtual void onInit();
@@ -65,9 +59,6 @@ private:
     std::string* mFragmentShader;
     GLfloat* mGLCubeBuffer;
     GLfloat* mGLTextureBuffer;
-    const int NO_TEXTURE = -1;
-    const int NOT_INIT = -1;
-    const int ON_DRAWN = 1;
     GLint mMatrixLoc;
     GLuint mFrameBuffer;
     bool isSavePhoto = false;

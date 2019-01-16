@@ -82,9 +82,8 @@ void MagicVerigoFilter::onDestroy() {
 
 }
 
-void MagicVerigoFilter::onDrawArraysPre() {
+void MagicVerigoFilter::onDrawPrepare() {
     mRenderBuffer->bind();
-    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void MagicVerigoFilter::onDrawArraysAfter() {
@@ -141,13 +140,13 @@ void MagicVerigoFilter::drawToBuffer() {
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
-//    glActiveTexture(GL_TEXTURE3);
-//    glBindTexture(GL_TEXTURE_2D,mRenderBuffer3->getTextureId());
-//    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D,mRenderBuffer3->getTextureId());
+    glActiveTexture(GL_TEXTURE0);
 }
 
 void MagicVerigoFilter::drawCurrentFrame() {
-    int textureId = mRenderBuffer->getTextureId();
+    GLuint textureId = mRenderBuffer->getTextureId();
 //    setup(mCurrentFrameProgram,new GLint[2]{textureId,mFirst?mRenderBuffer2->getTextureId():mLutTexture});
 
     glUseProgram(mCurrentFrameProgram);
@@ -171,13 +170,13 @@ void MagicVerigoFilter::drawCurrentFrame() {
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
-//    glActiveTexture(GL_TEXTURE3);
-//    glBindTexture(GL_TEXTURE_2D,textureId);
-//    glActiveTexture(GL_TEXTURE0);
-//
-//    glActiveTexture(GL_TEXTURE4);
-//    glBindTexture(GL_TEXTURE_2D,mFirst?mRenderBuffer2->getTextureId():mLutTexture);
-//    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D,textureId);
+    glActiveTexture(GL_TEXTURE0);
+
+    glActiveTexture(GL_TEXTURE4);
+    glBindTexture(GL_TEXTURE_2D,mFirst?mRenderBuffer2->getTextureId():mLutTexture);
+    glActiveTexture(GL_TEXTURE0);
 }
 
 void MagicVerigoFilter::setup(GLuint programId, GLint* textureId) {
