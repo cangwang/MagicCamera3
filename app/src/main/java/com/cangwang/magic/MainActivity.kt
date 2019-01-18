@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
                                             grantResults: IntArray) {
-        if (requestCode == CAMERA_REQ && grantResults.size != 1 || grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == CAMERA_REQ && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             startActivity(CAMERA_REQ)
         }else if (requestCode == CAMERA_FILTER && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
             startActivity(CAMERA_FILTER)
