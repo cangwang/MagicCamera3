@@ -7,7 +7,6 @@
 #include <GLES2/gl2ext.h>
 #include <src/main/cpp/filter/gpuimage/GpuImageFilter.h>
 #include <src/main/cpp/filter/advanced/MagicNoneFilter.h>
-#include <src/main/cpp/filter/gpuimage/CameraInputFilterV2.h>
 #include <src/main/cpp/filter/MagicFilterFactory.h>
 
 
@@ -49,9 +48,9 @@ ImageFilter::ImageFilter(ANativeWindow *window): mWindow(window),mEGLCore(new EG
     mMatrix[15] = 1;
 }
 
-ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager): mWindow(window),mEGLCore(new EGLCore()),
+ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::string path): mWindow(window),mEGLCore(new EGLCore()),
                                                    mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
-                                                   mMatrixLoc(0),filter(nullptr),cameraInputFilter(nullptr),beautyFilter(nullptr){
+                                                   mMatrixLoc(0),filter(nullptr),imageInput(nullptr),beautyFilter(nullptr),imgPath(path){
     //清空mMatrix数组
     memset(mMatrix,0, sizeof(mMatrix));
     mMatrix[0] = 1;
@@ -59,8 +58,8 @@ ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager): mWi
     mMatrix[10] = 1;
     mMatrix[15] = 1;
 
-    if (cameraInputFilter == nullptr){
-        cameraInputFilter = new CameraInputFilter(assetManager);
+    if (imageInput == nullptr){
+        imageInput = new ImageInput(assetManager,path);
     }
     setFilter(assetManager);
 }
@@ -72,11 +71,11 @@ ImageFilter::~ImageFilter() {
         filter = nullptr;
     }
 
-    if (cameraInputFilter!= nullptr){
-        cameraInputFilter->destroyCameraFrameBuffers();
-        cameraInputFilter->destroy();
-        delete cameraInputFilter;
-        cameraInputFilter = nullptr;
+    if (imageInput!= nullptr){
+        imageInput->destroyCameraFrameBuffers();
+        imageInput->destroy();
+        delete imageInput;
+        imageInput = nullptr;
     }
 
     if (mEGLCore){
@@ -94,8 +93,8 @@ ImageFilter::~ImageFilter() {
 }
 
 void ImageFilter::setFilter(AAssetManager* assetManager) {
-//    if (cameraInputFilter == nullptr){
-//        cameraInputFilter = new CameraInputFilter(assetManager);
+//    if (imageInput == nullptr){
+//        imageInput = new imageInput(assetManager);
 //    }
     if(filter != nullptr){
         filter->destroy();
@@ -121,8 +120,8 @@ int ImageFilter::create() {
     }
 
     //相机初始化
-    if (cameraInputFilter!= nullptr){
-        cameraInputFilter->init();
+    if (imageInput!= nullptr){
+        imageInput->init();
     }
 
     //滤镜初始化
@@ -139,18 +138,18 @@ void ImageFilter::change(int width, int height) {
     glViewport(0,0,width,height);
     mWidth = width;
     mHeight = height;
-    if (cameraInputFilter!= nullptr){
-        if (cameraInputFilter!= nullptr){
+    if (imageInput!= nullptr){
+        if (imageInput!= nullptr){
             //触发输入大小更新
-            cameraInputFilter->onInputSizeChanged(width, height);
+            imageInput->onInputSizeChanged(width, height);
             //初始化帧缓冲
-            cameraInputFilter->initCameraFrameBuffer(width,height);
+            imageInput->initCameraFrameBuffer(width,height);
         }
         if (filter != nullptr){
             //初始化滤镜的大小
             filter->onInputSizeChanged(width,height);
         } else{
-            cameraInputFilter->destroyCameraFrameBuffers();
+            imageInput->destroyCameraFrameBuffers();
         }
     }
 }
@@ -160,13 +159,14 @@ void ImageFilter::draw(GLfloat *matrix) {
     //清屏
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    if (cameraInputFilter != nullptr){
-//        cameraInputFilter->onDrawFrame(mTextureId,matrix,VERTICES,TEX_COORDS);
+    if (imageInput != nullptr){
+//        imageInput->onDrawFrame(mTextureId,matrix,VERTICES,TEX_COORDS);
         //获取帧缓冲id
-        GLuint id = cameraInputFilter->onDrawToTexture(mTextureId,matrix);
+//        GLuint id = imageInput->onDrawToTexture(mTextureId,matrix);
         if (filter != nullptr)
             //通过滤镜filter绘制
-            filter->onDrawFrame(id,matrix);
+//            filter->onDrawFrame(id,matrix);
+            filter->onDrawFrame(imageInput->imgTexture,matrix);
         //缓冲区交换
         glFlush();
         mEGLCore->swapBuffer();
@@ -187,12 +187,12 @@ void ImageFilter::setFilter(GPUImageFilter* gpuImageFilter) {
     ALOGD("set filter success");
     if (filter!= nullptr)
         filter->init();
-    filter->onInputSizeChanged(cameraInputFilter->mInputWidth,cameraInputFilter->mInputHeight);
+    filter->onInputSizeChanged(imageInput->mInputWidth,imageInput->mInputHeight);
 }
 
 void ImageFilter::setBeautyLevel(int level) {
-    if (cameraInputFilter != nullptr){
-        cameraInputFilter->setBeautyLevel(level);
+    if (imageInput != nullptr){
+        imageInput->setBeautyLevel(level);
     }
 }
 

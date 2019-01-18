@@ -176,8 +176,11 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterCreate(JNIEnv *env, jo
     ANativeWindow *window = ANativeWindow_fromSurface(env,surface);
     //初始化app内获取数据管理
     aAssetManager= AAssetManager_fromJava(env,assetManager);
-    //初始化相机采集
-    glImageFilter = new ImageFilter(window,aAssetManager);
+    //初始化图片
+    const char* addressStr = env->GetStringUTFChars(imgPath,0);
+    std::string nativeAddress = addressStr;
+    glImageFilter = new ImageFilter(window,aAssetManager,nativeAddress);
+    env->ReleaseStringUTFChars(imgPath, addressStr);
     //创建
     return glImageFilter->create();
 }
@@ -206,7 +209,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterDraw(JNIEnv *env, jobj
         ALOGE("draw error, glCameraFilter is null");
         return;
     }
-    //摄像头采集画图
+    //图片和滤镜绘制
     glImageFilter->draw(matrix);
     //释放矩阵数据
     env->ReleaseFloatArrayElements(matrix_,matrix,0);

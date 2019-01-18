@@ -6,6 +6,7 @@
 #include "src/main/cpp/utils/OpenglUtils.h"
 #include "src/main/cpp/egl/EGLCore.h"
 #include "src/main/cpp/egl/GLBase.h"
+#include "ImageInput.h"
 #include <android/asset_manager.h>
 #include <src/main/cpp/filter/gpuimage/CameraInputFilterV2.h>
 #include <android/native_window.h>
@@ -17,7 +18,7 @@
 class ImageFilter:public GLBase{
 public:
     ImageFilter(ANativeWindow *window);
-    ImageFilter(ANativeWindow *window,AAssetManager *assetManager);
+    ImageFilter(ANativeWindow *window,AAssetManager *assetManager,std::string path);
     ~ImageFilter();
     void setFilter(GPUImageFilter* gpuImageFilter);
     int create();
@@ -33,7 +34,7 @@ protected:
 
 private:
     GPUImageFilter *filter;
-    CameraInputFilter *cameraInputFilter;
+    ImageInput *imageInput;
     AAssetManager *mAssetManager;
     ANativeWindow *mWindow;
     GLuint mTextureId;
@@ -41,6 +42,7 @@ private:
     GLint mMatrixLoc;
     GLfloat mMatrix[16];
     EGLCore *mEGLCore;
+    std::string imgPath;
     MagicBeautyFilter* beautyFilter;
 };
 
