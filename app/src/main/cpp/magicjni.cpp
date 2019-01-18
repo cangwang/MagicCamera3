@@ -9,6 +9,7 @@
 #include <malloc.h>
 #include <GLES3/gl3.h>
 #include <src/main/cpp/filter/MagicFilterFactory.h>
+#include <src/main/cpp/image/ImageFilter.h>
 #include "src/main/cpp/camera/CameraEngine.h"
 #include "src/main/cpp/camera/CameraFilter.h"
 
@@ -20,6 +21,7 @@ extern "C" {
 std::mutex gMutex;
 CameraEngine *glCamera = nullptr;
 CameraFilter *glCameraFilter = nullptr;
+ImageFilter *glImageFilter = nullptr;
 AAssetManager *aAssetManager = nullptr;
 
 JNIEXPORT jint JNICALL
@@ -88,7 +90,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicAdjustSize(JNIEnv *env, jobject o
 
 }
 
-//surfaceView初始化的时候创建
+//相机滤镜surfaceView初始化的时候创建
 JNIEXPORT jint JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterCreate(JNIEnv *env, jobject obj,
                                                         jobject surface,jobject assetManager) {
@@ -159,6 +161,67 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobjec
         glCameraFilter = nullptr;
     }
 }
+
+//图片滤镜surfaceView初始化的时候创建
+JNIEXPORT jint JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterCreate(JNIEnv *env, jobject obj,
+                                                            jobject surface,jobject assetManager,jstring imgPath) {
+    std::unique_lock<std::mutex> lock(gMutex);
+    if(glImageFilter){ //停止摄像头采集并销毁
+        glImageFilter->stop();
+        delete glImageFilter;
+    }
+
+    //初始化native window
+    ANativeWindow *window = ANativeWindow_fromSurface(env,surface);
+    //初始化app内获取数据管理
+    aAssetManager= AAssetManager_fromJava(env,assetManager);
+    //初始化相机采集
+    glImageFilter = new ImageFilter(window,aAssetManager);
+    //创建
+    return glImageFilter->create();
+}
+
+//窗口大小设置，SurfaceView初始化后会触发一次
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {
+    std::unique_lock<std::mutex> lock(gMutex);
+    //视口变换，可视区域
+    if (!glImageFilter){
+        ALOGE("change error, glCameraFilter is null");
+        return;
+    }
+    //更改窗口大小
+    glImageFilter->change(width,height);
+}
+
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jstring address) {
+    //获取摄像头矩阵
+    jfloat *matrix = env->GetFloatArrayElements(matrix_,NULL);
+    //加锁
+    std::unique_lock<std::mutex> lock(gMutex);
+    //如果为空，就判断错误，中断
+    if (!glImageFilter){
+        ALOGE("draw error, glCameraFilter is null");
+        return;
+    }
+    //摄像头采集画图
+    glImageFilter->draw(matrix);
+    //释放矩阵数据
+    env->ReleaseFloatArrayElements(matrix_,matrix,0);
+}
+
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterRelease(JNIEnv *env, jobject obj) {
+    std::unique_lock<std::mutex> lock(gMutex);
+    if (glImageFilter){
+        glImageFilter->stop();
+        delete glImageFilter;
+        glImageFilter = nullptr;
+    }
+}
+
 
 JNIEXPORT jintArray JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_getFilterTypes(JNIEnv *env, jobject obj) {

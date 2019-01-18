@@ -1,6 +1,5 @@
 package com.cangwang.magic.view
 
-
 import android.annotation.SuppressLint
 import android.graphics.SurfaceTexture
 import android.os.Build
@@ -10,29 +9,27 @@ import android.view.Surface
 import android.view.SurfaceHolder
 import android.widget.Toast
 import com.cangwang.magic.BaseApplication
-import com.cangwang.magic.camera.CameraCompat
 import com.cangwang.magic.util.OpenGLJniLib
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.io.IOException
 
 import java.util.concurrent.Executors
 
 /**
  * Created by zjl on 2018/10/12.
  */
-class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback{
+class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
     private val mExecutor = Executors.newSingleThreadExecutor()
 
-    private val TAG= CameraFilterSurfaceCallbackV2::class.java.simpleName!!
+    private val TAG= ImageFilterSurfaceCallback::class.java.simpleName!!
     private var mSurfaceTexture:SurfaceTexture?=null
-    private var mCamera=camera
     private val mMatrix = FloatArray(16)
     private var width = 0
     private var height = 0
     private var isTakePhoto = false
+    private val imagePath = path
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
         this.width = width
@@ -41,7 +38,6 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
-        mCamera?.stopPreview(true)
         releaseOpenGL()
     }
 
@@ -51,46 +47,22 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
         }
     }
 
-    fun initOpenGL(surface: Surface){
+    private fun initOpenGL(surface: Surface){
         mExecutor.execute {
-            val textureId = OpenGLJniLib.magicFilterCreate(surface,BaseApplication.context.assets)
-//            OpenGLJniLib.setFilterType(MagicFilterType.NONE.ordinal)
+            val textureId = OpenGLJniLib.magicImageFilterCreate(surface,BaseApplication.context.assets,imagePath)
             if (textureId < 0){
                 Log.e(TAG, "surfaceCreated init OpenGL ES failed!")
                 return@execute
             }
             mSurfaceTexture = SurfaceTexture(textureId)
             mSurfaceTexture?.setOnFrameAvailableListener { drawOpenGL() }
-            try {
-                mSurfaceTexture?.let {
-                    mCamera?.setSurfaceTexture(it)
-                }
-                doStartPreview()
-            }catch (e:IOException){
-                Log.e(TAG,e.localizedMessage)
-                releaseOpenGL()
-            }
         }
     }
 
-    fun changeCamera(camera:CameraCompat? ){
-        mExecutor.execute {
-            mCamera = camera
-            try {
-                mSurfaceTexture?.let {
-                    mCamera?.setSurfaceTexture(it)
-                }
-                doStartPreview()
-            } catch (e: IOException) {
-                Log.e(TAG, e.localizedMessage)
-                releaseOpenGL()
-            }
-        }
-    }
 
     fun changeOpenGL(width:Int,height:Int){
         mExecutor.execute {
-            OpenGLJniLib.magicFilterChange(width,height)
+            OpenGLJniLib.magicImageFilterChange(width,height)
         }
     }
 
@@ -104,19 +76,18 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
                 }else{  // Meizu 、Oppo
                     Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
                 }
-                OpenGLJniLib.magicFilterDraw(mMatrix,photoAddress)
+                OpenGLJniLib.magicImageFilterDraw(mMatrix,photoAddress)
             }else {
-                OpenGLJniLib.magicFilterDraw(mMatrix,"")
+                OpenGLJniLib.magicImageFilterDraw(mMatrix,"")
             }
         }
     }
 
-    fun releaseOpenGL(){
+    private fun releaseOpenGL(){
         mExecutor.execute {
-            OpenGLJniLib.magicFilterRelease()
+            OpenGLJniLib.magicImageFilterRelease()
             mSurfaceTexture?.release()
             mSurfaceTexture=null
-            mCamera =null
         }
     }
 
@@ -126,31 +97,24 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
         }
     }
 
-    fun doStartPreview(){
-        mCamera?.startPreview()
-    }
-
     @SuppressLint("CheckResult")
-    fun takePhoto(){
+    fun savePhoto(){
         val rootAddress = if(Build.BRAND == "Xiaomi"){ // 小米手机
             Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
         }else{  // Meizu 、Oppo
             Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
         }
-//        mCamera?.stopPreview()
         Observable.create(ObservableOnSubscribe<Boolean> {
             it.onNext(OpenGLJniLib.savePhoto(rootAddress))
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-//                    mCamera?.startPreview()
                     if (!it){
                         Toast.makeText(BaseApplication.context,"save fail",Toast.LENGTH_SHORT).show()
                     }else{
                         Toast.makeText(BaseApplication.context,"save success",Toast.LENGTH_SHORT).show()
                     }
                 },{
-//                    mCamera?.startPreview()
                     Log.e(TAG,it.toString())
                 })
     }

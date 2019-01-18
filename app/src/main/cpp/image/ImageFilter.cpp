@@ -1,19 +1,17 @@
 #include <android/native_window.h>
 #include <string>
-#include "CameraFilter.h"
+#include "ImageFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 #include <GLES3/gl3.h>
 #include <GLES3/gl3ext.h>
 #include <GLES2/gl2ext.h>
-#include <src/main/cpp/filter/advanced/MagicCoolFilter.h>
-#include <src/main/cpp/filter/advanced/MagicAmaroFilter.h>
-#include <src/main/cpp/filter/advanced/MagicCalmFilter.h>
+#include <src/main/cpp/filter/gpuimage/GpuImageFilter.h>
 #include <src/main/cpp/filter/advanced/MagicNoneFilter.h>
 #include <src/main/cpp/filter/gpuimage/CameraInputFilterV2.h>
 #include <src/main/cpp/filter/MagicFilterFactory.h>
 
 
-#define LOG_TAG "CameraFilter"
+#define LOG_TAG "ImageFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #define ALOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
@@ -40,7 +38,7 @@ const static GLuint VERTEX_NUM = 4;
 const static GLuint VERTEX_POS_SIZE = 2;
 const static GLuint TEX_COORD_POS_SZIE = 2;
 
-CameraFilter::CameraFilter(ANativeWindow *window): mWindow(window),mEGLCore(new EGLCore()),
+ImageFilter::ImageFilter(ANativeWindow *window): mWindow(window),mEGLCore(new EGLCore()),
                                                    mAssetManager(nullptr),mTextureId(0),mTextureLoc(0),
                                                    mMatrixLoc(0){
     //清空mMatrix数组
@@ -51,9 +49,9 @@ CameraFilter::CameraFilter(ANativeWindow *window): mWindow(window),mEGLCore(new 
     mMatrix[15] = 1;
 }
 
-CameraFilter::CameraFilter(ANativeWindow *window,AAssetManager* assetManager): mWindow(window),mEGLCore(new EGLCore()),
+ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager): mWindow(window),mEGLCore(new EGLCore()),
                                                    mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
-                                                   mMatrixLoc(0),filter(nullptr),cameraInputFilter(nullptr){
+                                                   mMatrixLoc(0),filter(nullptr),cameraInputFilter(nullptr),beautyFilter(nullptr){
     //清空mMatrix数组
     memset(mMatrix,0, sizeof(mMatrix));
     mMatrix[0] = 1;
@@ -67,7 +65,7 @@ CameraFilter::CameraFilter(ANativeWindow *window,AAssetManager* assetManager): m
     setFilter(assetManager);
 }
 
-CameraFilter::~CameraFilter() {
+ImageFilter::~ImageFilter() {
     if (filter!= nullptr){
         filter->destroy();
         delete filter;
@@ -95,7 +93,7 @@ CameraFilter::~CameraFilter() {
     mAssetManager = nullptr;
 }
 
-void CameraFilter::setFilter(AAssetManager* assetManager) {
+void ImageFilter::setFilter(AAssetManager* assetManager) {
 //    if (cameraInputFilter == nullptr){
 //        cameraInputFilter = new CameraInputFilter(assetManager);
 //    }
@@ -107,12 +105,12 @@ void CameraFilter::setFilter(AAssetManager* assetManager) {
     ALOGD("set filter success");
 }
 
-void CameraFilter::setFilter(int type) {
+void ImageFilter::setFilter(int type) {
     GPUImageFilter* filter = initFilters(type,mAssetManager);
     setFilter(filter);
 }
 
-int CameraFilter::create() {
+int ImageFilter::create() {
     glDisable(GL_DITHER);
     glClearColor(0,0,0,0);
     glEnable(GL_CULL_FACE);
@@ -136,7 +134,7 @@ int CameraFilter::create() {
     return mTextureId;
 }
 
-void CameraFilter::change(int width, int height) {
+void ImageFilter::change(int width, int height) {
     //设置视口
     glViewport(0,0,width,height);
     mWidth = width;
@@ -158,7 +156,7 @@ void CameraFilter::change(int width, int height) {
 }
 
 
-void CameraFilter::draw(GLfloat *matrix) {
+void ImageFilter::draw(GLfloat *matrix) {
     //清屏
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -175,12 +173,12 @@ void CameraFilter::draw(GLfloat *matrix) {
     }
 }
 
-void CameraFilter::stop() {
+void ImageFilter::stop() {
     //删除纹理
     glDeleteTextures(1,&mTextureId);
 }
 
-void CameraFilter::setFilter(GPUImageFilter* gpuImageFilter) {
+void ImageFilter::setFilter(GPUImageFilter* gpuImageFilter) {
     if(filter != nullptr){
         filter->destroy();
         filter= nullptr;
@@ -192,13 +190,13 @@ void CameraFilter::setFilter(GPUImageFilter* gpuImageFilter) {
     filter->onInputSizeChanged(cameraInputFilter->mInputWidth,cameraInputFilter->mInputHeight);
 }
 
-void CameraFilter::setBeautyLevel(int level) {
+void ImageFilter::setBeautyLevel(int level) {
     if (cameraInputFilter != nullptr){
         cameraInputFilter->setBeautyLevel(level);
     }
 }
 
-bool CameraFilter::savePhoto(std::string saveFileAddress){
+bool ImageFilter::savePhoto(std::string saveFileAddress){
     if(filter != nullptr){
         return filter->savePhoto(saveFileAddress);
     }

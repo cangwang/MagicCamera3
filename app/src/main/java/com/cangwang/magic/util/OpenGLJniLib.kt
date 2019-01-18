@@ -41,7 +41,7 @@ object OpenGLJniLib{
 
 
     /**
-     * 滤镜
+     * 相机滤镜创建
      */
     external fun magicFilterCreate(surface:Surface,manager: AssetManager):Int
 
@@ -50,6 +50,17 @@ object OpenGLJniLib{
     external fun magicFilterDraw(matrix:FloatArray,isTakePhoto:String)
 
     external fun magicFilterRelease()
+
+    /**
+     * 图片滤镜创建
+     */
+    external fun magicImageFilterCreate(surface:Surface,manager: AssetManager,path:String):Int
+
+    external fun magicImageFilterChange(width:Int,height:Int)
+
+    external fun magicImageFilterDraw(matrix:FloatArray,isSavePhoto:String)
+
+    external fun magicImageFilterRelease()
 
     /**
      * 获取滤镜列表

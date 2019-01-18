@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
+import android.widget.Toast
 import com.werb.pickphotoview.PickPhotoView
 import com.werb.pickphotoview.model.SelectModel
 import com.werb.pickphotoview.util.PickConfig
@@ -82,9 +83,13 @@ class MainActivity : AppCompatActivity() {
         }
         if (requestCode == PickConfig.PICK_PHOTO_DATA) {
             val selectPaths = data.getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT) as ArrayList<SelectModel>
-            val intent = Intent(this,AlbumActivity::class.java)
-            intent.putExtra(PickConfig.INTENT_IMG_LIST_SELECT,data.getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT))
-            startActivity(intent)
+            if (selectPaths.size>0) {
+                val intent = Intent(this, ImageEditActivity::class.java)
+                intent.putExtra(PickConfig.INTENT_IMG_LIST_SELECT, selectPaths[0])
+                startActivity(intent)
+            }else{
+                Toast.makeText(this,"choose no picture",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

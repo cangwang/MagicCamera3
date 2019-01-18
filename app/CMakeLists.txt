@@ -43,7 +43,8 @@ add_library( # Sets the name of the library.
         src/main/cpp/utils/Matrix.cpp
         src/main/cpp/camera/CameraFilter.cpp
         src/main/cpp/camera/CameraEngine.cpp
-        src/main/cpp/camera/EGLCore.cpp
+        src/main/cpp/image/ImageFilter.cpp
+        src/main/cpp/egl/EGLCore.cpp
         src/main/cpp/filter/advanced/MagicAmaroFilter.cpp
         src/main/cpp/filter/advanced/MagicAntiqueFilter.cpp
         src/main/cpp/filter/advanced/MagicBlackCatFilter.cpp
