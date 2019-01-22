@@ -37,15 +37,7 @@ const static GLuint VERTEX_NUM = 4;
 const static GLuint VERTEX_POS_SIZE = 2;
 const static GLuint TEX_COORD_POS_SZIE = 2;
 
-ImageFilter::ImageFilter(ANativeWindow *window): mWindow(window),mEGLCore(new EGLCore()),
-                                                   mAssetManager(nullptr),mTextureId(0),mTextureLoc(0),
-                                                   mMatrixLoc(0){
-    //清空mMatrix数组
-    memset(mMatrix,0, sizeof(mMatrix));
-    mMatrix[0] = 1;
-    mMatrix[5] = 1;
-    mMatrix[10] = 1;
-    mMatrix[15] = 1;
+ImageFilter::ImageFilter(){
 }
 
 ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::string path): mWindow(window),mEGLCore(new EGLCore()),
@@ -72,7 +64,7 @@ ImageFilter::~ImageFilter() {
     }
 
     if (imageInput!= nullptr){
-        imageInput->destroyCameraFrameBuffers();
+        imageInput->destroyFrameBuffers();
         imageInput->destroy();
         delete imageInput;
         imageInput = nullptr;
@@ -143,13 +135,13 @@ void ImageFilter::change(int width, int height) {
             //触发输入大小更新
             imageInput->onInputSizeChanged(width, height);
             //初始化帧缓冲
-            imageInput->initCameraFrameBuffer(width,height);
+            imageInput->initFrameBuffer(width,height);
         }
         if (filter != nullptr){
             //初始化滤镜的大小
             filter->onInputSizeChanged(width,height);
         } else{
-            imageInput->destroyCameraFrameBuffers();
+            imageInput->destroyFrameBuffers();
         }
     }
 }
@@ -159,14 +151,9 @@ void ImageFilter::draw(GLfloat *matrix) {
     //清屏
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    if (imageInput != nullptr){
-//        imageInput->onDrawFrame(mTextureId,matrix,VERTICES,TEX_COORDS);
-        //获取帧缓冲id
-//        GLuint id = imageInput->onDrawToTexture(mTextureId,matrix);
-        if (filter != nullptr)
-            //通过滤镜filter绘制
-//            filter->onDrawFrame(id,matrix);
-            filter->onDrawFrame(imageInput->imgTexture,matrix);
+    if (imageInput != nullptr &&filter!= nullptr){
+        //通过滤镜filter绘制
+        filter->onDrawFrame(imageInput->imgTexture,matrix);
         //缓冲区交换
         glFlush();
         mEGLCore->swapBuffer();

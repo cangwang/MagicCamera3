@@ -84,25 +84,24 @@ void MagicVerigoFilter::onDestroy() {
 
 void MagicVerigoFilter::onDrawPrepare() {
     mRenderBuffer->bind();
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void MagicVerigoFilter::onDrawArraysAfter() {
     mRenderBuffer->unbind();
-    glClear(GL_COLOR_BUFFER_BIT);
     drawCurrentFrame();
-    mRenderBuffer3->bind();
-    drawCurrentFrame();
-    mRenderBuffer3->unbind();
-    mRenderBuffer2->bind();
-    drawToBuffer();
-    mRenderBuffer2->unbind();
+//    mRenderBuffer3->bind();
+//    drawCurrentFrame();
+//    mRenderBuffer3->unbind();
+//    mRenderBuffer2->bind();
+//    drawToBuffer();
+//    mRenderBuffer2->unbind();
     mFirst = false;
 }
 
 
 void MagicVerigoFilter::onInit() {
     GPUImageFilter::onInit();
-
 }
 
 void MagicVerigoFilter::onInitialized() {
@@ -169,6 +168,9 @@ void MagicVerigoFilter::drawCurrentFrame() {
 
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+
+    glDisableVertexAttribArray(position);
+    glDisableVertexAttribArray(texcoord);
 
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D,textureId);

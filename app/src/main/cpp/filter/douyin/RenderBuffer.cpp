@@ -58,7 +58,7 @@ void RenderBuffer::bind() {
 void RenderBuffer::unbind() {
     glBindFramebuffer(GL_FRAMEBUFFER,0);
     glBindRenderbuffer(GL_RENDERBUFFER,0);
-    glActiveTexture(GL_TEXTURE0);
+//    glActiveTexture(GL_TEXTURE0);
 }
 
 GLuint RenderBuffer::getTextureId() {

@@ -48,7 +48,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".AlbumActivity"
+        <activity android:name=".ImageEditActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">

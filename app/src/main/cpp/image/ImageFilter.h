@@ -17,7 +17,7 @@
  */
 class ImageFilter:public GLBase{
 public:
-    ImageFilter(ANativeWindow *window);
+    ImageFilter();
     ImageFilter(ANativeWindow *window,AAssetManager *assetManager,std::string path);
     ~ImageFilter();
     void setFilter(GPUImageFilter* gpuImageFilter);

@@ -24,8 +24,8 @@ public:
     int onDrawFrame(const GLuint textureId, GLfloat *matrix);
     GLuint onDrawToTexture(const GLuint textureId,GLfloat *matrix);
     void destroy();
-    void initCameraFrameBuffer(int width,int height);
-    void destroyCameraFrameBuffers();
+    void initFrameBuffer(int width,int height);
+    void destroyFrameBuffers();
     void setBeautyLevel(int level);
     GLuint imgTexture;
 

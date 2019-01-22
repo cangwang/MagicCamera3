@@ -55,7 +55,10 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
                 return@execute
             }
             mSurfaceTexture = SurfaceTexture(textureId)
-            mSurfaceTexture?.setOnFrameAvailableListener { drawOpenGL() }
+            mSurfaceTexture?.setOnFrameAvailableListener {
+                drawOpenGL()
+            }
+
         }
     }
 
@@ -63,13 +66,14 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
     fun changeOpenGL(width:Int,height:Int){
         mExecutor.execute {
             OpenGLJniLib.magicImageFilterChange(width,height)
+            OpenGLJniLib.magicImageFilterDraw(mMatrix,"")
         }
     }
 
     fun drawOpenGL(){
         mExecutor.execute {
             mSurfaceTexture?.updateTexImage()
-            mSurfaceTexture?.getTransformMatrix(mMatrix)
+//            mSurfaceTexture?.getTransformMatrix(mMatrix)
             if (isTakePhoto){
                 val photoAddress = if(Build.BRAND == "Xiaomi"){ // 小米手机
                     Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
