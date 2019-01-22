@@ -153,6 +153,8 @@ void ImageFilter::draw(GLfloat *matrix) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (imageInput != nullptr &&filter!= nullptr){
         //通过滤镜filter绘制
+//        GLuint id = imageInput->onDrawToTexture(imageInput->imgTexture,matrix);
+//        filter->onDrawFrame(id,matrix);
         filter->onDrawFrame(imageInput->imgTexture,matrix);
         //缓冲区交换
         glFlush();

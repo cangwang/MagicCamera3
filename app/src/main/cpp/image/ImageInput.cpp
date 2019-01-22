@@ -11,10 +11,8 @@ ImageInput::ImageInput() {
 }
 
 ImageInput::ImageInput(AAssetManager *assetManager,std::string path)
-        : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"default_vertex.glsl"),readShaderFromAsset(assetManager,"default_none_fragment.glsl")),
-          imgPath(path){
-    mGLCubeBuffer = CUBE;
-    mGLTextureBuffer = getRotation(NORMAL, false, true);
+        : ImageInput(readShaderFromAsset(assetManager,"default_vertex.glsl"),readShaderFromAsset(assetManager,"default_none_fragment.glsl")){
+    imgPath = path;
 }
 
 ImageInput::ImageInput(std::string *vertexShader, std::string *fragmentShader)
@@ -37,7 +35,30 @@ void ImageInput::init() {
 }
 
 void ImageInput::onInit() {
+    mGLProgId = loadProgram(mVertexShader->c_str(),mFragmentShader->c_str());
+    //获取顶点着色器
+    mGLAttribPosition = glGetAttribLocation(mGLProgId,"position");
+    if (mGLAttribPosition <0){
+        ALOGE("mGLAttribPosition is illegal.");
+    }
+    //获取混合顶点着色器
+    mGLAttribTextureCoordinate = glGetAttribLocation(mGLProgId,"inputTextureCoordinate");
+    if (mGLAttribTextureCoordinate < 0){
+        ALOGE("mGLAttribTexureCoordinate is illegal.");
+    }
 
+    //获取纹理统一变量索引
+    mGLUniformTexture = glGetUniformLocation(mGLProgId,"inputImageTexture");
+
+
+//    mMatrixLoc = glGetUniformLocation(mGLProgId,"textureTransform");
+    //初始化成功标志
+    mIsInitialized = true;
+
+    mTexturetransformMatrixlocation = glGetUniformLocation(mGLProgId,"textureTransform");
+    mSingleStepOffsetLocation = glGetUniformLocation(mGLProgId,"singleStepOffset");
+    mParamsLocation = glGetUniformLocation(mGLProgId,"params");
+//    glUniform1f(mParamsLocation,0.0f);
 }
 
 void ImageInput::onInitialized() {
@@ -127,7 +148,7 @@ void ImageInput::destroy() {
 }
 
 void ImageInput::initFrameBuffer(int width, int height) {
-    imgTexture = loadTextureFromAssets(mAssetManager,imgPath.c_str());
+    imgTexture = loadTextureFromFile(imgPath.c_str());
     //比对大小
     if ( mFrameWidth != width || mFrameHeight !=height){
         destroyFrameBuffers();
