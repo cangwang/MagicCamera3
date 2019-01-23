@@ -165,7 +165,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobjec
 //图片滤镜surfaceView初始化的时候创建
 JNIEXPORT jint JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterCreate(JNIEnv *env, jobject obj,
-                                                            jobject surface,jobject assetManager,jstring imgPath) {
+                                                            jobject surface,jobject assetManager,jstring imgPath,jint degree) {
     std::unique_lock<std::mutex> lock(gMutex);
     if(glImageFilter){ //停止摄像头采集并销毁
         glImageFilter->stop();
@@ -179,7 +179,8 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterCreate(JNIEnv *env, jo
     //初始化图片
     const char* addressStr = env->GetStringUTFChars(imgPath,0);
     std::string nativeAddress = addressStr;
-    glImageFilter = new ImageFilter(window,aAssetManager,nativeAddress);
+
+    glImageFilter = new ImageFilter(window,aAssetManager,nativeAddress,degree);
     env->ReleaseStringUTFChars(imgPath, addressStr);
     //创建
     return glImageFilter->create();

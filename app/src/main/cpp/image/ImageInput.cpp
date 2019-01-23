@@ -10,19 +10,15 @@ ImageInput::ImageInput() {
 
 }
 
-ImageInput::ImageInput(AAssetManager *assetManager,std::string path)
-        : ImageInput(readShaderFromAsset(assetManager,"default_vertex.glsl"),readShaderFromAsset(assetManager,"default_none_fragment.glsl")){
-    imgPath = path;
+ImageInput::ImageInput(AAssetManager *assetManager,std::string path):
+        mVertexShader(readShaderFromAsset(assetManager,"default_vertex.glsl")),
+        mFragmentShader(readShaderFromAsset(assetManager,"default_none_fragment.glsl")),
+        imgPath(path),
+        mGLCubeBuffer(CUBE),
+        mGLTextureBuffer(getRotation(NORMAL, false, true)){
+
 }
 
-ImageInput::ImageInput(std::string *vertexShader, std::string *fragmentShader)
-        :mVertexShader(vertexShader),
-         mFragmentShader(fragmentShader),
-         mMatrixLoc(0)
-{
-    mGLCubeBuffer = CUBE;
-    mGLTextureBuffer = getRotation(NORMAL, false, true);
-}
 
 ImageInput::~ImageInput() {
     mGLCubeBuffer = nullptr;
@@ -58,6 +54,7 @@ void ImageInput::onInit() {
     mTexturetransformMatrixlocation = glGetUniformLocation(mGLProgId,"textureTransform");
     mSingleStepOffsetLocation = glGetUniformLocation(mGLProgId,"singleStepOffset");
     mParamsLocation = glGetUniformLocation(mGLProgId,"params");
+    imgTexture=loadTextureFromFile(imgPath.c_str());
 //    glUniform1f(mParamsLocation,0.0f);
 }
 

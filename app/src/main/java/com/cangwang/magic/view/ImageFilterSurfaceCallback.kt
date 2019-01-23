@@ -9,6 +9,7 @@ import android.view.Surface
 import android.view.SurfaceHolder
 import android.widget.Toast
 import com.cangwang.magic.BaseApplication
+import com.cangwang.magic.util.ExifUtil
 import com.cangwang.magic.util.OpenGLJniLib
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
@@ -49,7 +50,7 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
 
     private fun initOpenGL(surface: Surface){
         mExecutor.execute {
-            val textureId = OpenGLJniLib.magicImageFilterCreate(surface,BaseApplication.context.assets,imagePath)
+            val textureId = OpenGLJniLib.magicImageFilterCreate(surface,BaseApplication.context.assets,imagePath,ExifUtil.getExifOrientation(imagePath))
             if (textureId < 0){
                 Log.e(TAG, "surfaceCreated init OpenGL ES failed!")
                 return@execute

@@ -2,6 +2,7 @@
 #include <string>
 #include "ImageFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
+
 #include <GLES3/gl3.h>
 #include <GLES3/gl3ext.h>
 #include <GLES2/gl2ext.h>
@@ -17,32 +18,13 @@
 /**
  * cangwang 2018.12.1
  */
-const static GLfloat VERTICES[]= {
-        -1.0f,1.0f,
-        1.0f,1.0f,
-        -1.0f,-1.0f,
-        1.0f,-1.0f
-};
-
-const static GLfloat TEX_COORDS[]={
-        0.0f,1.0f,
-        1.0f,1.0f,
-        0.0f,0.0f,
-        1.0f,0.0f
-};
-
-const static GLuint ATTRIB_POSITION = 0;
-const static GLuint ATTRIB_TEXCOORD = 1;
-const static GLuint VERTEX_NUM = 4;
-const static GLuint VERTEX_POS_SIZE = 2;
-const static GLuint TEX_COORD_POS_SZIE = 2;
 
 ImageFilter::ImageFilter(){
 }
 
-ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::string path): mWindow(window),mEGLCore(new EGLCore()),
+ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::string path,int degree): mWindow(window),mEGLCore(new EGLCore()),
                                                    mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
-                                                   mMatrixLoc(0),filter(nullptr),imageInput(nullptr),beautyFilter(nullptr),imgPath(path){
+                                                   mMatrixLoc(0),filter(nullptr),imageInput(nullptr),beautyFilter(nullptr),imgPath(path),degree(degree){
     //清空mMatrix数组
     memset(mMatrix,0, sizeof(mMatrix));
     mMatrix[0] = 1;
@@ -85,14 +67,12 @@ ImageFilter::~ImageFilter() {
 }
 
 void ImageFilter::setFilter(AAssetManager* assetManager) {
-//    if (imageInput == nullptr){
-//        imageInput = new imageInput(assetManager);
-//    }
     if(filter != nullptr){
         filter->destroy();
     }
-//    filter = new MagicAmaroFilter(assetManager);
     filter = new MagicNoneFilter(assetManager);
+    //调整滤镜中的图片的方向问题
+    filter->setOrientation(degree);
     ALOGD("set filter success");
 }
 
@@ -135,7 +115,7 @@ void ImageFilter::change(int width, int height) {
             //触发输入大小更新
             imageInput->onInputSizeChanged(width, height);
             //初始化帧缓冲
-            imageInput->initFrameBuffer(width,height);
+//            imageInput->initFrameBuffer(width,height);
         }
         if (filter != nullptr){
             //初始化滤镜的大小

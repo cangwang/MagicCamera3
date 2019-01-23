@@ -54,7 +54,7 @@ object OpenGLJniLib{
     /**
      * 图片滤镜创建
      */
-    external fun magicImageFilterCreate(surface:Surface,manager: AssetManager,path:String):Int
+    external fun magicImageFilterCreate(surface:Surface,manager: AssetManager,path:String,degree:Int):Int
 
     external fun magicImageFilterChange(width:Int,height:Int)
 

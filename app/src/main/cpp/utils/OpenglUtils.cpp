@@ -133,7 +133,7 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
 GLuint loadTextureFromFile(const char *fileName){
     GLuint textureHandler=0;
     glGenTextures(1,&textureHandler);
-    if (textureHandler!=0){
+    if (textureHandler!=-1){
         glBindTexture(GL_TEXTURE_2D,textureHandler);
         //纹理放大缩小使用线性插值
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);

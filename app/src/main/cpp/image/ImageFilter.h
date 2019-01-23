@@ -18,7 +18,7 @@
 class ImageFilter:public GLBase{
 public:
     ImageFilter();
-    ImageFilter(ANativeWindow *window,AAssetManager *assetManager,std::string path);
+    ImageFilter(ANativeWindow *window,AAssetManager *assetManager,std::string path,int degree);
     ~ImageFilter();
     void setFilter(GPUImageFilter* gpuImageFilter);
     int create();
@@ -44,5 +44,6 @@ private:
     EGLCore *mEGLCore;
     std::string imgPath;
     MagicBeautyFilter* beautyFilter;
+    int degree;
 };
 

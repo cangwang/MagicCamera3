@@ -16,7 +16,6 @@ class ImageInput: public GPUImageFilter{
 public:
     ImageInput();
     ImageInput(AAssetManager *assetManager,std::string path);
-    ImageInput(std::string *vertexShader, std::string *fragmentShader);
     virtual ~ImageInput();
     void init();
     void onInputSizeChanged(const int width, const int height);
@@ -55,6 +54,7 @@ private:
     int mFrameHeight = -1;
     int beautyLevel = 0;
     std::string imgPath;
+    int degree=0;
 };
 
 #endif

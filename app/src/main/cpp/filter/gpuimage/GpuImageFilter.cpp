@@ -27,7 +27,7 @@ GPUImageFilter::GPUImageFilter(AAssetManager *assetManager,std::string *vertexSh
         srcBlend(GL_NONE),
         dstBlend(GL_NONE){
     mGLCubeBuffer = CUBE;
-    mGLTextureBuffer = getRotation(NORMAL, false, true);
+    mGLTextureBuffer = getRotation(NORMAL, false, false);
 }
 
 GPUImageFilter::~GPUImageFilter() {
@@ -73,6 +73,10 @@ void GPUImageFilter::onInitialized() {
 void GPUImageFilter::onInputSizeChanged(const int width, const int height) {
     mInputWidth = width;
     mInputHeight = height;
+}
+
+void GPUImageFilter::setOrientation(int degree) {
+    mGLTextureBuffer = getRotation(degree, false, false);
 }
 
 int GPUImageFilter::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
