@@ -51,6 +51,7 @@ object OpenGLJniLib{
 
     external fun magicFilterRelease()
 
+
     /**
      * 图片滤镜创建
      */
@@ -71,6 +72,8 @@ object OpenGLJniLib{
      * 设置滤镜类型
      */
     external fun setFilterType(type:Int)
+
+    external fun setImageFilterType(type:Int)
 
     /**
      * 设置美颜级别

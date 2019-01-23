@@ -98,7 +98,8 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
 
     fun setFilterType(type:Int){
         mExecutor.execute {
-            OpenGLJniLib.setFilterType(type)
+            OpenGLJniLib.setImageFilterType(type)
+            OpenGLJniLib.magicImageFilterDraw(mMatrix,"")
         }
     }
 

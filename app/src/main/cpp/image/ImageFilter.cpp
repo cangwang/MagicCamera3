@@ -79,6 +79,7 @@ void ImageFilter::setFilter(AAssetManager* assetManager) {
 void ImageFilter::setFilter(int type) {
     GPUImageFilter* filter = initFilters(type,mAssetManager);
     setFilter(filter);
+    filter->setOrientation(degree);
 }
 
 int ImageFilter::create() {

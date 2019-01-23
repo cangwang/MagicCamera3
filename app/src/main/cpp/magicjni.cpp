@@ -243,6 +243,13 @@ Java_com_cangwang_magic_util_OpenGLJniLib_setFilterType(JNIEnv *env, jobject obj
 }
 
 JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_setImageFilterType(JNIEnv *env, jobject obj,jint type) {
+    if(glImageFilter!= nullptr)
+        glImageFilter->setFilter(type);
+}
+
+
+JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_setBeautyLevel(JNIEnv *env, jobject obj,jint level) {
     if(glCameraFilter!= nullptr)
         glCameraFilter->setBeautyLevel(level);
