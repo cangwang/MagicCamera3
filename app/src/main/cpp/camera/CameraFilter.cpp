@@ -189,7 +189,7 @@ void CameraFilter::setFilter(GPUImageFilter* gpuImageFilter) {
     ALOGD("set filter success");
     if (filter!= nullptr)
         filter->init();
-    filter->onInputSizeChanged(cameraInputFilter->mInputWidth,cameraInputFilter->mInputHeight);
+    filter->onInputSizeChanged(cameraInputFilter->mScreenWidth,cameraInputFilter->mScreenHeight);
 }
 
 void CameraFilter::setBeautyLevel(int level) {

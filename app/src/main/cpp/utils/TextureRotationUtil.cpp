@@ -31,13 +31,6 @@ GLfloat TEXTURE_ROTATED_270[] = {
         1.0f, 1.0f,
 };
 
-GLfloat FULL_RECTANGLE_TEX_COORDS[] = {
-        0.0f, 0.0f,     // 0 bottom left
-        1.0f, 0.0f,     // 1 bottom right
-        0.0f, 1.0f,     // 2 top left
-        1.0f, 1.0f      // 3 top right
-};
-
 //获取角度
 float* getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical){
     const float* rotateTex;

@@ -112,15 +112,24 @@ void ImageFilter::change(int width, int height) {
     mWidth = width;
     mHeight = height;
     if (imageInput!= nullptr){
-        if (imageInput!= nullptr){
-            //触发输入大小更新
-            imageInput->onInputSizeChanged(width, height);
-            //初始化帧缓冲
-//            imageInput->initFrameBuffer(width,height);
-        }
+        //触发输入大小更新
+        imageInput->onInputSizeChanged(width, height);
+
+        //初始化帧缓冲
+//      imageInput->initFrameBuffer(width,height);
+
         if (filter != nullptr){
-            //初始化滤镜的大小
             filter->onInputSizeChanged(width,height);
+            filter->onInputDisplaySizeChanged(imageInput->mFrameWidth,imageInput->mFrameHeight);
+//            //初始化显示的大小
+//            float ratio = (float)imageInput->mFrameHeight/(float)imageInput->mFrameWidth;
+//            if (ratio == 1.0f){
+//                filter->onInputDisplaySizeChanged(width,width);
+//            } else if (ratio >1.0f){
+//                filter->onInputDisplaySizeChanged(static_cast<const int>(width / ratio), height);
+//            } else{
+//                filter->onInputDisplaySizeChanged(width, static_cast<const int>(width * ratio));
+//            }
         } else{
             imageInput->destroyFrameBuffers();
         }
@@ -134,9 +143,8 @@ void ImageFilter::draw(GLfloat *matrix) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (imageInput != nullptr &&filter!= nullptr){
         //通过滤镜filter绘制
-//        GLuint id = imageInput->onDrawToTexture(imageInput->imgTexture,matrix);
-//        filter->onDrawFrame(id,matrix);
         filter->onDrawFrame(imageInput->imgTexture,matrix);
+
         //缓冲区交换
         glFlush();
         mEGLCore->swapBuffer();
@@ -157,7 +165,7 @@ void ImageFilter::setFilter(GPUImageFilter* gpuImageFilter) {
     ALOGD("set filter success");
     if (filter!= nullptr)
         filter->init();
-    filter->onInputSizeChanged(imageInput->mInputWidth,imageInput->mInputHeight);
+    filter->onInputSizeChanged(imageInput->mScreenWidth,imageInput->mScreenHeight);
 }
 
 void ImageFilter::setBeautyLevel(int level) {

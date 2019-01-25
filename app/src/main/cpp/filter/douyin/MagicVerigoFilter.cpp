@@ -112,8 +112,8 @@ void MagicVerigoFilter::onInitialized() {
 }
 
 void MagicVerigoFilter::onInputSizeChanged(const int width, const int height) {
-    mInputWidth = width;
-    mInputHeight = height;
+    mScreenWidth = width;
+    mScreenHeight = height;
     mRenderBuffer  = new RenderBuffer(GL_TEXTURE8,width,height);
     mRenderBuffer2 = new RenderBuffer(GL_TEXTURE9,width,height);
     mRenderBuffer3 = new RenderBuffer(GL_TEXTURE10,width,height);

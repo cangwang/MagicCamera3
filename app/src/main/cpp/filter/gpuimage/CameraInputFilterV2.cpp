@@ -68,8 +68,8 @@ void CameraInputFilter::onInitialized() {
 }
 
 void CameraInputFilter::onInputSizeChanged(const int width, const int height) {
-    mInputWidth = width;
-    mInputHeight = height;
+    mScreenWidth = width;
+    mScreenHeight = height;
 }
 
 int CameraInputFilter::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
@@ -121,7 +121,7 @@ GLuint CameraInputFilter::onDrawToTexture(const GLuint textureId, GLfloat *matri
     glUniformMatrix4fv(mTexturetransformMatrixlocation,1,GL_FALSE,matrix);
     //设置美颜等级
     setBeautyLevelOnDraw(beautyLevel);
-    setTexelSize(mInputWidth,mInputHeight);
+    setTexelSize(mScreenWidth,mScreenHeight);
     //加载矩阵
 //    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
 

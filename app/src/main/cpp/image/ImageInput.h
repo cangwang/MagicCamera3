@@ -27,6 +27,8 @@ public:
     void destroyFrameBuffers();
     void setBeautyLevel(int level);
     GLuint imgTexture;
+    int mFrameWidth = -1;
+    int mFrameHeight = -1;
 
 protected:
     virtual void onInit();
@@ -50,8 +52,6 @@ private:
 
     GLuint mFrameBuffer;
     GLuint mFrameBufferTextures;
-    int mFrameWidth = -1;
-    int mFrameHeight = -1;
     int beautyLevel = 0;
     std::string imgPath;
     int degree=0;

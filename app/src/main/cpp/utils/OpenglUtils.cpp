@@ -130,7 +130,7 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
     return textureHandler;
 }
 
-GLuint loadTextureFromFile(const char *fileName){
+GLuint loadTextureFromFile(const char *fileName, int *w, int *h){
     GLuint textureHandler=0;
     glGenTextures(1,&textureHandler);
     if (textureHandler!=-1){
@@ -144,11 +144,13 @@ GLuint loadTextureFromFile(const char *fileName){
 
         int width=0,height=0,n=0;
         //读取图片长宽高数据
-        unsigned char* data = stbi_load(fileName, &width, &height, &n, 0);
+        unsigned char* data = stbi_load(fileName, w, h, &n, 0);
 
         ALOGV("loadTexture fileName = %s,width = %d,height=%d,n=%d",fileName,width,height,n);
 
         if(data!=NULL) {
+            width = *w;
+            height = *h;
             if (n==3) { //判断是jpg格式
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             } else if (n==4) {  //判断是png格式

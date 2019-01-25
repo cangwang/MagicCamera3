@@ -54,8 +54,6 @@ void ImageInput::onInit() {
     mTexturetransformMatrixlocation = glGetUniformLocation(mGLProgId,"textureTransform");
     mSingleStepOffsetLocation = glGetUniformLocation(mGLProgId,"singleStepOffset");
     mParamsLocation = glGetUniformLocation(mGLProgId,"params");
-    imgTexture=loadTextureFromFile(imgPath.c_str());
-//    glUniform1f(mParamsLocation,0.0f);
 }
 
 void ImageInput::onInitialized() {
@@ -63,8 +61,12 @@ void ImageInput::onInitialized() {
 }
 
 void ImageInput::onInputSizeChanged(const int width, const int height) {
-    mInputWidth = width;
-    mInputHeight = height;
+    mScreenWidth = width;
+    mScreenHeight = height;
+    if(imgTexture>0){
+        glDeleteTextures(1,&imgTexture);
+    }
+    imgTexture = loadTextureFromFile(imgPath.c_str(),&mFrameWidth,&mFrameHeight);
 }
 
 int ImageInput::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
@@ -116,7 +118,7 @@ GLuint ImageInput::onDrawToTexture(const GLuint textureId, GLfloat *matrix) {
     glUniformMatrix4fv(mTexturetransformMatrixlocation,1,GL_FALSE,matrix);
     //设置美颜等级
     setBeautyLevelOnDraw(beautyLevel);
-    setTexelSize(mInputWidth,mInputHeight);
+    setTexelSize(mScreenWidth,mScreenHeight);
     //加载矩阵
 //    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
 
@@ -145,7 +147,6 @@ void ImageInput::destroy() {
 }
 
 void ImageInput::initFrameBuffer(int width, int height) {
-    imgTexture = loadTextureFromFile(imgPath.c_str());
     //比对大小
     if ( mFrameWidth != width || mFrameHeight !=height){
         destroyFrameBuffers();

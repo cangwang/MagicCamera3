@@ -71,8 +71,28 @@ void GPUImageFilter::onInitialized() {
 }
 
 void GPUImageFilter::onInputSizeChanged(const int width, const int height) {
-    mInputWidth = width;
-    mInputHeight = height;
+    mScreenWidth = width;
+    mScreenHeight = height;
+}
+
+void GPUImageFilter::onInputDisplaySizeChanged(const int width, const int height) {
+    mDisplayWidth = width;
+    mDisplayHeight = height;
+    glViewport(0, 0, mDisplayWidth, mDisplayHeight);
+//    if (mScreenHeight == mDisplayWidth) {
+//        glViewport(0, 0, mDisplayWidth, mDisplayHeight);
+//    } else{
+//
+//        int y = (mScreenHeight-mDisplayWidth)/2;
+//        glViewport(0,y,mDisplayWidth,mDisplayHeight);
+//    }
+//    if(mScreenWidth>0 &&mScreenHeight>0 && mDisplayWidth>0 && mDisplayHeight>0){
+//        float dWH = mDisplayWidth/(float)mDisplayHeight;
+//        float sWH = mScreenWidth/(float)mScreenHeight;
+//        if (mDisplayWidth > mDisplayHeight){
+//
+//        }
+//    }
 }
 
 void GPUImageFilter::setOrientation(int degree) {
@@ -115,19 +135,19 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     onDrawArraysPre();
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     onDrawArraysAfter();
-    if (isSavePhoto && mInputWidth > 0 && mInputHeight > 0) {
+    if (isSavePhoto && mScreenWidth > 0 && mScreenHeight > 0) {
         //加锁
         std::unique_lock<std::mutex> lock(gMutex);
         isSavePhoto = false;
         ALOGV("save address = %s",savePhotoAddress.c_str());
         //字节大小为长*宽*4
-        long size = mInputWidth*mInputHeight*4;
+        long size = mScreenWidth*mScreenHeight*4;
         unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
 
         //对齐像素字节
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
         //获取帧内字节
-        glReadPixels(0, 0, mInputWidth, mInputHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glReadPixels(0, 0, mScreenWidth, mScreenHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
         std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this, data, savePhotoAddress));
         thread.detach();
     }
@@ -155,7 +175,7 @@ bool GPUImageFilter::savePicture(unsigned char* data,std::string saveFileAddress
     //屏幕到文件保存需要使用
     stbi_flip_vertically_on_write(1);
     //保存图片到本地文件
-    if (stbi_write_png(saveFileAddress.c_str(), mInputWidth, mInputHeight, 4, data, 0)) {
+    if (stbi_write_png(saveFileAddress.c_str(), mScreenWidth, mScreenHeight, 4, data, 0)) {
         ALOGV("save address = %s success", saveFileAddress.c_str());
         free(data);
         return true;

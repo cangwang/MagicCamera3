@@ -22,6 +22,7 @@ public:
     virtual ~GPUImageFilter();
     virtual void init();
     virtual void onInputSizeChanged(const int width, const int height);
+    void onInputDisplaySizeChanged(const int width, const int height);
     virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix,const float* cubeBuffer, const float* textureBuffer);
     virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix);
     virtual void destroy();
@@ -39,8 +40,10 @@ public:
     GLfloat* getTextureBuffer();
 
     AAssetManager* mAssetManager;
-    int mInputWidth;
-    int mInputHeight;
+    int mScreenWidth;
+    int mScreenHeight;
+    int mDisplayWidth;
+    int mDisplayHeight;
 
     const int NO_TEXTURE = -1;
     const int NOT_INIT = -1;
