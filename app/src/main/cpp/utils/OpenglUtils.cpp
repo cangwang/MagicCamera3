@@ -10,6 +10,7 @@
 #include "android/asset_manager_jni.h"
 #include <fstream>
 #include <unistd.h>
+//引用stb库
 #define STB_IMAGE_IMPLEMENTATION
 #include "src/main/cpp/utils/stb_image.h"
 
@@ -84,45 +85,50 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
         //超出的部份会重复纹理坐标的边缘，产生一种边缘被拉伸的效果，s/t相当于x/y轴坐标
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
-        //打开asset文件夹
+        //打开asset文件夹中的文件夹
         AAssetDir *dir = AAssetManager_openDir(manager,"filter");
-
+        //初始化文件名指针
         const char *file = nullptr;
-
+        //循环遍历
         while ((file =AAssetDir_getNextFileName(dir))!= nullptr) {
+            //对比文件名
             if (strcmp(file, fileName) == 0) {
+                //拼接文件路径，以asset文件夹为起始
                 std::string *name = new std::string("filter/");
                 name->append(file);
+                //以流的方式打开文件
                 AAsset *asset = AAssetManager_open(manager, name->c_str(), AASSET_MODE_STREAMING);
                 if (asset != NULL) {
                     //获取文件长度
                     int len = AAsset_getLength(asset);
                     int width=0,height=0,n=0;
+                    //读取资源文件流
                     unsigned char* buff = (unsigned char *) AAsset_getBuffer(asset);
-                    //读取图片长宽高数据
+                    //读取图片长宽以及通道数据
                     unsigned char* data = stbi_load_from_memory(buff, len, &width, &height, &n, 0);
                     ALOGV("loadTextureFromAssets fileName = %s,width = %d,height=%d,n=%d,size = %d",fileName,width,height,n,len);
-
+                    //关闭资源
                     AAsset_close(asset);
+                    //关闭asset文件夹
                     AAssetDir_close(dir);
                     if(data!=NULL) {
-                        if (n==3) { //判断是jpg格式
-                            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-                        } else if (n==4) {  //判断是png格式
-                            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-                        } else{
-                            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                        GLint format = GL_RGB;
+                        if (n==3) { //RGB三通道，例如jpg格式
+                            format = GL_RGB;
+                        } else if (n==4) {  //RGBA四通道，例如png格式
+                            format = GL_RGBA;
                         }
-                        //相当于2.0的gluBuild2DMipmaps
-//                        glGenerateMipmap(GL_TEXTURE_2D);
-                        stbi_image_free(data);
-                        return textureHandler;
+                        //将图片数据生成一个2D纹理
+                        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
                     } else{
                         LOGE("load texture from assets is null,fileName = %s",fileName);
-                        stbi_image_free(data);
-
-                        return 0; //代表加载图片失败
                     }
+                    //相当于2.0的gluBuild2DMipmaps
+//                        glGenerateMipmap(GL_TEXTURE_2D);
+                    //释放stb的图片引用
+                    stbi_image_free(data);
+                    //返回纹理id
+                    return textureHandler;
                 }
             }
         }

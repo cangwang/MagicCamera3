@@ -107,7 +107,6 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
                                 const float *textureBuffer) {
     onDrawPrepare();
     glUseProgram(mGLProgId);
-//    runPendingOnDrawTasks()
     if (!mIsInitialized) {
         ALOGE("NOT_INIT");
         return NOT_INIT;
@@ -119,8 +118,8 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         //透明度混合
         glBlendFunc(srcBlend,dstBlend);
     }
-    //加载矩阵
-//    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
+
+    //加载顶点参数
     glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, cubeBuffer);
     glEnableVertexAttribArray(mGLAttribPosition);
     glVertexAttribPointer(mGLAttribTextureCoordinate, 2, GL_FLOAT, GL_FALSE, 0, textureBuffer);
@@ -132,8 +131,10 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         //加载纹理
         glUniform1i(mGLUniformTexture,0);
     }
+    //滤镜参数加载
     onDrawArraysPre();
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    //滤镜参数释放
     onDrawArraysAfter();
     if (isSavePhoto && mScreenWidth > 0 && mScreenHeight > 0) {
         //加锁
@@ -151,11 +152,11 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this, data, savePhotoAddress));
         thread.detach();
     }
+    //释放顶点绑定
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
-//    onDrawArraysAfter();
 
-    if(textureId !=NO_TEXTURE)
+    if(textureId !=NO_TEXTURE) //激活回到默认纹理
         glBindTexture(GL_TEXTURE_2D,0);
 
     if (srcBlend != GL_NONE &&dstBlend != GL_NONE){
