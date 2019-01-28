@@ -16,6 +16,7 @@ static GLfloat CUBE[] = {
 };
 
 float* getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical);
+float* getRotation(int degree, const bool flipHorizontal, const bool flipVertical);
 float flip(const float i);
 
 #endif

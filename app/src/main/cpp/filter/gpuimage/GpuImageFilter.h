@@ -22,27 +22,32 @@ public:
     virtual ~GPUImageFilter();
     virtual void init();
     virtual void onInputSizeChanged(const int width, const int height);
+    void onInputDisplaySizeChanged(const int width, const int height);
     virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix,const float* cubeBuffer, const float* textureBuffer);
     virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix);
     virtual void destroy();
-    virtual void onDestroy() {
+    virtual void onDestroy() {}
 
-    }
-
-    virtual void onDrawArraysPre() {
-
-    }
-
-    virtual void onDrawArraysAfter() {
-
-    }
+    virtual void onDrawPrepare() {}
+    virtual void onDrawArraysPre() {}
+    virtual void onDrawArraysAfter() {}
 
     bool savePhoto(std::string directory);
     bool savePicture(unsigned char* data,std::string saveFileAddress);
+    void enableBlend(GLenum srcBlend,GLenum dstBlend);
+    void setOrientation(int degree);
+    GLfloat* getVertexBuffer();
+    GLfloat* getTextureBuffer();
 
     AAssetManager* mAssetManager;
-    int mInputWidth;
-    int mInputHeight;
+    int mScreenWidth;
+    int mScreenHeight;
+    int mDisplayWidth;
+    int mDisplayHeight;
+
+    const int NO_TEXTURE = -1;
+    const int NOT_INIT = -1;
+    const int ON_DRAWN = 1;
 
 protected:
     virtual void onInit();
@@ -58,15 +63,15 @@ private:
     std::string* mFragmentShader;
     GLfloat* mGLCubeBuffer;
     GLfloat* mGLTextureBuffer;
-    const int NO_TEXTURE = -1;
-    const int NOT_INIT = -1;
-    const int ON_DRAWN = 1;
     GLint mMatrixLoc;
     GLuint mFrameBuffer;
     bool isSavePhoto = false;
     std::string savePhotoAddress;
     std::mutex gMutex;
-    std::thread thread;
+//    std::thread thread;
+    GLenum srcBlend;
+    GLenum dstBlend;
+    int degree;
 };
 
 #endif

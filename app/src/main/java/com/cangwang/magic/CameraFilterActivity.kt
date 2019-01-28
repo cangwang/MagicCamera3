@@ -83,7 +83,7 @@ class CameraFilterActivity:AppCompatActivity(){
         mAdapter = FilterAdapter(this, types)
         mAdapter?.filterListener= object:FilterAdapter.onFilterChangeListener{
             override fun onFilterChanged(type: Int) {
-                mSurfaceCallback?.setsetFilterType(type)
+                mSurfaceCallback?.setFilterType(type)
             }
         }
         filter_listView.adapter= mAdapter

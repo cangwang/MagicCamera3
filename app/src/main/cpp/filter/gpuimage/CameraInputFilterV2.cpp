@@ -23,7 +23,7 @@ CameraInputFilter::CameraInputFilter(std::string *vertexShader, std::string *fra
          mMatrixLoc(0)
 {
     mGLCubeBuffer = CUBE;
-    mGLTextureBuffer = getRotation(NORMAL, false, true);
+    mGLTextureBuffer = getRotation(NORMAL, false, false);
 }
 
 CameraInputFilter::~CameraInputFilter() {
@@ -68,8 +68,8 @@ void CameraInputFilter::onInitialized() {
 }
 
 void CameraInputFilter::onInputSizeChanged(const int width, const int height) {
-    mInputWidth = width;
-    mInputHeight = height;
+    mScreenWidth = width;
+    mScreenHeight = height;
 }
 
 int CameraInputFilter::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
@@ -79,8 +79,6 @@ int CameraInputFilter::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
 int CameraInputFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const float *cubeBuffer,
                                 const float *textureBuffer) {
     glUseProgram(mGLProgId);
-    setBeautyLevelOnDraw(beautyLevel);
-//    runPendingOnDrawTasks()
     if(!mIsInitialized)
         return NOT_INIT;
     //加载矩阵
@@ -107,34 +105,41 @@ int CameraInputFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const
 }
 
 GLuint CameraInputFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix) {
+    //视口切换
     glViewport(0,0,mFrameWidth,mFrameHeight);
-    setBeautyLevelOnDraw(beautyLevel);
+    //绑定帧缓冲id
     glBindFramebuffer(GL_FRAMEBUFFER,mFrameBuffer);
     glUseProgram(mGLProgId);
     if (!mIsInitialized){
-        return NOT_INIT;
+        return (GLuint) NOT_INIT;
     }
-
+    //顶点缓冲
     glVertexAttribPointer(mGLAttribPosition,2,GL_FLOAT,GL_FALSE,0,mGLCubeBuffer);
     glEnableVertexAttribArray(mGLAttribPosition);
     glVertexAttribPointer(mGLAttribTextureCoordinate,2,GL_FLOAT,GL_FALSE,0,mGLTextureBuffer);
     glEnableVertexAttribArray(mGLAttribTextureCoordinate);
     glUniformMatrix4fv(mTexturetransformMatrixlocation,1,GL_FALSE,matrix);
-
+    //设置美颜等级
+    setBeautyLevelOnDraw(beautyLevel);
+    setTexelSize(mScreenWidth,mScreenHeight);
     //加载矩阵
 //    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
 
     if (textureId != NO_TEXTURE){
+        //绑定纹理
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_EXTERNAL_OES,textureId);
         glUniform1i(mGLUniformTexture,0);
     }
+    //绘制图像（长方形）
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    //关闭顶点缓冲
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
+    //切换回默认纹理
     glBindTexture(GL_TEXTURE_EXTERNAL_OES,0);
+    //切换回默认帧缓冲
     glBindFramebuffer(GL_FRAMEBUFFER,0);
-    glViewport(0,0,mInputWidth,mInputHeight);
     return mFrameBufferTextures;
 }
 
@@ -145,6 +150,7 @@ void CameraInputFilter::destroy() {
 }
 
 void CameraInputFilter::initCameraFrameBuffer(int width, int height) {
+    //比对大小
     if ( mFrameWidth != width || mFrameHeight !=height){
         destroyCameraFrameBuffers();
     }
@@ -152,20 +158,27 @@ void CameraInputFilter::initCameraFrameBuffer(int width, int height) {
     mFrameHeight = height;
     mFrameBuffer=0;
     mFrameBufferTextures=0;
-
+    //生成帧缓冲id
     glGenFramebuffers(1,&mFrameBuffer);
+    //生成纹理id
     glGenTextures(1,&mFrameBufferTextures);
+    //绑定纹理
     glBindTexture(GL_TEXTURE_2D,mFrameBufferTextures);
+    //纹理赋值为空，先纹理占位
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE, nullptr);
+    //设定纹理参数
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+    //绑定帧图
     glBindFramebuffer(GL_FRAMEBUFFER,mFrameBuffer);
+    //绑定纹理到帧图
     glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,mFrameBufferTextures,0);
+    //切换回默认纹理
     glBindTexture(GL_TEXTURE_2D,0);
+    //切换回默认的帧缓冲
     glBindFramebuffer(GL_FRAMEBUFFER,0);
-
 }
 
 void CameraInputFilter::destroyCameraFrameBuffers() {
@@ -173,6 +186,10 @@ void CameraInputFilter::destroyCameraFrameBuffers() {
     glDeleteFramebuffers(1,&mFrameBuffer);
     mFrameWidth = -1;
     mFrameHeight = -1;
+}
+
+void CameraInputFilter::setTexelSize(int width,int height){
+    glUniform2f(mSingleStepOffsetLocation,2.0f/width,2.0f/height);
 }
 
 void CameraInputFilter::setBeautyLevel(int level){
@@ -183,6 +200,9 @@ void CameraInputFilter::setBeautyLevel(int level){
 void CameraInputFilter::setBeautyLevelOnDraw(int level){
 //    ALOGV("setbeautyLevel = %d",level);
     switch (level){
+        case 0:
+            glUniform1f(mParamsLocation,0.0f);
+            break;
         case 1:
             glUniform1f(mParamsLocation,1.0f);
             break;

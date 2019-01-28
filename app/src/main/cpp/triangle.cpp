@@ -117,7 +117,7 @@ Java_com_cangwang_magic_util_RenderJNI_glesRender(JNIEnv *env, jobject obj) {
     glViewport(0, 0, g_width, g_height);
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(g_programObject);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FLOAT, 0, vVertices);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
     glEnableVertexAttribArray(0);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }

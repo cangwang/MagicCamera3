@@ -4,13 +4,12 @@
 #include <malloc.h>
 #include <GLES3/gl3.h>
 #include "src/main/cpp/utils/OpenglUtils.h"
-#include "GLBase.h"
-#include "EGLCore.h"
+#include "src/main/cpp/egl/GLBase.h"
+#include "src/main/cpp/egl/EGLCore.h"
 #include <android/asset_manager.h>
 #include <src/main/cpp/filter/gpuimage/GpuImageFilter.h>
 #include <src/main/cpp/filter/gpuimage/CameraInputFilterV2.h>
 #include <android/native_window.h>
-#include <src/main/cpp/filter/advanced/MagicBeautyFilter.h>
 
 /**
  * cangwang 2018.12.1
@@ -42,6 +41,5 @@ private:
     GLint mMatrixLoc;
     GLfloat mMatrix[16];
     EGLCore *mEGLCore;
-    MagicBeautyFilter* beautyFilter;
 };
 

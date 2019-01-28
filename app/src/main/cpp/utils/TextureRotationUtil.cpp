@@ -75,6 +75,50 @@ float* getRotation(const Rotation rotation, const bool flipHorizontal, const boo
     return const_cast<float *>(rotateTex);
 }
 
+//获取角度
+float* getRotation(int degree, const bool flipHorizontal, const bool flipVertical){
+    const float* rotateTex;
+    //调整角度
+    switch (degree){
+        case 90:
+            rotateTex = TEXTURE_ROTATED_90;
+            break;
+        case 180:
+            rotateTex = TEXTURE_ROTATED_180;
+            break;
+        case 270:
+            rotateTex = TEXTURE_ROTATED_270;
+            break;
+        case 0:
+        default:
+            rotateTex = TEXTURE_NO_ROTATION;
+            break;
+    }
+    //垂直翻转
+    if (flipHorizontal){
+        const static float flipTran[]={
+                flip(rotateTex[0]),rotateTex[1],
+                flip(rotateTex[2]),rotateTex[3],
+                flip(rotateTex[4]),rotateTex[5],
+                flip(rotateTex[6]),rotateTex[7]
+        };
+        return const_cast<float *>(flipTran);
+    }
+
+    //水平翻转
+    if (flipVertical){
+        const static float flipTran[]={
+                rotateTex[0],flip(rotateTex[1]),
+                rotateTex[2],flip(rotateTex[3]),
+                rotateTex[4],flip(rotateTex[5]),
+                rotateTex[6],flip(rotateTex[7])
+        };
+        return const_cast<float *>(flipTran);
+    }
+
+    return const_cast<float *>(rotateTex);
+}
+
 float flip(const float i) {
     if (i == 0.0f){
         return 1.0f;

@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">MagicCamera</string>
     <string name="filter_none">Original</string>
+    <string name="filter_soul_out">SoulOut</string>
+    <string name="filter_shake">Shake</string>
+    <string name="filter_glitch">Glitch</string>
+    <string name="filter_scale">Scale</string>
+    <string name="filter_shine_white">ShineWhite</string>
+    <string name="filter_verigo">Verigo</string>
     <string name="filter_amaro">Amaro</string>
     <string name="filter_brannan">Brannan</string>
     <string name="filter_brooklyn">Brooklyn</string>

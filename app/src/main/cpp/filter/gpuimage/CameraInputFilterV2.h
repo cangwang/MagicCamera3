@@ -33,6 +33,7 @@ protected:
     virtual void onInitialized();
     bool mIsInitialized;
     void setBeautyLevelOnDraw(int level);
+    void setTexelSize(int width,int height);
 
 private:
     std::string* mVertexShader;

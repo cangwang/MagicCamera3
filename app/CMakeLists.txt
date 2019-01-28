@@ -40,9 +40,12 @@ add_library( # Sets the name of the library.
         src/main/cpp/utils/OpenglUtils.cpp
         src/main/cpp/utils/Rotation.cpp
         src/main/cpp/utils/TextureRotationUtil.cpp
+        src/main/cpp/utils/Matrix.cpp
         src/main/cpp/camera/CameraFilter.cpp
         src/main/cpp/camera/CameraEngine.cpp
-        src/main/cpp/camera/EGLCore.cpp
+        src/main/cpp/image/ImageFilter.cpp
+        src/main/cpp/image/ImageInput.cpp
+        src/main/cpp/egl/EGLCore.cpp
         src/main/cpp/filter/advanced/MagicAmaroFilter.cpp
         src/main/cpp/filter/advanced/MagicAntiqueFilter.cpp
         src/main/cpp/filter/advanced/MagicBlackCatFilter.cpp
@@ -90,7 +93,14 @@ add_library( # Sets the name of the library.
         src/main/cpp/filter/gpuimage/GpuImageFilter.cpp
 #        src/main/cpp/filter/gpuimage/CameraInputFilter.cpp
         src/main/cpp/filter/gpuimage/CameraInputFilterV2.cpp
-        src/main/cpp/filter/MagicFilterFactory.cpp)
+        src/main/cpp/filter/MagicFilterFactory.cpp
+        src/main/cpp/filter/douyin/MagicSoulOutFilter.cpp
+        src/main/cpp/filter/douyin/MagicScaleFilter.cpp
+        src/main/cpp/filter/douyin/MagicGlitchFilter.cpp
+        src/main/cpp/filter/douyin/MagicShakeEffectFilter.cpp
+        src/main/cpp/filter/douyin/MagicShineWhiteFilter.cpp
+        src/main/cpp/filter/douyin/MagicVerigoFilter.cpp
+        src/main/cpp/filter/douyin/RenderBuffer.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

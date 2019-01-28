@@ -6,8 +6,8 @@
 #include <src/main/cpp/bitmap/BitmapOperation.h>
 #include "src/main/cpp/utils/OpenglUtils.h"
 #include <android/asset_manager.h>
-#include "EGLCore.h"
-#include "GLBase.h"
+#include "src/main/cpp/egl/EGLCore.h"
+#include "src/main/cpp/egl/GLBase.h"
 
 /**
  * cangwang 2018.12.1

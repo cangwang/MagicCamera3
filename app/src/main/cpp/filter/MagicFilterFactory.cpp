@@ -41,6 +41,12 @@
 #include "src/main/cpp/filter/advanced/MagicWarmFilter.h"
 #include "src/main/cpp/filter/advanced/MagicWhiteCatFilter.h"
 #include "src/main/cpp/filter/advanced/MagicXproIIFilter.h"
+#include "src/main/cpp/filter/douyin/MagicSoulOutFilter.h"
+#include "src/main/cpp/filter/douyin/MagicGlitchFilter.h"
+#include "src/main/cpp/filter/douyin/MagicScaleFilter.h"
+#include "src/main/cpp/filter/douyin/MagicShineWhiteFilter.h"
+#include "src/main/cpp/filter/douyin/MagicShakeEffectFilter.h"
+#include "src/main/cpp/filter/douyin/MagicVerigoFilter.h"
 #include "src/main/cpp/utils/OpenglUtils.h"
 
 #define LOG_TAG "MagicFilterFactory"
@@ -83,6 +89,8 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
             return new MagicFreudFilter(assetManager);
         case FAIRYTALE:
             return new MagicFairytableFilter(assetManager);
+        case GLITCH:
+            return new MagicGlitchFilter(assetManager);
         case HEALTHY:
             return new MagicHealthyFilter(assetManager);
         case HEFE:
@@ -111,14 +119,22 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
             return new MagicRiseFilter(assetManager);
         case ROMANCE:
             return new MagicRomanceFilter(assetManager);
+        case SCALE:
+            return new MagicScaleFilter(assetManager);
         case SAKURA:
             return new MagicSakuraFilter(assetManager);
+        case SHAKE:
+            return new MagicShakeEffectFilter(assetManager);
+        case SHINEWHITE:
+            return new MagicShineWhiteFilter(assetManager);
         case SIERRA:
             return new MagicSierraFilter(assetManager);
         case SKETCH:
             return new MagicSketchFilter(assetManager);
         case SKINWHITEN:
             return new MagicSkinWhiteFilter(assetManager);
+        case SOULOUT:
+            return new MagicSoulOutFilter(assetManager);
         case SUNRISE:
             return new MagicSunriseFilter(assetManager);
         case SUNSET:
@@ -133,6 +149,8 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
             return new MagicToasterFilter(assetManager);
         case VALENCIA:
             return new MagicValenciaFilter(assetManager);
+        case VERIGO:
+            return new MagicVerigoFilter(assetManager);
         case WALDEN:
             return new MagicWaldenFilter(assetManager);
         case WARM:
@@ -149,6 +167,12 @@ GPUImageFilter* initFilters(int type,AAssetManager* assetManager){
 int* getFilterTypes(int &len){
     static int types[]={
             NONE,
+            SOULOUT,
+            SHAKE,
+            GLITCH,
+            SCALE,
+            SHINEWHITE,
+            VERIGO,
             FAIRYTALE,
             SUNRISE,
             SUNSET,
