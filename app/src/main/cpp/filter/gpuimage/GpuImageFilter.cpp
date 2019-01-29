@@ -106,13 +106,7 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         ALOGE("NOT_INIT");
         return NOT_INIT;
     }
-
-    if (srcBlend != GL_NONE &&dstBlend != GL_NONE){
-        //开启颜色混合
-        glEnable(GL_BLEND);
-        //透明度混合
-        glBlendFunc(srcBlend,dstBlend);
-    }
+    bindBlend();
 
     glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,mvpMatrix);
     //加载顶点参数
@@ -132,6 +126,41 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     //滤镜参数释放
     onDrawArraysAfter();
+    savePictureInThread();
+    //释放顶点绑定
+    glDisableVertexAttribArray(mGLAttribPosition);
+    glDisableVertexAttribArray(mGLAttribTextureCoordinate);
+
+    if(textureId !=NO_TEXTURE) //激活回到默认纹理
+        glBindTexture(GL_TEXTURE_2D,0);
+    unBindBlend();
+
+    return ON_DRAWN;
+}
+
+void GPUImageFilter::bindBlend(){
+    if (srcBlend != GL_NONE &&dstBlend != GL_NONE){
+        //开启颜色混合
+        glEnable(GL_BLEND);
+        //透明度混合
+        glBlendFunc(srcBlend,dstBlend);
+    }
+}
+
+void GPUImageFilter::unBindBlend(){
+    if (srcBlend != GL_NONE &&dstBlend != GL_NONE){
+        //关闭颜色混合
+        glDisable(GL_BLEND);
+    }
+}
+
+bool GPUImageFilter::savePhoto(std::string saveFileAddress) {
+    savePhotoAddress = saveFileAddress;
+    isSavePhoto = true;
+    return true;
+}
+
+bool GPUImageFilter::savePictureInThread() {
     if (isSavePhoto && mScreenWidth > 0 && mScreenHeight > 0) {
         //加锁
         std::unique_lock<std::mutex> lock(gMutex);
@@ -148,24 +177,6 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this, data, savePhotoAddress));
         thread.detach();
     }
-    //释放顶点绑定
-    glDisableVertexAttribArray(mGLAttribPosition);
-    glDisableVertexAttribArray(mGLAttribTextureCoordinate);
-
-    if(textureId !=NO_TEXTURE) //激活回到默认纹理
-        glBindTexture(GL_TEXTURE_2D,0);
-
-    if (srcBlend != GL_NONE &&dstBlend != GL_NONE){
-        //关闭颜色混合
-       glDisable(GL_BLEND);
-    }
-    return ON_DRAWN;
-}
-
-bool GPUImageFilter::savePhoto(std::string saveFileAddress) {
-    savePhotoAddress = saveFileAddress;
-    isSavePhoto = true;
-    return true;
 }
 
 bool GPUImageFilter::savePicture(unsigned char* data,std::string saveFileAddress) {
