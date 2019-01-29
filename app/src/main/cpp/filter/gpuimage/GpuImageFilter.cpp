@@ -4,6 +4,7 @@
 #include <thread>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "src/main/cpp/utils/stb_image_write.h"
+#include "src/main/cpp/utils/Matrix.h"
 
 #define LOG_TAG "GPUImageFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -23,11 +24,13 @@ GPUImageFilter::GPUImageFilter(AAssetManager *assetManager,std::string *vertexSh
         mVertexShader(vertexShader),
         mFragmentShader(fragmentShader),
         mMatrixLoc(0),
+        mvpMatrix(NONE_MATRIX),
         mAssetManager(assetManager),
         srcBlend(GL_NONE),
-        dstBlend(GL_NONE){
-    mGLCubeBuffer = CUBE;
-    mGLTextureBuffer = getRotation(NORMAL, false, false);
+        dstBlend(GL_NONE),
+        mGLCubeBuffer(CUBE),
+        mGLTextureBuffer(getRotation(NORMAL, false, false)){
+
 }
 
 GPUImageFilter::~GPUImageFilter() {
@@ -61,7 +64,7 @@ void GPUImageFilter::onInit() {
     mGLUniformTexture = glGetUniformLocation(mGLProgId,"inputImageTexture");
 
 
-//    mMatrixLoc = glGetUniformLocation(mGLProgId,"textureTransform");
+    mMatrixLoc = glGetUniformLocation(mGLProgId,"mvpMatrix");
     //初始化成功标志
     mIsInitialized = true;
 }
@@ -78,21 +81,13 @@ void GPUImageFilter::onInputSizeChanged(const int width, const int height) {
 void GPUImageFilter::onInputDisplaySizeChanged(const int width, const int height) {
     mDisplayWidth = width;
     mDisplayHeight = height;
-    glViewport(0, 0, mDisplayWidth, mDisplayHeight);
-//    if (mScreenHeight == mDisplayWidth) {
-//        glViewport(0, 0, mDisplayWidth, mDisplayHeight);
-//    } else{
-//
-//        int y = (mScreenHeight-mDisplayWidth)/2;
-//        glViewport(0,y,mDisplayWidth,mDisplayHeight);
-//    }
-//    if(mScreenWidth>0 &&mScreenHeight>0 && mDisplayWidth>0 && mDisplayHeight>0){
-//        float dWH = mDisplayWidth/(float)mDisplayHeight;
-//        float sWH = mScreenWidth/(float)mScreenHeight;
-//        if (mDisplayWidth > mDisplayHeight){
-//
-//        }
-//    }
+    if(mScreenWidth > mScreenHeight){
+        float x = mScreenWidth / ((float)mScreenHeight/mDisplayHeight * mDisplayWidth);
+        orthoM(mvpMatrix,0,-x,x,-1,1,-1,1);
+    } else{
+        float y = mScreenHeight/ ((float)mScreenWidth /mDisplayWidth  * mDisplayHeight);
+        orthoM(mvpMatrix,0,-1,1,-y,y,-1,1);
+    }
 }
 
 void GPUImageFilter::setOrientation(int degree) {
@@ -119,6 +114,7 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         glBlendFunc(srcBlend,dstBlend);
     }
 
+    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,mvpMatrix);
     //加载顶点参数
     glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, cubeBuffer);
     glEnableVertexAttribArray(mGLAttribPosition);

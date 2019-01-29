@@ -62,7 +62,6 @@ class CameraActivity:AppCompatActivity(){
         params.width= screenSize.x;
         params.height = screenSize.x* 16/9
         glsurfaceview_camera.layoutParams = params
-
     }
 
     override fun onResume() {

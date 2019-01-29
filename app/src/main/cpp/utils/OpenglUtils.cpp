@@ -37,43 +37,6 @@ void checkGLError(std::string op) {
     }
 }
 
-//GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
-//    GLuint textureHandler=0;
-//    glGenTextures(1,&textureHandler);
-//    if (textureHandler!=0){
-//        glBindTexture(GL_TEXTURE_2D,textureHandler);
-//        //纹理放大缩小使用线性插值
-//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
-//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-//        //超出的部份会重复纹理坐标的边缘，产生一种边缘被拉伸的效果，s/t相当于x/y轴坐标
-//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
-//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
-//        int width=0,height=0,n=0,size=0;
-//        unsigned char* buff = getAddressFromAssetFilter(manager,fileName,&size);
-//        //读取图片长宽高数据
-//        unsigned char* data = stbi_load_from_memory(reinterpret_cast<const stbi_uc *>(buff), size, &width, &height, &n, 0);
-//        ALOGV("loadTextureFromAssets fileName = %s,width = %d,height=%d,n=%d,size = %d",fileName,width,height,n,size);
-//        free(buff);
-//         if(data!=NULL) {
-//             if (n==3) { //判断是jpg格式
-//                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-//             } else if (n==4) {  //判断是png格式
-//                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-//             } else{
-//                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-//             }
-//             //相当于2.0的gluBuild2DMipmaps
-//             glGenerateMipmap(GL_TEXTURE_2D);
-//        } else{
-//             LOGE("load texture from assets is null,fileName = %s",fileName);
-//             return 0; //代表加载图片失败
-//        }
-//        stbi_image_free(data);
-//        return textureHandler;
-//    }
-//    return textureHandler;
-//}
-
 GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
     GLuint textureHandler=0;
     glGenTextures(1,&textureHandler);
@@ -476,6 +439,3 @@ char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager,
     return NULL;
 }
 
-void freeResource(char *pData){
-    free(pData);
-}

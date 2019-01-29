@@ -72,6 +72,7 @@ private:
     GLenum srcBlend;
     GLenum dstBlend;
     int degree;
+    float* mvpMatrix;
 };
 
 #endif
