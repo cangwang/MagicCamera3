@@ -160,7 +160,7 @@ bool GPUImageFilter::savePhoto(std::string saveFileAddress) {
     return true;
 }
 
-bool GPUImageFilter::savePictureInThread() {
+void GPUImageFilter::savePictureInThread() {
     if (isSavePhoto && mScreenWidth > 0 && mScreenHeight > 0) {
         //加锁
         std::unique_lock<std::mutex> lock(gMutex);
