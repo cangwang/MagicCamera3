@@ -66,7 +66,7 @@ void ImageInput::onInputSizeChanged(const int width, const int height) {
     if(imgTexture>0){
         glDeleteTextures(1,&imgTexture);
     }
-    imgTexture = loadTextureFromFile(imgPath.c_str(),&mFrameWidth,&mFrameHeight);
+    imgTexture = loadTextureFromFile(imgPath.c_str(),&mImageWidth,&mImageHeight);
 }
 
 int ImageInput::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
@@ -103,7 +103,7 @@ int ImageInput::onDrawFrame(const GLuint textureId, GLfloat *matrix,const float 
 
 GLuint ImageInput::onDrawToTexture(const GLuint textureId, GLfloat *matrix) {
     //视口切换
-    glViewport(0,0,mFrameWidth,mFrameHeight);
+    glViewport(0,0,mImageWidth,mImageHeight);
     //绑定帧缓冲id
     glBindFramebuffer(GL_FRAMEBUFFER,mFrameBuffer);
     glUseProgram(mGLProgId);
@@ -148,11 +148,11 @@ void ImageInput::destroy() {
 
 void ImageInput::initFrameBuffer(int width, int height) {
     //比对大小
-    if ( mFrameWidth != width || mFrameHeight !=height){
+    if ( mImageWidth != width || mImageHeight !=height){
         destroyFrameBuffers();
     }
-    mFrameWidth = width;
-    mFrameHeight = height;
+    mImageWidth = width;
+    mImageHeight = height;
     mFrameBuffer=0;
     mFrameBufferTextures=0;
     //生成帧缓冲id
@@ -181,8 +181,8 @@ void ImageInput::initFrameBuffer(int width, int height) {
 void ImageInput::destroyFrameBuffers() {
     glDeleteTextures(1,&mFrameBufferTextures);
     glDeleteFramebuffers(1,&mFrameBuffer);
-    mFrameWidth = -1;
-    mFrameHeight = -1;
+    mImageWidth = -1;
+    mImageHeight = -1;
 }
 
 void ImageInput::setTexelSize(int width,int height){

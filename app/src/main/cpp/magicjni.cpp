@@ -260,10 +260,28 @@ Java_com_cangwang_magic_util_OpenGLJniLib_savePhoto(JNIEnv *env, jobject obj,jst
     if (glCameraFilter != nullptr) {
         const char* addressStr = env->GetStringUTFChars(address,0);
         std::string nativeAddress = addressStr;
-        bool result = glCameraFilter->savePhoto(nativeAddress);
+        bool result = false;
+        if(glCameraFilter!= nullptr)
+            result = glCameraFilter->savePhoto(nativeAddress);
         env->ReleaseStringUTFChars(address, addressStr);
         return static_cast<jboolean>(result);
     }
+    return false;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_saveImage(JNIEnv *env, jobject obj,jstring address) {
+    if (glImageFilter != nullptr) {
+        const char* addressStr = env->GetStringUTFChars(address,0);
+
+        std::string nativeAddress = addressStr;
+        bool result = false;
+        if(glImageFilter!= nullptr)
+            result = glImageFilter->saveImage(nativeAddress);
+        env->ReleaseStringUTFChars(address, addressStr);
+        return static_cast<jboolean>(result);
+    }
+    return false;
 }
 
 }

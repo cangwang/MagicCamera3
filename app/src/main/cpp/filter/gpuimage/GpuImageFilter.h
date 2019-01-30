@@ -33,7 +33,7 @@ public:
     virtual void onDrawArraysAfter() {}
 
     bool savePhoto(std::string directory);
-    bool savePicture(unsigned char* data,std::string saveFileAddress);
+    bool savePicture(std::string saveFileAddress,unsigned char* data,int width,int height);
     void savePictureInThread();
     void enableBlend(GLenum srcBlend,GLenum dstBlend);
     void setOrientation(int degree);

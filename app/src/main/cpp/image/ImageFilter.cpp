@@ -120,16 +120,7 @@ void ImageFilter::change(int width, int height) {
 
         if (filter != nullptr){
             filter->onInputSizeChanged(width,height);
-            filter->onInputDisplaySizeChanged(imageInput->mFrameWidth,imageInput->mFrameHeight);
-//            //初始化显示的大小
-//            float ratio = (float)imageInput->mFrameHeight/(float)imageInput->mFrameWidth;
-//            if (ratio == 1.0f){
-//                filter->onInputDisplaySizeChanged(width,width);
-//            } else if (ratio >1.0f){
-//                filter->onInputDisplaySizeChanged(static_cast<const int>(width / ratio), height);
-//            } else{
-//                filter->onInputDisplaySizeChanged(width, static_cast<const int>(width * ratio));
-//            }
+            filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
         } else{
             imageInput->destroyFrameBuffers();
         }
@@ -166,6 +157,7 @@ void ImageFilter::setFilter(GPUImageFilter* gpuImageFilter) {
     if (filter!= nullptr)
         filter->init();
     filter->onInputSizeChanged(imageInput->mScreenWidth,imageInput->mScreenHeight);
+    filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
 }
 
 void ImageFilter::setBeautyLevel(int level) {
@@ -174,9 +166,11 @@ void ImageFilter::setBeautyLevel(int level) {
     }
 }
 
-bool ImageFilter::savePhoto(std::string saveFileAddress){
+bool ImageFilter::saveImage(std::string saveFileAddress){
     if(filter != nullptr){
-        return filter->savePhoto(saveFileAddress);
+        filter->savePhoto(saveFileAddress);
+        draw(nullptr);
+        return true;
     }
     return false;
 }

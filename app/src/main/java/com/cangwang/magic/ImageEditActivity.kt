@@ -60,7 +60,7 @@ class ImageEditActivity:AppCompatActivity(){
         }
 
         btn_album_save.setOnClickListener {
-            mSurfaceCallback?.savePhoto()
+            mSurfaceCallback?.saveImage()
         }
 
         btn_album_beauty.setOnClickListener {

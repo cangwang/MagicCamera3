@@ -80,5 +80,13 @@ object OpenGLJniLib{
      */
     external fun setBeautyLevel(level:Int)
 
+    /**
+     * 摄像头保存图片
+     */
     external fun savePhoto(address:String):Boolean
+
+    /**
+     * 编辑保存图片
+     */
+    external fun saveImage(address: String):Boolean
 }

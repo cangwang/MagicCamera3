@@ -28,7 +28,7 @@ public:
     void setFilter(AAssetManager* assetManager);
     void setFilter(int type);
     void setBeautyLevel(int level);
-    bool savePhoto(std::string saveFileAddress);
+    bool saveImage(std::string saveFileAddress);
 
 protected:
 

@@ -27,8 +27,8 @@ public:
     void destroyFrameBuffers();
     void setBeautyLevel(int level);
     GLuint imgTexture;
-    int mFrameWidth = -1;
-    int mFrameHeight = -1;
+    int mImageWidth = -1;
+    int mImageHeight = -1;
 
 protected:
     virtual void onInit();
