@@ -34,7 +34,7 @@ protected:
 
 private:
     GPUImageFilter *filter;
-    ImageInput *imageInput;
+    ImageInput *imageInput = nullptr;
     AAssetManager *mAssetManager;
     ANativeWindow *mWindow;
     GLuint mTextureId;

@@ -24,7 +24,7 @@ ImageFilter::ImageFilter(){
 
 ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::string path,int degree): mWindow(window),mEGLCore(new EGLCore()),
                                                    mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
-                                                   mMatrixLoc(0),filter(nullptr),imageInput(nullptr),beautyFilter(nullptr),imgPath(path),degree(degree){
+                                                   mMatrixLoc(0),filter(nullptr),imageInput(new ImageInput(assetManager,path)),beautyFilter(nullptr),imgPath(path),degree(degree){
     //清空mMatrix数组
     memset(mMatrix,0, sizeof(mMatrix));
     mMatrix[0] = 1;
@@ -32,9 +32,6 @@ ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::
     mMatrix[10] = 1;
     mMatrix[15] = 1;
 
-    if (imageInput == nullptr){
-        imageInput = new ImageInput(assetManager,path);
-    }
     setFilter(assetManager);
 }
 

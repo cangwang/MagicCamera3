@@ -38,7 +38,7 @@ GPUImageFilter::~GPUImageFilter() {
     mGLCubeBuffer = nullptr;
     mGLTextureBuffer = nullptr;
     mAssetManager= nullptr;
-//    thread.join();
+    mvpMatrix = nullptr;
 }
 
 void GPUImageFilter::init() {
@@ -78,7 +78,7 @@ void GPUImageFilter::onInputSizeChanged(const int width, const int height) {
     mScreenWidth = width;
     mScreenHeight = height;
     if(mDisplayWidth == 0)
-        mDisplayWidth =width;
+        mDisplayWidth = width;
     if(mDisplayHeight == 0)
         mDisplayHeight = height;
 }
@@ -86,16 +86,36 @@ void GPUImageFilter::onInputSizeChanged(const int width, const int height) {
 void GPUImageFilter::onInputDisplaySizeChanged(const int width, const int height) {
     mDisplayWidth = width;
     mDisplayHeight = height;
-    if(mScreenWidth > mScreenHeight){
-        float x = mScreenWidth / ((float)mScreenHeight/mDisplayHeight * mDisplayWidth);
-        orthoM(mvpMatrix,0,-x,x,-1,1,-1,1);
-    } else{
-        float y = mScreenHeight/ ((float)mScreenWidth /mDisplayWidth  * mDisplayHeight);
-        orthoM(mvpMatrix,0,-1,1,-y,y,-1,1);
+    int screenWidth = 0;
+    int screenHeight = 0;
+    if(degree == 90 || degree == 180){
+        screenWidth = mScreenHeight;
+        screenHeight = mScreenWidth;
+    } else {
+        screenWidth = mScreenWidth;
+        screenHeight = mScreenHeight;
     }
+
+    if (screenWidth > screenHeight) {
+        float x = screenWidth / ((float) screenHeight / (float) mDisplayHeight * mDisplayWidth);
+        if(degree == 90 ||degree == 180){
+            orthoM(mvpMatrix, 0, -1, 1, -x, x, -1, 1);
+        } else {
+            orthoM(mvpMatrix, 0, -x, x, -1, 1, -1, 1);
+        }
+    } else {
+        float y = screenHeight / ((float) screenWidth / (float) mDisplayWidth * mDisplayHeight);
+        if(degree == 90 ||degree == 180) {
+            orthoM(mvpMatrix, 0, -y, y, -1, 1, -1, 1);
+        } else{
+            orthoM(mvpMatrix, 0, -1, 1, -y, y, -1, 1);
+        }
+    }
+
 }
 
 void GPUImageFilter::setOrientation(int degree) {
+    this->degree = degree;
     mGLTextureBuffer = getRotation(degree, false, false);
 }
 
@@ -179,8 +199,12 @@ void GPUImageFilter::savePictureInThread() {
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
         //获取帧内字节
         glReadPixels(0, 0, mDisplayWidth, mDisplayHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,savePhotoAddress, data, mDisplayWidth,mDisplayHeight));
-        thread.detach();
+        if(data && *data!='\0'){ //判断读取数据是否为空
+            std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,savePhotoAddress, data, mDisplayWidth,mDisplayHeight));
+            thread.detach();
+        } else{
+            ALOGV("glReadPixels data null ");
+        }
     }
 }
 
