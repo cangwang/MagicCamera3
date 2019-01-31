@@ -35,6 +35,7 @@ public:
     bool savePhoto(std::string directory);
     bool savePicture(std::string saveFileAddress,unsigned char* data,int width,int height);
     void savePictureInThread();
+    void saveImageInThread(std::string saveFileAddress);
     void enableBlend(GLenum srcBlend,GLenum dstBlend);
     void setOrientation(int degree);
     GLfloat* getVertexBuffer();

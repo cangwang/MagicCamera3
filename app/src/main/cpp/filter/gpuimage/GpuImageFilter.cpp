@@ -170,19 +170,48 @@ void GPUImageFilter::savePictureInThread() {
         std::unique_lock<std::mutex> lock(gMutex);
         isSavePhoto = false;
         ALOGV("save address = %s",savePhotoAddress.c_str());
-        //字节大小为长*宽*4
+        //字节大小为长*宽*4，RGBA
         long size = mDisplayWidth*mDisplayHeight*4;
         unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
 
+        glReadBuffer(GL_FRONT);
         //对齐像素字节
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
+        checkGLError("glPixelStorei");
         //获取帧内字节
         glReadPixels(0, 0, mDisplayWidth, mDisplayHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
         if(data && *data!='\0'){ //判断读取数据是否为空
             std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,savePhotoAddress, data, mDisplayWidth,mDisplayHeight));
             thread.detach();
         } else{
-            ALOGV("glReadPixels data null ");
+            ALOGE("glReadPixels data null ");
+        }
+    }
+}
+
+void GPUImageFilter::saveImageInThread(std::string saveFileAddress){
+    if (mDisplayWidth > 0 && mDisplayHeight > 0) {
+        //加锁
+        std::unique_lock<std::mutex> lock(gMutex);
+        isSavePhoto = false;
+        ALOGV("save address = %s",saveFileAddress.c_str());
+        //字节大小为长*宽*4，RGBA
+        long size = mDisplayWidth*mDisplayHeight*4;
+        unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
+
+        glReadBuffer(GL_FRONT);
+        checkGLError("glReadBuffer");
+        //对齐像素字节
+        glPixelStorei(GL_PACK_ALIGNMENT, 1);
+        checkGLError("glPixelStorei");
+        glBlitFramebuffer(0,0,mDisplayWidth,mDisplayHeight,0,0,mDisplayWidth,mDisplayHeight,GL_COLOR_BUFFER_BIT,GL_NEAREST);
+        //获取帧内字节
+        glReadPixels(0, 0, mDisplayWidth, mDisplayHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        if(data && *data!='\0'){ //判断读取数据是否为空
+            std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,saveFileAddress, data, mDisplayWidth,mDisplayHeight));
+            thread.detach();
+        } else{
+            ALOGE("glReadPixels data null ");
         }
     }
 }
@@ -197,7 +226,7 @@ bool GPUImageFilter::savePicture(std::string saveFileAddress,unsigned char* data
         return true;
     } else {
         free(data);
-        ALOGV("save address = %s fail", saveFileAddress.c_str());
+        ALOGE("save address = %s fail", saveFileAddress.c_str());
         return false;
     };
 }

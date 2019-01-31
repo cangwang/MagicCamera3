@@ -201,8 +201,9 @@ void ImageFilter::setBeautyLevel(int level) {
 
 bool ImageFilter::saveImage(std::string saveFileAddress){
     if(filter != nullptr){
-        filter->savePhoto(saveFileAddress);
-        draw(nullptr);
+//        filter->savePhoto(saveFileAddress);
+//        draw(nullptr);
+        filter->saveImageInThread(saveFileAddress);
         return true;
     }
     return false;
