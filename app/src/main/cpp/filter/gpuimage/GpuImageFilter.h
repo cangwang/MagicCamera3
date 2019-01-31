@@ -39,6 +39,7 @@ public:
     void setOrientation(int degree);
     GLfloat* getVertexBuffer();
     GLfloat* getTextureBuffer();
+    void setMvpMatrix(float* mvpMatrix);
 
     AAssetManager* mAssetManager;
     int mScreenWidth;

@@ -9,6 +9,7 @@
 #include <src/main/cpp/filter/gpuimage/GpuImageFilter.h>
 #include <src/main/cpp/filter/advanced/MagicNoneFilter.h>
 #include <src/main/cpp/filter/MagicFilterFactory.h>
+#include <src/main/cpp/utils/Matrix.h>
 
 
 #define LOG_TAG "ImageFilter"
@@ -118,6 +119,37 @@ void ImageFilter::change(int width, int height) {
         if (filter != nullptr){
             filter->onInputSizeChanged(width,height);
             filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
+            int screenWidth = 0;
+            int screenHeight = 0;
+            float *mvpMatrix = NONE_MATRIX;
+            if (degree == 90 || degree == 180) {
+                screenWidth = height;
+                screenHeight = width;
+            } else {
+                screenWidth = width;
+                screenHeight = height;
+            }
+
+            if (screenWidth > screenHeight) {
+                float x = screenWidth /
+                          ((float) screenHeight / (float) imageInput->mImageHeight *
+                           imageInput->mImageWidth);
+                if (degree == 90 || degree == 180) {
+                    orthoM(mvpMatrix, 0, -1, 1, -x, x, -1, 1);
+                } else {
+                    orthoM(mvpMatrix, 0, -x, x, -1, 1, -1, 1);
+                }
+            } else {
+                float y = screenHeight /
+                          ((float) screenWidth / (float) imageInput->mImageWidth *
+                           imageInput->mImageHeight);
+                if (degree == 90 || degree == 180) {
+                    orthoM(mvpMatrix, 0, -y, y, -1, 1, -1, 1);
+                } else {
+                    orthoM(mvpMatrix, 0, -1, 1, -y, y, -1, 1);
+                }
+            }
+            filter->setMvpMatrix(mvpMatrix);
         } else{
             imageInput->destroyFrameBuffers();
         }

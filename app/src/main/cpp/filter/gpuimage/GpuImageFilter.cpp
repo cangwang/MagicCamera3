@@ -4,7 +4,6 @@
 #include <thread>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "src/main/cpp/utils/stb_image_write.h"
-#include "src/main/cpp/utils/Matrix.h"
 
 #define LOG_TAG "GPUImageFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -86,32 +85,10 @@ void GPUImageFilter::onInputSizeChanged(const int width, const int height) {
 void GPUImageFilter::onInputDisplaySizeChanged(const int width, const int height) {
     mDisplayWidth = width;
     mDisplayHeight = height;
-    int screenWidth = 0;
-    int screenHeight = 0;
-    if(degree == 90 || degree == 180){
-        screenWidth = mScreenHeight;
-        screenHeight = mScreenWidth;
-    } else {
-        screenWidth = mScreenWidth;
-        screenHeight = mScreenHeight;
-    }
+}
 
-    if (screenWidth > screenHeight) {
-        float x = screenWidth / ((float) screenHeight / (float) mDisplayHeight * mDisplayWidth);
-        if(degree == 90 ||degree == 180){
-            orthoM(mvpMatrix, 0, -1, 1, -x, x, -1, 1);
-        } else {
-            orthoM(mvpMatrix, 0, -x, x, -1, 1, -1, 1);
-        }
-    } else {
-        float y = screenHeight / ((float) screenWidth / (float) mDisplayWidth * mDisplayHeight);
-        if(degree == 90 ||degree == 180) {
-            orthoM(mvpMatrix, 0, -y, y, -1, 1, -1, 1);
-        } else{
-            orthoM(mvpMatrix, 0, -1, 1, -y, y, -1, 1);
-        }
-    }
-
+void GPUImageFilter::setMvpMatrix(float *mvpMatrix) {
+    this->mvpMatrix = mvpMatrix;
 }
 
 void GPUImageFilter::setOrientation(int degree) {
