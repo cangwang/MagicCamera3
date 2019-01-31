@@ -29,6 +29,7 @@ public:
     void setFilter(int type);
     void setBeautyLevel(int level);
     bool saveImage(std::string saveFileAddress);
+    void setMatrix(int width,int height);
 
 protected:
 

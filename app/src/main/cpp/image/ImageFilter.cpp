@@ -119,41 +119,44 @@ void ImageFilter::change(int width, int height) {
         if (filter != nullptr){
             filter->onInputSizeChanged(width,height);
             filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
-            int screenWidth = 0;
-            int screenHeight = 0;
-            float *mvpMatrix = NONE_MATRIX;
-            if (degree == 90 || degree == 180) {
-                screenWidth = height;
-                screenHeight = width;
-            } else {
-                screenWidth = width;
-                screenHeight = height;
-            }
-
-            if (screenWidth > screenHeight) {
-                float x = screenWidth /
-                          ((float) screenHeight / (float) imageInput->mImageHeight *
-                           imageInput->mImageWidth);
-                if (degree == 90 || degree == 180) {
-                    orthoM(mvpMatrix, 0, -1, 1, -x, x, -1, 1);
-                } else {
-                    orthoM(mvpMatrix, 0, -x, x, -1, 1, -1, 1);
-                }
-            } else {
-                float y = screenHeight /
-                          ((float) screenWidth / (float) imageInput->mImageWidth *
-                           imageInput->mImageHeight);
-                if (degree == 90 || degree == 180) {
-                    orthoM(mvpMatrix, 0, -y, y, -1, 1, -1, 1);
-                } else {
-                    orthoM(mvpMatrix, 0, -1, 1, -y, y, -1, 1);
-                }
-            }
-            filter->setMvpMatrix(mvpMatrix);
+            setMatrix(width,height);
         } else{
             imageInput->destroyFrameBuffers();
         }
     }
+}
+void ImageFilter::setMatrix(int width,int height){
+    int screenWidth = 0;
+    int screenHeight = 0;
+    float *mvpMatrix = NONE_MATRIX;
+    if (degree == 90 || degree == 180) {
+        screenWidth = height;
+        screenHeight = width;
+    } else {
+        screenWidth = width;
+        screenHeight = height;
+    }
+
+    if (screenWidth > screenHeight) {
+        float x = screenWidth /
+                  ((float) screenHeight / (float) imageInput->mImageHeight *
+                   imageInput->mImageWidth);
+        if (degree == 90 || degree == 180) {
+            orthoM(mvpMatrix, 0, -1, 1, -x, x, -1, 1);
+        } else {
+            orthoM(mvpMatrix, 0, -x, x, -1, 1, -1, 1);
+        }
+    } else {
+        float y = screenHeight /
+                  ((float) screenWidth / (float) imageInput->mImageWidth *
+                   imageInput->mImageHeight);
+        if (degree == 90 || degree == 180) {
+            orthoM(mvpMatrix, 0, -y, y, -1, 1, -1, 1);
+        } else {
+            orthoM(mvpMatrix, 0, -1, 1, -y, y, -1, 1);
+        }
+    }
+    filter->setMvpMatrix(mvpMatrix);
 }
 
 
@@ -187,6 +190,7 @@ void ImageFilter::setFilter(GPUImageFilter* gpuImageFilter) {
         filter->init();
     filter->onInputSizeChanged(imageInput->mScreenWidth,imageInput->mScreenHeight);
     filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
+    setMatrix(imageInput->mScreenWidth,imageInput->mScreenHeight);
 }
 
 void ImageFilter::setBeautyLevel(int level) {
