@@ -17,9 +17,9 @@
 #define ALOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
 /**
+ * 图片滤镜管理
  * cangwang 2018.12.1
  */
-
 ImageFilter::ImageFilter(){
 }
 

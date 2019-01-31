@@ -30,6 +30,11 @@ void MagicSoulOutFilter::onDestroy() {
 }
 
 void MagicSoulOutFilter::onDrawArraysPre() {
+    //开启颜色混合
+    glEnable(GL_BLEND);
+    //透明度混合
+    glBlendFunc(GL_SRC_ALPHA,GL_DST_ALPHA);
+
     mProgress = (float)mFrames/mMaxFrames;
     if (mProgress>1){
         mProgress = 0;
@@ -58,6 +63,8 @@ void MagicSoulOutFilter::onDrawArraysAfter() {
         glUniformMatrix4fv(mMvpMatrixLocation,1,GL_FALSE,mMvpMatrix);
         glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     }
+    //关闭颜色混合
+    glDisable(GL_BLEND);
 }
 
 
@@ -65,8 +72,6 @@ void MagicSoulOutFilter::onInit() {
     GPUImageFilter::onInit();
     mMvpMatrixLocation = glGetUniformLocation(mGLProgId,"uMvpMatrix");
     mAlphaLocation = glGetUniformLocation(mGLProgId,"uAlpha");
-    //开启颜色混合
-    enableBlend(GL_SRC_ALPHA,GL_DST_ALPHA);
 }
 
 void MagicSoulOutFilter::onInitialized() {

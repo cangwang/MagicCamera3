@@ -9,6 +9,10 @@
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
 
+/**
+ * 滤镜基类
+ * cangwang 2018.12.1
+ */
 GPUImageFilter::GPUImageFilter() {
 
 }
@@ -108,7 +112,6 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         ALOGE("NOT_INIT");
         return NOT_INIT;
     }
-    bindBlend();
 
     glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,mvpMatrix);
     //加载顶点参数
@@ -135,7 +138,6 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
 
     if(textureId !=NO_TEXTURE) //激活回到默认纹理
         glBindTexture(GL_TEXTURE_2D,0);
-    unBindBlend();
 
     return ON_DRAWN;
 }
