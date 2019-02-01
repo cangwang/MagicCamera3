@@ -6,11 +6,6 @@
 #include <string>
 #include <android/asset_manager.h>
 
-int loadTexture(const char *img,const int userTexId);
-int loadTexture(const char *img,const int userTexId, bool recyled);
-int loadTexture(const char data[],const int width,const int height,const int userTexId);
-int loadTexture(const char data[],const int width,const int height,const int userTexId,int type);
-int loadTexture(const JNIEnv *env,const char* name);
 GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName);
 GLuint loadTextureFromFile(const char *fileName, int *w, int *h);
 GLuint loadTextureFromAssetsRepeat(AAssetManager *manager, const char *fileName);
@@ -25,7 +20,6 @@ char* readerShaderFromRawResource(JNIEnv *env, jclass tis, jobject assetManager,
 //BitmapOperation drawToBitmapByFilter(jobject bitmap,GPUImageFilter filter,int displayWidth,int displayHeight, bool rotate);
 void checkGLError(char *op);
 void checkGLError(std::string op);
-void freeResource(char *pData);
 std::string *readShaderFromAsset(AAssetManager *manager, const char *fileName);
 unsigned char* getAddressFromAsset(AAssetManager *manager, const char *fileName);
 int getSizeFromAsset(AAssetManager *manager, const char *fileName);

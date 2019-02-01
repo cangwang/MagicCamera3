@@ -33,11 +33,14 @@ public:
     virtual void onDrawArraysAfter() {}
 
     bool savePhoto(std::string directory);
-    bool savePicture(unsigned char* data,std::string saveFileAddress);
+    bool savePicture(std::string saveFileAddress,unsigned char* data,int width,int height);
+    void savePictureInThread();
+    void saveImageInThread(std::string saveFileAddress);
     void enableBlend(GLenum srcBlend,GLenum dstBlend);
     void setOrientation(int degree);
     GLfloat* getVertexBuffer();
     GLfloat* getTextureBuffer();
+    void setMvpMatrix(float* mvpMatrix);
 
     AAssetManager* mAssetManager;
     int mScreenWidth;
@@ -72,6 +75,9 @@ private:
     GLenum srcBlend;
     GLenum dstBlend;
     int degree;
+    float* mvpMatrix;
+    void bindBlend();
+    void unBindBlend();
 };
 
 #endif

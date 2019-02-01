@@ -104,14 +104,14 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
     }
 
     @SuppressLint("CheckResult")
-    fun savePhoto(){
+    fun saveImage(){
         val rootAddress = if(Build.BRAND == "Xiaomi"){ // 小米手机
             Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
         }else{  // Meizu 、Oppo
             Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
         }
         Observable.create(ObservableOnSubscribe<Boolean> {
-            it.onNext(OpenGLJniLib.savePhoto(rootAddress))
+            it.onNext(OpenGLJniLib.saveImage(rootAddress))
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

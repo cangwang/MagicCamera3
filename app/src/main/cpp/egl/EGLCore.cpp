@@ -87,7 +87,7 @@ GLboolean EGLCore::buildContext(ANativeWindow *window) {
         return GL_FALSE;
     }
 
-    //把EGLContext和EGLSurface关联起来
+    //把EGLContext和EGLSurface关联起来，单缓冲只使用了一个surface
     if (!eglMakeCurrent(mDisplay,mSurface,mSurface,mContext)){
         ALOGE("eglMakeCurrent failed: %d",eglGetError());
         return GL_FALSE;
@@ -97,6 +97,9 @@ GLboolean EGLCore::buildContext(ANativeWindow *window) {
     return GL_TRUE;
 }
 
+/**
+ * 现在只使用单缓冲绘制
+ */
 void EGLCore::swapBuffer() {
     //双缓冲绘图，原来是检测出前台display和后台缓冲的差别的dirty区域，然后再区域替换buffer
     //1）首先计算非dirty区域，然后将非dirty区域数据从上一个buffer拷贝到当前buffer；

@@ -28,13 +28,14 @@ public:
     void setFilter(AAssetManager* assetManager);
     void setFilter(int type);
     void setBeautyLevel(int level);
-    bool savePhoto(std::string saveFileAddress);
+    bool saveImage(std::string saveFileAddress);
+    void setMatrix(int width,int height);
 
 protected:
 
 private:
     GPUImageFilter *filter;
-    ImageInput *imageInput;
+    ImageInput *imageInput = nullptr;
     AAssetManager *mAssetManager;
     ANativeWindow *mWindow;
     GLuint mTextureId;

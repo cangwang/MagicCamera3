@@ -192,7 +192,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterChange(JNIEnv *env, jo
     std::unique_lock<std::mutex> lock(gMutex);
     //视口变换，可视区域
     if (!glImageFilter){
-        ALOGE("change error, glCameraFilter is null");
+        ALOGE("change error, glImageFilter is null");
         return;
     }
     //更改窗口大小
@@ -207,7 +207,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterDraw(JNIEnv *env, jobj
     std::unique_lock<std::mutex> lock(gMutex);
     //如果为空，就判断错误，中断
     if (!glImageFilter){
-        ALOGE("draw error, glCameraFilter is null");
+        ALOGE("draw error, glImageFilter is null");
         return;
     }
     //图片和滤镜绘制
@@ -240,12 +240,14 @@ JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_setFilterType(JNIEnv *env, jobject obj,jint type) {
    if(glCameraFilter!= nullptr)
        glCameraFilter->setFilter(type);
+   else ALOGE("filter set error, glCameraFilter is null");
 }
 
 JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_setImageFilterType(JNIEnv *env, jobject obj,jint type) {
     if(glImageFilter!= nullptr)
         glImageFilter->setFilter(type);
+    else ALOGE("filter set error, glImageFilter is null");
 }
 
 
@@ -253,6 +255,7 @@ JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_setBeautyLevel(JNIEnv *env, jobject obj,jint level) {
     if(glCameraFilter!= nullptr)
         glCameraFilter->setBeautyLevel(level);
+    else ALOGE("beauty set error, glCameraFilter is null");
 }
 
 JNIEXPORT jboolean JNICALL
@@ -260,9 +263,31 @@ Java_com_cangwang_magic_util_OpenGLJniLib_savePhoto(JNIEnv *env, jobject obj,jst
     if (glCameraFilter != nullptr) {
         const char* addressStr = env->GetStringUTFChars(address,0);
         std::string nativeAddress = addressStr;
-        bool result = glCameraFilter->savePhoto(nativeAddress);
+        bool result = false;
+        if(glCameraFilter!= nullptr)
+            result = glCameraFilter->savePhoto(nativeAddress);
         env->ReleaseStringUTFChars(address, addressStr);
         return static_cast<jboolean>(result);
+    } else{
+        ALOGE("save photo error, glCameraFilter is null");
+        return static_cast<jboolean>(false);
+    }
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_saveImage(JNIEnv *env, jobject obj,jstring address) {
+    if (glImageFilter != nullptr) {
+        const char* addressStr = env->GetStringUTFChars(address,0);
+
+        std::string nativeAddress = addressStr;
+        bool result = false;
+        if(glImageFilter!= nullptr)
+            result = glImageFilter->saveImage(nativeAddress);
+        env->ReleaseStringUTFChars(address, addressStr);
+        return static_cast<jboolean>(result);
+    }else{
+        ALOGE("save photo error, glImageFilter is null");
+        return static_cast<jboolean>(false);
     }
 }
 

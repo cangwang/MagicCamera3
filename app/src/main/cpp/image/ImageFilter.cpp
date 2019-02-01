@@ -9,6 +9,7 @@
 #include <src/main/cpp/filter/gpuimage/GpuImageFilter.h>
 #include <src/main/cpp/filter/advanced/MagicNoneFilter.h>
 #include <src/main/cpp/filter/MagicFilterFactory.h>
+#include <src/main/cpp/utils/Matrix.h>
 
 
 #define LOG_TAG "ImageFilter"
@@ -16,15 +17,15 @@
 #define ALOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
 /**
+ * 图片滤镜管理
  * cangwang 2018.12.1
  */
-
 ImageFilter::ImageFilter(){
 }
 
 ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::string path,int degree): mWindow(window),mEGLCore(new EGLCore()),
                                                    mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
-                                                   mMatrixLoc(0),filter(nullptr),imageInput(nullptr),beautyFilter(nullptr),imgPath(path),degree(degree){
+                                                   mMatrixLoc(0),filter(nullptr),imageInput(new ImageInput(assetManager,path)),beautyFilter(nullptr),imgPath(path),degree(degree){
     //清空mMatrix数组
     memset(mMatrix,0, sizeof(mMatrix));
     mMatrix[0] = 1;
@@ -32,9 +33,6 @@ ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::
     mMatrix[10] = 1;
     mMatrix[15] = 1;
 
-    if (imageInput == nullptr){
-        imageInput = new ImageInput(assetManager,path);
-    }
     setFilter(assetManager);
 }
 
@@ -120,20 +118,45 @@ void ImageFilter::change(int width, int height) {
 
         if (filter != nullptr){
             filter->onInputSizeChanged(width,height);
-            filter->onInputDisplaySizeChanged(imageInput->mFrameWidth,imageInput->mFrameHeight);
-//            //初始化显示的大小
-//            float ratio = (float)imageInput->mFrameHeight/(float)imageInput->mFrameWidth;
-//            if (ratio == 1.0f){
-//                filter->onInputDisplaySizeChanged(width,width);
-//            } else if (ratio >1.0f){
-//                filter->onInputDisplaySizeChanged(static_cast<const int>(width / ratio), height);
-//            } else{
-//                filter->onInputDisplaySizeChanged(width, static_cast<const int>(width * ratio));
-//            }
+            filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
+            setMatrix(width,height);
         } else{
             imageInput->destroyFrameBuffers();
         }
     }
+}
+void ImageFilter::setMatrix(int width,int height){
+    int screenWidth = 0;
+    int screenHeight = 0;
+    float *mvpMatrix = NONE_MATRIX;
+    if (degree == 90 || degree == 180) {
+        screenWidth = height;
+        screenHeight = width;
+    } else {
+        screenWidth = width;
+        screenHeight = height;
+    }
+
+    if (screenWidth > screenHeight) {
+        float x = screenWidth /
+                  ((float) screenHeight / (float) imageInput->mImageHeight *
+                   imageInput->mImageWidth);
+        if (degree == 90 || degree == 180) {
+            orthoM(mvpMatrix, 0, -1, 1, -x, x, -1, 1);
+        } else {
+            orthoM(mvpMatrix, 0, -x, x, -1, 1, -1, 1);
+        }
+    } else {
+        float y = screenHeight /
+                  ((float) screenWidth / (float) imageInput->mImageWidth *
+                   imageInput->mImageHeight);
+        if (degree == 90 || degree == 180) {
+            orthoM(mvpMatrix, 0, -y, y, -1, 1, -1, 1);
+        } else {
+            orthoM(mvpMatrix, 0, -1, 1, -y, y, -1, 1);
+        }
+    }
+    filter->setMvpMatrix(mvpMatrix);
 }
 
 
@@ -166,6 +189,8 @@ void ImageFilter::setFilter(GPUImageFilter* gpuImageFilter) {
     if (filter!= nullptr)
         filter->init();
     filter->onInputSizeChanged(imageInput->mScreenWidth,imageInput->mScreenHeight);
+    filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
+    setMatrix(imageInput->mScreenWidth,imageInput->mScreenHeight);
 }
 
 void ImageFilter::setBeautyLevel(int level) {
@@ -174,9 +199,12 @@ void ImageFilter::setBeautyLevel(int level) {
     }
 }
 
-bool ImageFilter::savePhoto(std::string saveFileAddress){
+bool ImageFilter::saveImage(std::string saveFileAddress){
     if(filter != nullptr){
-        return filter->savePhoto(saveFileAddress);
+//        filter->savePhoto(saveFileAddress);
+//        draw(nullptr);
+        filter->saveImageInThread(saveFileAddress);
+        return true;
     }
     return false;
 }

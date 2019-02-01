@@ -18,6 +18,7 @@
 #define ALOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
 /**
+ * 相机滤镜管理
  * cangwang 2018.12.1
  */
 const static GLfloat VERTICES[]= {

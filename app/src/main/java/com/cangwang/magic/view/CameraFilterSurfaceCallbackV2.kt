@@ -105,6 +105,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
                     Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
                 }
                 OpenGLJniLib.magicFilterDraw(mMatrix,photoAddress)
+                isTakePhoto =false
             }else {
                 OpenGLJniLib.magicFilterDraw(mMatrix,"")
             }

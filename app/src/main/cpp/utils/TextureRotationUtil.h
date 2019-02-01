@@ -15,6 +15,13 @@ static GLfloat CUBE[] = {
         1.0f,1.0f
 };
 
+static GLfloat NONE_MATRIX[] = {
+        1,0,0,0,
+        0,1,0,0,
+        0,0,1,0,
+        0,0,0,1,
+};
+
 float* getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical);
 float* getRotation(int degree, const bool flipHorizontal, const bool flipVertical);
 float flip(const float i);
