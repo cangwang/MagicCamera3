@@ -24,12 +24,14 @@ class CameraCompatV19(context: Context) : CameraCompat(context) {
         }
     }
 
-    override fun onStartPreview() {
+    override fun onStartPreview(callBack: CameraStateCallBack?) {
         try {
             mCamera?.setPreviewTexture(mSurfaceTexture)
             mCamera?.startPreview()
+            callBack?.onConfigured()
         } catch (e: Throwable) {
             Log.e(TAG, e.toString())
+            callBack?.onConfigureFailed()
         }
 
     }

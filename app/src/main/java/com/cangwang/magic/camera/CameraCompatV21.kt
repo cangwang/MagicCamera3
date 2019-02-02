@@ -129,7 +129,7 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
     }
 
 
-    override fun onStartPreview() {
+    override fun onStartPreview(callBack: CameraStateCallBack?) {
         try {
             mSurface = Surface(mSurfaceTexture)
             outputSize?.let {
@@ -147,7 +147,21 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
                     CaptureRequest.FLASH_MODE_OFF)
 
                 mCamera?.createCaptureSession(listOf(it),
-                        mCaptureStateCallback, mBackgroundHandler)
+                        object : CameraCaptureSession.StateCallback() {
+                            override fun onConfigured(session: CameraCaptureSession) {
+                                if (mCamera == null) {
+                                    return
+                                }
+                                mCaptureSession = session
+                                startRequest(session)
+                                callBack?.onConfigured()
+                            }
+
+                            override fun onConfigureFailed(session: CameraCaptureSession) {
+                                Log.e(TAG, "onConfigureFailed")
+                                callBack?.onConfigureFailed()
+                            }
+                        }, mBackgroundHandler)
             }
 
         } catch (e: Throwable) {
