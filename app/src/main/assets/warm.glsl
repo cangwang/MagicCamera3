@@ -7,7 +7,7 @@ uniform sampler2D curve;
 uniform sampler2D greyFrame;
 uniform sampler2D layerImage;
 
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
 void main()
 { 
@@ -54,5 +54,5 @@ void main()
 	blueCurveValue = texture(curve, vec2(textureColor.b, 1.0)).b; 
 	textureColor = vec4(redCurveValue, greenCurveValue, blueCurveValue, 1.0); 
 
-	gl_FragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0); 
+	glFragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
 }

@@ -10,7 +10,7 @@ uniform float texelHeightOffset;
 in mediump vec2 textureCoordinate; 
 
 const mediump vec3 luminanceWeighting = vec3(0.2125, 0.7154, 0.0721); 
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
 vec4 gaussianBlur(sampler2D sampler) { 
 	lowp float strength = 1.; 
@@ -68,7 +68,7 @@ void main() {
     mediump vec4 overlay = blurColor;
 
 	mediump vec4 base = vec4(redCurveValue, greenCurveValue, blueCurveValue, 1.0); 
-    //gl_FragColor = overlay; 
+    //glFragColor = overlay;
 
     // step4 overlay blending 
 	mediump float ra; 
@@ -94,5 +94,5 @@ void main() {
 
 	textureColor = vec4(ra, ga, ba, 1.0); 
 
-    gl_FragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0); 
+    glFragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
 }

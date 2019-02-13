@@ -9,7 +9,7 @@ precision mediump float;
  
  uniform float strength;
  
-  out vec4 gl_FragColor;
+  out vec4 glFragColor;
  
  void main()
  {
@@ -34,6 +34,6 @@ precision mediump float;
     
      texel.rgb = mix(originColor.rgb, texel.rgb, strength);
      
-    gl_FragColor = vec4(texel, 1.0);
+    glFragColor = vec4(texel, 1.0);
     
 }

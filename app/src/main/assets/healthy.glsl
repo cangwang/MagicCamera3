@@ -10,7 +10,7 @@ uniform float texelWidthOffset ;
 uniform float texelHeightOffset;
 
 in mediump vec2 textureCoordinate;
-out vec4 gl_FragColor;
+out vec4 glFragColor;
 
 vec4 level0c(vec4 color, sampler2D sampler) 
 { 
@@ -136,6 +136,6 @@ void main()
 	
 	c6 = level1c(level0c(c6,curve),curve); 
 	
-	gl_FragColor = c6; 
+	glFragColor = c6;
 	// end
 } 

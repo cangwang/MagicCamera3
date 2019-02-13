@@ -3,7 +3,7 @@ in highp vec2 textureCoordinate;
 
 uniform sampler2D inputImageTexture;
 uniform sampler2D inputImageTexture2; 
-out vec4 gl_FragColor;
+out vec4 glFragColor;
 
 void main()
 {
@@ -31,5 +31,5 @@ void main()
     lowp vec4 newColor2 = texture(inputImageTexture2, texPos2);
     
     lowp vec4 newColor = mix(newColor1, newColor2, fract(blueColor));
-    gl_FragColor = vec4(newColor.rgb, textureColor.w);
+    glFragColor = vec4(newColor.rgb, textureColor.w);
 }

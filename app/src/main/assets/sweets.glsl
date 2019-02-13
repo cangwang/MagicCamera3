@@ -10,7 +10,7 @@ uniform float texelWidthOffset ;
 uniform float texelHeightOffset;
 
 in mediump vec2 textureCoordinate;
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
 vec4 sharpen(sampler2D sampler) 
 { 
@@ -152,5 +152,5 @@ void main()
     c3 = vibrance(level(c3, curve), 0.5); // vibrance = 0.5; 
 	c3 = normal(c3, overlay(c3, vec4(0.)), 1.-texture(samplerMask, textureCoordinate).r); // vignetting 
 	
-	gl_FragColor = c3;
+	glFragColor = c3;
 }

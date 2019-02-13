@@ -7,7 +7,7 @@ uniform float texelWidthOffset;
 uniform float texelHeightOffset; 
 
 in mediump vec2 textureCoordinate;
-out vec4 gl_FragColor;
+out vec4 glFragColor;
 
 vec4 gaussianBlur(sampler2D sampler) { 
 	lowp float strength = 1.; 
@@ -67,5 +67,5 @@ void main() {
 	lowp vec4 c2 = overlay(c0, level0c(c1, curve)); 
 	lowp vec4 c3 = normal(c0,c2,0.15); 
 
-	gl_FragColor = c3; 
+	glFragColor = c3;
 }

@@ -5,7 +5,7 @@ precision mediump float;
 
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2;
-  out vec4 gl_FragColor;
+  out vec4 glFragColor;
 
  void main()
  {
@@ -17,5 +17,5 @@ precision mediump float;
                   texture(inputImageTexture2, vec2(texel.g, .5)).g,
                   texture(inputImageTexture2, vec2(texel.b, .83333)).b);
 
-     gl_FragColor = vec4(texel, 1.0);
+     glFragColor = vec4(texel, 1.0);
  }

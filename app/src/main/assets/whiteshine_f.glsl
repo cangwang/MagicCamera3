@@ -5,10 +5,10 @@ precision mediump float;
  uniform sampler2D inputImageTexture;
  //控制曝光程度
  uniform float uAdditionalColor;
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
  void main()
  {
     vec4 color = texture(inputImageTexture,textureCoordinate);
-    gl_FragColor = vec4(color.r + uAdditionalColor,color.g+uAdditionalColor,color.b+uAdditionalColor,color.a);
+    glFragColor = vec4(color.r + uAdditionalColor,color.g+uAdditionalColor,color.b+uAdditionalColor,color.a);
  }

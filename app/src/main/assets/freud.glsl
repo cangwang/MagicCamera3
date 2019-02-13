@@ -11,7 +11,7 @@
  float texture2Size = 1024.0;
  
  uniform float strength;
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
  // gray
  float NCGray(vec4 color)
@@ -171,5 +171,5 @@
     color = NCColorMatrix(color, 1.0, 1.0, 1.0, 1.0, vec4(-0.15, -0.15, -0.15, 0));
     
     color.rgb = mix(originColor.rgb, color.rgb, strength);
-    gl_FragColor = color;
+    glFragColor = color;
 }

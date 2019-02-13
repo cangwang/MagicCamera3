@@ -21,7 +21,7 @@ precision mediump float;
  vec3 lumaCoeffs = vec3(.3, .59, .11);
  
  uniform float strength;
-  out vec4 gl_FragColor;
+  out vec4 glFragColor;
  
  void main()
  {
@@ -42,5 +42,5 @@ precision mediump float;
                   texture(inputImageTexture3, vec2(luma, texel.b)).b);
      
      texel.rgb = mix(originColor.rgb, texel.rgb, strength);
-     gl_FragColor = vec4(texel, 1.0);
+     glFragColor = vec4(texel, 1.0);
  }

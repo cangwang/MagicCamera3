@@ -4,7 +4,7 @@ precision highp float;
 
 uniform sampler2D inputImageTexture; 
 uniform sampler2D curve;
-out vec4 gl_FragColor;
+out vec4 glFragColor;
 
 void main()
 { 
@@ -45,5 +45,5 @@ void main()
 
 	textureColor = vec4(redCurveValue, greenCurveValue, blueCurveValue, 1.0); 
 
-    gl_FragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0); 
+    glFragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
 }

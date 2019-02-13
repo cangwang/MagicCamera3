@@ -12,7 +12,7 @@ uniform mediump float params;
 const highp vec3 W = vec3(0.299,0.587,0.114);
 vec2 blurCoordinates[20];
 
-out vec4 gl_FragColor;
+out vec4 glFragColor;
 
 float hardLight(float color)
 {
@@ -85,8 +85,8 @@ void main(){
 
         vec3 smoothColor = centralColor + (centralColor-vec3(highPass))*alpha*0.1;
 
-        gl_FragColor = vec4(mix(smoothColor.rgb, max(smoothColor, centralColor), alpha), 1.0);
+        glFragColor = vec4(mix(smoothColor.rgb, max(smoothColor, centralColor), alpha), 1.0);
     }else{
-        gl_FragColor = vec4(centralColor.rgb,1.0);
+        glFragColor = vec4(centralColor.rgb,1.0);
     }
 }

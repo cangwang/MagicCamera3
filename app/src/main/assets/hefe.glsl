@@ -11,7 +11,7 @@
  uniform sampler2D inputImageTexture6;  //hefeMetal
  
  uniform float strength;
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
  void main()
 {
@@ -42,5 +42,5 @@
 
     metaled.rgb = mix(originColor.rgb, metaled.rgb, strength);
 
-    gl_FragColor = vec4(metaled, 1.0);
+    glFragColor = vec4(metaled, 1.0);
 }

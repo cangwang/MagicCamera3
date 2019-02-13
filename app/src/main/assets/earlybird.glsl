@@ -10,7 +10,7 @@
  uniform sampler2D inputImageTexture5; //earlyBirdBlowout
  uniform sampler2D inputImageTexture6; //earlyBirdMap
  
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
  const mat3 saturate = mat3(
                             1.210300,
@@ -105,5 +105,5 @@
      lookup.x = texel.b;
      texel.b = texture(inputImageTexture6, lookup).b;
 
-     gl_FragColor = vec4(texel, 1.0);
+     glFragColor = vec4(texel, 1.0);
  }

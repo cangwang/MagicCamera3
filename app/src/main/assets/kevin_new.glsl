@@ -5,7 +5,7 @@
 
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2;
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
  void main()
  {
@@ -23,5 +23,5 @@
      lookup.x = texel.b;
      texel.b = texture(inputImageTexture2, lookup).b;
 
-     gl_FragColor = vec4(texel, 1.0);
+     glFragColor = vec4(texel, 1.0);
  }

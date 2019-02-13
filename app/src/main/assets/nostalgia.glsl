@@ -8,7 +8,7 @@ uniform sampler2D curve2;
 uniform highp float texelWidthOffset;
 uniform highp float texelHeightOffset;
 uniform highp float blurSize;
-out vec4 gl_FragColor;
+out vec4 glFragColor;
 
 vec4 OverlayBlendingVec4(vec4 down, vec4 up, float fAlpha)
 { 
@@ -103,5 +103,5 @@ void main()
 	blueCurveValue = texture(curve, vec2(blueCurveValue, 1.0)).b; 
 	
 	lowp vec4 BCSColor = vec4(redCurveValue, greenCurveValue, blueCurveValue, 1.0); 
-	gl_FragColor =  vec4(BCSColor.r,BCSColor.g,BCSColor.b,1.0); 
+	glFragColor =  vec4(BCSColor.r,BCSColor.g,BCSColor.b,1.0);
 }

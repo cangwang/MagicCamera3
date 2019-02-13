@@ -7,7 +7,7 @@ precision highp float;
  uniform vec2 uScanLineJitter;
  //颜色偏移的值
  uniform float uColorDrift;
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
  float nrand(in float x,in float y){
     //fract(x) = x - floor(x);
@@ -30,5 +30,5 @@ precision highp float;
     //这里计算最终的像素值，纹理坐标是0到1之间的数，如果小于0，那么图像就捅到屏幕右边去，如果超过1，那么就捅到屏幕左边去。
     vec4 color1 = texture(inputImageTexture,fract(vec2(u + jitter ,v)));
     vec4 color2 = texture(inputImageTexture,fract(vec2(u + jitter + v * drift ,v)));
-    gl_FragColor = vec4(color1.r ,color2.g ,color1.b ,1.0);
+    glFragColor = vec4(color1.r ,color2.g ,color1.b ,1.0);
  }

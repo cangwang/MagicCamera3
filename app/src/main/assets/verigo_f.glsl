@@ -8,7 +8,7 @@ uniform sampler2D lookupTable;      // 颜色查找表纹理
 //线性混合比例
 const lowp vec3 blendValue = vec3(0.1,0.3,0.6);
 
-out vec4 gl_FragColor;
+out vec4 glFragColor;
 
 vec4 getLutColor(vec4 textureColor,sampler2D lookupTexture){
     float blueColor = textureColor.b * 63.0;
@@ -45,5 +45,5 @@ void main(){
     // lut映射的颜色值
     vec4 lutColor = getLutColor(currentColor,lookupTable);
     // 将lut映射之后的纹理与上一轮的纹理进行线性混合
-    gl_FragColor = vec4(mix(lastColor.rgb,lutColor.rgb,blendValue),currentColor.w);
+    glFragColor = vec4(mix(lastColor.rgb,lutColor.rgb,blendValue),currentColor.w);
 }

@@ -7,7 +7,7 @@ uniform vec2 singleStepOffset;
 uniform float strength;
 
 const highp vec3 W = vec3(0.299,0.587,0.114);
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
 
 void main()
@@ -44,5 +44,5 @@ void main()
 	
 	float result = contour * alpha + (1.0-alpha)*gray1;
 	
-	gl_FragColor = vec4(vec3(result,result,result), oralColor.w);
+	glFragColor = vec4(vec3(result,result,result), oralColor.w);
 } 

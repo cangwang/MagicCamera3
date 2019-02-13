@@ -9,7 +9,7 @@ precision mediump float;
  uniform sampler2D inputImageTexture4; //map
  
  uniform float strength;
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
  
  void main()
  {
@@ -29,5 +29,5 @@ precision mediump float;
      
      mapped.rgb = mix(originColor.rgb, mapped.rgb, strength);
 
-     gl_FragColor = mapped;
+     glFragColor = mapped;
  }

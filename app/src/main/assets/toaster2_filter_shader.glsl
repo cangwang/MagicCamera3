@@ -9,7 +9,7 @@ uniform sampler2D inputImageTexture3; //toaster_soft_light
 uniform sampler2D inputImageTexture4; //toaster_curves
 uniform sampler2D inputImageTexture5; //toaster_overlay_map_warm
 uniform sampler2D inputImageTexture6; //toaster_color_shift
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
 void main()
 {
@@ -64,5 +64,5 @@ void main()
     mediump vec4 tmpvar_8;
     tmpvar_8.w = 1.0;
     tmpvar_8.xyz = texel;
-    gl_FragColor = tmpvar_8;
+    glFragColor = tmpvar_8;
 }
