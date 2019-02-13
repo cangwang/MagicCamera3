@@ -173,6 +173,7 @@ void GPUImageFilter::savePictureInThread() {
         //字节大小为长*宽*4，RGBA
         long size = mDisplayWidth*mDisplayHeight*4;
         unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
+        //清空数据
         memset(data,0, sizeof(unsigned char)*size);
 
         glReadBuffer(GL_FRONT);
@@ -196,6 +197,7 @@ void GPUImageFilter::saveImageInThread(std::string saveFileAddress){
         //字节大小为长*宽*4，RGBA
         long size = mDisplayWidth*mDisplayHeight*4;
         unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
+        //清空数据
         memset(data,0, sizeof(unsigned char)*size);
 
         glReadBuffer(GL_FRONT);

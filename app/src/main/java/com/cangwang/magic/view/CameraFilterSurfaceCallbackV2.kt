@@ -141,7 +141,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
 //        mCamera?.stopPreview()
         Observable.create(ObservableOnSubscribe<Boolean> {
             it.onNext(OpenGLJniLib.savePhoto(rootAddress))
-        }).subscribeOn(Schedulers.io())
+        }).subscribeOn(Schedulers.from(mExecutor))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
 //                    mCamera?.startPreview()
