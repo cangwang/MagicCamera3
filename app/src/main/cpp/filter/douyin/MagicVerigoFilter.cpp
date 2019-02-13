@@ -89,13 +89,21 @@ void MagicVerigoFilter::onDrawPrepare() {
 
 void MagicVerigoFilter::onDrawArraysAfter() {
     mRenderBuffer->unbind();
-    drawCurrentFrame();
+//    drawCurrentFrame();
 //    mRenderBuffer3->bind();
 //    drawCurrentFrame();
 //    mRenderBuffer3->unbind();
 //    mRenderBuffer2->bind();
 //    drawToBuffer();
 //    mRenderBuffer2->unbind();
+    mRenderBuffer2->bind();
+    drawCurrentFrame(mRenderBuffer->getTextureId());
+    mRenderBuffer2->unbind();
+    drawToBuffer(mRenderBuffer2->getTextureId());
+//    mRenderBuffer3->bind();
+//    drawCurrentFrame(mRenderBuffer2->getTextureId());
+//    mRenderBuffer3->unbind();
+//    drawToBuffer(mRenderBuffer3->getTextureId());
     mFirst = false;
 }
 
@@ -119,43 +127,47 @@ void MagicVerigoFilter::onInputSizeChanged(const int width, const int height) {
     mRenderBuffer3 = new RenderBuffer(GL_TEXTURE10,width,height);
 }
 
-void MagicVerigoFilter::drawToBuffer() {
+void MagicVerigoFilter::drawToBuffer(GLuint textureId) {
 //    glUseProgram(mLastFrameProgram);
 //    setup(mLastFrameProgram,new GLint[1]{mRenderBuffer3->getTextureId()});
 
     glUseProgram(mLastFrameProgram);
     GLint position = glGetAttribLocation(mLastFrameProgram,"position");
     GLint texcoord = glGetAttribLocation(mLastFrameProgram,"inputTextureCoordinate");
+    GLint matrix = glGetUniformLocation(mLastFrameProgram,"mvpMatrix");
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getVertexBuffer());
     glEnableVertexAttribArray(texcoord);
+    glUniformMatrix4fv(matrix,1,GL_FALSE,NONE_MATRIX);
 
     glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getTextureBuffer());
     GLint textureLocation0 = glGetUniformLocation(mLastFrameProgram,"inputImageTexture");
     glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D,mRenderBuffer3->getTextureId());
+    glBindTexture(GL_TEXTURE_2D,textureId);
     glUniform1f(textureLocation0,3);
 
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
     glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D,mRenderBuffer3->getTextureId());
+    glBindTexture(GL_TEXTURE_2D,textureId);
     glActiveTexture(GL_TEXTURE0);
 }
 
-void MagicVerigoFilter::drawCurrentFrame() {
-    GLuint textureId = mRenderBuffer->getTextureId();
+void MagicVerigoFilter::drawCurrentFrame(GLuint textureId) {
+//    GLuint textureId = mRenderBuffer->getTextureId();
 //    setup(mCurrentFrameProgram,new GLint[2]{textureId,mFirst?mRenderBuffer2->getTextureId():mLutTexture});
 
     glUseProgram(mCurrentFrameProgram);
     GLint position = glGetAttribLocation(mCurrentFrameProgram,"position");
     GLint texcoord = glGetAttribLocation(mCurrentFrameProgram,"inputTextureCoordinate");
+    GLint matrix = glGetUniformLocation(mCurrentFrameProgram,"mvpMatrix");
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getVertexBuffer());
     glEnableVertexAttribArray(texcoord);
-
     glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getTextureBuffer());
+    glUniformMatrix4fv(matrix,1,GL_FALSE,NONE_MATRIX);
+
     GLint textureLocation0 = glGetUniformLocation(mCurrentFrameProgram,"inputImageTexture");
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D,textureId);
@@ -163,7 +175,7 @@ void MagicVerigoFilter::drawCurrentFrame() {
 
     GLint textureLocation1 = glGetUniformLocation(mCurrentFrameProgram,"inputTextureLast");
     glActiveTexture(GL_TEXTURE4);
-    glBindTexture(GL_TEXTURE_2D,mFirst?mRenderBuffer2->getTextureId():mLutTexture);
+    glBindTexture(GL_TEXTURE_2D,mFirst?textureId:mLutTexture);
     glUniform1f(textureLocation1,4);
 
     glClear(GL_COLOR_BUFFER_BIT);
