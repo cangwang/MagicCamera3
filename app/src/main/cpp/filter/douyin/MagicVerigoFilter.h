@@ -40,7 +40,7 @@ private:
     GLuint mCurrentFrameProgram;
     GLuint mLastFrameProgram;
     bool mFirst = true;
-    void drawToBuffer(GLuint textureId);
-    void drawCurrentFrame(GLuint textureId);
+    void drawToBuffer();
+    void drawCurrentFrame();
     void setup(GLuint programId,GLint* textureId);
 };
