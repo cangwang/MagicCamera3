@@ -38,8 +38,6 @@ public:
     void saveImageInThread(std::string saveFileAddress);
     void enableBlend(GLenum srcBlend,GLenum dstBlend);
     void setOrientation(int degree);
-    GLfloat* getVertexBuffer();
-    GLfloat* getTextureBuffer();
     void setMvpMatrix(float* mvpMatrix);
 
     AAssetManager* mAssetManager;

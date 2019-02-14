@@ -8,63 +8,24 @@
 
 /**
  * cangwang 2019.1.4
- * 幻觉  特效还没成功
+ * 幻觉
  */
+float FULL_RECTANGLE_COORDS[] = {
+        -1.0f, -1.0f,   // 0 bottom left
+        1.0f, -1.0f,   // 1 bottom right
+        -1.0f, 1.0f,   // 2 top left
+        1.0f, 1.0f,   // 3 top right
+};
+float FULL_RECTANGLE_TEX_COORDS[] = {
+        0.0f, 0.0f,     // 0 bottom left
+        1.0f, 0.0f,     // 1 bottom right
+        0.0f, 1.0f,     // 2 top left
+        1.0f, 1.0f      // 3 top right
+};
+
 MagicVerigoFilter::MagicVerigoFilter(){
 
 }
-
-//MagicVerigoFilter::MagicVerigoFilter(AAssetManager *assetManager)
-//    : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"verigo_f.glsl")),mAssetManager(assetManager){
-//
-//}
-//
-//MagicVerigoFilter::~MagicVerigoFilter() {
-//    glDeleteTextures(1,&mLutTexture);
-//}
-//
-//void MagicVerigoFilter::onDestroy() {
-//
-//}
-//
-//void MagicVerigoFilter::onDrawArraysPre() {
-//    if(mLutTexture !=0){
-//        glActiveTexture(GL_TEXTURE3);
-//        glBindTexture(GL_TEXTURE_2D,mLutTexture);
-//        glUniform1i(mLutTextureLocation,3);
-//    }
-//    if (mLastTexture !=0){
-//        glActiveTexture(GL_TEXTURE4);
-//        glBindTexture(GL_TEXTURE_2D,mLastTexture);
-//        glUniform1i(mLastTextureLocation,4);
-//    }
-//}
-//
-//void MagicVerigoFilter::onDrawArraysAfter(GLuint textureId) {
-//    if (mLutTexture != 0){
-//        glActiveTexture(GL_TEXTURE3);
-//        glBindTexture(GL_TEXTURE_2D,mLutTexture);
-//        glActiveTexture(GL_TEXTURE0);
-//    }
-//    if (mLastTexture !=0){
-//        glActiveTexture(GL_TEXTURE4);
-//        glBindTexture(GL_TEXTURE_2D,mLastTexture);
-//        glActiveTexture(GL_TEXTURE0);
-//    }
-//    mLastTexture = textureId;
-//}
-//
-//
-//void MagicVerigoFilter::onInit() {
-//    GPUImageFilter::onInit();
-//    mLutTextureLocation = glGetUniformLocation(mGLProgId,"lookupTable");
-//    mLastTextureLocation = glGetUniformLocation(mGLProgId,"inputTextureLast");
-//}
-//
-//void MagicVerigoFilter::onInitialized() {
-//    GPUImageFilter::onInitialized();
-//    mLutTexture = loadTextureFromAssets(mAssetManager,"lookup_vertigo.png");
-//}
 
 MagicVerigoFilter::MagicVerigoFilter(AAssetManager *assetManager)
         : GPUImageFilter(assetManager,readShaderFromAsset(assetManager,"nofilter_v.glsl"), readShaderFromAsset(assetManager,"common_f.glsl")),
@@ -120,23 +81,20 @@ void MagicVerigoFilter::onInputSizeChanged(const int width, const int height) {
 }
 
 void MagicVerigoFilter::drawToBuffer() {
-//    glUseProgram(mLastFrameProgram);
-//    setup(mLastFrameProgram,new GLint[1]{mRenderBuffer3->getTextureId()});
-
     glUseProgram(mLastFrameProgram);
     GLint position = glGetAttribLocation(mLastFrameProgram,"position");
     GLint texcoord = glGetAttribLocation(mLastFrameProgram,"inputTextureCoordinate");
     GLint matrix = glGetUniformLocation(mLastFrameProgram,"mvpMatrix");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getVertexBuffer());
+    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_COORDS);
     glEnableVertexAttribArray(texcoord);
-    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getTextureBuffer());
+    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_TEX_COORDS);
     glUniformMatrix4fv(matrix,1,GL_FALSE,NONE_MATRIX);
 
     GLint textureLocation0 = glGetUniformLocation(mLastFrameProgram,"inputImageTexture");
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D,mRenderBuffer3->getTextureId());
-    glUniform1f(textureLocation0,3);
+    glUniform1i(textureLocation0,3);
 
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
@@ -147,33 +105,30 @@ void MagicVerigoFilter::drawToBuffer() {
 }
 
 void MagicVerigoFilter::drawCurrentFrame() {
-//    GLuint textureId = mRenderBuffer->getTextureId();
-//    setup(mCurrentFrameProgram,new GLint[2]{textureId,mFirst?mRenderBuffer2->getTextureId():mLutTexture});
-
     glUseProgram(mCurrentFrameProgram);
     GLint position = glGetAttribLocation(mCurrentFrameProgram,"position");
     GLint texcoord = glGetAttribLocation(mCurrentFrameProgram,"inputTextureCoordinate");
     GLint matrix = glGetUniformLocation(mCurrentFrameProgram,"mvpMatrix");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getVertexBuffer());
+    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_COORDS);
     glEnableVertexAttribArray(texcoord);
-    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getTextureBuffer());
+    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_TEX_COORDS);
     glUniformMatrix4fv(matrix,1,GL_FALSE,NONE_MATRIX);
 
     GLint textureLocation0 = glGetUniformLocation(mCurrentFrameProgram,"inputImageTexture");
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D,mRenderBuffer->getTextureId());
-    glUniform1f(textureLocation0,3);
+    glUniform1i(textureLocation0,3);
 
     GLint textureLocation1 = glGetUniformLocation(mCurrentFrameProgram,"inputTextureLast");
     glActiveTexture(GL_TEXTURE4);
     glBindTexture(GL_TEXTURE_2D,mFirst ? mRenderBuffer->getTextureId() : mRenderBuffer2->getTextureId());
-    glUniform1f(textureLocation1,4);
+    glUniform1i(textureLocation1,4);
 
     GLint textureLocation2 = glGetUniformLocation(mCurrentFrameProgram,"lookupTable");
     glActiveTexture(GL_TEXTURE5);
     glBindTexture(GL_TEXTURE_2D,mLutTexture);
-    glUniform1f(textureLocation2,5);
+    glUniform1i(textureLocation2,5);
 
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
@@ -199,8 +154,8 @@ void MagicVerigoFilter::setup(GLuint programId, GLint* textureId) {
     GLint position = glGetAttribLocation(programId,"position");
     GLint texcoord = glGetAttribLocation(programId,"inputTextureCoordinate");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getVertexBuffer());
+    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_COORDS);
     glEnableVertexAttribArray(texcoord);
-    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getTextureBuffer());
+    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_TEX_COORDS);
 
 }
