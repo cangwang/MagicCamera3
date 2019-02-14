@@ -107,7 +107,7 @@ void MagicVerigoFilter::onInit() {
 void MagicVerigoFilter::onInitialized() {
     GPUImageFilter::onInitialized();
     mLastFrameProgram = loadProgram(readShaderFromAsset(mAssetManager,"nofilter_v.glsl")->c_str(),readShaderFromAsset(mAssetManager,"common_f.glsl")->c_str());
-    mCurrentFrameProgram = loadProgram(readShaderFromAsset(mAssetManager,"nofilter_v.glsl")->c_str(),readShaderFromAsset(mAssetManager,"verigo_f.glsl")->c_str());
+    mCurrentFrameProgram = loadProgram(readShaderFromAsset(mAssetManager,"nofilter_v.glsl")->c_str(),readShaderFromAsset(mAssetManager,"verigo_f2.glsl")->c_str());
     mLutTexture = loadTextureFromAssetsRepeat(mAssetManager,"lookup_vertigo.png");
 }
 

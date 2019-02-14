@@ -18,7 +18,8 @@ RenderBuffer::RenderBuffer(GLenum activeTextureUnit, int width, int height) {
     mWidth = width;
     mHeight = height;
     glActiveTexture(activeTextureUnit);
-    mTextureId = get2DTextureRepeatID();
+//    mTextureId = get2DTextureRepeatID();
+    mTextureId = get2DTextureID();
     unsigned char* texBuffer = (unsigned char*)malloc(sizeof(unsigned char*) * width * height * 4);
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,texBuffer);
 //    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE, nullptr);
