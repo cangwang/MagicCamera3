@@ -130,9 +130,9 @@ void MagicVerigoFilter::drawToBuffer() {
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getVertexBuffer());
     glEnableVertexAttribArray(texcoord);
+    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getTextureBuffer());
     glUniformMatrix4fv(matrix,1,GL_FALSE,NONE_MATRIX);
 
-    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getTextureBuffer());
     GLint textureLocation0 = glGetUniformLocation(mLastFrameProgram,"inputImageTexture");
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D,mRenderBuffer3->getTextureId());

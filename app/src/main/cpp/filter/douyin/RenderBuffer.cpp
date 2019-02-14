@@ -41,6 +41,7 @@ RenderBuffer::RenderBuffer(GLenum activeTextureUnit, int width, int height) {
 }
 
 void RenderBuffer::bind() {
+    checkGLError("RenderBuffer");
     glViewport(0,0,mWidth,mHeight);
     checkGLError("glViewport");
     glBindFramebuffer(GL_FRAMEBUFFER,mFrameBufferId);
