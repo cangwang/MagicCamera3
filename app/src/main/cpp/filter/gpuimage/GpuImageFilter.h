@@ -8,7 +8,6 @@
 #include <string>
 #include <mutex>
 #include <thread>
-#include "src/main/cpp/utils/TextureRotationUtil.h"
 
 #ifndef _GPUImageFilter
 #define _GPUImageFilter
@@ -25,6 +24,9 @@ public:
     void onInputDisplaySizeChanged(const int width, const int height);
     virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix,const float* cubeBuffer, const float* textureBuffer);
     virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix);
+    int onDrawFrameFull(const GLuint textureId,GLfloat *matrix);
+    GLuint onDrawToTexture(const GLuint textureId,GLfloat *matrix);
+    GLuint onDrawToTexture(const GLuint textureId, GLfloat *matrix,const float *cubeBuffer, const float *textureBuffer);
     virtual void destroy();
     virtual void onDestroy() {}
 
@@ -39,6 +41,8 @@ public:
     void enableBlend(GLenum srcBlend,GLenum dstBlend);
     void setOrientation(int degree);
     void setMvpMatrix(float* mvpMatrix);
+    void initFrameBuffer(int width, int height);
+    void destroyFrameBuffers();
 
     AAssetManager* mAssetManager;
     int mScreenWidth;
@@ -65,7 +69,7 @@ private:
     GLfloat* mGLCubeBuffer;
     GLfloat* mGLTextureBuffer;
     GLint mMatrixLoc;
-    GLuint mFrameBuffer;
+
     bool isSavePhoto = false;
     std::string savePhotoAddress;
     std::mutex gMutex;
@@ -76,6 +80,11 @@ private:
     float* mvpMatrix;
     void bindBlend();
     void unBindBlend();
+
+    GLuint mFrameBuffer;
+    GLuint mFrameBufferTextures;
+    int mFrameWidth = -1;
+    int mFrameHeight = -1;
 };
 
 #endif

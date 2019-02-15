@@ -1,6 +1,7 @@
 #include "src/main/cpp/utils/OpenglUtils.h"
 #include "ImageInput.h"
 #include <GLES2/gl2ext.h>
+#include <src/main/cpp/utils/TextureRotationUtil.h>
 
 #define LOG_TAG "ImageInput"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -14,7 +15,7 @@ ImageInput::ImageInput(AAssetManager *assetManager,std::string path):
         mVertexShader(readShaderFromAsset(assetManager,"default_vertex.glsl")),
         mFragmentShader(readShaderFromAsset(assetManager,"default_none_fragment.glsl")),
         imgPath(path),
-        mGLCubeBuffer(CUBE),
+        mGLCubeBuffer(getCube()),
         mGLTextureBuffer(getRotation(NORMAL, false, true)){
 
 }

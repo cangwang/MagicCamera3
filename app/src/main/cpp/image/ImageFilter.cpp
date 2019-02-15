@@ -10,6 +10,7 @@
 #include <src/main/cpp/filter/advanced/MagicNoneFilter.h>
 #include <src/main/cpp/filter/MagicFilterFactory.h>
 #include <src/main/cpp/utils/Matrix.h>
+#include <src/main/cpp/utils/TextureRotationUtil.h>
 
 
 #define LOG_TAG "ImageFilter"
@@ -95,6 +96,7 @@ int ImageFilter::create() {
         imageInput->init();
     }
 
+
     //滤镜初始化
     if (filter!= nullptr)
         filter->init();
@@ -107,8 +109,8 @@ int ImageFilter::create() {
 void ImageFilter::change(int width, int height) {
     //设置视口
     glViewport(0,0,width,height);
-    mWidth = width;
-    mHeight = height;
+    this->mScreenWidth = width;
+    this->mScreenHeight = height;
     if (imageInput!= nullptr){
         //触发输入大小更新
         imageInput->onInputSizeChanged(width, height);
@@ -120,6 +122,7 @@ void ImageFilter::change(int width, int height) {
             filter->onInputSizeChanged(width,height);
             filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
             setMatrix(width,height);
+            filter->initFrameBuffer(width,height);
         } else{
             imageInput->destroyFrameBuffers();
         }
@@ -128,7 +131,7 @@ void ImageFilter::change(int width, int height) {
 void ImageFilter::setMatrix(int width,int height){
     int screenWidth = 0;
     int screenHeight = 0;
-    float *mvpMatrix = NONE_MATRIX;
+    mvpMatrix = getNoneMatrix();
     if (degree == 90 || degree == 180) {
         screenWidth = height;
         screenHeight = width;
@@ -167,6 +170,10 @@ void ImageFilter::draw(GLfloat *matrix) {
     if (imageInput != nullptr &&filter!= nullptr){
         //通过滤镜filter绘制
         filter->onDrawFrame(imageInput->imgTexture,matrix);
+        //先获取帧图
+//        GLuint frameId = filter->onDrawToTexture(imageInput->imgTexture,matrix);
+//        //再将帧图渲染到surface
+//        filter->onDrawFrameFull(frameId,matrix);
 
         //缓冲区交换
         glFlush();
@@ -190,7 +197,10 @@ void ImageFilter::setFilter(GPUImageFilter* gpuImageFilter) {
         filter->init();
     filter->onInputSizeChanged(imageInput->mScreenWidth,imageInput->mScreenHeight);
     filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
+    //设置显示矩阵
     setMatrix(imageInput->mScreenWidth,imageInput->mScreenHeight);
+    //初始化FrameBuffer
+    filter->initFrameBuffer(imageInput->mScreenWidth,imageInput->mScreenHeight);
 }
 
 void ImageFilter::setBeautyLevel(int level) {

@@ -10,18 +10,6 @@
  * cangwang 2019.1.4
  * 幻觉
  */
-float FULL_RECTANGLE_COORDS[] = {
-        -1.0f, -1.0f,   // 0 bottom left
-        1.0f, -1.0f,   // 1 bottom right
-        -1.0f, 1.0f,   // 2 top left
-        1.0f, 1.0f,   // 3 top right
-};
-float FULL_RECTANGLE_TEX_COORDS[] = {
-        0.0f, 0.0f,     // 0 bottom left
-        1.0f, 0.0f,     // 1 bottom right
-        0.0f, 1.0f,     // 2 top left
-        1.0f, 1.0f      // 3 top right
-};
 
 MagicVerigoFilter::MagicVerigoFilter(){
 
@@ -86,10 +74,10 @@ void MagicVerigoFilter::drawToBuffer() {
     GLint texcoord = glGetAttribLocation(mLastFrameProgram,"inputTextureCoordinate");
     GLint matrix = glGetUniformLocation(mLastFrameProgram,"mvpMatrix");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_COORDS);
+    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getFullCoords());
     glEnableVertexAttribArray(texcoord);
-    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_TEX_COORDS);
-    glUniformMatrix4fv(matrix,1,GL_FALSE,NONE_MATRIX);
+    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getFullTexture());
+    glUniformMatrix4fv(matrix,1,GL_FALSE,getNoneMatrix());
 
     GLint textureLocation0 = glGetUniformLocation(mLastFrameProgram,"inputImageTexture");
     glActiveTexture(GL_TEXTURE3);
@@ -110,10 +98,10 @@ void MagicVerigoFilter::drawCurrentFrame() {
     GLint texcoord = glGetAttribLocation(mCurrentFrameProgram,"inputTextureCoordinate");
     GLint matrix = glGetUniformLocation(mCurrentFrameProgram,"mvpMatrix");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_COORDS);
+    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getFullCoords());
     glEnableVertexAttribArray(texcoord);
-    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_TEX_COORDS);
-    glUniformMatrix4fv(matrix,1,GL_FALSE,NONE_MATRIX);
+    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getFullTexture());
+    glUniformMatrix4fv(matrix,1,GL_FALSE,getNoneMatrix());
 
     GLint textureLocation0 = glGetUniformLocation(mCurrentFrameProgram,"inputImageTexture");
     glActiveTexture(GL_TEXTURE3);
@@ -154,8 +142,8 @@ void MagicVerigoFilter::setup(GLuint programId, GLint* textureId) {
     GLint position = glGetAttribLocation(programId,"position");
     GLint texcoord = glGetAttribLocation(programId,"inputTextureCoordinate");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_COORDS);
+    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getFullCoords());
     glEnableVertexAttribArray(texcoord);
-    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_TEX_COORDS);
+    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getFullTexture());
 
 }

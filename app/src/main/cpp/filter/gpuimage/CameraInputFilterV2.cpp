@@ -2,6 +2,7 @@
 #include "src/main/cpp/utils/OpenglUtils.h"
 #include "CameraInputFilterV2.h"
 #include <GLES2/gl2ext.h>
+#include <src/main/cpp/utils/TextureRotationUtil.h>
 
 #define LOG_TAG "CameraInputFilterV2"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -22,7 +23,7 @@ CameraInputFilter::CameraInputFilter(std::string *vertexShader, std::string *fra
          mFragmentShader(fragmentShader),
          mMatrixLoc(0)
 {
-    mGLCubeBuffer = CUBE;
+    mGLCubeBuffer = getCube();
     mGLTextureBuffer = getRotation(NORMAL, false, false);
 }
 

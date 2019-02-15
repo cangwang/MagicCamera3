@@ -5,6 +5,8 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "src/main/cpp/utils/stb_image_write.h"
 
+#include "src/main/cpp/utils/TextureRotationUtil.h"
+
 #define LOG_TAG "GPUImageFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
@@ -27,17 +29,18 @@ GPUImageFilter::GPUImageFilter(AAssetManager *assetManager,std::string *vertexSh
         mVertexShader(vertexShader),
         mFragmentShader(fragmentShader),
         mMatrixLoc(0),
-        mvpMatrix(NONE_MATRIX),
+        mvpMatrix(getNoneMatrix()),
         mAssetManager(assetManager),
         srcBlend(GL_NONE),
         dstBlend(GL_NONE),
-        mGLCubeBuffer(CUBE),
+        mGLCubeBuffer(getCube()),
         mGLTextureBuffer(getRotation(NORMAL, false, false)),
         mScreenWidth(0),mScreenHeight(0),mDisplayWidth(0),mDisplayHeight(0){
 
 }
 
 GPUImageFilter::~GPUImageFilter() {
+    destroyFrameBuffers();
     mGLCubeBuffer = nullptr;
     mGLTextureBuffer = nullptr;
     mAssetManager= nullptr;
@@ -84,6 +87,7 @@ void GPUImageFilter::onInputSizeChanged(const int width, const int height) {
         mDisplayWidth = width;
     if(mDisplayHeight == 0)
         mDisplayHeight = height;
+//    initFrameBuffer(width,height);
 }
 
 void GPUImageFilter::onInputDisplaySizeChanged(const int width, const int height) {
@@ -104,8 +108,86 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
     return onDrawFrame(textureId,matrix,mGLCubeBuffer,mGLTextureBuffer);
 }
 
+int GPUImageFilter::onDrawFrameFull(const GLuint textureId,GLfloat *matrix) {
+
+    glUseProgram(mGLProgId);
+    if (!mIsInitialized) {
+        ALOGE("NOT_INIT");
+        return NOT_INIT;
+    }
+
+    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,getNoneMatrix());
+    //加载顶点参数
+    glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, getFullCoords());
+    glEnableVertexAttribArray(mGLAttribPosition);
+    glVertexAttribPointer(mGLAttribTextureCoordinate, 2, GL_FLOAT, GL_FALSE, 0, getFullTexture());
+    glEnableVertexAttribArray(mGLAttribTextureCoordinate);
+
+    if(textureId !=NO_TEXTURE){
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,textureId);
+        //加载纹理
+        glUniform1i(mGLUniformTexture,0);
+    }
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+
+    //释放顶点绑定
+    glDisableVertexAttribArray(mGLAttribPosition);
+    glDisableVertexAttribArray(mGLAttribTextureCoordinate);
+
+    if(textureId !=NO_TEXTURE) //激活回到默认纹理
+        glBindTexture(GL_TEXTURE_2D,0);
+
+    return ON_DRAWN;
+}
+
 int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const float *cubeBuffer,
                                 const float *textureBuffer) {
+    onDrawPrepare();
+    glUseProgram(mGLProgId);
+    if (!mIsInitialized) {
+        ALOGE("NOT_INIT");
+        return NOT_INIT;
+    }
+
+    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,getNoneMatrix());
+    //加载顶点参数
+    glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, cubeBuffer);
+    glEnableVertexAttribArray(mGLAttribPosition);
+    glVertexAttribPointer(mGLAttribTextureCoordinate, 2, GL_FLOAT, GL_FALSE, 0, textureBuffer);
+    glEnableVertexAttribArray(mGLAttribTextureCoordinate);
+
+    if(textureId !=NO_TEXTURE){
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,textureId);
+        //加载纹理
+        glUniform1i(mGLUniformTexture,0);
+    }
+    //滤镜参数加载
+    onDrawArraysPre();
+    glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    //滤镜参数释放
+    onDrawArraysAfter();
+    savePictureInThread();
+    //释放顶点绑定
+    glDisableVertexAttribArray(mGLAttribPosition);
+    glDisableVertexAttribArray(mGLAttribTextureCoordinate);
+
+    if(textureId !=NO_TEXTURE) //激活回到默认纹理
+        glBindTexture(GL_TEXTURE_2D,0);
+
+    return ON_DRAWN;
+}
+
+GLuint GPUImageFilter::onDrawToTexture(const GLuint textureId,GLfloat *matrix) {
+    return onDrawToTexture(textureId,matrix,mGLCubeBuffer,mGLTextureBuffer);
+}
+
+GLuint GPUImageFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix,const float *cubeBuffer,
+                                const float *textureBuffer) {
+
+    if(mFrameBuffer>0)
+        glBindFramebuffer(GL_FRAMEBUFFER,mFrameBuffer);
     onDrawPrepare();
     glUseProgram(mGLProgId);
     if (!mIsInitialized) {
@@ -139,7 +221,52 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     if(textureId !=NO_TEXTURE) //激活回到默认纹理
         glBindTexture(GL_TEXTURE_2D,0);
 
-    return ON_DRAWN;
+    //切换回默认帧缓冲
+    if(mFrameBuffer>0)
+        glBindFramebuffer(GL_FRAMEBUFFER,0);
+
+    return mFrameBufferTextures;
+}
+
+void GPUImageFilter::initFrameBuffer(int width, int height) {
+    //比对大小
+    if (mFrameWidth != width || mFrameHeight !=height){
+        destroyFrameBuffers();
+    }
+    mFrameWidth = width;
+    mFrameHeight = height;
+    mFrameBuffer=0;
+    mFrameBufferTextures=0;
+    //生成帧缓冲id
+    glGenFramebuffers(1,&mFrameBuffer);
+    //生成纹理id
+    glGenTextures(1,&mFrameBufferTextures);
+    //绑定纹理
+    glBindTexture(GL_TEXTURE_2D,mFrameBufferTextures);
+    //纹理赋值为空，先纹理占位
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE, nullptr);
+    //设定纹理参数
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
+    //绑定帧图
+    glBindFramebuffer(GL_FRAMEBUFFER,mFrameBuffer);
+    //绑定纹理到帧图
+    glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,mFrameBufferTextures,0);
+    //切换回默认纹理
+    glBindTexture(GL_TEXTURE_2D,0);
+    //切换回默认的帧缓冲
+    glBindFramebuffer(GL_FRAMEBUFFER,0);
+}
+
+void GPUImageFilter::destroyFrameBuffers() {
+    if(mFrameBufferTextures>0)
+        glDeleteTextures(1,&mFrameBufferTextures);
+    if(mFrameBuffer>0)
+        glDeleteFramebuffers(1,&mFrameBuffer);
+    mFrameWidth = -1;
+    mFrameHeight = -1;
 }
 
 void GPUImageFilter::bindBlend(){

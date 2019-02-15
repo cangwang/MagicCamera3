@@ -8,22 +8,13 @@
 #ifndef _TextureRotationUtil
 #define _TextureRotationUtil
 
-static GLfloat CUBE[] = {
-        -1.0f,-1.0f,
-        1.0f,-1.0f,
-        -1.0f,1.0f,
-        1.0f,1.0f
-};
-
-static GLfloat NONE_MATRIX[] = {
-        1.0f,0.0f,0.0f,0.0f,
-        0.0f,1.0f,0.0f,0.0f,
-        0.0f,0.0f,1.0f,0.0f,
-        0.0f,0.0f,0.0f,1.0f,
-};
 
 float* getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical);
 float* getRotation(int degree, const bool flipHorizontal, const bool flipVertical);
 float flip(const float i);
+float* getCube();
+float* getNoneMatrix();
+float* getFullCoords();
+float* getFullTexture();
 
 #endif

@@ -15,7 +15,7 @@
 /**
  * cangwang 2018.12.1
  */
-class ImageFilter:public GLBase{
+class ImageFilter:public GPUImageFilter{
 public:
     ImageFilter();
     ImageFilter(ANativeWindow *window,AAssetManager *assetManager,std::string path,int degree);
@@ -46,5 +46,10 @@ private:
     std::string imgPath;
     MagicBeautyFilter* beautyFilter;
     int degree;
+    GLuint mFrameBuffer;
+    GLuint mFrameBufferTextures;
+    int mFrameWidth = -1;
+    int mFrameHeight = -1;
+    float *mvpMatrix;
 };
 

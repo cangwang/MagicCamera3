@@ -31,6 +31,33 @@ GLfloat TEXTURE_ROTATED_270[] = {
         1.0f, 1.0f,
 };
 
+GLfloat CUBE[] = {
+        -1.0f,-1.0f,
+        1.0f,-1.0f,
+        -1.0f,1.0f,
+        1.0f,1.0f
+};
+
+GLfloat NONE_MATRIX[] = {
+        1.0f,0.0f,0.0f,0.0f,
+        0.0f,1.0f,0.0f,0.0f,
+        0.0f,0.0f,1.0f,0.0f,
+        0.0f,0.0f,0.0f,1.0f,
+};
+
+GLfloat FULL_RECTANGLE_COORDS[] = {
+        -1.0f, -1.0f,   // 0 bottom left
+        1.0f, -1.0f,   // 1 bottom right
+        -1.0f, 1.0f,   // 2 top left
+        1.0f, 1.0f,   // 3 top right
+};
+GLfloat FULL_RECTANGLE_TEX_COORDS[] = {
+        0.0f, 0.0f,     // 0 bottom left
+        1.0f, 0.0f,     // 1 bottom right
+        0.0f, 1.0f,     // 2 top left
+        1.0f, 1.0f      // 3 top right
+};
+
 //获取角度
 float* getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical){
     const float* rotateTex;
@@ -124,4 +151,20 @@ float flip(const float i) {
         return 1.0f;
     }
     return 0.0f;
+}
+
+float* getCube(){
+    return CUBE;
+}
+
+float* getNoneMatrix(){
+    return NONE_MATRIX;
+}
+
+float* getFullCoords(){
+    return FULL_RECTANGLE_COORDS;
+}
+
+float* getFullTexture(){
+    return FULL_RECTANGLE_TEX_COORDS;
 }
