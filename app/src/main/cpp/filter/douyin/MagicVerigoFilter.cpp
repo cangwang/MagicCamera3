@@ -74,10 +74,10 @@ void MagicVerigoFilter::drawToBuffer() {
     GLint texcoord = glGetAttribLocation(mLastFrameProgram,"inputTextureCoordinate");
     GLint matrix = glGetUniformLocation(mLastFrameProgram,"mvpMatrix");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getFullCoords());
+    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_COORDS);
     glEnableVertexAttribArray(texcoord);
-    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getFullTexture());
-    glUniformMatrix4fv(matrix,1,GL_FALSE,getNoneMatrix());
+    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_TEX_COORDS);
+    glUniformMatrix4fv(matrix,1,GL_FALSE,NONE_MATRIX);
 
     GLint textureLocation0 = glGetUniformLocation(mLastFrameProgram,"inputImageTexture");
     glActiveTexture(GL_TEXTURE3);
@@ -98,10 +98,10 @@ void MagicVerigoFilter::drawCurrentFrame() {
     GLint texcoord = glGetAttribLocation(mCurrentFrameProgram,"inputTextureCoordinate");
     GLint matrix = glGetUniformLocation(mCurrentFrameProgram,"mvpMatrix");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getFullCoords());
+    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_COORDS);
     glEnableVertexAttribArray(texcoord);
-    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getFullTexture());
-    glUniformMatrix4fv(matrix,1,GL_FALSE,getNoneMatrix());
+    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_TEX_COORDS);
+    glUniformMatrix4fv(matrix,1,GL_FALSE,NONE_MATRIX);
 
     GLint textureLocation0 = glGetUniformLocation(mCurrentFrameProgram,"inputImageTexture");
     glActiveTexture(GL_TEXTURE3);
@@ -142,8 +142,8 @@ void MagicVerigoFilter::setup(GLuint programId, GLint* textureId) {
     GLint position = glGetAttribLocation(programId,"position");
     GLint texcoord = glGetAttribLocation(programId,"inputTextureCoordinate");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,getFullCoords());
+    glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_COORDS);
     glEnableVertexAttribArray(texcoord);
-    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,getFullTexture());
+    glVertexAttribPointer(texcoord,2,GL_FLOAT,GL_FALSE,0,FULL_RECTANGLE_TEX_COORDS);
 
 }

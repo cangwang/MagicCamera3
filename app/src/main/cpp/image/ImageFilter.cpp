@@ -24,9 +24,13 @@
 ImageFilter::ImageFilter(){
 }
 
-ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::string path,int degree): mWindow(window),mEGLCore(new EGLCore()),
-                                                   mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
-                                                   mMatrixLoc(0),filter(nullptr),imageInput(new ImageInput(assetManager,path)),beautyFilter(nullptr),imgPath(path),degree(degree){
+ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::string path,int degree):
+        mWindow(window),
+        mEGLCore(new EGLCore()),
+        mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
+        mMatrixLoc(0),filter(nullptr),
+        imageInput(new ImageInput(assetManager,path)),beautyFilter(nullptr),imgPath(path),degree(degree),
+        mvpMatrix(new float[16]){
     //清空mMatrix数组
     memset(mMatrix,0, sizeof(mMatrix));
     mMatrix[0] = 1;
@@ -122,7 +126,7 @@ void ImageFilter::change(int width, int height) {
             filter->onInputSizeChanged(width,height);
             filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
             setMatrix(width,height);
-            filter->initFrameBuffer(width,height);
+            filter->initFrameBuffer(imageInput->mImageWidth,imageInput->mImageHeight);
         } else{
             imageInput->destroyFrameBuffers();
         }
@@ -131,7 +135,7 @@ void ImageFilter::change(int width, int height) {
 void ImageFilter::setMatrix(int width,int height){
     int screenWidth = 0;
     int screenHeight = 0;
-    mvpMatrix = getNoneMatrix();
+    memcpy(mvpMatrix,NONE_MATRIX,16);
     if (degree == 90 || degree == 180) {
         screenWidth = height;
         screenHeight = width;
@@ -159,6 +163,8 @@ void ImageFilter::setMatrix(int width,int height){
             orthoM(mvpMatrix, 0, -1, 1, -y, y, -1, 1);
         }
     }
+//    orthoM(mvpMatrix, 0, -1, 1, -1, 1, -1, 1);
+
     filter->setMvpMatrix(mvpMatrix);
 }
 
@@ -169,11 +175,11 @@ void ImageFilter::draw(GLfloat *matrix) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (imageInput != nullptr &&filter!= nullptr){
         //通过滤镜filter绘制
-        filter->onDrawFrame(imageInput->imgTexture,matrix);
+//        filter->onDrawFrame(imageInput->imgTexture,matrix);
         //先获取帧图
-//        GLuint frameId = filter->onDrawToTexture(imageInput->imgTexture,matrix);
-//        //再将帧图渲染到surface
-//        filter->onDrawFrameFull(frameId,matrix);
+        GLuint frameId = filter->onDrawToTexture(imageInput->imgTexture,matrix);
+        //再将帧图渲染到surface
+        filter->onDrawFrameFull(frameId,matrix);
 
         //缓冲区交换
         glFlush();
@@ -200,7 +206,7 @@ void ImageFilter::setFilter(GPUImageFilter* gpuImageFilter) {
     //设置显示矩阵
     setMatrix(imageInput->mScreenWidth,imageInput->mScreenHeight);
     //初始化FrameBuffer
-    filter->initFrameBuffer(imageInput->mScreenWidth,imageInput->mScreenHeight);
+    filter->initFrameBuffer(imageInput->mImageWidth,imageInput->mImageHeight);
 }
 
 void ImageFilter::setBeautyLevel(int level) {

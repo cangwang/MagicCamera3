@@ -43,6 +43,9 @@ public:
     void setMvpMatrix(float* mvpMatrix);
     void initFrameBuffer(int width, int height);
     void destroyFrameBuffers();
+    void initPixelBuffer(int width, int height);
+    void destroyPixelBuffers();
+    void drawPixelBuffer();
 
     AAssetManager* mAssetManager;
     int mScreenWidth;
@@ -85,6 +88,10 @@ private:
     GLuint mFrameBufferTextures;
     int mFrameWidth = -1;
     int mFrameHeight = -1;
+
+    GLuint mPixelBuffer;
+    long mPhoSize;
+    unsigned char* mPhoData;
 };
 
 #endif

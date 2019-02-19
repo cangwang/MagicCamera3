@@ -29,14 +29,14 @@ GPUImageFilter::GPUImageFilter(AAssetManager *assetManager,std::string *vertexSh
         mVertexShader(vertexShader),
         mFragmentShader(fragmentShader),
         mMatrixLoc(0),
-        mvpMatrix(getNoneMatrix()),
+        mvpMatrix(new float[16]),
         mAssetManager(assetManager),
         srcBlend(GL_NONE),
         dstBlend(GL_NONE),
         mGLCubeBuffer(getCube()),
         mGLTextureBuffer(getRotation(NORMAL, false, false)),
         mScreenWidth(0),mScreenHeight(0),mDisplayWidth(0),mDisplayHeight(0){
-
+    memcpy(mvpMatrix,NONE_MATRIX,16);
 }
 
 GPUImageFilter::~GPUImageFilter() {
@@ -109,18 +109,18 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
 }
 
 int GPUImageFilter::onDrawFrameFull(const GLuint textureId,GLfloat *matrix) {
-
+    glViewport(0,0,mScreenWidth,mScreenHeight);
     glUseProgram(mGLProgId);
     if (!mIsInitialized) {
         ALOGE("NOT_INIT");
         return NOT_INIT;
     }
 
-    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,getNoneMatrix());
+    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,NONE_MATRIX);
     //加载顶点参数
-    glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, getFullCoords());
+    glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, FULL_RECTANGLE_COORDS);
     glEnableVertexAttribArray(mGLAttribPosition);
-    glVertexAttribPointer(mGLAttribTextureCoordinate, 2, GL_FLOAT, GL_FALSE, 0, getFullTexture());
+    glVertexAttribPointer(mGLAttribTextureCoordinate, 2, GL_FLOAT, GL_FALSE, 0, FULL_RECTANGLE_TEX_COORDS);
     glEnableVertexAttribArray(mGLAttribTextureCoordinate);
 
     if(textureId !=NO_TEXTURE){
@@ -150,7 +150,7 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         return NOT_INIT;
     }
 
-    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,getNoneMatrix());
+    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,mvpMatrix);
     //加载顶点参数
     glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, cubeBuffer);
     glEnableVertexAttribArray(mGLAttribPosition);
@@ -185,7 +185,7 @@ GLuint GPUImageFilter::onDrawToTexture(const GLuint textureId,GLfloat *matrix) {
 
 GLuint GPUImageFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix,const float *cubeBuffer,
                                 const float *textureBuffer) {
-
+    glViewport(0,0,mFrameWidth,mFrameHeight);
     if(mFrameBuffer>0)
         glBindFramebuffer(GL_FRAMEBUFFER,mFrameBuffer);
     onDrawPrepare();
@@ -213,7 +213,8 @@ GLuint GPUImageFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix,c
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     //滤镜参数释放
     onDrawArraysAfter();
-    savePictureInThread();
+    drawPixelBuffer();
+//    savePictureInThread();
     //释放顶点绑定
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
@@ -258,7 +259,9 @@ void GPUImageFilter::initFrameBuffer(int width, int height) {
     glBindTexture(GL_TEXTURE_2D,0);
     //切换回默认的帧缓冲
     glBindFramebuffer(GL_FRAMEBUFFER,0);
+    initPixelBuffer(width,height);
 }
+
 
 void GPUImageFilter::destroyFrameBuffers() {
     if(mFrameBufferTextures>0)
@@ -267,6 +270,31 @@ void GPUImageFilter::destroyFrameBuffers() {
         glDeleteFramebuffers(1,&mFrameBuffer);
     mFrameWidth = -1;
     mFrameHeight = -1;
+}
+
+void GPUImageFilter::initPixelBuffer(int width, int height){
+    destroyPixelBuffers();
+    mPixelBuffer=0;
+    int align = 128;//128字节对齐
+    mPhoSize = (width * 4 + (align - 1)) & ~(align - 1)* height;
+
+    glGenBuffers(1,&mPixelBuffer);
+    glBindBuffer(GL_PIXEL_PACK_BUFFER,mPixelBuffer);
+    glBufferData(GL_PIXEL_PACK_BUFFER,mPhoSize, nullptr,GL_STATIC_READ);
+
+}
+void GPUImageFilter::drawPixelBuffer(){
+    glBindBuffer(GL_PIXEL_PACK_BUFFER,mPixelBuffer);
+    glReadPixels(0,0,mDisplayWidth,mDisplayHeight,GL_RGBA,GL_UNSIGNED_BYTE,NULL);
+    mPhoData = (unsigned char*)glMapBufferRange(GL_PIXEL_PACK_BUFFER,0,mPhoSize,GL_MAP_READ_BIT);
+    glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
+    //解除绑定PBO
+    glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
+}
+
+void GPUImageFilter::destroyPixelBuffers() {
+    if(mPixelBuffer>0)
+        glDeleteTextures(1,&mPixelBuffer);
 }
 
 void GPUImageFilter::bindBlend(){
@@ -321,22 +349,23 @@ void GPUImageFilter::saveImageInThread(std::string saveFileAddress){
         std::unique_lock<std::mutex> lock(gMutex);
         isSavePhoto = false;
         ALOGV("save address = %s",saveFileAddress.c_str());
-        //字节大小为长*宽*4，RGBA
-        long size = mDisplayWidth*mDisplayHeight*4;
-        unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
-        //清空数据
-        memset(data,0, sizeof(unsigned char)*size);
-
-        glReadBuffer(GL_FRONT);
-        checkGLError("glReadBuffer");
-        //对齐像素字节
-        glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-        checkGLError("glPixelStorei");
-//        glBlitFramebuffer(0,0,mDisplayWidth,mDisplayHeight,0,0,mDisplayWidth,mDisplayHeight,GL_COLOR_BUFFER_BIT,GL_NEAREST);
-        //获取帧内字节
-        glReadPixels(0, 0, mDisplayWidth, mDisplayHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        //使用线程保存图片
-        std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,saveFileAddress, data, mDisplayWidth,mDisplayHeight,0));
+//        //字节大小为长*宽*4，RGBA
+//        long size = mDisplayWidth*mDisplayHeight*4;
+//        unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char)*size);
+//        //清空数据
+//        memset(data,0, sizeof(unsigned char)*size);
+//
+//        glReadBuffer(GL_FRONT);
+//        checkGLError("glReadBuffer");
+//        //对齐像素字节
+//        glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+//        checkGLError("glPixelStorei");
+////        glBlitFramebuffer(0,0,mDisplayWidth,mDisplayHeight,0,0,mDisplayWidth,mDisplayHeight,GL_COLOR_BUFFER_BIT,GL_NEAREST);
+//        //获取帧内字节
+//        glReadPixels(0, 0, mDisplayWidth, mDisplayHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
+//        //使用线程保存图片
+//        std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,saveFileAddress, data, mDisplayWidth,mDisplayHeight,0));
+        std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,saveFileAddress, mPhoData, mDisplayWidth,mDisplayHeight,0));
         thread.detach();
     }
 }
