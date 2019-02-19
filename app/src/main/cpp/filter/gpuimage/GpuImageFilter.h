@@ -38,7 +38,6 @@ public:
     bool savePicture(std::string saveFileAddress,unsigned char* data,int width,int height,int type);
     void savePictureInThread();
     void saveImageInThread(std::string saveFileAddress);
-    void enableBlend(GLenum srcBlend,GLenum dstBlend);
     void setOrientation(int degree);
     void setMvpMatrix(float* mvpMatrix);
     void initFrameBuffer(int width, int height);
@@ -76,13 +75,8 @@ private:
     bool isSavePhoto = false;
     std::string savePhotoAddress;
     std::mutex gMutex;
-//    std::thread thread;
-    GLenum srcBlend;
-    GLenum dstBlend;
     int degree;
     float* mvpMatrix;
-    void bindBlend();
-    void unBindBlend();
 
     GLuint mFrameBuffer;
     GLuint mFrameBufferTextures;

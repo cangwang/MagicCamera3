@@ -31,8 +31,6 @@ GPUImageFilter::GPUImageFilter(AAssetManager *assetManager,std::string *vertexSh
         mMatrixLoc(0),
         mvpMatrix(new float[16]),
         mAssetManager(assetManager),
-        srcBlend(GL_NONE),
-        dstBlend(GL_NONE),
         mGLCubeBuffer(getCube()),
         mGLTextureBuffer(getRotation(NORMAL, false, false)),
         mScreenWidth(0),mScreenHeight(0),mDisplayWidth(0),mDisplayHeight(0){
@@ -127,7 +125,7 @@ int GPUImageFilter::onDrawFrameFull(const GLuint textureId,GLfloat *matrix) {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D,textureId);
         //加载纹理
-        glUniform1i(mGLUniformTexture,0);
+        glUniform1i(mGLUniformTexture,GL_NONE);
     }
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
@@ -136,7 +134,7 @@ int GPUImageFilter::onDrawFrameFull(const GLuint textureId,GLfloat *matrix) {
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
 
     if(textureId !=NO_TEXTURE) //激活回到默认纹理
-        glBindTexture(GL_TEXTURE_2D,0);
+        glBindTexture(GL_TEXTURE_2D,GL_NONE);
 
     return ON_DRAWN;
 }
@@ -161,7 +159,7 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D,textureId);
         //加载纹理
-        glUniform1i(mGLUniformTexture,0);
+        glUniform1i(mGLUniformTexture,GL_NONE);
     }
     //滤镜参数加载
     onDrawArraysPre();
@@ -174,7 +172,7 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
 
     if(textureId !=NO_TEXTURE) //激活回到默认纹理
-        glBindTexture(GL_TEXTURE_2D,0);
+        glBindTexture(GL_TEXTURE_2D,GL_NONE);
 
     return ON_DRAWN;
 }
@@ -206,7 +204,7 @@ GLuint GPUImageFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix,c
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D,textureId);
         //加载纹理
-        glUniform1i(mGLUniformTexture,0);
+        glUniform1i(mGLUniformTexture,GL_NONE);
     }
     //滤镜参数加载
     onDrawArraysPre();
@@ -220,11 +218,11 @@ GLuint GPUImageFilter::onDrawToTexture(const GLuint textureId, GLfloat *matrix,c
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
 
     if(textureId !=NO_TEXTURE) //激活回到默认纹理
-        glBindTexture(GL_TEXTURE_2D,0);
+        glBindTexture(GL_TEXTURE_2D,GL_NONE);
 
     //切换回默认帧缓冲
     if(mFrameBuffer>0)
-        glBindFramebuffer(GL_FRAMEBUFFER,0);
+        glBindFramebuffer(GL_FRAMEBUFFER,GL_NONE);
 
     return mFrameBufferTextures;
 }
@@ -256,9 +254,9 @@ void GPUImageFilter::initFrameBuffer(int width, int height) {
     //绑定纹理到帧图
     glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,mFrameBufferTextures,0);
     //切换回默认纹理
-    glBindTexture(GL_TEXTURE_2D,0);
+    glBindTexture(GL_TEXTURE_2D,GL_NONE);
     //切换回默认的帧缓冲
-    glBindFramebuffer(GL_FRAMEBUFFER,0);
+    glBindFramebuffer(GL_FRAMEBUFFER,GL_NONE);
     initPixelBuffer(width,height);
 }
 
@@ -276,7 +274,8 @@ void GPUImageFilter::initPixelBuffer(int width, int height){
     destroyPixelBuffers();
     mPixelBuffer=0;
     int align = 128;//128字节对齐
-    mPhoSize = (width * 4 + (align - 1)) & ~(align - 1)* height;
+    mPhoSize = ((width * 4 + (align - 1)) & ~(align - 1))* height;
+//    mPhoSize = width*height*4;
 
     glGenBuffers(1,&mPixelBuffer);
     glBindBuffer(GL_PIXEL_PACK_BUFFER,mPixelBuffer);
@@ -289,28 +288,12 @@ void GPUImageFilter::drawPixelBuffer(){
     mPhoData = (unsigned char*)glMapBufferRange(GL_PIXEL_PACK_BUFFER,0,mPhoSize,GL_MAP_READ_BIT);
     glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
     //解除绑定PBO
-    glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
+    glBindBuffer(GL_PIXEL_PACK_BUFFER, GL_NONE);
 }
 
 void GPUImageFilter::destroyPixelBuffers() {
     if(mPixelBuffer>0)
         glDeleteTextures(1,&mPixelBuffer);
-}
-
-void GPUImageFilter::bindBlend(){
-    if (srcBlend != GL_NONE &&dstBlend != GL_NONE){
-        //开启颜色混合
-        glEnable(GL_BLEND);
-        //透明度混合
-        glBlendFunc(srcBlend,dstBlend);
-    }
-}
-
-void GPUImageFilter::unBindBlend(){
-    if (srcBlend != GL_NONE &&dstBlend != GL_NONE){
-        //关闭颜色混合
-        glDisable(GL_BLEND);
-    }
 }
 
 bool GPUImageFilter::savePhoto(std::string saveFileAddress) {
@@ -372,26 +355,20 @@ void GPUImageFilter::saveImageInThread(std::string saveFileAddress){
 
 bool GPUImageFilter::savePicture(std::string saveFileAddress,unsigned char* data,int width,int height,int type) {
     //屏幕到文件保存需要使用
-    if(type == 1) {
-        stbi_flip_vertically_on_write(1);
-    }
+    stbi_flip_vertically_on_write(1);
     //保存图片到本地文件
     if (stbi_write_png(saveFileAddress.c_str(), width, height, 4, data, 0)) {
         ALOGV("save address = %s success", saveFileAddress.c_str());
-        free(data);
+        if(type ==1)
+            free(data);
         return true;
     } else {
-        free(data);
+        if(type ==1)
+            free(data);
         ALOGE("save address = %s fail", saveFileAddress.c_str());
         return false;
     };
 }
-
-void GPUImageFilter::enableBlend(GLenum src,GLenum dst){
-    srcBlend = src;
-    dstBlend = dst;
-}
-
 
 void GPUImageFilter::destroy() {
     mIsInitialized = false;
