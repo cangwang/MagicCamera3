@@ -148,7 +148,7 @@ int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const fl
         return NOT_INIT;
     }
 
-    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,mvpMatrix);
+    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,NONE_MATRIX);
     //加载顶点参数
     glVertexAttribPointer(mGLAttribPosition, 2, GL_FLOAT, GL_FALSE, 0, cubeBuffer);
     glEnableVertexAttribArray(mGLAttribPosition);
