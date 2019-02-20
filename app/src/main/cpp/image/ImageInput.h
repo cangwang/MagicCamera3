@@ -29,6 +29,7 @@ public:
     GLuint imgTexture;
     int mImageWidth = -1;
     int mImageHeight = -1;
+    int mImageChannel= -1;
 
 protected:
     virtual void onInit();
@@ -52,7 +53,7 @@ private:
 
     GLuint mFrameBuffer;
     GLuint mFrameBufferTextures;
-    int beautyLevel = 0;
+    int beautyLevel;
     std::string imgPath;
     int degree=0;
 };

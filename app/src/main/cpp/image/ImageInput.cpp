@@ -1,6 +1,7 @@
 #include "src/main/cpp/utils/OpenglUtils.h"
 #include "ImageInput.h"
 #include <GLES2/gl2ext.h>
+#include <src/main/cpp/utils/TextureRotationUtil.h>
 
 #define LOG_TAG "ImageInput"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -14,7 +15,8 @@ ImageInput::ImageInput(AAssetManager *assetManager,std::string path):
         mVertexShader(readShaderFromAsset(assetManager,"default_vertex.glsl")),
         mFragmentShader(readShaderFromAsset(assetManager,"default_none_fragment.glsl")),
         imgPath(path),
-        mGLCubeBuffer(CUBE),
+        beautyLevel(0),
+        mGLCubeBuffer(getCube()),
         mGLTextureBuffer(getRotation(NORMAL, false, true)){
 
 }
@@ -66,7 +68,7 @@ void ImageInput::onInputSizeChanged(const int width, const int height) {
     if(imgTexture>0){
         glDeleteTextures(1,&imgTexture);
     }
-    imgTexture = loadTextureFromFile(imgPath.c_str(),&mImageWidth,&mImageHeight);
+    imgTexture = loadTextureFromFile(imgPath.c_str(),&mImageWidth,&mImageHeight,&mImageChannel);
 }
 
 int ImageInput::onDrawFrame(const GLuint textureId,GLfloat *matrix) {
@@ -115,10 +117,10 @@ GLuint ImageInput::onDrawToTexture(const GLuint textureId, GLfloat *matrix) {
     glEnableVertexAttribArray(mGLAttribPosition);
     glVertexAttribPointer(mGLAttribTextureCoordinate,2,GL_FLOAT,GL_FALSE,0,mGLTextureBuffer);
     glEnableVertexAttribArray(mGLAttribTextureCoordinate);
-    glUniformMatrix4fv(mTexturetransformMatrixlocation,1,GL_FALSE,matrix);
+    glUniformMatrix4fv(mTexturetransformMatrixlocation,1,GL_FALSE,NONE_MATRIX);
     //设置美颜等级
     setBeautyLevelOnDraw(beautyLevel);
-    setTexelSize(mScreenWidth,mScreenHeight);
+    setTexelSize(mImageWidth,mImageHeight);
     //加载矩阵
 //    glUniformMatrix4fv(mMatrixLoc,1,GL_FALSE,matrix);
 
@@ -162,7 +164,7 @@ void ImageInput::initFrameBuffer(int width, int height) {
     //绑定纹理
     glBindTexture(GL_TEXTURE_2D,mFrameBufferTextures);
     //纹理赋值为空，先纹理占位
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,mImageWidth,mImageHeight,0,GL_RGBA,GL_UNSIGNED_BYTE, nullptr);
     //设定纹理参数
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);

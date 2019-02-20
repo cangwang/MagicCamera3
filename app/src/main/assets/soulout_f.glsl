@@ -4,9 +4,9 @@ precision mediump float;
  in vec2 textureCoordinate;
  uniform sampler2D inputImageTexture;
  uniform float uAlpha;
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
  void main()
  {
-    gl_FragColor = vec4(texture(inputImageTexture,textureCoordinate).rgb,uAlpha);
+    glFragColor = vec4(texture(inputImageTexture,textureCoordinate).rgb,uAlpha);
  }

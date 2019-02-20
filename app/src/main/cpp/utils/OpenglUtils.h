@@ -7,7 +7,7 @@
 #include <android/asset_manager.h>
 
 GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName);
-GLuint loadTextureFromFile(const char *fileName, int *w, int *h);
+GLuint loadTextureFromFile(const char *fileName, int *w, int *h,int *n);
 GLuint loadTextureFromAssetsRepeat(AAssetManager *manager, const char *fileName);
 //BitmapOperation getImageFromAssetsFile(JNIEnv *env,char *filename);
 GLuint loadProgram(const char *strVSource, const char *strFSource);

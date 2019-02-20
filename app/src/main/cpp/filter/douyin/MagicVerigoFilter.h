@@ -6,6 +6,7 @@
 #include <GLES3/gl3.h>
 #include "src/main/cpp/filter/gpuimage/GpuImageFilter.h"
 #include "RenderBuffer.h"
+#include <src/main/cpp/utils/TextureRotationUtil.h>
 
 /**
  * cangwang 2019.1.4

@@ -8,7 +8,7 @@ uniform sampler2D curve;
 uniform sampler2D grey1Frame; 
 uniform sampler2D grey2Frame;
 uniform sampler2D grey3Frame;
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
 void main() 
 { 
@@ -145,5 +145,5 @@ void main()
     textureColor = 1.0 - ((1.0 - base) * (1.0 - overlay)); 
     textureColor = (textureColor - base) * 0.05098 + base; 
 
-	gl_FragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
+	glFragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
 } 

@@ -112,7 +112,7 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
         }
         Observable.create(ObservableOnSubscribe<Boolean> {
             it.onNext(OpenGLJniLib.saveImage(rootAddress))
-        }).subscribeOn(Schedulers.io())
+        }).subscribeOn(Schedulers.from(mExecutor))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (!it){

@@ -9,7 +9,7 @@ uniform sampler2D grey2Frame;
 uniform sampler2D curve;
 
 const mediump vec3 luminanceWeighting = vec3(0.2125, 0.7154, 0.0721);
-out vec4 gl_FragColor;
+out vec4 glFragColor;
 
 void main()
 {
@@ -57,7 +57,7 @@ void main()
 	greenCurveValue = texture(curve, vec2(greenCurveValue, 1.0)).r;
 	blueCurveValue = texture(curve, vec2(blueCurveValue, 1.0)).r;
 	lowp vec4 overlayer = vec4(redCurveValue, greenCurveValue, blueCurveValue, 1.0); 
-	//gl_FragColor = base * (1.0 - grey1Color.r) + overlayer * grey1Color.r;
+	//glFragColor = base * (1.0 - grey1Color.r) + overlayer * grey1Color.r;
 	base = (base - overlayer) * (1.0 - grey1Color.r) + overlayer;
 	
 	redCurveValue = texture(curve, vec2(base.r, 1.0)).g;
@@ -68,5 +68,5 @@ void main()
 	textureColor = (base - overlayer) * (1.0 - grey2Color.r) + overlayer;
 	//base * (grey2Color.r) + overlayer * (1.0 - grey2Color.r);
 	
-	gl_FragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
+	glFragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
 }

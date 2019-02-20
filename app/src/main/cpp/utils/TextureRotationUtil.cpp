@@ -31,6 +31,13 @@ GLfloat TEXTURE_ROTATED_270[] = {
         1.0f, 1.0f,
 };
 
+GLfloat CUBE[] = {
+        -1.0f,-1.0f,
+        1.0f,-1.0f,
+        -1.0f,1.0f,
+        1.0f,1.0f
+};
+
 //获取角度
 float* getRotation(const Rotation rotation, const bool flipHorizontal, const bool flipVertical){
     const float* rotateTex;
@@ -124,4 +131,8 @@ float flip(const float i) {
         return 1.0f;
     }
     return 0.0f;
+}
+
+float* getCube(){
+    return CUBE;
 }

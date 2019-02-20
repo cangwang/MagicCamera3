@@ -8,7 +8,6 @@
 #include <string>
 #include <mutex>
 #include <thread>
-#include "src/main/cpp/utils/TextureRotationUtil.h"
 
 #ifndef _GPUImageFilter
 #define _GPUImageFilter
@@ -25,6 +24,9 @@ public:
     void onInputDisplaySizeChanged(const int width, const int height);
     virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix,const float* cubeBuffer, const float* textureBuffer);
     virtual int onDrawFrame(const GLuint textureId, GLfloat *matrix);
+    int onDrawFrameFull(const GLuint textureId,GLfloat *matrix);
+    GLuint onDrawToTexture(const GLuint textureId,GLfloat *matrix);
+    GLuint onDrawToTexture(const GLuint textureId, GLfloat *matrix,const float *cubeBuffer, const float *textureBuffer);
     virtual void destroy();
     virtual void onDestroy() {}
 
@@ -33,14 +35,16 @@ public:
     virtual void onDrawArraysAfter() {}
 
     bool savePhoto(std::string directory);
-    bool savePicture(std::string saveFileAddress,unsigned char* data,int width,int height);
+    bool savePicture(std::string saveFileAddress,unsigned char* data,int width,int height,int type);
     void savePictureInThread();
     void saveImageInThread(std::string saveFileAddress);
-    void enableBlend(GLenum srcBlend,GLenum dstBlend);
     void setOrientation(int degree);
-    GLfloat* getVertexBuffer();
-    GLfloat* getTextureBuffer();
     void setMvpMatrix(float* mvpMatrix);
+    void initFrameBuffer(int width, int height);
+    void destroyFrameBuffers();
+    void initPixelBuffer(int width, int height);
+    void destroyPixelBuffers();
+    void drawPixelBuffer();
 
     AAssetManager* mAssetManager;
     int mScreenWidth;
@@ -67,17 +71,21 @@ private:
     GLfloat* mGLCubeBuffer;
     GLfloat* mGLTextureBuffer;
     GLint mMatrixLoc;
-    GLuint mFrameBuffer;
+
     bool isSavePhoto = false;
     std::string savePhotoAddress;
     std::mutex gMutex;
-//    std::thread thread;
-    GLenum srcBlend;
-    GLenum dstBlend;
     int degree;
     float* mvpMatrix;
-    void bindBlend();
-    void unBindBlend();
+
+    GLuint mFrameBuffer;
+    GLuint mFrameBufferTextures;
+    int mFrameWidth = -1;
+    int mFrameHeight = -1;
+
+    GLuint mPixelBuffer;
+    long mPhoSize;
+    unsigned char* mPhoData;
 };
 
 #endif

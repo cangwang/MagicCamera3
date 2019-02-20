@@ -10,7 +10,7 @@ precision mediump float;
  
  uniform float strength;
 
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
  void main()
    {
@@ -32,5 +32,5 @@ precision mediump float;
        //mix(x, y, a): x, y的线性混叠， x(1-a) + y*a;
        mapped.rgb = mix(originColor.rgb, mapped.rgb, strength);
 
-       gl_FragColor = mapped;
+       glFragColor = mapped;
    }

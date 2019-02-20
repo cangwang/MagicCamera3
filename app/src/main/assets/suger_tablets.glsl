@@ -5,7 +5,7 @@ in mediump vec2 textureCoordinate;
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2; // lookup texture
  uniform mediump float strength;
-  out vec4 gl_FragColor;
+  out vec4 glFragColor;
 
  void main()
  {
@@ -37,5 +37,5 @@ in mediump vec2 textureCoordinate;
 
      newColor.rgb = mix(originColor.rgb, newColor.rgb, strength);
 
-     gl_FragColor = vec4(newColor.rgb, textureColor.w);
+     glFragColor = vec4(newColor.rgb, textureColor.w);
  }

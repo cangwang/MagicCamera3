@@ -6,7 +6,7 @@ precision mediump float;
  uniform sampler2D inputImageTexture2;
  
  uniform float strength;
- out vec4 gl_FragColor;
+ out vec4 glFragColor;
 
  // gray
  float NCGray(vec4 color)
@@ -135,5 +135,5 @@ precision mediump float;
     
     color.rgb = mix(originColor.rgb, color.rgb, strength);
 
-    gl_FragColor = color;
+    glFragColor = color;
 }
