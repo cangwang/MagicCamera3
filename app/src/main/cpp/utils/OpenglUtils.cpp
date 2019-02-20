@@ -99,7 +99,7 @@ GLuint loadTextureFromAssets(AAssetManager *manager, const char *fileName){
     return textureHandler;
 }
 
-GLuint loadTextureFromFile(const char *fileName, int *w, int *h){
+GLuint loadTextureFromFile(const char *fileName, int *w, int *h,int *n){
     GLuint textureHandler=0;
     glGenTextures(1,&textureHandler);
     if (textureHandler!=-1){
@@ -111,21 +111,18 @@ GLuint loadTextureFromFile(const char *fileName, int *w, int *h){
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
 
-        int width=0,height=0,n=0;
         //读取图片长宽高数据
-        unsigned char* data = stbi_load(fileName, w, h, &n, 0);
+        unsigned char* data = stbi_load(fileName, w, h, n, 0);
 
-        ALOGV("loadTexture fileName = %s,width = %d,height=%d,n=%d",fileName,width,height,n);
+        ALOGV("loadTexture fileName = %s,width = %d,height=%d,n=%d",fileName,*w,*h,*n);
 
         if(data!=NULL) {
-            width = *w;
-            height = *h;
-            if (n==3) { //判断是jpg格式
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            } else if (n==4) {  //判断是png格式
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            if (*n==3) { //判断是jpg格式
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, *w, *h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            } else if (*n==4) {  //判断是png格式
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, *w, *h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
             } else{
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, *w, *h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             }
             stbi_image_free(data);
             return textureHandler;

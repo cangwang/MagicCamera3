@@ -120,7 +120,7 @@ void ImageFilter::change(int width, int height) {
         imageInput->onInputSizeChanged(width, height);
 
         //初始化帧缓冲
-//      imageInput->initFrameBuffer(width,height);
+        imageInput->initFrameBuffer(imageInput->mImageWidth,imageInput->mImageHeight);
 
         if (filter != nullptr){
             filter->onInputSizeChanged(width,height);
@@ -136,7 +136,7 @@ void ImageFilter::setMatrix(int width,int height){
     int screenWidth = 0;
     int screenHeight = 0;
     memcpy(mvpMatrix,NONE_MATRIX,16);
-    if (degree == 90 || degree == 180) {
+    if (degree == 90 || degree == 270) {
         screenWidth = height;
         screenHeight = width;
     } else {
@@ -148,7 +148,7 @@ void ImageFilter::setMatrix(int width,int height){
         float x = screenWidth /
                   ((float) screenHeight / (float) imageInput->mImageHeight *
                    imageInput->mImageWidth);
-        if (degree == 90 || degree == 180) {
+        if (degree == 90 || degree == 270) {
             orthoM(mvpMatrix, 0, -1, 1, -x, x, -1, 1);
         } else {
             orthoM(mvpMatrix, 0, -x, x, -1, 1, -1, 1);
@@ -157,14 +157,13 @@ void ImageFilter::setMatrix(int width,int height){
         float y = screenHeight /
                   ((float) screenWidth / (float) imageInput->mImageWidth *
                    imageInput->mImageHeight);
-        if (degree == 90 || degree == 180) {
+        if (degree == 90 || degree == 270) {
             orthoM(mvpMatrix, 0, -y, y, -1, 1, -1, 1);
         } else {
             orthoM(mvpMatrix, 0, -1, 1, -y, y, -1, 1);
         }
     }
 //    orthoM(mvpMatrix, 0, -1, 1, -1, 1, -1, 1);
-
     filter->setMvpMatrix(mvpMatrix);
 }
 
@@ -174,12 +173,18 @@ void ImageFilter::draw(GLfloat *matrix) {
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (imageInput != nullptr &&filter!= nullptr){
-        //通过滤镜filter绘制
 //        filter->onDrawFrame(imageInput->imgTexture,matrix);
-        //先获取帧图
-        GLuint frameId = filter->onDrawToTexture(imageInput->imgTexture,matrix);
-        //再将帧图渲染到surface
+        //简单的美颜滤镜
+        GLuint textureId = imageInput->onDrawToTexture(imageInput->imgTexture,matrix);
+        //添加风格滤镜fbo
+        GLuint frameId = filter->onDrawToTexture(textureId,matrix);
+        //绘制
         filter->onDrawFrameFull(frameId,matrix);
+
+//        //先获取帧图
+//        GLuint frameId = filter->onDrawToTexture(imageInput->imgTexture,matrix);
+//        //再将帧图渲染到surface
+//        filter->onDrawFrameFull(frameId,matrix);
 
         //缓冲区交换
         glFlush();

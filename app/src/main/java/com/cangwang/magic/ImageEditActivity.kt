@@ -68,7 +68,7 @@ class ImageEditActivity:AppCompatActivity(){
                     .setSingleChoiceItems(arrayOf("关闭", "1", "2", "3", "4", "5"), beautyLevel) {
                         dialog, which ->
                         beautyLevel = which
-                        OpenGLJniLib.setBeautyLevel(which)
+                        OpenGLJniLib.setImageBeautyLevel(which)
                         dialog.dismiss()
                     }
                     .setNegativeButton("取消", null)

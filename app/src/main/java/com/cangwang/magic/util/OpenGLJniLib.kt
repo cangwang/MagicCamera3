@@ -64,6 +64,12 @@ object OpenGLJniLib{
     external fun magicImageFilterRelease()
 
     /**
+     * 设置美颜级别
+     */
+    external fun setImageBeautyLevel(level:Int)
+
+
+    /**
      * 获取滤镜列表
      */
     external fun getFilterTypes():IntArray
