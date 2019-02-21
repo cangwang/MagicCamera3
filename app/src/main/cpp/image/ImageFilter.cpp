@@ -30,7 +30,8 @@ ImageFilter::ImageFilter(ANativeWindow *window,AAssetManager* assetManager,std::
         mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
         mMatrixLoc(0),filter(nullptr),
         imageInput(new ImageInput(assetManager,path)),beautyFilter(nullptr),imgPath(path),degree(degree),
-        mvpMatrix(new float[16]){
+        mvpMatrix(new float[16]),
+        pool(new std::MagicThreadPool()){
     //清空mMatrix数组
     memset(mMatrix,0, sizeof(mMatrix));
     mMatrix[0] = 1;
@@ -67,6 +68,8 @@ ImageFilter::~ImageFilter() {
     }
 
     mAssetManager = nullptr;
+    //释放线程池
+    free(pool);
 }
 
 void ImageFilter::setFilter(AAssetManager* assetManager) {
@@ -74,6 +77,7 @@ void ImageFilter::setFilter(AAssetManager* assetManager) {
         filter->destroy();
     }
     filter = new MagicNoneFilter(assetManager);
+    filter->setPool(pool);
     //调整滤镜中的图片的方向问题
     filter->setOrientation(degree);
     ALOGD("set filter success");
@@ -203,6 +207,7 @@ void ImageFilter::setFilter(GPUImageFilter* gpuImageFilter) {
         filter= nullptr;
     }
     filter = gpuImageFilter;
+    filter->setPool(pool);
     ALOGD("set filter success");
     if (filter!= nullptr)
         filter->init();

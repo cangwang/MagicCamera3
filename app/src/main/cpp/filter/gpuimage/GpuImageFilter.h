@@ -8,6 +8,7 @@
 #include <string>
 #include <mutex>
 #include <thread>
+#include <src/main/cpp/utils/MagicThreadPool.h>
 
 #ifndef _GPUImageFilter
 #define _GPUImageFilter
@@ -35,7 +36,7 @@ public:
     virtual void onDrawArraysAfter() {}
 
     bool savePhoto(std::string directory);
-    bool savePicture(std::string saveFileAddress,unsigned char* data,int width,int height,int type);
+    static bool savePicture(std::string saveFileAddress,unsigned char* data,int width,int height,int type);
     void savePictureInThread();
     void saveImageInThread(std::string saveFileAddress);
     void setOrientation(int degree);
@@ -45,6 +46,7 @@ public:
     void initPixelBuffer(int width, int height);
     void destroyPixelBuffers();
     void drawPixelBuffer();
+    void setPool(std::MagicThreadPool* pool);
 
     AAssetManager* mAssetManager;
     int mScreenWidth;
@@ -86,6 +88,7 @@ private:
     GLuint mPixelBuffer;
     long mPhoSize;
     unsigned char* mPhoData;
+    std::MagicThreadPool *pool;
 };
 
 #endif

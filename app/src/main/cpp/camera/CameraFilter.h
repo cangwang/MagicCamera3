@@ -42,5 +42,6 @@ private:
     GLint mMatrixLoc;
     GLfloat mMatrix[16];
     EGLCore *mEGLCore;
+    std::MagicThreadPool *pool;
 };
 

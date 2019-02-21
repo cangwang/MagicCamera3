@@ -54,7 +54,8 @@ CameraFilter::CameraFilter(ANativeWindow *window): mWindow(window),mEGLCore(new 
 
 CameraFilter::CameraFilter(ANativeWindow *window,AAssetManager* assetManager): mWindow(window),mEGLCore(new EGLCore()),
                                                    mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
-                                                   mMatrixLoc(0),filter(nullptr),cameraInputFilter(nullptr){
+                                                   mMatrixLoc(0),filter(nullptr),cameraInputFilter(nullptr),
+                                                   pool(new std::MagicThreadPool()){
     //清空mMatrix数组
     memset(mMatrix,0, sizeof(mMatrix));
     mMatrix[0] = 1;
@@ -94,6 +95,8 @@ CameraFilter::~CameraFilter() {
     }
 
     mAssetManager = nullptr;
+    //释放线程池
+    free(pool);
 }
 
 void CameraFilter::setFilter(AAssetManager* assetManager) {
@@ -105,6 +108,7 @@ void CameraFilter::setFilter(AAssetManager* assetManager) {
     }
 //    filter = new MagicAmaroFilter(assetManager);
     filter = new MagicNoneFilter(assetManager);
+    filter->setPool(pool);
     ALOGD("set filter success");
 }
 
@@ -187,6 +191,7 @@ void CameraFilter::setFilter(GPUImageFilter* gpuImageFilter) {
         filter= nullptr;
     }
     filter = gpuImageFilter;
+    filter->setPool(pool);
     ALOGD("set filter success");
     if (filter!= nullptr)
         filter->init();

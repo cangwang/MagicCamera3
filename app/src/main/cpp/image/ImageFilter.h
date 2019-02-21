@@ -51,5 +51,6 @@ private:
     int mFrameWidth = -1;
     int mFrameHeight = -1;
     float *mvpMatrix;
+    std::MagicThreadPool *pool;
 };
 

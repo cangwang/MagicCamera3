@@ -4,7 +4,6 @@
 #include <thread>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "src/main/cpp/utils/stb_image_write.h"
-
 #include "src/main/cpp/utils/TextureRotationUtil.h"
 
 #define LOG_TAG "GPUImageFilter"
@@ -33,7 +32,8 @@ GPUImageFilter::GPUImageFilter(AAssetManager *assetManager,std::string *vertexSh
         mAssetManager(assetManager),
         mGLCubeBuffer(getCube()),
         mGLTextureBuffer(getRotation(NORMAL, false, false)),
-        mScreenWidth(0),mScreenHeight(0),mDisplayWidth(0),mDisplayHeight(0){
+        mScreenWidth(0),mScreenHeight(0),mDisplayWidth(0),mDisplayHeight(0),
+        pool(nullptr){
     memcpy(mvpMatrix,NONE_MATRIX,16);
 }
 
@@ -43,6 +43,7 @@ GPUImageFilter::~GPUImageFilter() {
     mGLTextureBuffer = nullptr;
     mAssetManager= nullptr;
     mvpMatrix = nullptr;
+    pool = nullptr;
 }
 
 void GPUImageFilter::init() {
@@ -321,8 +322,12 @@ void GPUImageFilter::savePictureInThread() {
         //获取帧内字节
         glReadPixels(0, 0, mDisplayWidth, mDisplayHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
         //使用线程保存图片
-        std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,savePhotoAddress, data, mDisplayWidth,mDisplayHeight,1));
-        thread.detach();
+        try {
+            if(pool!= nullptr)
+                pool->commit(GPUImageFilter::savePicture,savePhotoAddress, data, mDisplayWidth,mDisplayHeight,1);
+        }catch (std::exception& e){
+            ALOGE("saveImageInThread some unhappy happed,error = %s",e.what());
+        }
     }
 }
 
@@ -348,8 +353,17 @@ void GPUImageFilter::saveImageInThread(std::string saveFileAddress){
 //        glReadPixels(0, 0, mDisplayWidth, mDisplayHeight, GL_RGBA, GL_UNSIGNED_BYTE, data);
 //        //使用线程保存图片
 //        std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,saveFileAddress, data, mDisplayWidth,mDisplayHeight,0));
-        std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,saveFileAddress, mPhoData, mDisplayWidth,mDisplayHeight,0));
-        thread.detach();
+//        std::thread thread = std::thread(std::bind(&GPUImageFilter::savePicture, this,saveFileAddress, mPhoData, mDisplayWidth,mDisplayHeight,0));
+//        thread.detach();
+        try {
+            if(pool!= nullptr)
+                pool->commit(GPUImageFilter::savePicture,saveFileAddress, mPhoData, mDisplayWidth,mDisplayHeight,0);
+//            pool->commit([=,self=this](){
+//               self->savePicture(saveFileAddress, mPhoData, mDisplayWidth,mDisplayHeight,0);
+//            });
+        }catch (std::exception& e){
+            ALOGE("saveImageInThread some unhappy happed,error = %s",e.what());
+        }
     }
 }
 
@@ -368,6 +382,10 @@ bool GPUImageFilter::savePicture(std::string saveFileAddress,unsigned char* data
         ALOGE("save address = %s fail", saveFileAddress.c_str());
         return false;
     };
+}
+
+void GPUImageFilter::setPool(std::MagicThreadPool *pool) {
+    this->pool = pool;
 }
 
 void GPUImageFilter::destroy() {
