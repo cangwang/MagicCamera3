@@ -10,6 +10,7 @@ import android.os.Looper
 import android.support.annotation.IntDef
 import android.util.Size
 import android.util.SparseArray
+import android.view.Surface
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 
@@ -18,6 +19,7 @@ abstract class CameraCompat(protected var mContext: Context) {
     private var mSwitchFlag: Boolean = false
 
     protected var mSurfaceTexture: SurfaceTexture? = null
+    var surface:Surface?=null
     /**
      * 是否支持闪光灯
      */
@@ -59,8 +61,9 @@ abstract class CameraCompat(protected var mContext: Context) {
         initCameraInfo()
     }
 
-    fun setSurfaceTexture(texture: SurfaceTexture) {
+    fun setSurfaceTexture(texture: SurfaceTexture,surface: Surface?=null) {
         this.mSurfaceTexture = texture
+        this.surface =surface
     }
 
     protected fun setFrontCameraId(id: String) {

@@ -131,7 +131,13 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
 
     override fun onStartPreview(callBack: CameraStateCallBack?) {
         try {
-            mSurface = Surface(mSurfaceTexture)
+            mCaptureSession?.close()
+
+            mSurface = if(surface==null) {
+                Surface(mSurfaceTexture)
+            }else{
+                surface
+            }
             outputSize?.let {
                 mSurfaceTexture?.setDefaultBufferSize(it.width, it.height)
             }

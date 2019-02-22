@@ -1,7 +1,6 @@
 #include <android/log.h>
 #include "EGLCore.h"
 #include <android/native_window.h>
-#include <EGL/eglext.h>
 
 
 #define LOG_TAG "EGLCore"
@@ -93,8 +92,23 @@ GLboolean EGLCore::buildContext(ANativeWindow *window) {
         return GL_FALSE;
     }
 
+    // 获取eglPresentationTimeANDROID方法的地址
+    eglPresentationTimeANDROID = (EGL_PRESENTATION_TIME_ANDROIDPROC)
+            eglGetProcAddress("eglPresentationTimeANDROID");
+    if (!eglPresentationTimeANDROID) {
+        ALOGE("eglPresentationTimeANDROID is not available!");
+    }
+
     ALOGD("buildContext Succeed");
     return GL_TRUE;
+}
+
+/**
+ * 设置显示时间戳pts
+ * @param nsecs
+ */
+void EGLCore::setPresentationTime(long nsecs) {
+    eglPresentationTimeANDROID(mDisplay,mSurface,nsecs);
 }
 
 /**

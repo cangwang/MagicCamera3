@@ -65,7 +65,11 @@ class CameraFilterV2Activity:AppCompatActivity(){
         }
 
         btn_camera_shutter.setOnClickListener {
-            takePhoto()
+            if(mode == MODE_PIC) {
+                takePhoto()
+            }else if (mode == MODE_VIDEO){
+                takeVideo()
+            }
         }
 
         btn_camera_switch.setOnClickListener {
@@ -73,7 +77,13 @@ class CameraFilterV2Activity:AppCompatActivity(){
         }
 
         btn_camera_mode.setOnClickListener {
-
+            if(mode == MODE_PIC){
+                mode = MODE_VIDEO
+                btn_camera_mode.setImageResource(R.drawable.icon_camera)
+            }else if (mode == MODE_VIDEO){
+                mode = MODE_PIC
+                btn_camera_mode.setImageResource(R.drawable.icon_video)
+            }
         }
 
         btn_camera_beauty.setOnClickListener {
@@ -122,7 +132,11 @@ class CameraFilterV2Activity:AppCompatActivity(){
     }
 
     fun takeVideo(){
-
+        if(mSurfaceCallback?.isRecording() == true) {
+            mSurfaceCallback?.releaseRecordVideo()
+        }else{
+            mSurfaceCallback?.startRecordVideo()
+        }
     }
 
     private fun showFilters() {

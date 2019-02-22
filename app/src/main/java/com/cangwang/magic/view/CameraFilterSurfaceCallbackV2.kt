@@ -13,10 +13,12 @@ import android.widget.Toast
 import com.cangwang.magic.BaseApplication
 import com.cangwang.magic.camera.CameraCompat
 import com.cangwang.magic.util.OpenGLJniLib
+import com.cangwang.magic.video.VideoEncoderCoder
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 import java.io.IOException
 
 import java.util.concurrent.Executors
@@ -30,6 +32,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
 
     private val TAG= CameraFilterSurfaceCallbackV2::class.java.simpleName!!
     private var mSurfaceTexture:SurfaceTexture?=null
+    private var mSurface:Surface?=null
     private var mCamera=camera
     private val mMatrix = FloatArray(16)
     private var width = 0
@@ -39,6 +42,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
     private var mMediaRecorder:MediaRecorder?=null
     private var isRecordVideo = AtomicBoolean()
     private var previewSurface:Surface?=null
+    private var videoEncoder:VideoEncoderCoder ?=null
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
         this.width = width
@@ -68,9 +72,10 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
             }
             mSurfaceTexture = SurfaceTexture(textureId)
             mSurfaceTexture?.setOnFrameAvailableListener { drawOpenGL() }
+            mSurface = Surface(mSurfaceTexture)
             try {
                 mSurfaceTexture?.let {
-                    mCamera?.setSurfaceTexture(it)
+                    mCamera?.setSurfaceTexture(it,mSurface)
                 }
                 doStartPreview()
             }catch (e:IOException){
@@ -80,75 +85,38 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
         }
     }
 
-    fun startVideoRecord(path:String):Boolean{
-        if (isRecordVideo.get()){
-            Log.e(TAG,"video is recording")
-            return false
-        }
-        if (path.isEmpty()){
-            Log.e(TAG,"record path is empty")
-            return false
-        }
-        if (!setMediaRecordParam(path)){
-            Log.e(TAG,"record path is empty")
-            return false
-        }
-        startRecordVideo()
-        return true
-    }
-
-    fun setMediaRecordParam(path:String):Boolean{
-        mMediaRecorder = MediaRecorder()
-        mMediaRecorder?.apply {
-            setAudioSource(MediaRecorder.AudioSource.MIC)
-            setVideoSource(MediaRecorder.VideoSource.SURFACE)
-            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            setOutputFile(path)
-            val bitRate= width*height
-            setVideoEncodingBitRate(bitRate)
-            setVideoSize(width,height)
-            setVideoEncoder(MediaRecorder.VideoEncoder.H264)
-
-            setAudioEncodingBitRate(8000)
-            setAudioChannels(1)
-            setAudioSamplingRate(8000)
-            setAudioEncodingBitRate(MediaRecorder.AudioEncoder.AAC)
-            if (mCamera?.getCameraType() == CameraCompat.BACK_CAMERA){
-                setOrientationHint(90)
-            }else{
-                setOrientationHint(270)
-            }
-            try {
-                prepare()
-            }catch (e:IOException){
-                e.printStackTrace()
-                return false
-            }
-        }
-        return true
-    }
-
     fun startRecordVideo(){
-        isRecordVideo.set(true)
-        mMediaRecorder?.surface?.let {
-            initOpenGL(it)
+        if (isRecordVideo.get()){
+            return
         }
+
+        if (mSurface!=null && width>0 && height>0)
+            videoEncoder = VideoEncoderCoder(mSurface!!,width,height,1000000, File(getVideoFileAddress()))
+
+        videoEncoder?.start()
+        isRecordVideo.set(true)
     }
 
     fun stopRecordVideo(){
-        if(isRecordVideo.get()){
-           mMediaRecorder?.stop()
-        }
+        videoEncoder?.stop()
     }
 
-    fun relaseRecordVideo(){
-        mMediaRecorder?.apply {
-            stop()
-            reset()
-            release()
-        }
-        if (isRecordVideo.get()){
-            isRecordVideo.set(false)
+    fun resumeRecordVideo(){
+
+    }
+
+    fun isRecording():Boolean{
+        return isRecordVideo.get()
+    }
+
+    fun releaseRecordVideo(){
+        mExecutor.execute {
+            if (isRecordVideo.get()) {
+                videoEncoder?.drainEncoder(true)
+                videoEncoder?.release()
+                videoEncoder = null
+                isRecordVideo.set(false)
+            }
         }
     }
 
@@ -178,16 +146,13 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
             mSurfaceTexture?.updateTexImage()
             mSurfaceTexture?.getTransformMatrix(mMatrix)
             if (isTakePhoto){
-                val photoAddress = if(Build.BRAND == "Xiaomi"){ // 小米手机
-                    Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
-                }else{  // Meizu 、Oppo
-                    Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
-                }
+                val photoAddress = getImageFileAddress()
                 OpenGLJniLib.magicFilterDraw(mMatrix,photoAddress)
                 isTakePhoto =false
             }else {
                 OpenGLJniLib.magicFilterDraw(mMatrix,"")
             }
+            videoEncoder?.drainEncoder(false)
         }
     }
 
@@ -222,11 +187,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
 
     @SuppressLint("CheckResult")
     fun takePhoto(){
-        val rootAddress = if(Build.BRAND == "Xiaomi"){ // 小米手机
-            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
-        }else{  // Meizu 、Oppo
-            Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
-        }
+        val rootAddress= getImageFileAddress()
 //        mCamera?.stopPreview()
         Observable.create(ObservableOnSubscribe<Boolean> {
             it.onNext(OpenGLJniLib.savePhoto(rootAddress))
@@ -243,5 +204,21 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
 //                    mCamera?.startPreview()
                     Log.e(TAG,it.toString())
                 })
+    }
+
+    fun getVideoFileAddress(): String {
+        return if(Build.BRAND == "Xiaomi"){ // 小米手机
+            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".mp4"
+        }else{  // Meizu 、Oppo
+            Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".mp4"
+        }
+    }
+
+    fun getImageFileAddress():String{
+        return if(Build.BRAND == "Xiaomi"){ // 小米手机
+            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
+        }else{  // Meizu 、Oppo
+            Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
+        }
     }
 }
