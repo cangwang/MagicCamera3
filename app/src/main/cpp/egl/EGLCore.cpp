@@ -22,7 +22,7 @@ EGLCore::~EGLCore() {
     mContext = EGL_NO_CONTEXT;
 }
 
-GLboolean EGLCore::buildContext(ANativeWindow *window) {
+GLboolean EGLCore::buildContext(ANativeWindow *window, EGLContext context) {
     //与本地窗口通信
     mDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (mDisplay == EGL_NO_DISPLAY){
@@ -66,10 +66,14 @@ GLboolean EGLCore::buildContext(ANativeWindow *window) {
     //只使用opengles3
     GLint contextAttrib[] = {EGL_CONTEXT_CLIENT_VERSION,3,EGL_NONE};
     // EGL_NO_CONTEXT表示不向其它的context共享资源
-    mContext = eglCreateContext(mDisplay,config,EGL_NO_CONTEXT,contextAttrib);
-    if (mContext == EGL_NO_CONTEXT){
-        ALOGE("eglCreateContext failed: %d",eglGetError());
-        return GL_FALSE;
+    if(context && context!= EGL_NO_CONTEXT){
+        mContext = context;
+    } else {
+        mContext = eglCreateContext(mDisplay, config, EGL_NO_CONTEXT, contextAttrib);
+        if (mContext == EGL_NO_CONTEXT){
+            ALOGE("eglCreateContext failed: %d",eglGetError());
+            return GL_FALSE;
+        }
     }
 
     EGLint format = 0;

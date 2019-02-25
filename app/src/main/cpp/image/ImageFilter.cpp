@@ -95,7 +95,7 @@ int ImageFilter::create() {
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
 
-    if (!mEGLCore->buildContext(mWindow)){
+    if (!mEGLCore->buildContext(mWindow,EGL_NO_CONTEXT)){
         return -1;
     }
 

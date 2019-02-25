@@ -124,7 +124,7 @@ int CameraFilter::create() {
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
 
-    if (!mEGLCore->buildContext(mWindow)){
+    if (!mEGLCore->buildContext(mWindow,EGL_NO_CONTEXT)){
         return -1;
     }
 
@@ -146,7 +146,7 @@ bool CameraFilter::buildVideoSurface(ANativeWindow *window) {
     if(mVideoEGLCore == nullptr){
         mVideoWindow = window;
         mVideoEGLCore = new EGLCore();
-        if (!mVideoEGLCore->buildContext(window)){
+        if (!mVideoEGLCore->buildContext(window,mEGLCore->mContext)){
             ALOGE("change window error");
             return false;
         } else{

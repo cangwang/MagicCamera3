@@ -16,7 +16,7 @@ public:
 
     ~EGLCore();
 
-    GLboolean buildContext(ANativeWindow *window);
+    GLboolean buildContext(ANativeWindow *window,EGLContext context);
 
     void setPresentationTime(long nsecs);
 
@@ -24,12 +24,13 @@ public:
 
     void release();
 
+    EGLContext mContext;
+
 protected:
 
 private:
     EGLDisplay mDisplay;
     EGLSurface mSurface;
-    EGLContext mContext;
     EGL_PRESENTATION_TIME_ANDROIDPROC eglPresentationTimeANDROID = NULL;
 };
 

@@ -59,7 +59,7 @@ CameraEngine::~CameraEngine() {
 }
 
 int CameraEngine::create() {
-    if (!mEGLCore->buildContext(mWindow)){
+    if (!mEGLCore->buildContext(mWindow,EGL_NO_CONTEXT)){
         return -1;
     }
     std::string *vShader = readShaderFromAsset(mAssetManager,"camera.vert");
