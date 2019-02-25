@@ -96,4 +96,8 @@ object OpenGLJniLib{
      * 编辑保存图片
      */
     external fun saveImage(address: String):Boolean
+
+    external fun buildVideoSurface(surface:Surface)
+
+    external fun releaseVideoSurface()
 }

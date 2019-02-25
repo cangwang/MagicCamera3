@@ -133,11 +133,8 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
         try {
             mCaptureSession?.close()
 
-            mSurface = if(surface==null) {
-                Surface(mSurfaceTexture)
-            }else{
-                surface
-            }
+            mSurface = Surface(mSurfaceTexture)
+
             outputSize?.let {
                 mSurfaceTexture?.setDefaultBufferSize(it.width, it.height)
             }

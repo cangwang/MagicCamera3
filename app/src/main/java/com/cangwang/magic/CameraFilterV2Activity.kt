@@ -5,18 +5,16 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.pm.ActivityInfo
-import android.graphics.Point
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.RelativeLayout
 import com.cangwang.magic.adapter.FilterAdapter
 import com.cangwang.magic.camera.CameraCompat
 import com.cangwang.magic.util.OpenGLJniLib
-import com.cangwang.magic.view.CameraFilterSurfaceCallbackV2
+import com.cangwang.magic.view.CameraFilterSurfaceCallbackV3
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.filter_layout.*
 
@@ -31,7 +29,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
     private var mode = MODE_PIC
 
     private var mAdapter: FilterAdapter? = null
-    private var mSurfaceCallback:CameraFilterSurfaceCallbackV2?=null
+    private var mSurfaceCallback:CameraFilterSurfaceCallbackV3?=null
     private var beautyLevel:Int = 0
 
     var mCamera: CameraCompat?=null
@@ -113,7 +111,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
 
     private fun initCamera(){
         mCamera = CameraCompat.newInstance(this)
-        mSurfaceCallback = CameraFilterSurfaceCallbackV2(mCamera)
+        mSurfaceCallback = CameraFilterSurfaceCallbackV3(mCamera)
         glsurfaceview_camera.holder.addCallback(mSurfaceCallback)
         mCamera?.startPreview()
     }

@@ -19,7 +19,6 @@ abstract class CameraCompat(protected var mContext: Context) {
     private var mSwitchFlag: Boolean = false
 
     protected var mSurfaceTexture: SurfaceTexture? = null
-    var surface:Surface?=null
     /**
      * 是否支持闪光灯
      */
@@ -61,9 +60,8 @@ abstract class CameraCompat(protected var mContext: Context) {
         initCameraInfo()
     }
 
-    fun setSurfaceTexture(texture: SurfaceTexture,surface: Surface?=null) {
+    fun setSurfaceTexture(texture: SurfaceTexture) {
         this.mSurfaceTexture = texture
-        this.surface =surface
     }
 
     protected fun setFrontCameraId(id: String) {

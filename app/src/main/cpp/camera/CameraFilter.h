@@ -21,6 +21,8 @@ public:
     ~CameraFilter();
     void setFilter(GPUImageFilter* gpuImageFilter);
     int create();
+    bool buildVideoSurface(ANativeWindow *window);
+    void releaseVideoSurface();
     void draw(GLfloat *matrix);
     void change(int width,int height);
     void stop();
@@ -28,7 +30,6 @@ public:
     void setFilter(int type);
     void setBeautyLevel(int level);
     bool savePhoto(std::string saveFileAddress);
-    bool changeVideoEgl();
 
 protected:
 
@@ -37,11 +38,13 @@ private:
     CameraInputFilter *cameraInputFilter;
     AAssetManager *mAssetManager;
     ANativeWindow *mWindow;
+    ANativeWindow *mVideoWindow;
     GLuint mTextureId;
     GLint mTextureLoc;
     GLint mMatrixLoc;
     GLfloat mMatrix[16];
     EGLCore *mEGLCore;
+    EGLCore *mVideoEGLCore;
     std::MagicThreadPool *pool;
 };
 

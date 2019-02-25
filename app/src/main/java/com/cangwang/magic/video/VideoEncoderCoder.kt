@@ -24,7 +24,7 @@ class VideoEncoderCoder{
     private var mTrackIndex = -1
     private var mMuxerStarted = false
 
-    constructor(inputSurface:Surface,width:Int,height:Int,bitRate:Int,outFile:File){
+    constructor(width:Int,height:Int,bitRate:Int,outFile:File){
         val format = MediaFormat.createVideoFormat(MINE_TYPE,width,height)
         format.setInteger(MediaFormat.KEY_COLOR_FORMAT,MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface)
         format.setInteger(MediaFormat.KEY_BIT_RATE,bitRate)
@@ -34,7 +34,7 @@ class VideoEncoderCoder{
 
         mEncoder = MediaCodec.createEncoderByType(MINE_TYPE)
         mEncoder.configure(format,null,null,MediaCodec.CONFIGURE_FLAG_ENCODE)
-        mInputSurface = inputSurface
+        mInputSurface = mEncoder.createInputSurface()
 
         mMuxer = MediaMuxer(outFile.toString(),MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
         mTrackIndex = -1

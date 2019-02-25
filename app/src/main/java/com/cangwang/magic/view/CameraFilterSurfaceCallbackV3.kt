@@ -27,10 +27,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * Created by zjl on 2018/10/12.
  */
-class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback{
+class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback{
     private val mExecutor = Executors.newSingleThreadExecutor()
 
-    private val TAG= CameraFilterSurfaceCallbackV2::class.java.simpleName!!
+    private val TAG= CameraFilterSurfaceCallbackV3::class.java.simpleName!!
     private var mSurfaceTexture:SurfaceTexture?=null
     private var mSurface:Surface?=null
     private var mCamera=camera
@@ -59,6 +59,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
         holder?.let {
             previewSurface = it.surface
             initOpenGL(it.surface)
+            mSurface = it.surface
         }
     }
 
@@ -72,7 +73,6 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
             }
             mSurfaceTexture = SurfaceTexture(textureId)
             mSurfaceTexture?.setOnFrameAvailableListener { drawOpenGL() }
-            mSurface = Surface(mSurfaceTexture)
             try {
                 mSurfaceTexture?.let {
                     mCamera?.setSurfaceTexture(it)
@@ -86,15 +86,19 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
     }
 
     fun startRecordVideo(){
-        if (isRecordVideo.get()){
-            return
+        mExecutor.execute {
+            if (isRecordVideo.get()){
+                return@execute
+            }
+
+            if (width>0 && height>0)
+                videoEncoder = VideoEncoderCoder(width,height,1000000, File(getVideoFileAddress()))
+            videoEncoder?.let{
+                OpenGLJniLib.buildVideoSurface(it.getInputSurface())
+                it.start()
+                isRecordVideo.set(true)
+            }
         }
-
-        if (mSurface!=null && width>0 && height>0)
-            videoEncoder = VideoEncoderCoder(width,height,1000000, File(getVideoFileAddress()))
-
-        videoEncoder?.start()
-        isRecordVideo.set(true)
     }
 
     fun stopRecordVideo(){
@@ -115,6 +119,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
                 videoEncoder?.drainEncoder(true)
                 videoEncoder?.release()
                 videoEncoder = null
+                OpenGLJniLib.releaseVideoSurface()
                 isRecordVideo.set(false)
             }
         }
@@ -143,16 +148,18 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
 
     fun drawOpenGL(){
         mExecutor.execute {
-            mSurfaceTexture?.updateTexImage()
-            mSurfaceTexture?.getTransformMatrix(mMatrix)
-            if (isTakePhoto){
-                val photoAddress = getImageFileAddress()
-                OpenGLJniLib.magicFilterDraw(mMatrix,photoAddress)
-                isTakePhoto =false
-            }else {
-                OpenGLJniLib.magicFilterDraw(mMatrix,"")
+            mSurfaceTexture?.let{
+                it.updateTexImage()
+                it.getTransformMatrix(mMatrix)
+                if (isTakePhoto){
+                    val photoAddress = getImageFileAddress()
+                    OpenGLJniLib.magicFilterDraw(mMatrix,photoAddress)
+                    isTakePhoto =false
+                }else {
+                    OpenGLJniLib.magicFilterDraw(mMatrix,"")
+                }
+                videoEncoder?.drainEncoder(false)
             }
-            videoEncoder?.drainEncoder(false)
         }
     }
 

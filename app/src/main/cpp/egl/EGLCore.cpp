@@ -93,11 +93,11 @@ GLboolean EGLCore::buildContext(ANativeWindow *window) {
     }
 
     // 获取eglPresentationTimeANDROID方法的地址
-    eglPresentationTimeANDROID = (EGL_PRESENTATION_TIME_ANDROIDPROC)
-            eglGetProcAddress("eglPresentationTimeANDROID");
-    if (!eglPresentationTimeANDROID) {
-        ALOGE("eglPresentationTimeANDROID is not available!");
-    }
+//    eglPresentationTimeANDROID = (EGL_PRESENTATION_TIME_ANDROIDPROC)
+//            eglGetProcAddress("eglPresentationTimeANDROID");
+//    if (!eglPresentationTimeANDROID) {
+//        ALOGE("eglPresentationTimeANDROID is not available!");
+//    }
 
     ALOGD("buildContext Succeed");
     return GL_TRUE;

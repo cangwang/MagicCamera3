@@ -162,6 +162,25 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobjec
     }
 }
 
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_buildVideoSurface(JNIEnv *env,jobject obj, jobject surface) {
+    std::unique_lock<std::mutex> lock(gMutex);
+
+    ANativeWindow *window = ANativeWindow_fromSurface(env,surface);
+    if (glCameraFilter!= nullptr){
+        glCameraFilter->buildVideoSurface(window);
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_releaseVideoSurface(JNIEnv *env,jobject obj) {
+    std::unique_lock<std::mutex> lock(gMutex);
+
+    if (glCameraFilter!= nullptr){
+        glCameraFilter->releaseVideoSurface();
+    }
+}
+
 //图片滤镜surfaceView初始化的时候创建
 JNIEXPORT jint JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterCreate(JNIEnv *env, jobject obj,
