@@ -1,5 +1,6 @@
 package com.cangwang.magic.video
 
+
 import android.media.MediaCodec
 import android.media.MediaCodecInfo
 import android.media.MediaFormat
@@ -9,7 +10,7 @@ import android.view.Surface
 import java.io.File
 import java.lang.RuntimeException
 
-class VideoEncoderCoder{
+class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, outFile: File) {
     companion object {
         const val TAG = "VideoEncoderCoder"
         const val MINE_TYPE = "video/avc"
@@ -17,25 +18,23 @@ class VideoEncoderCoder{
         const val IFRAME_INTERVAL = 5
     }
 
-    private lateinit var mInputSurface:Surface
-    private lateinit var mMuxer:MediaMuxer
-    private lateinit var mEncoder:MediaCodec
+    private var mInputSurface:Surface
+    private var mMuxer:MediaMuxer
+    private var mEncoder:MediaCodec
     private var mBufferInfo:MediaCodec.BufferInfo = MediaCodec.BufferInfo()
     private var mTrackIndex = -1
     private var mMuxerStarted = false
 
-    constructor(width:Int,height:Int,bitRate:Int,outFile:File){
+    init {
         val format = MediaFormat.createVideoFormat(MINE_TYPE,width,height)
         format.setInteger(MediaFormat.KEY_COLOR_FORMAT,MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface)
         format.setInteger(MediaFormat.KEY_BIT_RATE,bitRate)
         format.setInteger(MediaFormat.KEY_FRAME_RATE, FRAME_RATE)
         format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, IFRAME_INTERVAL)
         Log.d(TAG, "format: $format")
-
         mEncoder = MediaCodec.createEncoderByType(MINE_TYPE)
         mEncoder.configure(format,null,null,MediaCodec.CONFIGURE_FLAG_ENCODE)
         mInputSurface = mEncoder.createInputSurface()
-
         mMuxer = MediaMuxer(outFile.toString(),MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
         mTrackIndex = -1
         mMuxerStarted = false

@@ -17,6 +17,7 @@ public:
     ~EGLCore();
 
     GLboolean buildContext(ANativeWindow *window,EGLContext context);
+    GLboolean buildVideoContext(ANativeWindow *window, EGLContext context);
 
     void setPresentationTime(long nsecs);
 

@@ -146,7 +146,7 @@ bool CameraFilter::buildVideoSurface(ANativeWindow *window) {
     if(mVideoEGLCore == nullptr){
         mVideoWindow = window;
         mVideoEGLCore = new EGLCore();
-        if (!mVideoEGLCore->buildContext(window,mEGLCore->mContext)){
+        if (!mVideoEGLCore->buildVideoContext(window,eglGetCurrentContext())){
             ALOGE("change window error");
             return false;
         } else{
@@ -161,7 +161,7 @@ void CameraFilter::releaseVideoSurface(){
     if (mVideoEGLCore){
         //清空资源
         mVideoEGLCore->release();
-        delete mEGLCore;
+        delete mVideoEGLCore;
         mVideoEGLCore = nullptr;
     }
     if (mVideoWindow){
