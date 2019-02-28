@@ -158,6 +158,10 @@ GLboolean EGLCore::buildVideoContext(ANativeWindow *window, EGLContext context) 
         return GL_FALSE;
     }
 
+//    if(!eglMakeCurrent(mDisplay,EGL_NO_SURFACE,EGL_NO_SURFACE,EGL_NO_CONTEXT)){
+//        ALOGE("eglMakeCurrent reset failed: %d",eglGetError());
+//        return GL_FALSE;
+//    }
 
     EGLint format = 0;
     if (!eglGetConfigAttrib(mDisplay,config,EGL_NATIVE_VISUAL_ID,&format)){
@@ -172,11 +176,6 @@ GLboolean EGLCore::buildVideoContext(ANativeWindow *window, EGLContext context) 
         ALOGE("eglCreateWindowSurface failed: %d",eglGetError());
         return GL_FALSE;
     }
-
-//    if (!eglMakeCurrent(mDisplay,EGL_NO_SURFACE,EGL_NO_SURFACE,EGL_NO_CONTEXT)){
-//        ALOGE("free eglCurrent failed: %d",eglGetError());
-//        return GL_FALSE;
-//    }
 
     //把EGLContext和EGLSurface关联起来，单缓冲只使用了一个surface
     if (!eglMakeCurrent(mDisplay,mSurface,mSurface,mContext)){
@@ -201,6 +200,12 @@ GLboolean EGLCore::buildVideoContext(ANativeWindow *window, EGLContext context) 
  */
 void EGLCore::setPresentationTime(long nsecs) {
     eglPresentationTimeANDROID(mDisplay,mSurface,nsecs);
+}
+
+void EGLCore::makeCurrent() {
+    if (!eglMakeCurrent(mDisplay,mSurface,mSurface,mContext)){
+        ALOGE("eglMakeCurrent failed: %d",eglGetError());
+    }
 }
 
 /**

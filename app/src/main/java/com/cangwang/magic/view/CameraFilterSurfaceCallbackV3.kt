@@ -12,12 +12,12 @@ import android.widget.Toast
 import com.cangwang.magic.BaseApplication
 import com.cangwang.magic.camera.CameraCompat
 import com.cangwang.magic.util.OpenGLJniLib
+import com.cangwang.magic.video.TextureMovieEncoder
 import com.cangwang.magic.video.VideoEncoderCoder
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.io.File
 import java.io.IOException
 
 import java.util.concurrent.Executors
@@ -45,6 +45,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
     private var videoEncoder:VideoEncoderCoder ?=null
     private var recordStatus = RECORD_IDLE
     private var filterType:Int = -1
+    private var movieEncoder:TextureMovieEncoder = TextureMovieEncoder()
 
     companion object {
         val RECORD_IDLE = 0
@@ -141,23 +142,12 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
                 updateTexImage()
 
                 if(recordStatus == RECORD_START) {
-                    if (width > 0 && height > 0)
-                        videoEncoder = VideoEncoderCoder(width, height, 1000000, File(getVideoFileAddress()))
-                    videoEncoder?.apply {
-                        OpenGLJniLib.buildVideoSurface(getInputSurface(),textureId,BaseApplication.context.assets)
-                        if(filterType>0){
-                            OpenGLJniLib.setVideoFilterType(filterType)
-                        }
-                        start()
-                        isRecordVideo.set(true)
-                    }
+                    movieEncoder.startRecord(width,height,textureId,filterType)
+                    isRecordVideo.set(true)
                     recordStatus = RECORD_RECORDING
                 }else if (recordStatus == RECORD_STOP){
                     if (isRecordVideo.get()) {
-                        videoEncoder?.drainEncoder(true)
-                        videoEncoder?.release()
-                        videoEncoder = null
-                        OpenGLJniLib.releaseVideoSurface()
+                        movieEncoder.stopRecord()
                         isRecordVideo.set(false)
                         recordStatus = RECORD_IDLE
                     }
@@ -171,11 +161,8 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
                 }else {
                     OpenGLJniLib.magicFilterDraw(mMatrix,"")
                 }
-                videoEncoder?.apply {
-                    drainEncoder(false)
-                    OpenGLJniLib.magicVideoDraw(mMatrix)
-                }
 
+                movieEncoder.drawFrame(mMatrix,0)
             }
         }
     }

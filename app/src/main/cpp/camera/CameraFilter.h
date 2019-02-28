@@ -21,8 +21,6 @@ public:
     ~CameraFilter();
     void setFilter(GPUImageFilter* gpuImageFilter);
     int create();
-    bool buildVideoSurface(ANativeWindow *window);
-    void releaseVideoSurface();
     void draw(GLfloat *matrix);
     void change(int width,int height);
     void stop();
@@ -44,7 +42,6 @@ private:
     GLint mMatrixLoc;
     GLfloat mMatrix[16];
     EGLCore *mEGLCore;
-    EGLCore *mVideoEGLCore;
     std::MagicThreadPool *pool;
 };
 

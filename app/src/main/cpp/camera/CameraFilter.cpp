@@ -52,8 +52,7 @@ CameraFilter::CameraFilter(ANativeWindow *window): mWindow(window),mEGLCore(new 
     mMatrix[15] = 1;
 }
 
-CameraFilter::CameraFilter(ANativeWindow *window,AAssetManager* assetManager): mWindow(window),mEGLCore(new EGLCore()),
-                                                                               mVideoEGLCore(nullptr),mVideoWindow(nullptr),
+CameraFilter::CameraFilter(ANativeWindow *window,AAssetManager* assetManager): mWindow(window),mEGLCore(new EGLCore()), mVideoWindow(nullptr),
                                                    mAssetManager(assetManager),mTextureId(0),mTextureLoc(0),
                                                    mMatrixLoc(0),filter(nullptr),cameraInputFilter(nullptr),
                                                    pool(new std::MagicThreadPool()){
@@ -142,34 +141,6 @@ int CameraFilter::create() {
     return mTextureId;
 }
 
-bool CameraFilter::buildVideoSurface(ANativeWindow *window) {
-    if(mVideoEGLCore == nullptr){
-        mVideoWindow = window;
-        mVideoEGLCore = new EGLCore();
-        if (!mVideoEGLCore->buildVideoContext(window,eglGetCurrentContext())){
-            ALOGE("change window error");
-            return false;
-        } else{
-            return true;
-        }
-    } else{
-        return false;
-    }
-}
-
-void CameraFilter::releaseVideoSurface(){
-    if (mVideoEGLCore){
-        //清空资源
-        mVideoEGLCore->release();
-        delete mVideoEGLCore;
-        mVideoEGLCore = nullptr;
-    }
-    if (mVideoWindow){
-        ANativeWindow_release(mVideoWindow);
-        mVideoWindow = nullptr;
-    }
-}
-
 void CameraFilter::change(int width, int height) {
     //设置视口
     glViewport(0,0,width,height);
@@ -207,9 +178,6 @@ void CameraFilter::draw(GLfloat *matrix) {
         glFlush();
         if(mEGLCore!= nullptr)
             mEGLCore->swapBuffer();
-        if(mVideoEGLCore!= nullptr){
-            mVideoEGLCore->swapBuffer();
-        }
     }
 }
 

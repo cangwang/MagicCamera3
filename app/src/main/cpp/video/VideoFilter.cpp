@@ -63,6 +63,10 @@ VideoFilter::VideoFilter(ANativeWindow *window,AAssetManager* assetManager): mWi
     mMatrix[10] = 1;
     mMatrix[15] = 1;
 
+    if (cameraInputFilter == nullptr){
+        cameraInputFilter = new CameraInputFilter(assetManager);
+    }
+
     setFilter(assetManager);
 }
 
@@ -71,6 +75,13 @@ VideoFilter::~VideoFilter() {
         filter->destroy();
         delete filter;
         filter = nullptr;
+    }
+
+    if (cameraInputFilter!= nullptr){
+        cameraInputFilter->destroyCameraFrameBuffers();
+        cameraInputFilter->destroy();
+        delete cameraInputFilter;
+        cameraInputFilter = nullptr;
     }
 
     if (mEGLCore){
@@ -113,6 +124,11 @@ int VideoFilter::create(int textureId) {
         return -1;
     }
 
+    //相机初始化
+    if (cameraInputFilter!= nullptr){
+        cameraInputFilter->init();
+    }
+
     //滤镜初始化
     if (filter!= nullptr)
         filter->init();
@@ -127,19 +143,10 @@ void VideoFilter::change(int width, int height) {
     glViewport(0,0,width,height);
     mWidth = width;
     mHeight = height;
-    if (cameraInputFilter!= nullptr){
-        if (cameraInputFilter!= nullptr){
-            //触发输入大小更新
-            cameraInputFilter->onInputSizeChanged(width, height);
-            //初始化帧缓冲
-            cameraInputFilter->initCameraFrameBuffer(width,height);
-        }
-        if (filter != nullptr){
-            //初始化滤镜的大小
-            filter->onInputSizeChanged(width,height);
-        } else{
-            cameraInputFilter->destroyCameraFrameBuffers();
-        }
+
+    if (filter != nullptr){
+        //初始化滤镜的大小
+        filter->onInputSizeChanged(width,height);
     }
 }
 

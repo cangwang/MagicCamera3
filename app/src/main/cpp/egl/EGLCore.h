@@ -19,6 +19,8 @@ public:
     GLboolean buildContext(ANativeWindow *window,EGLContext context);
     GLboolean buildVideoContext(ANativeWindow *window, EGLContext context);
 
+    void makeCurrent();
+
     void setPresentationTime(long nsecs);
 
     void swapBuffer();

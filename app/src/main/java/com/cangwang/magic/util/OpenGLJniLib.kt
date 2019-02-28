@@ -51,8 +51,6 @@ object OpenGLJniLib{
 
     external fun magicFilterRelease()
 
-//    external fun magicFilterchangeVideoEgl(surface: Surface)
-
     /**
      * 图片滤镜创建
      */
