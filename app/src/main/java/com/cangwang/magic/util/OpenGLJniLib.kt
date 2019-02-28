@@ -98,7 +98,7 @@ object OpenGLJniLib{
     /**
      * 创建视频Surface
      */
-    external fun buildVideoSurface(surface:Surface,textureId:Int,manager: AssetManager)
+    external fun buildVideoSurface(surface:Surface,textureId:Int,manager: AssetManager):Int
 
     external fun magicVideoFilterChange(width:Int,height:Int)
 

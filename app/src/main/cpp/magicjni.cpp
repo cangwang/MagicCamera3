@@ -171,7 +171,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobjec
     }
 }
 
-JNIEXPORT void JNICALL
+JNIEXPORT jint JNICALL
 Java_com_cangwang_magic_util_OpenGLJniLib_buildVideoSurface(JNIEnv *env,jobject obj, jobject surface,jint textureId,jobject assetManager) {
     std::unique_lock<std::mutex> lock(gMutex);
     if(glVideoFilter){ //停止视频采集并销毁
@@ -188,7 +188,8 @@ Java_com_cangwang_magic_util_OpenGLJniLib_buildVideoSurface(JNIEnv *env,jobject 
     glVideoFilter = new VideoFilter(window,aAssetManager);
     //创建
     if(glCameraFilter!= nullptr)
-        glVideoFilter->create(textureId,glCameraFilter->getCurrentContext());
+        return glVideoFilter->create(textureId,glCameraFilter->getCurrentContext());
+    return -1;
 }
 
 //窗口大小设置，SurfaceView初始化后会触发一次

@@ -153,8 +153,10 @@ void VideoFilter::draw(GLfloat *matrix,long time) {
             filter->onDrawFrame(id,matrix);
         //缓冲区交换
         glFlush();
-        if(mEGLCore!= nullptr)
+        if(mEGLCore!= nullptr) {
+            mEGLCore->setPresentationTime(time);
             mEGLCore->swapBuffer();
+        }
     }
 }
 

@@ -173,6 +173,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
             mSurfaceTexture=null
             mCamera =null
         }
+        movieEncoder.stopRecord()
     }
 
     fun setFilterType(type:Int){

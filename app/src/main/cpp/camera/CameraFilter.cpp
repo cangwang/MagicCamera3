@@ -80,13 +80,9 @@ CameraFilter::~CameraFilter() {
 }
 
 void CameraFilter::setFilter(AAssetManager* assetManager) {
-//    if (cameraInputFilter == nullptr){
-//        cameraInputFilter = new CameraInputFilter(assetManager);
-//    }
     if(filter != nullptr){
         filter->destroy();
     }
-//    filter = new MagicAmaroFilter(assetManager);
     filter = new MagicNoneFilter(assetManager);
     filter->setPool(pool);
     ALOGD("set filter success");

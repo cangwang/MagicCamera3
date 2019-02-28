@@ -202,7 +202,8 @@ void EGLCore::setPresentationTime(long nsecs) {
 }
 
 EGLContext EGLCore::getCurrent() {
-    return eglGetCurrentContext();
+    //不能使用eglGetCurrentContext，会返回为空
+    return mContext;
 }
 
 /**
