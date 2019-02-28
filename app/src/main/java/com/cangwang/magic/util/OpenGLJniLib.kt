@@ -108,6 +108,11 @@ object OpenGLJniLib{
     external fun magicVideoDraw(matrix:FloatArray)
 
     /**
+     * 设置滤镜类型
+     */
+    external fun setVideoFilterType(type:Int)
+
+    /**
      * 释放视频Surface
      */
     external fun releaseVideoSurface()

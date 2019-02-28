@@ -1,6 +1,5 @@
 package com.cangwang.magic.view
 
-
 import android.annotation.SuppressLint
 import android.graphics.SurfaceTexture
 import android.media.MediaRecorder
@@ -45,6 +44,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
     private var previewSurface:Surface?=null
     private var videoEncoder:VideoEncoderCoder ?=null
     private var recordStatus = RECORD_IDLE
+    private var filterType:Int = -1
 
     companion object {
         val RECORD_IDLE = 0
@@ -137,14 +137,17 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
 
     fun drawOpenGL(){
         mExecutor.execute {
-            mSurfaceTexture?.let{
-                it.updateTexImage()
+            mSurfaceTexture?.apply{
+                updateTexImage()
 
                 if(recordStatus == RECORD_START) {
                     if (width > 0 && height > 0)
                         videoEncoder = VideoEncoderCoder(width, height, 1000000, File(getVideoFileAddress()))
                     videoEncoder?.apply {
                         OpenGLJniLib.buildVideoSurface(getInputSurface(),textureId,BaseApplication.context.assets)
+                        if(filterType>0){
+                            OpenGLJniLib.setVideoFilterType(filterType)
+                        }
                         start()
                         isRecordVideo.set(true)
                     }
@@ -160,7 +163,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
                     }
                 }
 
-                it.getTransformMatrix(mMatrix)
+                getTransformMatrix(mMatrix)
                 if (isTakePhoto){
                     val photoAddress = getImageFileAddress()
                     OpenGLJniLib.magicFilterDraw(mMatrix,photoAddress)
@@ -168,7 +171,11 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
                 }else {
                     OpenGLJniLib.magicFilterDraw(mMatrix,"")
                 }
-                videoEncoder?.drainEncoder(false)
+                videoEncoder?.apply {
+                    drainEncoder(false)
+                    OpenGLJniLib.magicVideoDraw(mMatrix)
+                }
+
             }
         }
     }
@@ -184,6 +191,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
 
     fun setFilterType(type:Int){
         mExecutor.execute {
+            filterType = type
             OpenGLJniLib.setFilterType(type)
         }
     }

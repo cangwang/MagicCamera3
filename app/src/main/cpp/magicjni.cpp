@@ -199,7 +199,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicVideoDraw(JNIEnv *env, jobject ob
 
     //如果为空，就判断错误，中断
     if (!glVideoFilter){
-        ALOGE("draw error, glCameraFilter is null");
+        ALOGE("draw error, glVideoFilter is null");
         return;
     }
     //摄像头采集画图
@@ -299,6 +299,15 @@ Java_com_cangwang_magic_util_OpenGLJniLib_setFilterType(JNIEnv *env, jobject obj
    if(glCameraFilter!= nullptr)
        glCameraFilter->setFilter(type);
    else ALOGE("filter set error, glCameraFilter is null");
+    if(glVideoFilter!= nullptr)
+        glVideoFilter->setFilter(type);
+}
+
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_setVideoFilterType(JNIEnv *env, jobject obj,jint type) {
+    if(glVideoFilter!= nullptr)
+        glVideoFilter->setFilter(type);
+    else ALOGE("filter set error, glVideoFilter is null");
 }
 
 JNIEXPORT void JNICALL
