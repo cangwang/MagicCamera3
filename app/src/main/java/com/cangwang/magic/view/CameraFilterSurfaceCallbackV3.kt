@@ -38,11 +38,20 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
     private var width = 0
     private var height = 0
     private var isTakePhoto = false
+    private var textureId:Int = -1
 
     private var mMediaRecorder:MediaRecorder?=null
     private var isRecordVideo = AtomicBoolean()
     private var previewSurface:Surface?=null
     private var videoEncoder:VideoEncoderCoder ?=null
+    private var recordStatus = RECORD_IDLE
+
+    companion object {
+        val RECORD_IDLE = 0
+        val RECORD_START = 1
+        val RECORD_RECORDING = 2
+        val RECORD_STOP = 3
+    }
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
         this.width = width
@@ -65,7 +74,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
 
     fun initOpenGL(surface: Surface){
         mExecutor.execute {
-            val textureId = OpenGLJniLib.magicFilterCreate(surface,BaseApplication.context.assets)
+            textureId = OpenGLJniLib.magicFilterCreate(surface,BaseApplication.context.assets)
 //            OpenGLJniLib.setFilterType(MagicFilterType.NONE.ordinal)
             if (textureId < 0){
                 Log.e(TAG, "surfaceCreated init OpenGL ES failed!")
@@ -86,19 +95,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
     }
 
     fun startRecordVideo(){
-        mExecutor.execute {
-            if (isRecordVideo.get()){
-                return@execute
-            }
-
-            if (width>0 && height>0)
-                videoEncoder = VideoEncoderCoder(width,height,1000000, File(getVideoFileAddress()))
-            videoEncoder?.let{
-                OpenGLJniLib.buildVideoSurface(it.getInputSurface())
-                it.start()
-                isRecordVideo.set(true)
-            }
-        }
+        recordStatus = RECORD_START
     }
 
     fun stopRecordVideo(){
@@ -114,15 +111,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
     }
 
     fun releaseRecordVideo(){
-        mExecutor.execute {
-            if (isRecordVideo.get()) {
-                videoEncoder?.drainEncoder(true)
-                videoEncoder?.release()
-                videoEncoder = null
-                OpenGLJniLib.releaseVideoSurface()
-                isRecordVideo.set(false)
-            }
-        }
+        recordStatus = RECORD_STOP
     }
 
     fun changeCamera(camera:CameraCompat? ){
@@ -150,6 +139,27 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
         mExecutor.execute {
             mSurfaceTexture?.let{
                 it.updateTexImage()
+
+                if(recordStatus == RECORD_START) {
+                    if (width > 0 && height > 0)
+                        videoEncoder = VideoEncoderCoder(width, height, 1000000, File(getVideoFileAddress()))
+                    videoEncoder?.apply {
+                        OpenGLJniLib.buildVideoSurface(getInputSurface(),textureId,BaseApplication.context.assets)
+                        start()
+                        isRecordVideo.set(true)
+                    }
+                    recordStatus = RECORD_RECORDING
+                }else if (recordStatus == RECORD_STOP){
+                    if (isRecordVideo.get()) {
+                        videoEncoder?.drainEncoder(true)
+                        videoEncoder?.release()
+                        videoEncoder = null
+                        OpenGLJniLib.releaseVideoSurface()
+                        isRecordVideo.set(false)
+                        recordStatus = RECORD_IDLE
+                    }
+                }
+
                 it.getTransformMatrix(mMatrix)
                 if (isTakePhoto){
                     val photoAddress = getImageFileAddress()
@@ -181,9 +191,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
     fun doStartPreview(){
         mCamera?.startPreview(object :CameraCompat.CameraStateCallBack{
             override fun onConfigured() {
-                if (isRecordVideo.get()){
-                    mMediaRecorder?.start()
-                }
+
             }
 
             override fun onConfigureFailed() {

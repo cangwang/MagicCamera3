@@ -97,7 +97,18 @@ object OpenGLJniLib{
      */
     external fun saveImage(address: String):Boolean
 
-    external fun buildVideoSurface(surface:Surface)
+    /**
+     * 创建视频Surface
+     */
+    external fun buildVideoSurface(surface:Surface,textureId:Int,manager: AssetManager)
 
+    /**
+     * 视频绘制
+     */
+    external fun magicVideoDraw(matrix:FloatArray)
+
+    /**
+     * 释放视频Surface
+     */
     external fun releaseVideoSurface()
 }
