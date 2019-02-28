@@ -76,7 +76,6 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
     fun initOpenGL(surface: Surface){
         mExecutor.execute {
             textureId = OpenGLJniLib.magicFilterCreate(surface,BaseApplication.context.assets)
-//            OpenGLJniLib.setFilterType(MagicFilterType.NONE.ordinal)
             if (textureId < 0){
                 Log.e(TAG, "surfaceCreated init OpenGL ES failed!")
                 return@execute
@@ -162,7 +161,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
                     OpenGLJniLib.magicFilterDraw(mMatrix,"")
                 }
 
-                movieEncoder.drawFrame(mMatrix,0)
+                movieEncoder.drawFrame(mMatrix,timestamp)
             }
         }
     }

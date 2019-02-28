@@ -187,11 +187,25 @@ Java_com_cangwang_magic_util_OpenGLJniLib_buildVideoSurface(JNIEnv *env,jobject 
     //初始化相机采集
     glVideoFilter = new VideoFilter(window,aAssetManager);
     //创建
-    glVideoFilter->create(textureId);
+    if(glCameraFilter!= nullptr)
+        glVideoFilter->create(textureId,glCameraFilter->getCurrentContext());
+}
+
+//窗口大小设置，SurfaceView初始化后会触发一次
+JNIEXPORT void JNICALL
+Java_com_cangwang_magic_util_OpenGLJniLib_magicVideoFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {
+    std::unique_lock<std::mutex> lock(gMutex);
+    //视口变换，可视区域
+    if (!glVideoFilter){
+        ALOGE("change error, glCameraFilter is null");
+        return;
+    }
+    //更改窗口大小
+    glVideoFilter->change(width,height);
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicVideoDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jstring address) {
+Java_com_cangwang_magic_util_OpenGLJniLib_magicVideoDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jlong time) {
     //加锁
     std::unique_lock<std::mutex> lock(gMutex);
     //获取摄像头矩阵
@@ -203,7 +217,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicVideoDraw(JNIEnv *env, jobject ob
         return;
     }
     //摄像头采集画图
-    glVideoFilter->draw(matrix);
+    glVideoFilter->draw(matrix,time);
     //释放矩阵数据
     env->ReleaseFloatArrayElements(matrix_,matrix,0);
 }

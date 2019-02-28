@@ -19,7 +19,7 @@ public:
     GLboolean buildContext(ANativeWindow *window,EGLContext context);
     GLboolean buildVideoContext(ANativeWindow *window, EGLContext context);
 
-    void makeCurrent();
+    EGLContext getCurrent();
 
     void setPresentationTime(long nsecs);
 

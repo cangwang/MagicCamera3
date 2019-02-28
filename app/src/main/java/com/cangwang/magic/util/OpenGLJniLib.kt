@@ -100,10 +100,12 @@ object OpenGLJniLib{
      */
     external fun buildVideoSurface(surface:Surface,textureId:Int,manager: AssetManager)
 
+    external fun magicVideoFilterChange(width:Int,height:Int)
+
     /**
      * 视频绘制
      */
-    external fun magicVideoDraw(matrix:FloatArray)
+    external fun magicVideoDraw(matrix:FloatArray,time:Long)
 
     /**
      * 设置滤镜类型

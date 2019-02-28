@@ -20,8 +20,8 @@ public:
     VideoFilter(ANativeWindow *window,AAssetManager *assetManager);
     ~VideoFilter();
     void setFilter(GPUImageFilter* gpuImageFilter);
-    int create(int textureId);
-    void draw(GLfloat *matrix);
+    int create(int textureId,EGLContext eglContext);
+    void draw(GLfloat *matrix,long time);
     void change(int width,int height);
     void stop();
     void setFilter(AAssetManager* assetManager);

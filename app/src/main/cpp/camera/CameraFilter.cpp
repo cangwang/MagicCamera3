@@ -21,26 +21,6 @@
  * 相机滤镜管理
  * cangwang 2018.12.1
  */
-const static GLfloat VERTICES[]= {
-        -1.0f,1.0f,
-        1.0f,1.0f,
-        -1.0f,-1.0f,
-        1.0f,-1.0f
-};
-
-const static GLfloat TEX_COORDS[]={
-        0.0f,1.0f,
-        1.0f,1.0f,
-        0.0f,0.0f,
-        1.0f,0.0f
-};
-
-const static GLuint ATTRIB_POSITION = 0;
-const static GLuint ATTRIB_TEXCOORD = 1;
-const static GLuint VERTEX_NUM = 4;
-const static GLuint VERTEX_POS_SIZE = 2;
-const static GLuint TEX_COORD_POS_SZIE = 2;
-
 CameraFilter::CameraFilter(ANativeWindow *window): mWindow(window),mEGLCore(new EGLCore()),
                                                    mAssetManager(nullptr),mTextureId(0),mTextureLoc(0),
                                                    mMatrixLoc(0){
@@ -210,5 +190,12 @@ bool CameraFilter::savePhoto(std::string saveFileAddress){
         return filter->savePhoto(saveFileAddress);
     }
     return false;
+}
+
+EGLContext CameraFilter::getCurrentContext() {
+    if (mEGLCore!= nullptr){
+        return mEGLCore->getCurrent();
+    }
+    return nullptr;
 }
 

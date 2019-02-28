@@ -21,26 +21,6 @@
  * 相机滤镜管理
  * cangwang 2018.12.1
  */
-const static GLfloat VERTICES[]= {
-        -1.0f,1.0f,
-        1.0f,1.0f,
-        -1.0f,-1.0f,
-        1.0f,-1.0f
-};
-
-const static GLfloat TEX_COORDS[]={
-        0.0f,1.0f,
-        1.0f,1.0f,
-        0.0f,0.0f,
-        1.0f,0.0f
-};
-
-const static GLuint ATTRIB_POSITION = 0;
-const static GLuint ATTRIB_TEXCOORD = 1;
-const static GLuint VERTEX_NUM = 4;
-const static GLuint VERTEX_POS_SIZE = 2;
-const static GLuint TEX_COORD_POS_SZIE = 2;
-
 VideoFilter::VideoFilter(ANativeWindow *window): mWindow(window),mEGLCore(new EGLCore()),
                                                    mAssetManager(nullptr),mTextureId(0),mTextureLoc(0),
                                                    mMatrixLoc(0){
@@ -114,13 +94,13 @@ void VideoFilter::setFilter(int type) {
     setFilter(filter);
 }
 
-int VideoFilter::create(int textureId) {
+int VideoFilter::create(int textureId,EGLContext eglContext) {
     glDisable(GL_DITHER);
     glClearColor(0,0,0,0);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
 
-    if (!mEGLCore->buildVideoContext(mWindow,eglGetCurrentContext())){
+    if (!mEGLCore->buildVideoContext(mWindow,eglContext)){
         return -1;
     }
 
@@ -132,7 +112,7 @@ int VideoFilter::create(int textureId) {
     //滤镜初始化
     if (filter!= nullptr)
         filter->init();
-    mTextureId = textureId;
+    mTextureId = static_cast<GLuint>(textureId);
     ALOGD("get textureId success");
 
     return mTextureId;
@@ -144,19 +124,28 @@ void VideoFilter::change(int width, int height) {
     mWidth = width;
     mHeight = height;
 
-    if (filter != nullptr){
-        //初始化滤镜的大小
-        filter->onInputSizeChanged(width,height);
+    if (cameraInputFilter!= nullptr){
+        if (cameraInputFilter!= nullptr){
+            //触发输入大小更新
+            cameraInputFilter->onInputSizeChanged(width, height);
+            //初始化帧缓冲
+            cameraInputFilter->initCameraFrameBuffer(width,height);
+        }
+        if (filter != nullptr){
+            //初始化滤镜的大小
+            filter->onInputSizeChanged(width,height);
+        } else{
+            cameraInputFilter->destroyCameraFrameBuffers();
+        }
     }
 }
 
 
-void VideoFilter::draw(GLfloat *matrix) {
+void VideoFilter::draw(GLfloat *matrix,long time) {
     //清屏
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (cameraInputFilter != nullptr){
-//        cameraInputFilter->onDrawFrame(mTextureId,matrix,VERTICES,TEX_COORDS);
         //获取帧缓冲id
         GLuint id = cameraInputFilter->onDrawToTexture(mTextureId,matrix);
         if (filter != nullptr)

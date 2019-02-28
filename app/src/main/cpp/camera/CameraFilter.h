@@ -28,6 +28,7 @@ public:
     void setFilter(int type);
     void setBeautyLevel(int level);
     bool savePhoto(std::string saveFileAddress);
+    EGLContext getCurrentContext();
 
 protected:
 

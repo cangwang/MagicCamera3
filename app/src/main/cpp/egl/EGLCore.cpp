@@ -66,7 +66,7 @@ GLboolean EGLCore::buildContext(ANativeWindow *window, EGLContext context) {
     //只使用opengles3
     GLint contextAttrib[] = {EGL_CONTEXT_CLIENT_VERSION,3,EGL_NONE};
     // EGL_NO_CONTEXT表示不向其它的context共享资源
-    if(context && context!= EGL_NO_CONTEXT){
+    if(context){
         mContext = context;
     } else {
         mContext = eglCreateContext(mDisplay, config, EGL_NO_CONTEXT, contextAttrib);
@@ -184,11 +184,10 @@ GLboolean EGLCore::buildVideoContext(ANativeWindow *window, EGLContext context) 
     }
 
     // 获取eglPresentationTimeANDROID方法的地址
-//    eglPresentationTimeANDROID = (EGL_PRESENTATION_TIME_ANDROIDPROC)
-//            eglGetProcAddress("eglPresentationTimeANDROID");
-//    if (!eglPresentationTimeANDROID) {
-//        ALOGE("eglPresentationTimeANDROID is not available!");
-//    }
+    eglPresentationTimeANDROID = (EGL_PRESENTATION_TIME_ANDROIDPROC) eglGetProcAddress("eglPresentationTimeANDROID");
+    if (!eglPresentationTimeANDROID) {
+        ALOGE("eglPresentationTimeANDROID is not available!");
+    }
 
     ALOGD("buildVideoContext Succeed");
     return GL_TRUE;
@@ -202,10 +201,8 @@ void EGLCore::setPresentationTime(long nsecs) {
     eglPresentationTimeANDROID(mDisplay,mSurface,nsecs);
 }
 
-void EGLCore::makeCurrent() {
-    if (!eglMakeCurrent(mDisplay,mSurface,mSurface,mContext)){
-        ALOGE("eglMakeCurrent failed: %d",eglGetError());
-    }
+EGLContext EGLCore::getCurrent() {
+    return eglGetCurrentContext();
 }
 
 /**

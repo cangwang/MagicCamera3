@@ -10,15 +10,15 @@ import java.util.concurrent.Executors
 
 class TextureMovieEncoder{
     private var videoEncoder:VideoEncoderCoder?=null
-    private var recoredThread = Executors.newSingleThreadExecutor()
+    private var recordThread = Executors.newSingleThreadExecutor()
 
     fun startRecord(width:Int,height:Int,textureId:Int,filterType:Int){
-        recoredThread.execute {
+        recordThread.execute {
             if (width > 0 && height > 0) {
                 videoEncoder = VideoEncoderCoder(width, height, 1000000, File(getVideoFileAddress()))
                 videoEncoder?.apply {
                     OpenGLJniLib.buildVideoSurface(getInputSurface(), textureId, BaseApplication.context.assets)
-
+                    OpenGLJniLib.magicVideoFilterChange(width,height)
                     if (filterType > 0) {
                         OpenGLJniLib.setVideoFilterType(filterType)
                     }
@@ -29,7 +29,7 @@ class TextureMovieEncoder{
     }
 
     fun stopRecord(){
-        recoredThread.execute {
+        recordThread.execute {
             videoEncoder?.drainEncoder(true)
             videoEncoder?.release()
             videoEncoder = null
@@ -38,10 +38,10 @@ class TextureMovieEncoder{
     }
 
     fun drawFrame(matrix:FloatArray,time:Long){
-        recoredThread.execute {
+        recordThread.execute {
             videoEncoder?.apply {
-                OpenGLJniLib.magicVideoDraw(matrix)
                 drainEncoder(false)
+                OpenGLJniLib.magicVideoDraw(matrix,time)
             }
         }
     }
