@@ -26,26 +26,26 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * Created by zjl on 2018/10/12.
  */
-class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback{
+class CameraFilterSurfaceCallbackV3(camera: CameraCompat?) : SurfaceHolder.Callback {
     private val mExecutor = Executors.newSingleThreadExecutor()
 
-    private val TAG= CameraFilterSurfaceCallbackV3::class.java.simpleName!!
-    private var mSurfaceTexture:SurfaceTexture?=null
-    private var mSurface:Surface?=null
-    private var mCamera=camera
+    private val TAG = CameraFilterSurfaceCallbackV3::class.java.simpleName!!
+    private var mSurfaceTexture: SurfaceTexture? = null
+    private var mSurface: Surface? = null
+    private var mCamera = camera
     private val mMatrix = FloatArray(16)
     private var width = 0
     private var height = 0
     private var isTakePhoto = false
-    private var textureId:Int = -1
+    private var textureId: Int = -1
 
-    private var mMediaRecorder:MediaRecorder?=null
+    private var mMediaRecorder: MediaRecorder? = null
     private var isRecordVideo = AtomicBoolean()
-    private var previewSurface:Surface?=null
-    private var videoEncoder:VideoEncoderCoder ?=null
+    private var previewSurface: Surface? = null
+    private var videoEncoder: VideoEncoderCoder? = null
     private var recordStatus = RECORD_IDLE
-    private var filterType:Int = -1
-    private var movieEncoder:TextureMovieEncoder = TextureMovieEncoder()
+    private var filterType: Int = -1
+    private var movieEncoder: TextureMovieEncoder = TextureMovieEncoder()
 
     companion object {
         val RECORD_IDLE = 0
@@ -57,7 +57,7 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
         this.width = width
         this.height = height
-        changeOpenGL(width,height)
+        changeOpenGL(width, height)
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
@@ -73,50 +73,15 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
         }
     }
 
-    fun initOpenGL(surface: Surface){
+    fun initOpenGL(surface: Surface) {
         mExecutor.execute {
-            textureId = OpenGLJniLib.magicFilterCreate(surface,BaseApplication.context.assets)
-            if (textureId < 0){
+            textureId = OpenGLJniLib.magicFilterCreate(surface, BaseApplication.context.assets)
+            if (textureId < 0) {
                 Log.e(TAG, "surfaceCreated init OpenGL ES failed!")
                 return@execute
             }
             mSurfaceTexture = SurfaceTexture(textureId)
             mSurfaceTexture?.setOnFrameAvailableListener { drawOpenGL() }
-            try {
-                mSurfaceTexture?.let {
-                    mCamera?.setSurfaceTexture(it)
-                }
-                doStartPreview()
-            }catch (e:IOException){
-                Log.e(TAG,e.localizedMessage)
-                releaseOpenGL()
-            }
-        }
-    }
-
-    fun startRecordVideo(){
-        recordStatus = RECORD_START
-    }
-
-    fun stopRecordVideo(){
-        videoEncoder?.stop()
-    }
-
-    fun resumeRecordVideo(){
-
-    }
-
-    fun isRecording():Boolean{
-        return isRecordVideo.get()
-    }
-
-    fun releaseRecordVideo(){
-        recordStatus = RECORD_STOP
-    }
-
-    fun changeCamera(camera:CameraCompat? ){
-        mExecutor.execute {
-            mCamera = camera
             try {
                 mSurfaceTexture?.let {
                     mCamera?.setSurfaceTexture(it)
@@ -129,22 +94,42 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
         }
     }
 
-    fun changeOpenGL(width:Int,height:Int){
+    fun startRecordVideo() {
+        recordStatus = RECORD_START
+    }
+
+    fun stopRecordVideo() {
+        videoEncoder?.stop()
+    }
+
+    fun resumeRecordVideo() {
+
+    }
+
+    fun isRecording(): Boolean {
+        return isRecordVideo.get()
+    }
+
+    fun releaseRecordVideo() {
+        recordStatus = RECORD_STOP
+    }
+
+    fun changeOpenGL(width: Int, height: Int) {
         mExecutor.execute {
-            OpenGLJniLib.magicFilterChange(width,height)
+            OpenGLJniLib.magicFilterChange(width, height)
         }
     }
 
-    fun drawOpenGL(){
+    fun drawOpenGL() {
         mExecutor.execute {
-            mSurfaceTexture?.apply{
+            mSurfaceTexture?.apply {
                 updateTexImage()
 
-                if(recordStatus == RECORD_START) {
-                    movieEncoder.startRecord(width,height,textureId,filterType)
+                if (recordStatus == RECORD_START) {
+                    movieEncoder.startRecord(width, height, textureId, filterType)
                     isRecordVideo.set(true)
                     recordStatus = RECORD_RECORDING
-                }else if (recordStatus == RECORD_STOP){
+                } else if (recordStatus == RECORD_STOP) {
                     if (isRecordVideo.get()) {
                         movieEncoder.stopRecord()
                         isRecordVideo.set(false)
@@ -153,38 +138,38 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
                 }
 
                 getTransformMatrix(mMatrix)
-                if (isTakePhoto){
+                if (isTakePhoto) {
                     val photoAddress = getImageFileAddress()
-                    OpenGLJniLib.magicFilterDraw(mMatrix,photoAddress)
-                    isTakePhoto =false
-                }else {
-                    OpenGLJniLib.magicFilterDraw(mMatrix,"")
+                    OpenGLJniLib.magicFilterDraw(mMatrix, photoAddress)
+                    isTakePhoto = false
+                } else {
+                    OpenGLJniLib.magicFilterDraw(mMatrix, "")
                 }
 
-                movieEncoder.drawFrame(mMatrix,timestamp)
+                movieEncoder.drawFrame(mMatrix, timestamp)
             }
         }
     }
 
-    fun releaseOpenGL(){
+    fun releaseOpenGL() {
         mExecutor.execute {
             OpenGLJniLib.magicFilterRelease()
             mSurfaceTexture?.release()
-            mSurfaceTexture=null
-            mCamera =null
+            mSurfaceTexture = null
+            mCamera = null
         }
         movieEncoder.stopRecord()
     }
 
-    fun setFilterType(type:Int){
+    fun setFilterType(type: Int) {
         mExecutor.execute {
             filterType = type
             OpenGLJniLib.setFilterType(type)
         }
     }
 
-    fun doStartPreview(){
-        mCamera?.startPreview(object :CameraCompat.CameraStateCallBack{
+    fun doStartPreview() {
+        mCamera?.startPreview(object : CameraCompat.CameraStateCallBack {
             override fun onConfigured() {
 
             }
@@ -196,39 +181,39 @@ class CameraFilterSurfaceCallbackV3(camera:CameraCompat?):SurfaceHolder.Callback
     }
 
     @SuppressLint("CheckResult")
-    fun takePhoto(){
-        val rootAddress= getImageFileAddress()
+    fun takePhoto() {
+        val rootAddress = getImageFileAddress()
 //        mCamera?.stopPreview()
         Observable.create(ObservableOnSubscribe<Boolean> {
             it.onNext(OpenGLJniLib.savePhoto(rootAddress))
         }).subscribeOn(Schedulers.from(mExecutor))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-//                    mCamera?.startPreview()
-                    if (!it){
-                        Toast.makeText(BaseApplication.context,"save fail",Toast.LENGTH_SHORT).show()
-                    }else{
-                        Toast.makeText(BaseApplication.context,"save success",Toast.LENGTH_SHORT).show()
+                    //                    mCamera?.startPreview()
+                    if (!it) {
+                        Toast.makeText(BaseApplication.context, "save fail", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(BaseApplication.context, "save success", Toast.LENGTH_SHORT).show()
                     }
-                },{
-//                    mCamera?.startPreview()
-                    Log.e(TAG,it.toString())
+                }, {
+                    //                    mCamera?.startPreview()
+                    Log.e(TAG, it.toString())
                 })
     }
 
     fun getVideoFileAddress(): String {
-        return if(Build.BRAND == "Xiaomi"){ // 小米手机
-            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".mp4"
-        }else{  // Meizu 、Oppo
-            Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".mp4"
+        return if (Build.BRAND == "Xiaomi") { // 小米手机
+            Environment.getExternalStorageDirectory().path + "/DCIM/Camera/" + System.currentTimeMillis() + ".mp4"
+        } else {  // Meizu 、Oppo
+            Environment.getExternalStorageDirectory().path + "/DCIM/" + System.currentTimeMillis() + ".mp4"
         }
     }
 
-    fun getImageFileAddress():String{
-        return if(Build.BRAND == "Xiaomi"){ // 小米手机
-            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
-        }else{  // Meizu 、Oppo
-            Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
+    fun getImageFileAddress(): String {
+        return if (Build.BRAND == "Xiaomi") { // 小米手机
+            Environment.getExternalStorageDirectory().path + "/DCIM/Camera/" + System.currentTimeMillis() + ".png"
+        } else {  // Meizu 、Oppo
+            Environment.getExternalStorageDirectory().path + "/DCIM/" + System.currentTimeMillis() + ".png"
         }
     }
 }

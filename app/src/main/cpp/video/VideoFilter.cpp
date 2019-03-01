@@ -154,8 +154,10 @@ void VideoFilter::draw(GLfloat *matrix,long time) {
         //缓冲区交换
         glFlush();
         if(mEGLCore!= nullptr) {
-            mEGLCore->setPresentationTime(time);
+            //设置时间戳的方法暂时有问题，会导致录制一段时间后无法录制
+//            mEGLCore->setPresentationTime(time);
             mEGLCore->swapBuffer();
+            ALOGD("set video draw");
         }
     }
 }
