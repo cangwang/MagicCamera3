@@ -218,7 +218,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicVideoDraw(JNIEnv *env, jobject ob
         return;
     }
     //摄像头采集画图
-    glVideoFilter->draw(matrix,time);
+    glVideoFilter->draw(matrix, static_cast<uint64_t>(time));
     //释放矩阵数据
     env->ReleaseFloatArrayElements(matrix_,matrix,0);
 }

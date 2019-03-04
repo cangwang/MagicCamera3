@@ -141,7 +141,7 @@ void VideoFilter::change(int width, int height) {
 }
 
 
-void VideoFilter::draw(GLfloat *matrix,long long time) {
+void VideoFilter::draw(GLfloat *matrix,uint64_t time) {
     //清屏
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -156,7 +156,6 @@ void VideoFilter::draw(GLfloat *matrix,long long time) {
         if(mEGLCore!= nullptr) {
             mEGLCore->setPresentationTime(time);
             mEGLCore->swapBuffer();
-            ALOGD("set video draw");
         }
     }
 }

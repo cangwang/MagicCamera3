@@ -21,7 +21,7 @@ public:
 
     EGLContext getCurrent();
 
-    void setPresentationTime(long long nsecs);
+    void setPresentationTime(uint64_t nsecs);
 
     void swapBuffer();
 

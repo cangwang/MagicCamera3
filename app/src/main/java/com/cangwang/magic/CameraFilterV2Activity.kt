@@ -3,6 +3,7 @@ package com.cangwang.magic
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -22,8 +23,6 @@ import kotlinx.android.synthetic.main.filter_layout.*
  * Created by cangwang on 2018/9/12.
  */
 class CameraFilterV2Activity:AppCompatActivity(){
-
-    private var isRecording = false
     private val MODE_PIC = 1
     private val MODE_VIDEO = 2
     private var mode = MODE_PIC
@@ -33,6 +32,8 @@ class CameraFilterV2Activity:AppCompatActivity(){
     private var beautyLevel:Int = 0
 
     var mCamera: CameraCompat?=null
+
+    private var videoAnimator: ObjectAnimator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +47,12 @@ class CameraFilterV2Activity:AppCompatActivity(){
 
     private val types = OpenGLJniLib.getFilterTypes()
 
-    fun initView(){
+    private fun initView(){
         filter_listView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         mAdapter = FilterAdapter(this, types)
         mAdapter?.filterListener= object:FilterAdapter.onFilterChangeListener{
-            override fun onFilterChanged(type: Int) {
-                mSurfaceCallback?.setFilterType(type)
+            override fun onFilterChanged(filterType: Int) {
+                mSurfaceCallback?.setFilterType(filterType)
             }
         }
         filter_listView.adapter= mAdapter
@@ -95,13 +96,10 @@ class CameraFilterV2Activity:AppCompatActivity(){
                     .setNegativeButton("取消", null)
                     .show()
         }
-//        val screenSize =Point()
-//        windowManager.defaultDisplay.getSize(screenSize)
-//        val params = glsurfaceview_camera.layoutParams as RelativeLayout.LayoutParams
-//        params.width= screenSize.x
-//        params.height = screenSize.x* 16/9
-//        glsurfaceview_camera.layoutParams = params
 
+        videoAnimator = ObjectAnimator.ofFloat(btn_camera_shutter, "rotation", 0f, 360f)
+        videoAnimator?.duration = 500
+        videoAnimator?.repeatCount = ValueAnimator.INFINITE
     }
 
     override fun onResume() {
@@ -125,15 +123,17 @@ class CameraFilterV2Activity:AppCompatActivity(){
         super.onDestroy()
     }
 
-    fun takePhoto(){
+    private fun takePhoto(){
         mSurfaceCallback?.takePhoto()
     }
 
-    fun takeVideo(){
+    private fun takeVideo(){
         if(mSurfaceCallback?.isRecording() == true) {
             mSurfaceCallback?.releaseRecordVideo()
+            videoAnimator?.end()
         }else{
             mSurfaceCallback?.startRecordVideo()
+            videoAnimator?.start()
         }
     }
 

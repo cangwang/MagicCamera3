@@ -21,7 +21,7 @@ public:
     ~VideoFilter();
     void setFilter(GPUImageFilter* gpuImageFilter);
     int create(int textureId,EGLContext eglContext);
-    void draw(GLfloat *matrix,long long time);
+    void draw(GLfloat *matrix,uint64_t time);
     void change(int width,int height);
     void stop();
     void setFilter(AAssetManager* assetManager);

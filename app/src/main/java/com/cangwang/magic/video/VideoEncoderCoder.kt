@@ -77,7 +77,7 @@ class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, outFile: File) {
         var encoderOutputBuffers = mEncoder.outputBuffers
         while (true) {
             val encoderStatus = mEncoder.dequeueOutputBuffer(mBufferInfo, TIMEOUT_USEC)
-            Log.d(TAG, "drainEncoder($endOfStream),endcoderStatus($encoderStatus) ,eglCurrentContext(${EGL14.eglGetCurrentContext()})")
+            Log.d(TAG, "drainEncoder($endOfStream),endcoderStatus($encoderStatus)")
             if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
                 // no output available yet
                 if (!endOfStream) {

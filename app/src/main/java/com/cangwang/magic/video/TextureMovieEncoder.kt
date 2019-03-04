@@ -24,7 +24,7 @@ class TextureMovieEncoder{
     fun startRecord(width:Int,height:Int,textureId:Int,filterType:Int){
         recordThread.execute {
             if (width > 0 && height > 0) {
-                videoEncoder = VideoEncoderCoder(width, height, 1000000, File(getVideoFileAddress()))
+                videoEncoder = VideoEncoderCoder(width, height, width*height*2, File(getVideoFileAddress()))
                 videoEncoder?.apply {
                     OpenGLJniLib.buildVideoSurface(getInputSurface(), textureId, BaseApplication.context.assets)
                     OpenGLJniLib.magicVideoFilterChange(width,height)
