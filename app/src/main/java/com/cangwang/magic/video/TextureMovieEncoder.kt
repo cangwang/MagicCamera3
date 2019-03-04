@@ -79,7 +79,7 @@ class TextureMovieEncoder{
 
     private fun getAudioFileAddress(time:Long): String {
         return if(Build.BRAND == "Xiaomi"){ // 小米手机
-            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+time+".pcm"
+            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+time+".aac"
         }else{  // Meizu 、Oppo
             Environment.getExternalStorageDirectory().path +"/DCIM/"+time+".pcm"
         }

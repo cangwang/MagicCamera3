@@ -5,11 +5,11 @@ import android.media.MediaCodec
 import android.media.MediaCodecInfo
 import android.media.MediaFormat
 import android.media.MediaMuxer
-import android.opengl.EGL14
 import android.util.Log
 import android.view.Surface
 import java.io.File
 import java.lang.RuntimeException
+import java.nio.ByteBuffer
 
 class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, outFile: File) {
     companion object {
@@ -25,6 +25,7 @@ class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, outFile: File) {
     private var mBufferInfo:MediaCodec.BufferInfo = MediaCodec.BufferInfo()
     private var mTrackIndex = -1
     private var mMuxerStarted = false
+    var encoderOutputBuffers:Array<ByteBuffer>?=null
 
     init {
         val format = MediaFormat.createVideoFormat(MINE_TYPE,width,height)
@@ -70,7 +71,6 @@ class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, outFile: File) {
             mEncoder.signalEndOfInputStream()
         }
 
-        var encoderOutputBuffers = mEncoder.outputBuffers
         while (true) {
             val encoderStatus = mEncoder.dequeueOutputBuffer(mBufferInfo, TIMEOUT_USEC)
             Log.d(TAG, "drainEncoder($endOfStream),endcoderStatus($encoderStatus)")
@@ -100,40 +100,41 @@ class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, outFile: File) {
                 Log.w(TAG, "unexpected result from encoder.dequeueOutputBuffer: $encoderStatus")
                 // let's ignore it
             } else {
-                val encodedData = encoderOutputBuffers[encoderStatus]
-                        ?: throw RuntimeException("encoderOutputBuffer " + encoderStatus +
-                                " was null")
+                encoderOutputBuffers = mEncoder.outputBuffers
+                if (encoderOutputBuffers != null) {
+                    val encodedData = encoderOutputBuffers!![encoderStatus]
 
-                if (mBufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
-                    // The codec config data was pulled out and fed to the muxer when we got
-                    // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
-                    Log.d(TAG, "ignoring BUFFER_FLAG_CODEC_CONFIG")
-                    mBufferInfo.size = 0
-                }
-
-                if (mBufferInfo.size != 0) {
-                    if (!mMuxerStarted) {
-                        throw RuntimeException("muxer hasn't started")
+                    if (mBufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
+                        // The codec config data was pulled out and fed to the muxer when we got
+                        // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
+                        Log.d(TAG, "ignoring BUFFER_FLAG_CODEC_CONFIG")
+                        mBufferInfo.size = 0
                     }
 
-                    // adjust the ByteBuffer values to match BufferInfo (not needed?)
-                    encodedData.position(mBufferInfo.offset)
-                    encodedData.limit(mBufferInfo.offset + mBufferInfo.size)
+                    if (mBufferInfo.size != 0) {
+                        if (!mMuxerStarted) {
+                            throw RuntimeException("muxer hasn't started")
+                        }
 
-                    mMuxer.writeSampleData(mTrackIndex, encodedData, mBufferInfo)
-                    Log.d(TAG, "sent " + mBufferInfo.size + " bytes to muxer, ts=" +
+                        // adjust the ByteBuffer values to match BufferInfo (not needed?)
+                        encodedData.position(mBufferInfo.offset)
+                        encodedData.limit(mBufferInfo.offset + mBufferInfo.size)
+
+                        mMuxer.writeSampleData(mTrackIndex, encodedData, mBufferInfo)
+                        Log.d(TAG, "sent " + mBufferInfo.size + " bytes to muxer, ts=" +
                                 mBufferInfo.presentationTimeUs)
-                }
-
-                mEncoder.releaseOutputBuffer(encoderStatus, false)
-
-                if (mBufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
-                    if (!endOfStream) {
-                        Log.w(TAG, "reached end of stream unexpectedly")
-                    } else {
-                        Log.d(TAG, "end of stream reached")
                     }
-                    break      // out of while
+
+                    mEncoder.releaseOutputBuffer(encoderStatus, false)
+
+                    if (mBufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
+                        if (!endOfStream) {
+                            Log.w(TAG, "reached end of stream unexpectedly")
+                        } else {
+                            Log.d(TAG, "end of stream reached")
+                        }
+                        break      // out of while
+                    }
                 }
             }
         }

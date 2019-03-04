@@ -4,21 +4,20 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.util.Log
-import java.io.FileOutputStream
 
 
 class AudioRecordCoder{
     val TAG = AudioRecordCoder::class.java.simpleName
     var SAMPLE_RATE = 44100
-    val CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO
+    val CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_STEREO
     val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
 
     var audioRecorder:AudioRecord?=null
     var recordThread:Thread?=null
     var bufferSizeInBytes = 0
     var isRecoding = false
+    var audioEncoder:AudioEncoderCoder?=null
 
-    private var outputStream:FileOutputStream?=null
     private var outputFilePath:String?=null
 
     init {
@@ -60,10 +59,12 @@ class AudioRecordCoder{
                     startRecording()
                 }
             }
+            audioEncoder = AudioEncoderCoder(filePath)
             isRecoding = true
             outputFilePath = filePath
             recordThread = Thread(RecordThread(), "AudioRecordThread")
             recordThread?.start()
+            audioEncoder?.start()
             Log.d(TAG,"audio $filePath ,start record")
         }
     }
@@ -71,9 +72,10 @@ class AudioRecordCoder{
     fun stop(){
         if(audioRecorder?.state == AudioRecord.STATE_INITIALIZED) {
             audioRecorder?.run {
+                isRecoding = false
+                audioEncoder?.release()
                 recordThread?.join()
                 releaseAudioRecord()
-                isRecoding = false
             }
         }
     }
@@ -94,15 +96,12 @@ class AudioRecordCoder{
 
     inner class RecordThread:Runnable{
         override fun run() {
-            outputStream = FileOutputStream(outputFilePath)
             val audioSamples = ByteArray(bufferSizeInBytes)
-            outputStream.use {
                 while (isRecoding){
                     val audioSampleSize = getAudioRecordBuffer(bufferSizeInBytes,audioSamples)
                     if (audioSampleSize != 0){
-                        outputStream?.write(audioSamples)
+                        audioEncoder?.encodePCMToAAC(audioSamples)
                     }
-                }
             }
         }
     }
