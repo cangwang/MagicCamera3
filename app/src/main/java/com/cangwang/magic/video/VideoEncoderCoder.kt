@@ -49,10 +49,6 @@ class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, outFile: File) {
         mEncoder.stop()
     }
 
-    fun resume(){
-
-    }
-
     fun getInputSurface():Surface{
         return mInputSurface
     }

@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val CAMERA_REQ = 1
         const val CAMERA_FILTER = 2
+        const val ALBUM_REQ =3
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,24 +33,19 @@ class MainActivity : AppCompatActivity() {
         }
         button_filter.setOnClickListener {
             if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
-                    PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE), CAMERA_FILTER)
+                    PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
+                    PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO), CAMERA_FILTER)
             } else {
                 startActivity(CAMERA_FILTER)
             }
         }
         button_album.setOnClickListener {
-            PickPhotoView.Builder(this@MainActivity)
-                    .setPickPhotoSize(1)
-                    .setClickSelectable(true)             // click one image immediately close and return image
-                    .setShowCamera(true)
-                    .setHasPhotoSize(7)
-                    .setAllPhotoSize(10)
-                    .setSpanCount(3)
-                    .setLightStatusBar(false)
-                    .setShowGif(false)                    // is show gif
-                    .setShowVideo(false)
-                    .start()
+            if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA), ALBUM_REQ)
+            } else {
+                startActivity(ALBUM_REQ)
+            }
         }
     }
 
@@ -57,8 +53,12 @@ class MainActivity : AppCompatActivity() {
                                             grantResults: IntArray) {
         if (requestCode == CAMERA_REQ && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             startActivity(CAMERA_REQ)
-        }else if (requestCode == CAMERA_FILTER && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+        }else if (requestCode == CAMERA_FILTER && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                && grantResults[1] == PackageManager.PERMISSION_GRANTED
+                && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
             startActivity(CAMERA_FILTER)
+        }else if (requestCode == ALBUM_REQ && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startActivity(ALBUM_REQ)
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
@@ -68,6 +68,19 @@ class MainActivity : AppCompatActivity() {
         when (id) {
             CAMERA_REQ -> startActivity(Intent(this, CameraActivity::class.java))
             CAMERA_FILTER -> startActivity(Intent(this,CameraFilterV2Activity::class.java))
+            ALBUM_REQ ->{
+                PickPhotoView.Builder(this@MainActivity)
+                        .setPickPhotoSize(1)
+                        .setClickSelectable(true)             // click one image immediately close and return image
+                        .setShowCamera(true)
+                        .setHasPhotoSize(7)
+                        .setAllPhotoSize(10)
+                        .setSpanCount(3)
+                        .setLightStatusBar(false)
+                        .setShowGif(false)                    // is show gif
+                        .setShowVideo(false)
+                        .start()
+            }
             else -> {
             }
         }

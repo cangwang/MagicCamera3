@@ -16,16 +16,18 @@ class TextureMovieEncoder{
     private var videoEncoder:VideoEncoderCoder?=null
     private var recordThread = Executors.newSingleThreadExecutor()
     private var isReady = AtomicBoolean()
+    private var audioEncoder:AudioRecordCoder?=null
 
     init {
         isReady.set(false)
     }
 
     fun startRecord(width:Int,height:Int,textureId:Int,filterType:Int){
+        val time = System.currentTimeMillis()
         recordThread.execute {
             if (width > 0 && height > 0) {
                 //码率为4*高*宽，使用滤镜，太低码率无法记录足够的细节
-                videoEncoder = VideoEncoderCoder(width, height, width*height*4, File(getVideoFileAddress()))
+                videoEncoder = VideoEncoderCoder(width, height, width*height*4, File(getVideoFileAddress(time)))
                 videoEncoder?.apply {
                     OpenGLJniLib.buildVideoSurface(getInputSurface(), textureId, BaseApplication.context.assets)
                     OpenGLJniLib.magicVideoFilterChange(width,height)
@@ -37,6 +39,8 @@ class TextureMovieEncoder{
                 }
             }
         }
+        audioEncoder = AudioRecordCoder()
+        audioEncoder?.start(getAudioFileAddress(time))
     }
 
     fun stopRecord(){
@@ -47,6 +51,7 @@ class TextureMovieEncoder{
             OpenGLJniLib.releaseVideoSurface()
             isReady.set(false)
         }
+        audioEncoder?.stop()
     }
 
     fun drawFrame(matrix:FloatArray,time:Long){
@@ -64,11 +69,19 @@ class TextureMovieEncoder{
         }
     }
 
-    private fun getVideoFileAddress(): String {
+    private fun getVideoFileAddress(time:Long): String {
         return if(Build.BRAND == "Xiaomi"){ // 小米手机
-            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".mp4"
+            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+time+".mp4"
         }else{  // Meizu 、Oppo
-            Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".mp4"
+            Environment.getExternalStorageDirectory().path +"/DCIM/"+time+".mp4"
+        }
+    }
+
+    private fun getAudioFileAddress(time:Long): String {
+        return if(Build.BRAND == "Xiaomi"){ // 小米手机
+            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+time+".pcm"
+        }else{  // Meizu 、Oppo
+            Environment.getExternalStorageDirectory().path +"/DCIM/"+time+".pcm"
         }
     }
 }
