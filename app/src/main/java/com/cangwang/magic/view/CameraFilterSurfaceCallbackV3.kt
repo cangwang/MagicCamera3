@@ -44,7 +44,7 @@ class CameraFilterSurfaceCallbackV3(camera: CameraCompat?) : SurfaceHolder.Callb
     private var previewSurface: Surface? = null
     private var videoEncoder: VideoEncoderCoder? = null
     private var recordStatus = RECORD_IDLE
-    private var filterType: Int = -1
+    private var filterType: Int = 0
     private var movieEncoder: TextureMovieEncoder = TextureMovieEncoder()
 
     companion object {
@@ -91,6 +91,7 @@ class CameraFilterSurfaceCallbackV3(camera: CameraCompat?) : SurfaceHolder.Callb
                 Log.e(TAG, e.localizedMessage)
                 releaseOpenGL()
             }
+            OpenGLJniLib.setFilterType(filterType)
         }
     }
 

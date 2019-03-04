@@ -19,17 +19,30 @@
             android:orientation="horizontal"
             android:background="@android:color/transparent">
             <ImageView
+                android:id="@+id/btn_camera_mode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btn_camera_mode"
                 android:src="@drawable/icon_video"/>
             <ImageView
+                android:id="@+id/btn_camera_switch"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
-                android:id="@+id/btn_camera_switch"
                 android:layout_height="wrap_content"
                 android:src="@drawable/selector_rewardcamera"/>
         </LinearLayout>
+        <SeekBar
+            android:id="@+id/video_record_seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressDrawable="@drawable/video_record_seekbar_transparent"
+            android:thumb="@drawable/video_record_seekbar_thumb_transparent"
+            android:minHeight="5dp"
+            android:maxHeight="5dp"
+            android:max="15"
+            android:splitTrack="false"
+            android:layout_gravity="top"
+            android:visibility="gone"
+            />
     </RelativeLayout>
     <FrameLayout
         android:layout_width="match_parent"
@@ -51,18 +64,18 @@
                 android:scaleType="center">
             </ImageView>
             <ImageView
+                android:id="@+id/btn_camera_shutter"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.0"
-                android:id="@+id/btn_camera_shutter"
                 android:src="@drawable/btn_camera_shutter">
             </ImageView>
             <ImageView
+                android:id="@+id/btn_camera_filter"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.0"
                 android:scaleType="center"
-                android:id="@+id/btn_camera_filter"
                 android:src="@drawable/btn_camera_filter">
             </ImageView>
         </LinearLayout>

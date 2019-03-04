@@ -6,18 +6,25 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.content.pm.ActivityInfo
+import android.graphics.Point
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import com.cangwang.magic.adapter.FilterAdapter
 import com.cangwang.magic.camera.CameraCompat
 import com.cangwang.magic.util.OpenGLJniLib
 import com.cangwang.magic.view.CameraFilterSurfaceCallbackV3
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.filter_layout.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by cangwang on 2018/9/12.
@@ -26,6 +33,10 @@ class CameraFilterV2Activity:AppCompatActivity(){
     private val MODE_PIC = 1
     private val MODE_VIDEO = 2
     private var mode = MODE_PIC
+    /**
+     * 视频最长的时长是15秒
+     */
+    private val VIDEO_MAX_TIME = 15
 
     private var mAdapter: FilterAdapter? = null
     private var mSurfaceCallback:CameraFilterSurfaceCallbackV3?=null
@@ -34,6 +45,10 @@ class CameraFilterV2Activity:AppCompatActivity(){
     var mCamera: CameraCompat?=null
 
     private var videoAnimator: ObjectAnimator? = null
+    /**
+     * 录像倒计时终止器
+     */
+    private var mDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,6 +130,9 @@ class CameraFilterV2Activity:AppCompatActivity(){
     }
 
     override fun onPause() {
+        if(mSurfaceCallback?.isRecording() == true) {
+            releaseVideoRecord()
+        }
         mCamera?.stopPreview(false)
         super.onPause()
     }
@@ -129,11 +147,9 @@ class CameraFilterV2Activity:AppCompatActivity(){
 
     private fun takeVideo(){
         if(mSurfaceCallback?.isRecording() == true) {
-            mSurfaceCallback?.releaseRecordVideo()
-            videoAnimator?.end()
+            releaseVideoRecord()
         }else{
-            mSurfaceCallback?.startRecordVideo()
-            videoAnimator?.start()
+            startVideoRecord()
         }
     }
 
@@ -170,10 +186,78 @@ class CameraFilterV2Activity:AppCompatActivity(){
     }
 
     override fun onBackPressed() {
-        if(layout_filter.visibility ==View.VISIBLE){
+        if(layout_filter.visibility == View.VISIBLE){
             hideFilters()
         }else {
             super.onBackPressed()
         }
+    }
+
+    private fun startVideoRecord(){
+        mSurfaceCallback?.startRecordVideo()
+        videoAnimator?.start()
+        showVideoRecord()
+    }
+
+    private fun releaseVideoRecord(){
+        mSurfaceCallback?.releaseRecordVideo()
+        videoAnimator?.end()
+        hideVideoRecord()
+    }
+
+    private fun showVideoRecord(){
+        video_record_seek_bar.visibility = View.VISIBLE
+        btn_camera_mode.visibility = View.GONE
+        btn_camera_switch.visibility = View.GONE
+        btn_camera_beauty.visibility = View.GONE
+        btn_camera_filter.visibility = View.GONE
+        cutPadding()
+        recordCountDown()
+    }
+
+    private fun hideVideoRecord(){
+        video_record_seek_bar.visibility = View.GONE
+        btn_camera_mode.visibility = View.VISIBLE
+        btn_camera_switch.visibility = View.VISIBLE
+        btn_camera_beauty.visibility = View.VISIBLE
+        btn_camera_filter.visibility = View.VISIBLE
+        stopRecordCountTime()
+    }
+
+    /**
+     * 重新设置录像的进度条样式
+     */
+    private fun cutPadding() {
+        val point = Point()
+        windowManager.defaultDisplay.getSize(point)
+        val width = point.x
+        val padding = video_record_seek_bar.paddingLeft
+        val layoutParams = video_record_seek_bar.layoutParams as RelativeLayout.LayoutParams
+        layoutParams.width = width + padding
+        video_record_seek_bar.layoutParams = layoutParams
+        video_record_seek_bar.setPadding(0, 0, 0, 0)
+    }
+
+    private fun recordCountDown(){
+        val count = 15
+        mDisposable = Observable.interval(1, 1, TimeUnit.SECONDS)
+                .take((count + 1).toLong())
+                .map { t ->
+                    count-t
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { aLong ->
+                    val time = 16 - aLong!!
+
+                    video_record_seek_bar.progress = time.toInt()
+                    if (time == VIDEO_MAX_TIME.toLong()) {
+                        releaseVideoRecord()
+                    }
+                }
+    }
+
+    private fun stopRecordCountTime(){
+        mDisposable?.dispose()
+        mDisposable = null
     }
 }

@@ -24,11 +24,12 @@ class TextureMovieEncoder{
     fun startRecord(width:Int,height:Int,textureId:Int,filterType:Int){
         recordThread.execute {
             if (width > 0 && height > 0) {
-                videoEncoder = VideoEncoderCoder(width, height, width*height*2, File(getVideoFileAddress()))
+                //码率为4*高*宽，使用滤镜，太低码率无法记录足够的细节
+                videoEncoder = VideoEncoderCoder(width, height, width*height*4, File(getVideoFileAddress()))
                 videoEncoder?.apply {
                     OpenGLJniLib.buildVideoSurface(getInputSurface(), textureId, BaseApplication.context.assets)
                     OpenGLJniLib.magicVideoFilterChange(width,height)
-                    if (filterType > 0) {
+                    if (filterType >= 0) {
                         OpenGLJniLib.setVideoFilterType(filterType)
                     }
                     start()
