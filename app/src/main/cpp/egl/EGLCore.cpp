@@ -197,7 +197,7 @@ GLboolean EGLCore::buildVideoContext(ANativeWindow *window, EGLContext context) 
  * 设置显示时间戳pts
  * @param nsecs
  */
-void EGLCore::setPresentationTime(long nsecs) {
+void EGLCore::setPresentationTime(long long nsecs) {
     eglPresentationTimeANDROID(mDisplay,mSurface,nsecs);
 }
 

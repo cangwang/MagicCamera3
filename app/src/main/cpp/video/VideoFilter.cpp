@@ -141,7 +141,7 @@ void VideoFilter::change(int width, int height) {
 }
 
 
-void VideoFilter::draw(GLfloat *matrix,long time) {
+void VideoFilter::draw(GLfloat *matrix,long long time) {
     //清屏
     glClearColor(0,0,0,0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -154,8 +154,7 @@ void VideoFilter::draw(GLfloat *matrix,long time) {
         //缓冲区交换
         glFlush();
         if(mEGLCore!= nullptr) {
-            //设置时间戳的方法暂时有问题，会导致录制一段时间后无法录制
-//            mEGLCore->setPresentationTime(time);
+            mEGLCore->setPresentationTime(time);
             mEGLCore->swapBuffer();
             ALOGD("set video draw");
         }

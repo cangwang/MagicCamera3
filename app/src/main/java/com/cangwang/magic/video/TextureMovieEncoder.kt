@@ -15,7 +15,7 @@ class TextureMovieEncoder{
     private val TAG = "TextureMovieEncoder"
     private var videoEncoder:VideoEncoderCoder?=null
     private var recordThread = Executors.newSingleThreadExecutor()
-    private var  isReady = AtomicBoolean()
+    private var isReady = AtomicBoolean()
 
     init {
         isReady.set(false)
