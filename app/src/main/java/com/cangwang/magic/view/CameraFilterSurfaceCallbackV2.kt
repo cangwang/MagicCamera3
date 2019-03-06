@@ -13,7 +13,7 @@ import android.widget.Toast
 import com.cangwang.magic.BaseApplication
 import com.cangwang.magic.camera.CameraCompat
 import com.cangwang.magic.util.OpenGLJniLib
-import com.cangwang.magic.video.VideoEncoderCoder
+import com.cangwang.magic.video.VideoEncoderCoderMP4
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -42,7 +42,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
     private var mMediaRecorder:MediaRecorder?=null
     private var isRecordVideo = AtomicBoolean()
     private var previewSurface:Surface?=null
-    private var videoEncoder:VideoEncoderCoder ?=null
+    private var videoEncoder:VideoEncoderCoderMP4 ?=null
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
         this.width = width
@@ -91,7 +91,7 @@ class CameraFilterSurfaceCallbackV2(camera:CameraCompat?):SurfaceHolder.Callback
         }
 
         if (mSurface!=null && width>0 && height>0)
-            videoEncoder = VideoEncoderCoder(width,height,1000000, File(getVideoFileAddress()))
+            videoEncoder = VideoEncoderCoderMP4(width,height,1000000, File(getVideoFileAddress()))
 
         videoEncoder?.start()
         isRecordVideo.set(true)

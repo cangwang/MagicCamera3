@@ -4,13 +4,12 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.util.Log
-import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Created by cangwang on 2019.3.6
- * 录制完整mp4短视频音轨
+ * 单独AAC音频录制
  */
-class AudioRecordCoder{
+class AudioRecordCoderAAC{
     val TAG = AudioRecordCoder::class.java.simpleName
     var SAMPLE_RATE = 44100
     val CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_STEREO
@@ -19,10 +18,10 @@ class AudioRecordCoder{
     var audioRecorder:AudioRecord?=null
     var recordThread:Thread?=null
     var bufferSizeInBytes = 0
-    var isRecoding = AtomicBoolean(false)
-    var audioEncoder:AudioEncoderCoder?=null
+    var isRecoding = false
+    var audioEncoder:AudioEncoderCoderAAC?=null
 
-    private var muxerCoder:MediaMuxerCoder?=null
+    private var outputFilePath:String?=null
 
     init {
         bufferSizeInBytes = AudioRecord.getMinBufferSize(SAMPLE_RATE,CHANNEL,AUDIO_FORMAT)
@@ -39,12 +38,23 @@ class AudioRecordCoder{
         if (audioRecorder!!.state !=AudioRecord.STATE_INITIALIZED){
             Log.e(TAG,"audio record not init")
         }
-
     }
 
-    fun start(muxer: MediaMuxerCoder?){
+    fun initMeta(){
+        audioRecorder?.release()
+
+        bufferSizeInBytes = AudioRecord.getMinBufferSize(SAMPLE_RATE,CHANNEL,AUDIO_FORMAT)
+        audioRecorder = AudioRecord(MediaRecorder.AudioSource.MIC,SAMPLE_RATE,CHANNEL,AUDIO_FORMAT,bufferSizeInBytes)
+
+        if (audioRecorder == null || audioRecorder!!.state !=AudioRecord.STATE_INITIALIZED){
+            SAMPLE_RATE = 16000
+            bufferSizeInBytes = AudioRecord.getMinBufferSize(SAMPLE_RATE,CHANNEL,AUDIO_FORMAT)
+            audioRecorder = AudioRecord(MediaRecorder.AudioSource.MIC,SAMPLE_RATE,CHANNEL,AUDIO_FORMAT,bufferSizeInBytes)
+        }
+    }
+
+    fun start(filePath:String){
         if(audioRecorder?.state == AudioRecord.STATE_INITIALIZED) {
-            muxerCoder = muxer
             audioRecorder?.run {
                 if (state != AudioRecord.STATE_INITIALIZED) {
                     null
@@ -52,22 +62,22 @@ class AudioRecordCoder{
                     startRecording()
                 }
             }
-            isRecoding.set(true)
-            audioEncoder = AudioEncoderCoder(muxerCoder)
+            audioEncoder = AudioEncoderCoderAAC(filePath)
+            isRecoding = true
+            outputFilePath = filePath
             recordThread = Thread(RecordThread(), "AudioRecordThread")
             recordThread?.start()
             audioEncoder?.start()
+            Log.d(TAG,"audio $filePath ,start record")
         }
     }
 
     fun stop(){
         if(audioRecorder?.state == AudioRecord.STATE_INITIALIZED) {
             audioRecorder?.run {
-                Log.d(TAG,"stop audio")
-                isRecoding.set(false)
-                recordThread?.join()
-                Log.d(TAG,"release")
+                isRecoding = false
                 audioEncoder?.release()
+                recordThread?.join()
                 releaseAudioRecord()
             }
         }
@@ -90,11 +100,11 @@ class AudioRecordCoder{
     inner class RecordThread:Runnable{
         override fun run() {
             val audioSamples = ByteArray(bufferSizeInBytes)
-                while (isRecoding.get()){ //循环采集音轨
-                    val audioSampleSize = getAudioRecordBuffer(bufferSizeInBytes,audioSamples)
-                    if (audioSampleSize != 0){
-                        audioEncoder?.encodePCMToAAC(audioSamples)
-                    }
+            while (isRecoding){
+                val audioSampleSize = getAudioRecordBuffer(bufferSizeInBytes,audioSamples)
+                if (audioSampleSize != 0){
+                    audioEncoder?.encodePCMToAAC(audioSamples)
+                }
             }
         }
     }

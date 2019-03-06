@@ -5,16 +5,19 @@ import android.media.MediaCodecInfo
 import android.media.MediaFormat
 import android.util.Log
 import java.io.FileNotFoundException
-import java.io.FileOutputStream
 import java.io.IOException
+import java.nio.ByteBuffer
 
-class AudioEncoderCoder(address:String){
+/**
+ * Created by cangwang on 2019.3.6
+ * 录制完整mp4短视频音轨
+ */
+class AudioEncoderCoder(muxer:MediaMuxerCoder?){
     private val TAG = AudioEncoderCoder::class.java.simpleName
     private var audioEncoder:MediaCodec?=null
     private val SAMPLE_RATE = 44100
     private val mBufferInfo = MediaCodec.BufferInfo()
-    private var address: String
-    private var mFileStream:FileOutputStream?=null
+    private var mMuxer:MediaMuxerCoder?=null
 
     init {
         audioEncoder = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_AUDIO_AAC)
@@ -23,8 +26,7 @@ class AudioEncoderCoder(address:String){
         format.setInteger(MediaFormat.KEY_MAX_INPUT_SIZE, DEFAULT_BUFFER_SIZE)
         format.setInteger(MediaFormat.KEY_AAC_PROFILE,MediaCodecInfo.CodecProfileLevel.AACObjectLC)
         audioEncoder?.configure(format,null,null,MediaCodec.CONFIGURE_FLAG_ENCODE)
-        this.address = address
-        mFileStream = FileOutputStream(address)
+        mMuxer=muxer
     }
 
     fun start(){
@@ -32,20 +34,21 @@ class AudioEncoderCoder(address:String){
     }
 
     fun release(){
-        if (mFileStream !=null){
-            try {
-                mFileStream?.flush()
-                mFileStream?.close()
-            }catch (e:IOException){
-                Log.e(TAG,e.toString())
-            }
-        }
         audioEncoder?.stop()
         audioEncoder?.release()
-        audioEncoder =null
+        audioEncoder = null
     }
 
+    var prevPresentationTimes = mBufferInfo.presentationTimeUs
+    private fun getPTSUs(): Long {
+        var result = System.nanoTime() / 1000
+        if (result < prevPresentationTimes) {
+            result += prevPresentationTimes - result
+        }
+        return result
+    }
 
+    var encoderOutputBuffers:Array<ByteBuffer>?=null
     fun encodePCMToAAC(bytes:ByteArray){
         try {
             audioEncoder?.apply {
@@ -54,20 +57,74 @@ class AudioEncoderCoder(address:String){
                     val inputBuffer = getInputBuffer(inputBufferIndex)
                     inputBuffer.clear()
                     inputBuffer.put(bytes)
-                    audioEncoder?.queueInputBuffer(inputBufferIndex,0,bytes.size,System.nanoTime(),0)
+                    audioEncoder?.queueInputBuffer(inputBufferIndex,0,bytes.size,getPTSUs(),0)
                 }
 
-                var outputBufferIndex = dequeueOutputBuffer(mBufferInfo,0)
-                while (outputBufferIndex>0){
-                    val outputBuffer = getOutputBuffer(outputBufferIndex)
-                    val outputBufferSize = outputBuffer.limit() + 7 // ADTS头部是7个字节
-                    val aacBytes = ByteArray(outputBufferSize)
-                    addADTStoPacket(aacBytes,outputBufferSize)
-                    outputBuffer.get(aacBytes,7,outputBuffer.limit())
-                    mFileStream?.write(aacBytes)
+                while (true) {
+                    val encoderStatus = dequeueOutputBuffer(mBufferInfo, 0)
 
-                    releaseOutputBuffer(outputBufferIndex,false)
-                    outputBufferIndex = dequeueOutputBuffer(mBufferInfo,0)
+                    if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
+                        Log.d(TAG, "no output available, spinning to await EOS")
+                        break
+                    } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
+                        // not expected for an encoder
+                        encoderOutputBuffers = outputBuffers
+                    } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+                        //一定要在这个节点上获取fomart设置到混合器的音轨上
+                        // should happen before receiving buffers, and should only happen once
+                        if (mMuxer?.hasAudioTrack() == true) {
+                            Log.d(TAG,"audio format changed twice")
+                            break
+                        }
+                        val newFormat = outputFormat
+                        Log.d(TAG, "encoder output format changed: $newFormat")
+
+                        // now that we have the Magic Goodies, start the muxer
+                        val track = mMuxer?.setAudioTrack(newFormat)
+                        Log.d(TAG, "audiotrack: $track")
+                        mMuxer?.start()
+                    } else if (encoderStatus < 0) {
+                        Log.w(TAG, "unexpected result from encoder.dequeueOutputBuffer: $encoderStatus")
+                        // let's ignore it
+                    } else {
+                        encoderOutputBuffers = outputBuffers
+                        if (encoderOutputBuffers != null) {
+                            val encodedData = encoderOutputBuffers!![encoderStatus]
+
+                            if (mBufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
+                                // The codec config data was pulled out and fed to the muxer when we got
+                                // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
+                                Log.d(TAG, "ignoring BUFFER_FLAG_CODEC_CONFIG")
+                                mBufferInfo.size = 0
+                            }
+
+                            if (mBufferInfo.size != 0) {
+                                if (mMuxer?.isRecording() == false) {
+                                    Log.d(TAG,"muxer hasn't started")
+                                    //释放采集的音轨数据
+                                    releaseOutputBuffer(encoderStatus, false)
+                                    break
+//                                    throw RuntimeException("muxer hasn't started")
+                                }
+
+                                val outputBufferSize = encodedData.limit() + 7 // ADTS头部是7个字节
+                                val aacBytes = ByteArray(outputBufferSize)
+                                addADTStoPacket(aacBytes,outputBufferSize)
+                                encodedData.get(aacBytes,7,encodedData.limit())
+                                mBufferInfo.presentationTimeUs = getPTSUs()
+                                mMuxer?.writeAudioData(encodedData,mBufferInfo)
+
+//                                Log.d(TAG, "sent " + mBufferInfo.size + " bytes to muxer, ts=" + mBufferInfo.presentationTimeUs)
+                            }
+                            //释放采集的音轨数据
+                            releaseOutputBuffer(encoderStatus, false)
+
+                            if (mBufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
+                                Log.d(TAG, "end of stream reached")
+                                break      // out of while
+                            }
+                        }
+                    }
                 }
             }
         }catch (e:FileNotFoundException){

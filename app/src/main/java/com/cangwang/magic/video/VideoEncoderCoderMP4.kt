@@ -3,15 +3,18 @@ package com.cangwang.magic.video
 import android.media.MediaCodec
 import android.media.MediaCodecInfo
 import android.media.MediaFormat
+import android.media.MediaMuxer
 import android.util.Log
 import android.view.Surface
+import java.io.File
+import java.lang.RuntimeException
 import java.nio.ByteBuffer
 
 /**
  * Created by cangwang on 2019.3.6
- * 录制完整mp4短视频视轨
+ * 单独MP4视频录制
  */
-class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, muxer:MediaMuxerCoder?) {
+class VideoEncoderCoderMP4(width: Int, height: Int, bitRate: Int, outFile: File) {
     companion object {
         const val TAG = "VideoEncoderCoder"
         const val MINE_TYPE = "video/avc"
@@ -20,10 +23,11 @@ class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, muxer:MediaMuxerC
     }
 
     private var mInputSurface:Surface
-    private var mMuxer:MediaMuxerCoder?=null
+    private var mMuxer:MediaMuxer
     private var mEncoder:MediaCodec
     private var mBufferInfo:MediaCodec.BufferInfo = MediaCodec.BufferInfo()
-
+    private var mTrackIndex = -1
+    private var mMuxerStarted = false
     var encoderOutputBuffers:Array<ByteBuffer>?=null
 
     init {
@@ -36,10 +40,9 @@ class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, muxer:MediaMuxerC
         mEncoder = MediaCodec.createEncoderByType(MINE_TYPE)
         mEncoder.configure(format,null,null,MediaCodec.CONFIGURE_FLAG_ENCODE)
         mInputSurface = mEncoder.createInputSurface()
-
-        mMuxer = muxer
-//        val track = mMuxer?.setVideoTrack(format)
-//        Log.d(TAG, "videotrack: $track")
+        mMuxer = MediaMuxer(outFile.toString(),MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
+        mTrackIndex = -1
+        mMuxerStarted = false
     }
 
     fun start(){
@@ -58,24 +61,22 @@ class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, muxer:MediaMuxerC
         Log.d(TAG,"release encoder objects")
         mEncoder.stop()
         mEncoder.release()
+
+        mMuxer.stop()
+        mMuxer.release()
     }
 
-    /**
-     * 视频录制输入
-     * endOfStream 加入采集结束符
-     */
     fun drainEncoder(endOfStream:Boolean){
         val TIMEOUT_USEC = 10000L
 
         if (endOfStream) {
             Log.d(TAG, "sending EOS to encoder")
-            //只有视频流需要关闭输入标志
             mEncoder.signalEndOfInputStream()
         }
 
         while (true) {
             val encoderStatus = mEncoder.dequeueOutputBuffer(mBufferInfo, TIMEOUT_USEC)
-//            Log.d(TAG, "drainEncoder($endOfStream),endcoderStatus($encoderStatus)")
+            Log.d(TAG, "drainEncoder($endOfStream),endcoderStatus($encoderStatus)")
             if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
                 // no output available yet
                 if (!endOfStream) {
@@ -87,19 +88,17 @@ class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, muxer:MediaMuxerC
                 // not expected for an encoder
                 encoderOutputBuffers = mEncoder.outputBuffers
             } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
-                //一定要在这个节点上获取fomart设置到混合器的视轨上
                 // should happen before receiving buffers, and should only happen once
-                if (mMuxer?.hasVideoTrack() == true) {
-                    Log.d(TAG,"video format changed twice")
-                    return
+                if (mMuxerStarted) {
+                    throw RuntimeException("format changed twice")
                 }
                 val newFormat = mEncoder.outputFormat
                 Log.d(TAG, "encoder output format changed: $newFormat")
 
                 // now that we have the Magic Goodies, start the muxer
-                val track = mMuxer?.setVideoTrack(newFormat)
-                Log.d(TAG, "videotrack: $track")
-                mMuxer?.start()
+                mTrackIndex = mMuxer.addTrack(newFormat)
+                mMuxer.start()
+                mMuxerStarted = true
             } else if (encoderStatus < 0) {
                 Log.w(TAG, "unexpected result from encoder.dequeueOutputBuffer: $encoderStatus")
                 // let's ignore it
@@ -116,18 +115,17 @@ class VideoEncoderCoder(width: Int, height: Int, bitRate: Int, muxer:MediaMuxerC
                     }
 
                     if (mBufferInfo.size != 0) {
-                        if (mMuxer?.isRecording() == false) {
-                            Log.d(TAG,"muxer hasn't started")
-                            break
-//                            throw RuntimeException("muxer hasn't started")
+                        if (!mMuxerStarted) {
+                            throw RuntimeException("muxer hasn't started")
                         }
 
                         // adjust the ByteBuffer values to match BufferInfo (not needed?)
                         encodedData.position(mBufferInfo.offset)
                         encodedData.limit(mBufferInfo.offset + mBufferInfo.size)
 
-                        mMuxer?.writeVideoData(encodedData, mBufferInfo)
-//                        Log.d(TAG, "sent " + mBufferInfo.size + " bytes to muxer, ts=" + mBufferInfo.presentationTimeUs)
+                        mMuxer.writeSampleData(mTrackIndex, encodedData, mBufferInfo)
+                        Log.d(TAG, "sent " + mBufferInfo.size + " bytes to muxer, ts=" +
+                                mBufferInfo.presentationTimeUs)
                     }
 
                     mEncoder.releaseOutputBuffer(encoderStatus, false)
