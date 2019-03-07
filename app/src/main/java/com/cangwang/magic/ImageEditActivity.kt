@@ -28,6 +28,7 @@ class ImageEditActivity:AppCompatActivity(){
     private var mSurfaceCallback: ImageFilterSurfaceCallback?=null
     private var beautyLevel:Int = 0
     private val types = OpenGLJniLib.getFilterTypes()
+    private var filterType = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +48,7 @@ class ImageEditActivity:AppCompatActivity(){
         mAdapter = FilterAdapter(this, types)
         mAdapter?.filterListener= object: FilterAdapter.onFilterChangeListener{
             override fun onFilterChanged(type: Int) {
+                filterType = type
                 mSurfaceCallback?.setFilterType(type)
             }
         }
@@ -79,8 +81,15 @@ class ImageEditActivity:AppCompatActivity(){
 
     private fun initPreview(){
         val selectPaths = intent.getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT) as SelectModel
-        mSurfaceCallback = ImageFilterSurfaceCallback(selectPaths.path)
+        mSurfaceCallback = ImageFilterSurfaceCallback(selectPaths.path,filterType)
         album_surfaceview.holder.addCallback(mSurfaceCallback)
+    }
+
+    override fun onDestroy() {
+        album_surfaceview.holder.removeCallback(mSurfaceCallback)
+        mSurfaceCallback?.releaseOpenGL()
+        mSurfaceCallback=null
+        super.onDestroy()
     }
 
     private fun showFilters() {

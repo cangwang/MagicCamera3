@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * Created by zjl on 2018/10/12.
  */
-class CameraFilterSurfaceCallbackV3(camera: CameraCompat?) : SurfaceHolder.Callback {
+class CameraFilterSurfaceCallbackV3(camera: CameraCompat?,filterType:Int) : SurfaceHolder.Callback {
     private val mExecutor = Executors.newSingleThreadExecutor()
 
     private val TAG = CameraFilterSurfaceCallbackV3::class.java.simpleName!!
@@ -39,13 +39,14 @@ class CameraFilterSurfaceCallbackV3(camera: CameraCompat?) : SurfaceHolder.Callb
     private var isTakePhoto = false
     private var textureId: Int = -1
 
-    private var mMediaRecorder: MediaRecorder? = null
     private var isRecordVideo = AtomicBoolean()
     private var previewSurface: Surface? = null
-    private var videoEncoder: VideoEncoderCoder? = null
     private var recordStatus = RECORD_IDLE
     private var filterType: Int = 0
     private var movieEncoder: TextureMovieEncoder = TextureMovieEncoder()
+    init {
+        this.filterType = filterType
+    }
 
     companion object {
         val RECORD_IDLE = 0
@@ -58,6 +59,7 @@ class CameraFilterSurfaceCallbackV3(camera: CameraCompat?) : SurfaceHolder.Callb
         this.width = width
         this.height = height
         changeOpenGL(width, height)
+        setFilterType(filterType)
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
@@ -91,20 +93,11 @@ class CameraFilterSurfaceCallbackV3(camera: CameraCompat?) : SurfaceHolder.Callb
                 Log.e(TAG, e.localizedMessage)
                 releaseOpenGL()
             }
-            OpenGLJniLib.setFilterType(filterType)
         }
     }
 
     fun startRecordVideo() {
         recordStatus = RECORD_START
-    }
-
-    fun stopRecordVideo() {
-        videoEncoder?.stop()
-    }
-
-    fun resumeRecordVideo() {
-
     }
 
     fun isRecording(): Boolean {

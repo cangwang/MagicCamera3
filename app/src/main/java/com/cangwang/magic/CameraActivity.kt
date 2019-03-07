@@ -30,6 +30,7 @@ class CameraActivity:AppCompatActivity(){
     var mAspectRatio = ASPECT_RATIO_ARRAY[0]
 
     var mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK
+    var surfaceCallback:CameraSurfaceCallback?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +45,7 @@ class CameraActivity:AppCompatActivity(){
         }
     }
 
-
-    fun initView(){
+    private fun initView(){
         btn_camera_filter.visibility = View.GONE
         btn_camera_shutter.visibility = View.GONE
 
@@ -67,13 +67,17 @@ class CameraActivity:AppCompatActivity(){
     override fun onResume() {
         super.onResume()
         mCamera = openCamera(glsurfaceview_camera.holder)
-        glsurfaceview_camera.holder.addCallback(CameraSurfaceCallback(mCamera))
+        surfaceCallback = CameraSurfaceCallback(mCamera)
+        glsurfaceview_camera.holder.addCallback(surfaceCallback)
     }
 
     override fun onPause() {
         super.onPause()
         mCamera?.stopPreview()
         mCamera?.release()
+        glsurfaceview_camera.holder.removeCallback(surfaceCallback)
+        surfaceCallback?.releaseOpenGL()
+        surfaceCallback=null
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -84,7 +88,7 @@ class CameraActivity:AppCompatActivity(){
         }
     }
 
-    fun openCamera(holder: SurfaceHolder?):Camera?{
+    private fun openCamera(holder: SurfaceHolder?):Camera?{
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             return null
         }

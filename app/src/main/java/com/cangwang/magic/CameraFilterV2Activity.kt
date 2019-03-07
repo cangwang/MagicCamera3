@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import com.cangwang.magic.adapter.FilterAdapter
 import com.cangwang.magic.camera.CameraCompat
@@ -27,6 +26,7 @@ import kotlinx.android.synthetic.main.filter_layout.*
 import java.util.concurrent.TimeUnit
 
 /**
+ * 滤镜录制
  * Created by cangwang on 2018/9/12.
  */
 class CameraFilterV2Activity:AppCompatActivity(){
@@ -43,6 +43,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
     private var beautyLevel:Int = 0
 
     var mCamera: CameraCompat?=null
+    var filterType:Int=0
 
     private var videoAnimator: ObjectAnimator? = null
     /**
@@ -67,6 +68,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
         mAdapter = FilterAdapter(this, types)
         mAdapter?.filterListener= object:FilterAdapter.onFilterChangeListener{
             override fun onFilterChanged(filterType: Int) {
+                this@CameraFilterV2Activity.filterType = filterType
                 mSurfaceCallback?.setFilterType(filterType)
             }
         }
@@ -124,7 +126,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
 
     private fun initCamera(){
         mCamera = CameraCompat.newInstance(this)
-        mSurfaceCallback = CameraFilterSurfaceCallbackV3(mCamera)
+        mSurfaceCallback = CameraFilterSurfaceCallbackV3(mCamera,filterType)
         glsurfaceview_camera.holder.addCallback(mSurfaceCallback)
         mCamera?.startPreview()
     }
@@ -134,11 +136,10 @@ class CameraFilterV2Activity:AppCompatActivity(){
             releaseVideoRecord()
         }
         mCamera?.stopPreview(false)
+        glsurfaceview_camera.holder.removeCallback(mSurfaceCallback)
+        mSurfaceCallback?.releaseOpenGL()
+        mSurfaceCallback =null
         super.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     private fun takePhoto(){
@@ -194,9 +195,9 @@ class CameraFilterV2Activity:AppCompatActivity(){
     }
 
     private fun startVideoRecord(){
+        showVideoRecord()
         mSurfaceCallback?.startRecordVideo()
         videoAnimator?.start()
-        showVideoRecord()
     }
 
     private fun releaseVideoRecord(){

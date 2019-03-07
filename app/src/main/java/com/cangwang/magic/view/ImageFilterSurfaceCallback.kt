@@ -21,7 +21,7 @@ import java.util.concurrent.Executors
 /**
  * Created by zjl on 2018/10/12.
  */
-class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
+class ImageFilterSurfaceCallback(path:String,filterType:Int):SurfaceHolder.Callback{
     private val mExecutor = Executors.newSingleThreadExecutor()
 
     private val TAG= ImageFilterSurfaceCallback::class.java.simpleName!!
@@ -31,11 +31,17 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
     private var height = 0
     private var isTakePhoto = false
     private val imagePath = path
+    private var filterType=0
+
+    init {
+        this.filterType = filterType
+    }
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
         this.width = width
         this.height = height
         changeOpenGL(width,height)
+        setFilterType(filterType)
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
@@ -88,7 +94,7 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
         }
     }
 
-    private fun releaseOpenGL(){
+    fun releaseOpenGL(){
         mExecutor.execute {
             OpenGLJniLib.magicImageFilterRelease()
             mSurfaceTexture?.release()
