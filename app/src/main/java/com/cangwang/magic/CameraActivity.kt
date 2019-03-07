@@ -9,11 +9,9 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
 import android.support.v7.app.AppCompatActivity
-import android.view.SurfaceHolder
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.RelativeLayout
+import com.cangwang.magic.camera.CameraTouch
 import com.cangwang.magic.util.CameraHelper
 import com.cangwang.magic.view.CameraSurfaceCallback
 import kotlinx.android.synthetic.main.activity_camera.*
@@ -31,6 +29,7 @@ class CameraActivity:AppCompatActivity(){
 
     var mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK
     var surfaceCallback:CameraSurfaceCallback?=null
+    var mCameraTouch:CameraTouch?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +61,54 @@ class CameraActivity:AppCompatActivity(){
         params.width= screenSize.x;
         params.height = screenSize.x* 16/9
         glsurfaceview_camera.layoutParams = params
+        glsurfaceview_camera.setOnTouchListener(object :View.OnTouchListener{
+            var mClickOn = 0L
+            var mLastX = 0f
+            var mLastY = 0f
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when(event?.actionMasked){
+                    MotionEvent.ACTION_DOWN ->{
+                        if (event.pointerCount == 1){
+                            mClickOn = System.currentTimeMillis()
+                            mLastX = event.x
+                            mLastY = event.y
+                        }
+                    }
+                    MotionEvent.ACTION_UP ->{
+                        if (event.pointerCount == 1 && System.currentTimeMillis()- mClickOn <500){
+                            moveFouces(event.x.toInt(), event.y.toInt())
+                        }
+                    }
+                    MotionEvent.ACTION_POINTER_DOWN ->{
+                        mCameraTouch?.onScaleStart(event){
+
+                        }
+                        return true
+                    }
+                    MotionEvent.ACTION_MOVE ->{
+                        if (event.pointerCount == 2){
+                            mCameraTouch?.onScale(event)
+                            return true
+                        }
+                        else{
+                            val x = event.x - mLastX
+                            val y = event.y - mLastY
+                            if (Math.abs(x) >=10 || Math.abs(y) >=10){
+                                mClickOn = 0L
+                            }
+                        }
+                    }
+                    MotionEvent.ACTION_POINTER_UP ->{
+                        mCameraTouch?.onScaleEnd {
+
+                        }
+                        return true
+                    }
+                }
+                return false
+            }
+
+        })
     }
 
     override fun onResume() {
@@ -104,6 +151,10 @@ class CameraActivity:AppCompatActivity(){
             CameraHelper.setDisplayOritation(this,it,mCameraId)
         }
         return mCamera
+    }
+
+    fun moveFouces(x:Int,y:Int){
+
     }
 
 }

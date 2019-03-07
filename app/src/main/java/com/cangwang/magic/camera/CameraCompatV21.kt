@@ -3,12 +3,14 @@ package com.cangwang.magic.camera
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.Rect
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
 import android.view.Surface
+import java.lang.Exception
 
 
 @TargetApi(21)
@@ -27,6 +29,17 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
     private var mSurface: Surface? = null
     private var mBackgroundHandler: Handler? =null
     private var mBackgroundThread:HandlerThread? =null
+    private var maxZoom = 0f
+
+    /**
+     * 放大的矩阵，拍照使用
+     */
+    private var mZoomRect: Rect? = null
+
+    /**
+     * 可缩放区域
+     */
+    private var mZoomSize: CameraCompat.CameraSize? = null
 
     private val mCaptureStateCallback = object : CameraCaptureSession.StateCallback() {
         override fun onConfigured(session: CameraCaptureSession) {
@@ -103,6 +116,7 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
             //获取支持尺寸
             val sizes = map.getOutputSizes(SurfaceTexture::class.java)
             outputSize = CameraUtil.getLargePreviewSize(sizes)
+            mZoomSize = outputSize
         } catch (e: CameraAccessException) {
             Log.e(TAG, e.toString())
         }
@@ -112,7 +126,7 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
 
     private fun startRequest(session: CameraCaptureSession?) {
         try {
-            session?.setRepeatingRequest(mRequestBuilder?.build(), null, null)
+            session?.setRepeatingRequest(mRequestBuilder?.build(), null, mBackgroundHandler)
         } catch (e: Throwable) {
             Log.e(TAG, "", e)
         }
@@ -142,6 +156,8 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
             mRequestBuilder = mCamera?.createCaptureRequest(CameraDevice.TEMPLATE_RECORD)
             mSurface?.let {
                 mRequestBuilder?.addTarget(it)
+                if (mZoomRect != null)
+                    mRequestBuilder?.set(CaptureRequest.SCALER_CROP_REGION, mZoomRect)   //放大的矩阵
                 mRequestBuilder?.set(CaptureRequest.CONTROL_AF_MODE,
                         CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO)
                 mRequestBuilder?.set(CaptureRequest.FLASH_MODE, if (mIsFlashLightOn)
@@ -204,21 +220,53 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
         }catch (e:InterruptedException){
             Log.e(TAG,e.toString())
         }
-
     }
 
+    override fun getMaxZoom():Float{
+        return maxZoom
+    }
+
+    override fun cameraZoom(sc:Float){
+        val scale = if(sc < 1.0f) 1.0f
+                    else sc
+        if (scale <= maxZoom) {
+            mZoomSize?.apply {
+                val cropW = (width / (maxZoom * 2.6) * scale).toInt()
+                val cropH = (height / (maxZoom * 2.6) * scale).toInt()
+
+                val zoom = Rect(cropW, cropH,
+                        width - cropW,
+                        height - cropH)
+                mRequestBuilder?.set(CaptureRequest.SCALER_CROP_REGION, zoom)
+                mZoomRect = zoom
+                updatePreview()   //重复更新预览请求
+            }
+        }
+    }
+
+    fun updatePreview(){
+        if (mCamera!=null){
+            try {
+                mCaptureSession?.setRepeatingRequest(mRequestBuilder?.build(),null,mBackgroundHandler)
+            }catch (e:Exception){
+                Log.e(TAG,e.toString())
+            }
+        }
+    }
 
     @SuppressLint("MissingPermission")
     private fun initialize(@CameraType cameraType: Int) {
         try {
             startBackgroundThread()
-            //打开摄像头
-            mManager?.openCamera(if (cameraType == FRONT_CAMERA)
+            val id = if (cameraType == FRONT_CAMERA)
                 frontCameraIdV21
             else
-                backCameraIdV21,
-                    mStateCallback, mBackgroundHandler)
+                backCameraIdV21
+            //打开摄像头
+            mManager?.openCamera(id, mStateCallback, mBackgroundHandler)
             updateOutputSize()
+            val mCharacteristics = mManager?.getCameraCharacteristics(id)
+            maxZoom = mCharacteristics?.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)?:0f
         } catch (e: Throwable) {
             Log.e(TAG, "", e)
         }

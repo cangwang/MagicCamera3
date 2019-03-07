@@ -6,11 +6,9 @@ import android.content.pm.PackageManager
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
 import android.os.Build
-import android.os.Looper
 import android.support.annotation.IntDef
 import android.util.Size
 import android.util.SparseArray
-import android.view.Surface
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 
@@ -155,6 +153,14 @@ abstract class CameraCompat(protected var mContext: Context) {
 
     fun getCameraType():Int{
         return if (mCameraType == FRONT_CAMERA) BACK_CAMERA else FRONT_CAMERA
+    }
+
+    open fun getMaxZoom():Float{
+        return 0f
+    }
+
+    open fun cameraZoom(scale:Float){
+
     }
 
     class CameraSize {
