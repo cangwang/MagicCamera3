@@ -10,10 +10,14 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
 import android.support.v7.app.AppCompatActivity
 import android.view.*
+import android.view.animation.Animation
+import android.view.animation.Transformation
+import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import com.cangwang.magic.camera.CameraTouch
 import com.cangwang.magic.util.CameraHelper
 import com.cangwang.magic.view.CameraSurfaceCallback
+import com.werb.pickphotoview.util.PickUtils
 import kotlinx.android.synthetic.main.activity_camera.*
 
 /**
@@ -30,6 +34,8 @@ class CameraActivity:AppCompatActivity(){
     var mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK
     var surfaceCallback:CameraSurfaceCallback?=null
     var mCameraTouch:CameraTouch?=null
+
+    private var mFoucesAnimation: FoucesAnimation? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +82,7 @@ class CameraActivity:AppCompatActivity(){
                     }
                     MotionEvent.ACTION_UP ->{
                         if (event.pointerCount == 1 && System.currentTimeMillis()- mClickOn <500){
-                            moveFouces(event.x.toInt(), event.y.toInt())
+                            moveFocus(event.x.toInt(), event.y.toInt())
                         }
                     }
                     MotionEvent.ACTION_POINTER_DOWN ->{
@@ -153,8 +159,59 @@ class CameraActivity:AppCompatActivity(){
         return mCamera
     }
 
-    fun moveFouces(x:Int,y:Int){
-
+    fun moveFocus(x:Int,y:Int){
+        video_fouces.apply {
+            visibility = View.VISIBLE
+            val lp = video_fouces.layoutParams as RelativeLayout.LayoutParams
+            layoutParams = lp
+            mFoucesAnimation?.duration = 500
+            mFoucesAnimation?.repeatCount = 0
+            mFoucesAnimation?.setOldMargin(x,y)
+            video_fouces.startAnimation(mFoucesAnimation)
+        }
     }
 
+    private fun removeImageFoucesRunnable() {
+        video_fouces.removeCallbacks(mImageFoucesRunnable)
+    }
+
+    private fun imageFoucesDelayedHind() {
+        video_fouces.postDelayed(mImageFoucesRunnable, 1000)
+    }
+
+    private val mImageFoucesRunnable = Runnable { video_fouces.visibility = View.GONE }
+
+    private inner class FoucesAnimation : Animation() {
+
+        private val width = PickUtils.dp2px(this@CameraActivity, 65f)
+        private val W = PickUtils.dp2px(this@CameraActivity, 65f)
+
+        private var oldMarginLeft: Int = 0
+        private var oldMarginTop: Int = 0
+
+        override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
+
+            val layoutParams = video_fouces.layoutParams as FrameLayout.LayoutParams
+            var w = (width * (1 - interpolatedTime)).toInt()
+            if (w < W) {
+                w = W
+            }
+            layoutParams.width = w
+            layoutParams.height = w
+            if (w == W) {
+                video_fouces.layoutParams = layoutParams
+                return
+            }
+            layoutParams.leftMargin = oldMarginLeft - w / 2
+            layoutParams.topMargin = oldMarginTop + w / 8
+            video_fouces.layoutParams = layoutParams
+        }
+
+        fun setOldMargin(oldMarginLeft: Int, oldMarginTop: Int) {
+            this.oldMarginLeft = oldMarginLeft
+            this.oldMarginTop = oldMarginTop
+            removeImageFoucesRunnable()
+            imageFoucesDelayedHind()
+        }
+    }
 }

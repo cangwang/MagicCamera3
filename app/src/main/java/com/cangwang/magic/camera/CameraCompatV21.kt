@@ -290,6 +290,19 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
         startRequest(mCaptureSession)
     }
 
+    override fun requestFocus(x: Int, y: Int) {
+
+    }
+
+    fun calcTapAreaForCamera2(areaSize:Int,widght:Int,x:Float,y:Float){
+
+    }
+
+    fun clamp(modes:IntArray,mode:Int):Boolean{
+        modes.forEach { if (it == mode) return true }
+        return false
+    }
+
     companion object {
 
         private val TAG = "CameraCompatV21"

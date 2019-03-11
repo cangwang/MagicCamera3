@@ -11,7 +11,6 @@ import android.widget.TextView
 
 import com.cangwang.magic.R
 import com.cangwang.magic.helper.FilterTypeHelper
-import com.cangwang.magic.helper.MagicFilterType
 
 /**
  * Created by why8222 on 2016/3/17.

@@ -44,6 +44,15 @@
             android:visibility="gone"
             />
     </RelativeLayout>
+    <ImageView
+        android:id="@+id/video_fouces"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@drawable/ic_fouces"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

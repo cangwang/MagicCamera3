@@ -164,6 +164,10 @@ abstract class CameraCompat(protected var mContext: Context) {
 
     }
 
+    open fun requestFocus(x:Int,y:Int){
+
+    }
+
     class CameraSize {
         var width: Int = 0
         var height: Int = 0
