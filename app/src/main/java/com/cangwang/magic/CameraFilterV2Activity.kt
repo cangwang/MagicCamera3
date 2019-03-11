@@ -10,6 +10,7 @@ import android.graphics.Point
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeUnit
  * Created by cangwang on 2018/9/12.
  */
 class CameraFilterV2Activity:AppCompatActivity(){
+    private val TAG = CameraFilterV2Activity::class.java.simpleName
     private val MODE_PIC = 1
     private val MODE_VIDEO = 2
     private var mode = MODE_PIC
@@ -122,12 +124,14 @@ class CameraFilterV2Activity:AppCompatActivity(){
     override fun onResume() {
         super.onResume()
         initCamera()
+        Log.d(TAG,"initCamera")
     }
 
     private fun initCamera(){
         mCamera = CameraCompat.newInstance(this)
         mSurfaceCallback = CameraFilterSurfaceCallbackV3(mCamera,filterType)
         glsurfaceview_camera.holder.addCallback(mSurfaceCallback)
+        //初始化摄像头
         mCamera?.startPreview()
     }
 
@@ -135,10 +139,11 @@ class CameraFilterV2Activity:AppCompatActivity(){
         if(mSurfaceCallback?.isRecording() == true) {
             releaseVideoRecord()
         }
-        mCamera?.stopPreview(false)
+//        mCamera?.stopPreview(true)
         glsurfaceview_camera.holder.removeCallback(mSurfaceCallback)
         mSurfaceCallback?.releaseOpenGL()
         mSurfaceCallback =null
+        mCamera = null
         super.onPause()
     }
 

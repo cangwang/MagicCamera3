@@ -24,13 +24,9 @@ class TextureMovieEncoder{
     private var videoEncoder:VideoEncoderCoder?=null
     private var videoThread = Executors.newSingleThreadExecutor()
     private var audioThread = Executors.newSingleThreadExecutor()
-    private var isReady = AtomicBoolean()
+    public var isReady = AtomicBoolean(false)
     private var audioEncoder:AudioRecordCoder?=null
     private var muxerEncoder:MediaMuxerCoder?=null
-
-    init {
-        isReady.set(false)
-    }
 
     /**
      * 开始采集
@@ -68,7 +64,6 @@ class TextureMovieEncoder{
                         OpenGLJniLib.setVideoFilterType(filterType)
                     }
                     start()
-
                 }
             }
             it.onNext(true)

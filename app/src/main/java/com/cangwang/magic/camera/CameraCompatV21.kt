@@ -190,6 +190,7 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
     }
 
     override fun onStopPreview() {
+        mSurface?.release()
         abortSession()
         mCamera?.close()
         mCamera = null

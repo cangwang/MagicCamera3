@@ -114,6 +114,7 @@ abstract class CameraCompat(protected var mContext: Context) {
         mCameraReady = false
         mStarted = false
         if (releaseSurface) {
+            mSurfaceTexture?.release()
             mSurfaceTexture = null
         }
         onStopPreview()

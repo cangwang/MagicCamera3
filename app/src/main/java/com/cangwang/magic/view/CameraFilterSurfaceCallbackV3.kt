@@ -54,6 +54,7 @@ class CameraFilterSurfaceCallbackV3(camera: CameraCompat?,filterType:Int) : Surf
     }
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+        Log.d(TAG,"surfaceChanged")
         this.width = width
         this.height = height
         changeOpenGL(width, height)
@@ -61,11 +62,12 @@ class CameraFilterSurfaceCallbackV3(camera: CameraCompat?,filterType:Int) : Surf
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
-        mCamera?.stopPreview(true)
+        Log.d(TAG,"surfaceDestroyed")
         releaseOpenGL()
     }
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
+        Log.d(TAG,"surfaceCreated")
         holder?.let {
             previewSurface = it.surface
             initOpenGL(it.surface)
@@ -145,12 +147,14 @@ class CameraFilterSurfaceCallbackV3(camera: CameraCompat?,filterType:Int) : Surf
 
     fun releaseOpenGL() {
         mExecutor.execute {
+            mCamera?.stopPreview(true)
             OpenGLJniLib.magicFilterRelease()
             mSurfaceTexture?.release()
             mSurfaceTexture = null
             mCamera = null
+            if(movieEncoder.isReady.get())
+                movieEncoder.stopRecord()
         }
-        movieEncoder.stopRecord()
     }
 
     fun setFilterType(type: Int) {
@@ -161,6 +165,7 @@ class CameraFilterSurfaceCallbackV3(camera: CameraCompat?,filterType:Int) : Surf
     }
 
     fun doStartPreview() {
+        //开始预览
         mCamera?.startPreview(object : CameraCompat.CameraStateCallBack {
             override fun onConfigured() {
 
