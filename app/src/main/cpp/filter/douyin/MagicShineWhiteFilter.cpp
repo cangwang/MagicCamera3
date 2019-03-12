@@ -29,13 +29,13 @@ void MagicShineWhiteFilter::onDestroy() {
 }
 
 void MagicShineWhiteFilter::onDrawArraysPre() {
-    if (mFrames<=mMiddleFrames){
-        mProgress = mFrames*1.0f/mMiddleFrames;
-    } else{
-        mProgress = 2.0f-mFrames*1.0f/mMiddleFrames;
+    if (mFrames<=mMiddleFrames){ //根据中间值来增加色值
+        mProgress = mFrames*1.0f /mMiddleFrames;
+    } else{ //减少色值
+        mProgress = 2.0f-mFrames*1.0f /mMiddleFrames;
     }
     mFrames++;
-    if (mFrames>mMaxFrames){
+    if (mFrames > mMaxFrames){
         mFrames = 0;
     }
 

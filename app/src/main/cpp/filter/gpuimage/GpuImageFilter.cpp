@@ -140,6 +140,14 @@ int GPUImageFilter::onDrawFrameFull(const GLuint textureId,GLfloat *matrix) {
     return ON_DRAWN;
 }
 
+/**
+ * 滤镜使用
+ * @param textureId
+ * @param matrix
+ * @param cubeBuffer
+ * @param textureBuffer
+ * @return
+ */
 int GPUImageFilter::onDrawFrame(const GLuint textureId, GLfloat *matrix,const float *cubeBuffer,
                                 const float *textureBuffer) {
     onDrawPrepare();

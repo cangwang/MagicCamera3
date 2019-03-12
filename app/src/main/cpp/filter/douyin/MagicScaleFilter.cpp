@@ -30,13 +30,14 @@ void MagicScaleFilter::onDestroy() {
 }
 
 void MagicScaleFilter::onDrawArraysPre() {
-    if (mFrames<=mMiddleFrames){
-        mProgress = mFrames*1.0f/mMiddleFrames;
-    } else{
-        mProgress = 2.0f-mFrames*1.0f/mMiddleFrames;
+    if (mFrames <= mMiddleFrames){ //根据中间帧为间隔，放大过程
+        mProgress = mFrames * 1.0f /mMiddleFrames;
+    } else{  //缩小过程
+        mProgress = 2.0f - mFrames * 1.0f /mMiddleFrames;
     }
-    setIdentityM(mMvpMatrix,0);
+    setIdentityM(mMvpMatrix, 0);
     float scale = 1.0f+0.3f*mProgress;
+    //正交矩阵放大
     scaleM(mMvpMatrix,0,scale,scale,scale);
     glUniformMatrix4fv(mMvpMatrixLocation,1,GL_FALSE,mMvpMatrix);
     mFrames++;

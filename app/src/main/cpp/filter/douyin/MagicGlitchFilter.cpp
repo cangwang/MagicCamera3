@@ -54,7 +54,10 @@ void MagicGlitchFilter::onInit() {
 
 void MagicGlitchFilter::onInitialized() {
     GPUImageFilter::onInitialized();
+    //颜色偏移量
     mDriftSequence = new float[9]{0.0f, 0.03f, 0.032f, 0.035f, 0.03f, 0.032f, 0.031f, 0.029f, 0.025f};
+    //偏移的x值
     mJitterSequence = new float[9]{0.0f, 0.03f, 0.01f, 0.02f, 0.05f, 0.055f, 0.03f, 0.02f, 0.025f};
+    //偏移的y值
     mThreshHoldSequence = new float[9]{1.0f, 0.965f, 0.9f, 0.9f, 0.9f, 0.6f, 0.8f, 0.5f, 0.5f};
 }

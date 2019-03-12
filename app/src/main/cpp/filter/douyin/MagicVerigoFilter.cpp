@@ -32,12 +32,15 @@ void MagicVerigoFilter::onDestroy() {
 }
 
 void MagicVerigoFilter::onDrawPrepare() {
+    //绑定纹理
     mRenderBuffer->bind();
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void MagicVerigoFilter::onDrawArraysAfter() {
+    //生成fbo
     mRenderBuffer->unbind();
+    //在顶层画帧
     drawCurrentFrame();
     mRenderBuffer3->bind();
     drawCurrentFrame();
@@ -55,8 +58,10 @@ void MagicVerigoFilter::onInit() {
 
 void MagicVerigoFilter::onInitialized() {
     GPUImageFilter::onInitialized();
+    //
     mLastFrameProgram = loadProgram(readShaderFromAsset(mAssetManager,"nofilter_v.glsl")->c_str(),readShaderFromAsset(mAssetManager,"common_f.glsl")->c_str());
     mCurrentFrameProgram = loadProgram(readShaderFromAsset(mAssetManager,"nofilter_v.glsl")->c_str(),readShaderFromAsset(mAssetManager,"verigo_f2.glsl")->c_str());
+    //Lut纹理
     mLutTexture = loadTextureFromAssetsRepeat(mAssetManager,"lookup_vertigo.png");
 }
 

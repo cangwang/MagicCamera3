@@ -30,37 +30,48 @@ void MagicSoulOutFilter::onDestroy() {
 }
 
 void MagicSoulOutFilter::onDrawArraysPre() {
-    //开启颜色混合
+    //存在两个图层,开启颜色混合
     glEnable(GL_BLEND);
     //透明度混合
+    // 表示源颜色乘以自身的alpha 值，目标颜色乘目标颜色值混合，如果不开启，直接被目标的画面覆盖
     glBlendFunc(GL_SRC_ALPHA,GL_DST_ALPHA);
-
+    //最大帧数mMaxFrames为15，灵魂出窍只显示15帧，设定有8帧不显示
     mProgress = (float)mFrames/mMaxFrames;
-    if (mProgress>1){
+    //当progress大于1后置0
+    if (mProgress > 1.0f){
         mProgress = 0;
     }
+
     mFrames++;
-    if (mFrames>mMaxFrames + mSkipFrames){
+    //skipFrames为8，23帧后置为0
+    if (mFrames > mMaxFrames + mSkipFrames){
         mFrames = 0;
     }
+    //setIdentityM函数移植于java中Matrix.setIdentity，初始化矩阵全置为0
     setIdentityM(mMvpMatrix,0);
+    //第一帧没有放大，直接设置单位矩阵
     glUniformMatrix4fv(mMvpMatrixLocation,1,GL_FALSE,mMvpMatrix);
+    //透明度为1
     float backAlpha = 1;
-    if (mProgress >0){
+    if (mProgress > 0){ //如果是灵魂出窍效果显示中
+        //计算出窍时透明度值
         alpha = 0.2f - mProgress * 0.2f;
-        backAlpha = 1-alpha;
+        backAlpha = 1 - alpha;
     }
-
+    //设置不显示灵魂出窍效果时，背景不透明度，不然会黑色
     glUniform1f(mAlphaLocation,backAlpha);
-
 }
 
 void MagicSoulOutFilter::onDrawArraysAfter() {
-    if (mProgress>0){
+    if (mProgress>0){ //如果是灵魂出窍效果显示中
         glUniform1f(mAlphaLocation,alpha);
-        float scale = 1 +mProgress;
+        //设置放大值
+        float scale = 1 + mProgress;
+        //设置正交矩阵放大
         scaleM(mMvpMatrix,0,scale,scale,scale);
+        //设置到shader里面
         glUniformMatrix4fv(mMvpMatrixLocation,1,GL_FALSE,mMvpMatrix);
+        //画出灵魂出校效果
         glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     }
     //关闭颜色混合

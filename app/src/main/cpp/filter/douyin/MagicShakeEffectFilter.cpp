@@ -39,8 +39,9 @@ void MagicShakeEffectFilter::onDrawArraysPre() {
         mFrames = 0;
     }
     float scale= 1.0f+0.2f*mProgress;
+    //清空正交矩阵
     setIdentityM(mMvpMatrix,0);
-    //设置方法百分比
+    //设置正交矩阵放大，在原位置的地方放大长宽
     scaleM(mMvpMatrix,0,scale,scale,1.0f);
     glUniformMatrix4fv(mMvpMatrixLocation,1,GL_FALSE,mMvpMatrix);
     //设置色值偏移量

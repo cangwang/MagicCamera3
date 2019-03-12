@@ -10,8 +10,8 @@ precision highp float;
  out vec4 glFragColor;
 
  float nrand(in float x,in float y){
-    //fract(x) = x - floor(x);
-    //dot是向量点乘，sin就是正弦函数
+    //fract(x) = x - floor(x); 返回x的小数部分
+    //dot是向量点乘,，sin就是正弦函数
     return fract(sin(dot(vec2(x,y) ,vec2(12.9898,78.233))) * 43758.5453);
  }
 
@@ -23,7 +23,7 @@ precision highp float;
     float jitter = nrand(v ,0.0) * 2.0 - 1.0;
     float drift = uColorDrift;
     //计算向左或向右偏移
-    //step是gl自带函数，意思是，如果第一个参数大于第二个参数，那么返回0，否则返回1
+    //step意思是，如果第一个参数大于第二个参数，那么返回0，否则返回1
     float offsetParam = step(uScanLineJitter.y,abs(jitter));
     //如果offset为0就不偏移，如果为1，就偏移jtter*uScanLineJitter.x的位置
     jitter = jitter * offsetParam * uScanLineJitter.x;
