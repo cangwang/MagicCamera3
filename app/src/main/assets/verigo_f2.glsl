@@ -7,6 +7,7 @@ uniform sampler2D lookupTable;      // 颜色查找表纹理
 
 out vec4 glFragColor;
 
+//固定的Lut纹理对换计算
 vec4 getLutColor(vec4 textureColor,sampler2D lookupTexture){
     float blueColor = textureColor.b * 63.0;
 
@@ -36,7 +37,10 @@ vec4 getLutColor(vec4 textureColor,sampler2D lookupTexture){
 }
 
 void main(){
+    //上一帧纹理
     vec4 lastFrame = texture(inputTextureLast,textureCoordinate);
+    //此帧对应的Lut转换纹理
     vec4 currentFrame = getLutColor(texture(inputImageTexture,textureCoordinate),lookupTable);
+    //上一帧和此帧混色处理
     glFragColor = vec4(0.95 * lastFrame.r  +  0.05* currentFrame.r,currentFrame.g * 0.2 + lastFrame.g * 0.8, currentFrame.b,1.0);
 }
