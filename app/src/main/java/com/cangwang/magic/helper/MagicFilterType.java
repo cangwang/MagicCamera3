@@ -11,6 +11,7 @@ public enum  MagicFilterType {
     SCALE,
     SHINEWHITE,
     VERIGO,
+    THREEWIN,
     FAIRYTALE,
     SUNRISE,
     SUNSET,

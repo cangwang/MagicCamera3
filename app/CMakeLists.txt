@@ -101,6 +101,7 @@ add_library( # Sets the name of the library.
         src/main/cpp/filter/douyin/MagicShakeEffectFilter.cpp
         src/main/cpp/filter/douyin/MagicShineWhiteFilter.cpp
         src/main/cpp/filter/douyin/MagicVerigoFilter.cpp
+        src/main/cpp/filter/douyin/MagicThreeWinFilter.cpp
         src/main/cpp/filter/douyin/RenderBuffer.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a

@@ -82,6 +82,8 @@ public class FilterTypeHelper {
 				return R.drawable.glitch;
 			case VERIGO:
 				return R.drawable.verigo;
+			case THREEWIN:
+				return R.drawable.soulout;
 			case WHITECAT:
 				return R.drawable.filter_thumb_whitecat;
 			case BLACKCAT:
@@ -186,6 +188,8 @@ public class FilterTypeHelper {
 				return R.string.filter_glitch;
 			case VERIGO:
 				return R.string.filter_verigo;
+			case THREEWIN:
+				return R.string.filter_three_win;
 			case WHITECAT:
 				return R.string.filter_whitecat;
 			case BLACKCAT:
