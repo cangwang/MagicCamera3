@@ -64,4 +64,5 @@
     <string name="edit_sharpness">Sharpness</string>
     <string name="edit_brightness">Bright</string>
     <string name="edit_hue">Hue</string>
+    <string name="title_player">Magic Player</string>
 </resources>
