@@ -82,16 +82,25 @@ void GPUImageFilter::onInitialized() {
 void GPUImageFilter::onInputSizeChanged(const int width, const int height) {
     mScreenWidth = width;
     mScreenHeight = height;
-    if(mDisplayWidth == 0)
+    if(degree == 90 || degree == 270){
+        mDisplayWidth = height;
+        mDisplayHeight = width;
+    } else{
         mDisplayWidth = width;
-    if(mDisplayHeight == 0)
         mDisplayHeight = height;
+    }
 //    initFrameBuffer(width,height);
 }
 
 void GPUImageFilter::onInputDisplaySizeChanged(const int width, const int height) {
-    mDisplayWidth = width;
-    mDisplayHeight = height;
+    if(degree == 90 || degree == 270){
+        mDisplayWidth = height;
+        mDisplayHeight = width;
+    } else{
+        mDisplayWidth = width;
+        mDisplayHeight = height;
+    }
+
 }
 
 void GPUImageFilter::setMvpMatrix(float *mvpMatrix) {
@@ -291,9 +300,9 @@ void GPUImageFilter::initPixelBuffer(int width, int height){
     glBufferData(GL_PIXEL_PACK_BUFFER,mPhoSize, nullptr,GL_STATIC_READ);
 
 }
-void GPUImageFilter::drawPixelBuffer(){
-    glBindBuffer(GL_PIXEL_PACK_BUFFER,mPixelBuffer);
-    glReadPixels(0,0,mDisplayWidth,mDisplayHeight,GL_RGBA,GL_UNSIGNED_BYTE,NULL);
+void GPUImageFilter::drawPixelBuffer() {
+    glBindBuffer(GL_PIXEL_PACK_BUFFER, mPixelBuffer);
+    glReadPixels(0, 0, mDisplayWidth, mDisplayHeight, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     mPhoData = (unsigned char*)glMapBufferRange(GL_PIXEL_PACK_BUFFER,0,mPhoSize,GL_MAP_READ_BIT);
     glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
     //解除绑定PBO
@@ -365,7 +374,7 @@ void GPUImageFilter::saveImageInThread(std::string saveFileAddress){
 //        thread.detach();
         try {
             if(pool!= nullptr)
-                pool->commit(GPUImageFilter::savePicture,saveFileAddress, mPhoData, mDisplayWidth,mDisplayHeight,0);
+                pool->commit(GPUImageFilter::savePicture, saveFileAddress, mPhoData, mDisplayWidth, mDisplayHeight, 0);
 //            pool->commit([=,self=this](){
 //               self->savePicture(saveFileAddress, mPhoData, mDisplayWidth,mDisplayHeight,0);
 //            });

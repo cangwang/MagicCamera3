@@ -85,8 +85,8 @@ void ImageFilter::setFilter(AAssetManager* assetManager) {
 
 void ImageFilter::setFilter(int type) {
     GPUImageFilter* filter = initFilters(type,mAssetManager);
-    setFilter(filter);
     filter->setOrientation(degree);
+    setFilter(filter);
 }
 
 int ImageFilter::create() {
@@ -129,7 +129,7 @@ void ImageFilter::change(int width, int height) {
         if (filter != nullptr){
             filter->onInputSizeChanged(width,height);
             filter->onInputDisplaySizeChanged(imageInput->mImageWidth,imageInput->mImageHeight);
-            setMatrix(width,height);
+//            setMatrix(width,height);
             filter->initFrameBuffer(imageInput->mImageWidth,imageInput->mImageHeight);
         } else{
             imageInput->destroyFrameBuffers();
