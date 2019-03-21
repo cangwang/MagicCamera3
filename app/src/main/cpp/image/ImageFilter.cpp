@@ -137,37 +137,32 @@ void ImageFilter::change(int width, int height) {
     }
 }
 void ImageFilter::setMatrix(int width,int height){
-    int screenWidth = 0;
-    int screenHeight = 0;
     memcpy(mvpMatrix,NONE_MATRIX,16);
-    if (degree == 90 || degree == 270) {
-        screenWidth = height;
-        screenHeight = width;
-    } else {
-        screenWidth = width;
-        screenHeight = height;
-    }
-
-    if (screenWidth > screenHeight) {
-        float x = screenWidth /
-                  ((float) screenHeight / (float) imageInput->mImageHeight *
-                   imageInput->mImageWidth);
-        if (degree == 90 || degree == 270) {
-            orthoM(mvpMatrix, 0, -1, 1, -x, x, -1, 1);
-        } else {
-            orthoM(mvpMatrix, 0, -x, x, -1, 1, -1, 1);
+    ALOGD("degree =%d,width = %d,height =%d,imageWidth= %d,imageHeight = %d",degree,width,height,imageInput->mImageWidth,imageInput->mImageHeight);
+    ALOGD("screenRadio = %f,imageRadio =%f",width/(float)height,imageInput->mImageWidth/(float)imageInput->mImageHeight);
+    if (degree == 90 || degree == 270){  //先判断角度
+        float x;
+        if(imageInput->mImageHeight>imageInput->mImageWidth){  //图片宽比高要大 ,屏幕宽/屏幕高 * 屏幕高/屏幕宽
+            x = width / (float) height *
+                (float) imageInput->mImageHeight / imageInput->mImageWidth;
+        } else{ //图片宽比高要大 ,屏幕高/屏幕宽 * 屏幕高/屏幕宽
+            x = height / (float) width
+                    * (float) imageInput->mImageHeight / imageInput->mImageWidth;
         }
-    } else {
-        float y = screenHeight /
-                  ((float) screenWidth / (float) imageInput->mImageWidth *
-                   imageInput->mImageHeight);
-        if (degree == 90 || degree == 270) {
-            orthoM(mvpMatrix, 0, -y, y, -1, 1, -1, 1);
-        } else {
-            orthoM(mvpMatrix, 0, -1, 1, -y, y, -1, 1);
+        ALOGD("x=%f",x);
+        orthoM(mvpMatrix, 0, -1, 1, -x, x, -1, 1);
+    } else{  //图片高比宽要大 ,屏幕宽/屏幕高 * 屏幕高/屏幕宽
+        float y;
+        if(imageInput->mImageHeight>imageInput->mImageWidth){
+            y = width / (float) height *
+                (float) imageInput->mImageHeight / imageInput->mImageWidth;
+        } else{ //图片高比宽要大 ,屏幕高/屏幕宽 * 屏幕宽/屏幕高
+            y = height / (float) width
+                * ((float) imageInput->mImageWidth / imageInput->mImageHeight);
         }
+        ALOGD("y=%f",y);
+        orthoM(mvpMatrix, 0, -1, 1, -y, y, -1, 1);
     }
-//    orthoM(mvpMatrix, 0, -1, 1, -1, 1, -1, 1);
     filter->setMvpMatrix(mvpMatrix);
 }
 
