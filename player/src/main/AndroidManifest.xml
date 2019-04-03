@@ -8,5 +8,13 @@
         dist:title="@string/title_player">
         <dist:fusing dist:include="true" />
     </dist:module>
+    <application>
+        <activity android:name=".IjkplayerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <service android:name=".services.MediaPlayerService"/>
+    </application>
 </manifest>
 

@@ -62,13 +62,13 @@ dependencies {
     })
     api 'com.google.android.play:core:1.4.0'
     implementation project(':pickphotoview')
-//    kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
+    kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
     implementation project(':base')
 }
 
-//kapt {
-//    arguments {
-//        arg("AROUTER_MODULE_NAME", project.getName())
-//    }
-//}
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
 
