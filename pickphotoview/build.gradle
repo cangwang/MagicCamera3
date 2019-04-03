@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -7,13 +9,10 @@ android {
     buildToolsVersion "28.0.3"
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -28,6 +27,10 @@ android {
     }
     androidExtensions {
         experimental = true
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
@@ -48,5 +51,17 @@ dependencies {
     api('com.werb.moretype:moretype:0.2.1', {
         exclude group: 'com.android.support'
     })
-    api 'com.werb.eventbuskotlin:eventbuskotlin:0.2.0'
+    api ('com.werb.eventbuskotlin:eventbuskotlin:0.2.0',{
+        exclude group: 'org.jetbrains.kotlin'
+    })
+//    api ("com.alibaba:arouter-api:$arouter_api_version",{
+//        exclude group: 'com.android.support'
+//    })
+//    kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
 }
+
+//kapt {
+//    arguments {
+//        arg("AROUTER_MODULE_NAME", project.getName())
+//    }
+//}

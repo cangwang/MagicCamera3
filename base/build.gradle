@@ -1,9 +1,7 @@
-apply plugin: 'com.android.dynamic-feature'
-
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
 
 android {
     compileSdkVersion 28
@@ -14,6 +12,13 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -21,10 +26,13 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':app')
-    api 'tv.danmaku.ijk.media:ijkplayer-java:0.6.2'
-    api 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.6.2'
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+//    api ("com.alibaba:arouter-api:$arouter_api_version",{
+//        exclude group: 'com.android.support'
+//    })
 //    kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
 }
 
@@ -33,3 +41,4 @@ dependencies {
 //        arg("AROUTER_MODULE_NAME", project.getName())
 //    }
 //}
+
