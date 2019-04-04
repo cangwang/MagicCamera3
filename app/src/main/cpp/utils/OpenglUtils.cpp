@@ -13,7 +13,8 @@
 //引用stb库
 #define STB_IMAGE_IMPLEMENTATION
 #include "src/main/cpp/utils/stb_image.h"
-
+#include <android/log.h>
+#include <cinttypes>
 
 #define LOG_TAG "OpenglUtils"
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -111,8 +112,11 @@ GLuint loadTextureFromFile(const char *fileName, int *w, int *h,int *n){
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
 
+        int64_t getDataBefore = getTimeMise();
         //读取图片长宽高数据
         unsigned char* data = stbi_load(fileName, w, h, n, 0);
+        int64_t getDataAfter = getTimeMise();
+        ALOGV("getTime:getImageData Time = %" PRId64 "",getDataAfter - getDataBefore);
 
         ALOGV("loadTexture fileName = %s,width = %d,height=%d,n=%d",fileName,*w,*h,*n);
 
@@ -124,6 +128,7 @@ GLuint loadTextureFromFile(const char *fileName, int *w, int *h,int *n){
             } else{
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, *w, *h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             }
+            ALOGV("getTime:glTexImage2D Time = %" PRId64 "",getTimeMise() - getDataAfter);
             stbi_image_free(data);
             return textureHandler;
         } else{
@@ -136,6 +141,17 @@ GLuint loadTextureFromFile(const char *fileName, int *w, int *h,int *n){
     return textureHandler;
 }
 
+int64_t getTimeNesc(){
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC,&now);
+    return (int64_t) now.tv_sec * 1000000000LL + now.tv_nsec;
+}
+
+int64_t getTimeMise(){
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC,&now);
+    return (int64_t) now.tv_sec *1000LL + now.tv_nsec/1000000;
+}
 
 GLuint loadTextureFromAssetsRepeat(AAssetManager *manager, const char *fileName){
     GLuint textureHandler=0;

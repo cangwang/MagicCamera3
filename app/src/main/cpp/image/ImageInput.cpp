@@ -2,6 +2,7 @@
 #include "ImageInput.h"
 #include <GLES2/gl2ext.h>
 #include <src/main/cpp/utils/TextureRotationUtil.h>
+#include <cinttypes>
 
 #define LOG_TAG "ImageInput"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
@@ -96,6 +97,7 @@ int ImageInput::onDrawFrame(const GLuint textureId, GLfloat *matrix,const float 
     }
 
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
     glBindTexture(GL_TEXTURE_2D,0);
@@ -131,7 +133,9 @@ GLuint ImageInput::onDrawToTexture(const GLuint textureId, GLfloat *matrix) {
         glUniform1i(mGLUniformTexture,0);
     }
     //绘制图像（长方形）
+    int64_t drawTime = getTimeMise();
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+    ALOGV("getTime:drawTime Time = %" PRId64 "",getTimeMise() - drawTime);
     //关闭顶点缓冲
     glDisableVertexAttribArray(mGLAttribPosition);
     glDisableVertexAttribArray(mGLAttribTextureCoordinate);
