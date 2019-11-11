@@ -1,5 +1,6 @@
 package com.werb.pickphotoview
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.FragmentTransaction
 import android.content.Intent
@@ -76,6 +77,7 @@ class PickPhotoActivity :  BasePickActivity() {
         }
     }
 
+    @SuppressLint("WrongConstant")
     private fun showFragment() {
         val fm = supportFragmentManager
         val transaction = fm.beginTransaction()
@@ -131,11 +133,6 @@ class PickPhotoActivity :  BasePickActivity() {
             }
             sure.text = String.format("${PickConfig.applyButtonText}(%d)", selectImages.size)
         }
-    }
-
-    @Subscriber()
-    private fun textChange(event: PickImageEvent) {
-       sure()
     }
 
     @Subscriber(tag = "switch")

@@ -3,11 +3,11 @@ package com.cangwang.magic
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.PermissionChecker
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker
 import com.werb.pickphotoview.PickPhotoView
 import com.werb.pickphotoview.model.SelectModel
 import com.werb.pickphotoview.util.PickConfig
@@ -25,23 +25,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         button_camera.setOnClickListener { v ->
-            if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PermissionChecker.PERMISSION_DENIED) {
                 ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA), CAMERA_REQ)
             } else {
                 startActivity(CAMERA_REQ)
             }
         }
         button_filter.setOnClickListener {
-            if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
-                    PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
-                    PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
+            if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PermissionChecker.PERMISSION_DENIED ||
+                    PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PermissionChecker.PERMISSION_DENIED ||
+                    PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.RECORD_AUDIO) == PermissionChecker.PERMISSION_DENIED) {
                 ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO), CAMERA_FILTER)
             } else {
                 startActivity(CAMERA_FILTER)
             }
         }
         button_album.setOnClickListener {
-            if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            if (PermissionChecker.checkSelfPermission(this@MainActivity, Manifest.permission.CAMERA) == PermissionChecker.PERMISSION_DENIED) {
                 ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.CAMERA), ALBUM_REQ)
             } else {
                 startActivity(ALBUM_REQ)

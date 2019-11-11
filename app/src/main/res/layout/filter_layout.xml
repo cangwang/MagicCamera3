@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@android:color/transparent">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filter_listView"
         android:layout_width="match_parent"
         android:layout_height="94.0dip"

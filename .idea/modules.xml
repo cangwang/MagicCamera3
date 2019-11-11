@@ -2,9 +2,16 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Git-MagicCamera3.iml" filepath="$PROJECT_DIR$/Git-MagicCamera3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base/Git-MagicCamera3-base.iml" filepath="$PROJECT_DIR$/base/Git-MagicCamera3-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/MagicCamera3.iml" filepath="$PROJECT_DIR$/MagicCamera3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/MagicCamera3-app.iml" filepath="$PROJECT_DIR$/app/MagicCamera3-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base/MagicCamera3-base.iml" filepath="$PROJECT_DIR$/base/MagicCamera3-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pickphotoview/MagicCamera3-pickphotoview.iml" filepath="$PROJECT_DIR$/pickphotoview/MagicCamera3-pickphotoview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/player/MagicCamera3-player.iml" filepath="$PROJECT_DIR$/player/MagicCamera3-player.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/filter/filter.iml" filepath="$PROJECT_DIR$/filter/filter.iml" />
       <module fileurl="file://$PROJECT_DIR$/pickphotoview/pickphotoview.iml" filepath="$PROJECT_DIR$/pickphotoview/pickphotoview.iml" />
       <module fileurl="file://$PROJECT_DIR$/player/player.iml" filepath="$PROJECT_DIR$/player/player.iml" />
     </modules>

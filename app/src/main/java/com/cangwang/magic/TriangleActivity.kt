@@ -2,13 +2,13 @@ package com.cangwang.magic
 
 import android.opengl.GLSurfaceView
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.cangwang.magic.util.RenderJNI
 
 /**
  * Created by zjl on 2018/10/12.
  */
-class TriangleActivity:AppCompatActivity(){
+class TriangleActivity: AppCompatActivity(){
 
     lateinit var mGLSurfaceView:GLSurfaceView
     lateinit var mRenderer:RenderJNI

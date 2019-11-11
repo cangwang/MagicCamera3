@@ -6,14 +6,15 @@ import android.content.pm.PackageManager
 import android.graphics.Point
 import android.hardware.Camera
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.PermissionChecker
-import android.support.v7.app.AppCompatActivity
+
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker
 import com.cangwang.magic.camera.CameraTouch
 import com.cangwang.magic.util.CameraHelper
 import com.cangwang.magic.view.CameraSurfaceCallback
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_camera.*
 /**
  * Created by cangwang on 2018/9/12.
  */
-class CameraActivity:AppCompatActivity(){
+class CameraActivity: AppCompatActivity(){
     private val MODE_PIC = 1
     private var CAMERA_PERMISSION_REQ = 1
 

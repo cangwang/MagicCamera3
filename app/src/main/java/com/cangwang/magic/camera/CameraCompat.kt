@@ -6,9 +6,9 @@ import android.content.pm.PackageManager
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
 import android.os.Build
-import android.support.annotation.IntDef
 import android.util.Size
 import android.util.SparseArray
+import androidx.annotation.IntDef
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 

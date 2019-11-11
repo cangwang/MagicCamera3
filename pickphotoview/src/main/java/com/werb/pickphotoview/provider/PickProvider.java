@@ -1,6 +1,7 @@
 package com.werb.pickphotoview.provider;
 
-import android.support.v4.content.FileProvider;
+
+import androidx.core.content.FileProvider;
 
 /**
  * Created by wanbo on 2017/1/16.

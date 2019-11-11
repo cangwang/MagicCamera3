@@ -1,1 +1,1 @@
-include ':app',':pickphotoview', ':player', ':base'
+include ':app',':pickphotoview', ':base', ':filter'
