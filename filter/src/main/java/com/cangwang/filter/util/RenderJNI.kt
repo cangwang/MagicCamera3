@@ -1,4 +1,4 @@
-package com.cangwang.magic.util
+package com.cangwang.filter.util
 
 import android.content.Context
 import android.content.res.AssetManager

@@ -5,14 +5,11 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 
 import android.graphics.Point
 import android.hardware.Camera
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 
 import android.view.SurfaceHolder
 import android.view.View
@@ -23,13 +20,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cangwang.filter.util.OpenGLJniLib
 import com.cangwang.magic.adapter.FilterAdapter
 import com.cangwang.magic.util.CameraHelper
-import com.cangwang.magic.util.OpenGLJniLib
 import com.cangwang.magic.view.CameraFilterSurfaceCallback
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.filter_layout.*
-import java.security.Permission
 
 /**
  * Created by cangwang on 2018/9/12.

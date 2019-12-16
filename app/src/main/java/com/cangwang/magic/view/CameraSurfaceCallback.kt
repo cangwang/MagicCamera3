@@ -6,9 +6,9 @@ import android.hardware.Camera
 import android.util.Log
 import android.view.Surface
 import android.view.SurfaceHolder
+import com.cangwang.filter.util.OpenGLJniLib
 import com.cangwang.magic.BaseApplication
 import com.cangwang.magic.util.CameraHelper
-import com.cangwang.magic.util.OpenGLJniLib
 import java.io.IOException
 import java.util.concurrent.Executors
 

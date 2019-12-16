@@ -107,7 +107,7 @@ Java_com_cangwang_magic_util_RenderJNI_glesInit(JNIEnv *env, jobject obj) {
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_RenderJNI_glesRender(JNIEnv *env, jobject obj) {
+Java_com_cangwang_filter_util_RenderJNI_glesRender(JNIEnv *env, jobject obj) {
     GLfloat vVertices[] = {
             0.0f, 0.5f, 0.0f,
             -0.5f, -0.5f, 0.0f,
@@ -124,14 +124,14 @@ Java_com_cangwang_magic_util_RenderJNI_glesRender(JNIEnv *env, jobject obj) {
 
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_RenderJNI_glesResize(JNIEnv *env, jobject obj, jint width,
+Java_com_cangwang_filter_util_RenderJNI_glesResize(JNIEnv *env, jobject obj, jint width,
                                                   jint height) {
     g_width = width;
     g_height = height;
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_RenderJNI_readShaderFile(JNIEnv *env, jobject obj,
+Java_com_cangwang_filter_util_RenderJNI_readShaderFile(JNIEnv *env, jobject obj,
                                                       jobject assetManager) {
     if (assetManager && env) {
         g_aAssetManager = AAssetManager_fromJava(env, assetManager);

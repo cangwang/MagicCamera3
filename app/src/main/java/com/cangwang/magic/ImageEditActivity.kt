@@ -12,10 +12,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cangwang.magic.adapter.FilterAdapter
-import com.cangwang.magic.util.OpenGLJniLib
 import com.cangwang.magic.view.ImageFilterSurfaceCallback
 import com.werb.pickphotoview.model.SelectModel
 import com.werb.pickphotoview.util.PickConfig
+import com.cangwang.filter.util.OpenGLJniLib
 import kotlinx.android.synthetic.main.activity_album.*
 import kotlinx.android.synthetic.main.filter_layout.*
 

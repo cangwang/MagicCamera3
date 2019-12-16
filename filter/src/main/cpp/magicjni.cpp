@@ -27,7 +27,7 @@ ImageFilter *glImageFilter = nullptr;
 AAssetManager *aAssetManager = nullptr;
 
 JNIEXPORT jint JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseInit(JNIEnv *env, jobject obj,
+Java_com_cangwang_filter_util_OpenGLJniLib_magicBaseInit(JNIEnv *env, jobject obj,
                                                         jobject surface,jint width,jint height,jobject assetManager) {
     std::unique_lock<std::mutex> lock(gMutex);
     if(glCamera){
@@ -46,7 +46,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseInit(JNIEnv *env, jobject obj
 
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseCreate(JNIEnv *env, jobject obj) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicBaseCreate(JNIEnv *env, jobject obj) {
     //关闭颜色抖动 若机器的分辨率已经相当高，激活抖动操作根本就没有任何意义
     glDisable(GL_DITHER);
     //清颜色
@@ -58,14 +58,14 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseCreate(JNIEnv *env, jobject o
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseChange(JNIEnv *env, jobject obj,jint width,jint height) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicBaseChange(JNIEnv *env, jobject obj,jint width,jint height) {
     //视口变换，可视区域
     if(glCamera)
         glCamera->resize(width,height);
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseDraw(JNIEnv *env, jobject obj,jfloatArray matrix_) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicBaseDraw(JNIEnv *env, jobject obj,jfloatArray matrix_) {
     jfloat *matrix = env->GetFloatArrayElements(matrix_,NULL);
 
     std::unique_lock<std::mutex> lock(gMutex);
@@ -78,7 +78,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseDraw(JNIEnv *env, jobject obj
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseRelease(JNIEnv *env, jobject obj) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicBaseRelease(JNIEnv *env, jobject obj) {
     std::unique_lock<std::mutex> lock(gMutex);
     if (glCamera){
         glCamera->stop();
@@ -88,13 +88,13 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicBaseRelease(JNIEnv *env, jobject 
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicAdjustSize(JNIEnv *env, jobject obj,jint orientation,jboolean isFront,jboolean flipVertical) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicAdjustSize(JNIEnv *env, jobject obj,jint orientation,jboolean isFront,jboolean flipVertical) {
 
 }
 
 //相机滤镜surfaceView初始化的时候创建
 JNIEXPORT jint JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterCreate(JNIEnv *env, jobject obj,
+Java_com_cangwang_filter_util_OpenGLJniLib_magicFilterCreate(JNIEnv *env, jobject obj,
                                                         jobject surface,jobject assetManager) {
     std::unique_lock<std::mutex> lock(gMutex);
     if(glCameraFilter){ //停止摄像头采集并销毁
@@ -113,7 +113,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterCreate(JNIEnv *env, jobject
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterSet(JNIEnv *env, jobject obj,
+Java_com_cangwang_filter_util_OpenGLJniLib_magicFilterSet(JNIEnv *env, jobject obj,
                                                             jobject surface,jobject assetManager) {
     std::unique_lock<std::mutex> lock(gMutex);
     if (!glCameraFilter){
@@ -129,7 +129,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterSet(JNIEnv *env, jobject ob
 
 //窗口大小设置，SurfaceView初始化后会触发一次
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {
     std::unique_lock<std::mutex> lock(gMutex);
     //视口变换，可视区域
     if (!glCameraFilter){
@@ -145,7 +145,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterChange(JNIEnv *env, jobject
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jstring address) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicFilterDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jstring address) {
     //获取摄像头矩阵
     jfloat *matrix = env->GetFloatArrayElements(matrix_,NULL);
     //加锁
@@ -162,7 +162,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterDraw(JNIEnv *env, jobject o
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobject obj) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobject obj) {
     std::unique_lock<std::mutex> lock(gMutex);
     if (glCameraFilter){
         glCameraFilter->stop();
@@ -172,7 +172,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicFilterRelease(JNIEnv *env, jobjec
 }
 
 JNIEXPORT jint JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_buildVideoSurface(JNIEnv *env,jobject obj, jobject surface,jint textureId,jobject assetManager) {
+Java_com_cangwang_filter_util_OpenGLJniLib_buildVideoSurface(JNIEnv *env,jobject obj, jobject surface,jint textureId,jobject assetManager) {
     std::unique_lock<std::mutex> lock(gMutex);
     if(glVideoFilter){ //停止视频采集并销毁
         glVideoFilter->stop();
@@ -194,7 +194,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_buildVideoSurface(JNIEnv *env,jobject 
 
 //窗口大小设置，SurfaceView初始化后会触发一次
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicVideoFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicVideoFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {
     std::unique_lock<std::mutex> lock(gMutex);
     //视口变换，可视区域
     if (!glVideoFilter){
@@ -206,7 +206,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicVideoFilterChange(JNIEnv *env, jo
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicVideoDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jlong time) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicVideoDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jlong time) {
     //加锁
     std::unique_lock<std::mutex> lock(gMutex);
     //获取摄像头矩阵
@@ -224,7 +224,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicVideoDraw(JNIEnv *env, jobject ob
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_releaseVideoSurface(JNIEnv *env,jobject obj) {
+Java_com_cangwang_filter_util_OpenGLJniLib_releaseVideoSurface(JNIEnv *env,jobject obj) {
     std::unique_lock<std::mutex> lock(gMutex);
 
     if(glVideoFilter){ //停止摄像头采集并销毁
@@ -236,7 +236,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_releaseVideoSurface(JNIEnv *env,jobjec
 
 //图片滤镜surfaceView初始化的时候创建
 JNIEXPORT jint JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterCreate(JNIEnv *env, jobject obj,
+Java_com_cangwang_filter_util_OpenGLJniLib_magicImageFilterCreate(JNIEnv *env, jobject obj,
                                                             jobject surface,jobject assetManager,jstring imgPath,jint degree) {
     std::unique_lock<std::mutex> lock(gMutex);
     if(glImageFilter){ //停止摄像头采集并销毁
@@ -261,7 +261,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterCreate(JNIEnv *env, jo
 
 //窗口大小设置，SurfaceView初始化后会触发一次
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicImageFilterChange(JNIEnv *env, jobject obj,jint width,jint height) {
     std::unique_lock<std::mutex> lock(gMutex);
     //视口变换，可视区域
     if (!glImageFilter){
@@ -273,7 +273,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterChange(JNIEnv *env, jo
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jstring address) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicImageFilterDraw(JNIEnv *env, jobject obj,jfloatArray matrix_,jstring address) {
     //获取摄像头矩阵
     jfloat *matrix = env->GetFloatArrayElements(matrix_,NULL);
     //加锁
@@ -290,7 +290,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterDraw(JNIEnv *env, jobj
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterRelease(JNIEnv *env, jobject obj) {
+Java_com_cangwang_filter_util_OpenGLJniLib_magicImageFilterRelease(JNIEnv *env, jobject obj) {
     std::unique_lock<std::mutex> lock(gMutex);
     if (glImageFilter){
         glImageFilter->stop();
@@ -301,7 +301,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_magicImageFilterRelease(JNIEnv *env, j
 
 
 JNIEXPORT jintArray JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_getFilterTypes(JNIEnv *env, jobject obj) {
+Java_com_cangwang_filter_util_OpenGLJniLib_getFilterTypes(JNIEnv *env, jobject obj) {
     int len =0;
     jint* types = getFilterTypes(len);
     jintArray jin_arr=(env)->NewIntArray(len);
@@ -310,7 +310,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_getFilterTypes(JNIEnv *env, jobject ob
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_setFilterType(JNIEnv *env, jobject obj,jint type) {
+Java_com_cangwang_filter_util_OpenGLJniLib_setFilterType(JNIEnv *env, jobject obj,jint type) {
    if(glCameraFilter!= nullptr)
        glCameraFilter->setFilter(type);
    else ALOGE("filter set error, glCameraFilter is null");
@@ -319,21 +319,21 @@ Java_com_cangwang_magic_util_OpenGLJniLib_setFilterType(JNIEnv *env, jobject obj
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_setVideoFilterType(JNIEnv *env, jobject obj,jint type) {
+Java_com_cangwang_filter_util_OpenGLJniLib_setVideoFilterType(JNIEnv *env, jobject obj,jint type) {
     if(glVideoFilter!= nullptr)
         glVideoFilter->setFilter(type);
     else ALOGE("filter set error, glVideoFilter is null");
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_setImageFilterType(JNIEnv *env, jobject obj,jint type) {
+Java_com_cangwang_filter_util_OpenGLJniLib_setImageFilterType(JNIEnv *env, jobject obj,jint type) {
     if(glImageFilter!= nullptr)
         glImageFilter->setFilter(type);
     else ALOGE("filter set error, glImageFilter is null");
 }
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_setImageBeautyLevel(JNIEnv *env, jobject obj,jint level) {
+Java_com_cangwang_filter_util_OpenGLJniLib_setImageBeautyLevel(JNIEnv *env, jobject obj,jint level) {
     if(glImageFilter!= nullptr)
         glImageFilter->setBeautyLevel(level);
     else ALOGE("beauty set error, glCameraFilter is null");
@@ -341,14 +341,14 @@ Java_com_cangwang_magic_util_OpenGLJniLib_setImageBeautyLevel(JNIEnv *env, jobje
 
 
 JNIEXPORT void JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_setBeautyLevel(JNIEnv *env, jobject obj,jint level) {
+Java_com_cangwang_filter_util_OpenGLJniLib_setBeautyLevel(JNIEnv *env, jobject obj,jint level) {
     if(glCameraFilter!= nullptr)
         glCameraFilter->setBeautyLevel(level);
     else ALOGE("beauty set error, glCameraFilter is null");
 }
 
 JNIEXPORT jboolean JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_savePhoto(JNIEnv *env, jobject obj,jstring address) {
+Java_com_cangwang_filter_util_OpenGLJniLib_savePhoto(JNIEnv *env, jobject obj,jstring address) {
     if (glCameraFilter != nullptr) {
         const char* addressStr = env->GetStringUTFChars(address,0);
         std::string nativeAddress = addressStr;
@@ -364,7 +364,7 @@ Java_com_cangwang_magic_util_OpenGLJniLib_savePhoto(JNIEnv *env, jobject obj,jst
 }
 
 JNIEXPORT jboolean JNICALL
-Java_com_cangwang_magic_util_OpenGLJniLib_saveImage(JNIEnv *env, jobject obj,jstring address) {
+Java_com_cangwang_filter_util_OpenGLJniLib_saveImage(JNIEnv *env, jobject obj,jstring address) {
     if (glImageFilter != nullptr) {
         const char* addressStr = env->GetStringUTFChars(address,0);
 

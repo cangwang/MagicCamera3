@@ -3,7 +3,7 @@ package com.cangwang.magic
 import android.opengl.GLSurfaceView
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.cangwang.magic.util.RenderJNI
+import com.cangwang.filter.util.RenderJNI
 
 /**
  * Created by zjl on 2018/10/12.
@@ -11,7 +11,7 @@ import com.cangwang.magic.util.RenderJNI
 class TriangleActivity: AppCompatActivity(){
 
     lateinit var mGLSurfaceView:GLSurfaceView
-    lateinit var mRenderer:RenderJNI
+    lateinit var mRenderer: RenderJNI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

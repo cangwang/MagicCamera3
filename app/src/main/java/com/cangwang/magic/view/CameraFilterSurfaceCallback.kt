@@ -10,15 +10,14 @@ import android.util.Log
 import android.view.Surface
 import android.view.SurfaceHolder
 import android.widget.Toast
+import com.cangwang.filter.util.OpenGLJniLib
 import com.cangwang.magic.BaseApplication
 import com.cangwang.magic.util.CameraHelper
-import com.cangwang.magic.util.OpenGLJniLib
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.IOException
-import java.util.*
 import java.util.concurrent.Executors
 
 /**

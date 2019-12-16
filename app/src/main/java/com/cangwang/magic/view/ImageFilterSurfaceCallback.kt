@@ -8,9 +8,9 @@ import android.util.Log
 import android.view.Surface
 import android.view.SurfaceHolder
 import android.widget.Toast
+import com.cangwang.filter.util.OpenGLJniLib
 import com.cangwang.magic.BaseApplication
 import com.cangwang.magic.util.ExifUtil
-import com.cangwang.magic.util.OpenGLJniLib
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers

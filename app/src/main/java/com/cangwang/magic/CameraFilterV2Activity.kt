@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cangwang.magic.adapter.FilterAdapter
 import com.cangwang.magic.camera.CameraCompat
-import com.cangwang.magic.util.OpenGLJniLib
 import com.cangwang.magic.view.CameraFilterSurfaceCallbackV3
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,6 +24,8 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.filter_layout.*
 import java.util.concurrent.TimeUnit
+import com.cangwang.filter.util.OpenGLJniLib
+
 
 /**
  * 滤镜录制
