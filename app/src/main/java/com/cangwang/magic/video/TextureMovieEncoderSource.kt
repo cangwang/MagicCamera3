@@ -3,8 +3,8 @@ package com.cangwang.magic.video
 import android.os.Build
 import android.os.Environment
 import android.util.Log
-import com.cangwang.filter.util.OpenGLJniLib
 import com.cangwang.magic.BaseApplication
+import com.cangwang.magic.util.OpenGLJniLib
 import java.io.File
 import java.lang.Exception
 import java.util.concurrent.Executors
