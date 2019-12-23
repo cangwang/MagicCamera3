@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/selectBack"
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -26,7 +26,7 @@
             android:layout_margin="5dp"
             android:scaleType="centerCrop" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/check"
             android:layout_width="15dp"
             android:layout_height="15dp"
@@ -45,7 +45,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/gif"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,12 +76,12 @@
         android:paddingRight="10dp"
         android:visibility="gone">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:src="@drawable/pick_video_bg" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -8,13 +8,13 @@ import android.app.AlertDialog
 import android.content.pm.ActivityInfo
 import android.graphics.Point
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.RelativeLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.cangwang.magic.adapter.FilterAdapter
 import com.cangwang.magic.camera.CameraCompat
 import com.cangwang.magic.util.OpenGLJniLib
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit
  * 滤镜录制
  * Created by cangwang on 2018/9/12.
  */
-class CameraFilterV2Activity: AppCompatActivity(){
+class CameraFilterV2Activity:AppCompatActivity(){
     private val TAG = CameraFilterV2Activity::class.java.simpleName
     private val MODE_PIC = 1
     private val MODE_VIDEO = 2

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/appbar"
     android:layout_width="match_parent"
@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="24dp" />
 
-    <androidx.appcompat.widget.Toolbar
+    <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:contentInsetStart="0dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/midTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -43,7 +43,7 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
             
-            <androidx.appcompat.widget.AppCompatImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/selectArrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
 
         </RelativeLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/sure"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -62,6 +62,6 @@
             android:textSize="17sp" />
 
 
-    </androidx.appcompat.widget.Toolbar>
+    </android.support.v7.widget.Toolbar>
 
-</com.google.android.material.appbar.AppBarLayout>
+</android.support.design.widget.AppBarLayout>

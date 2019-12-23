@@ -5,12 +5,12 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.cangwang.magic.adapter.FilterAdapter
 import com.cangwang.magic.util.OpenGLJniLib
 import com.cangwang.magic.view.ImageFilterSurfaceCallback
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.filter_layout.*
 /**
  * 图片编辑
  */
-class ImageEditActivity: AppCompatActivity(){
+class ImageEditActivity:AppCompatActivity(){
 
     private var mAdapter: FilterAdapter? = null
     private var mSurfaceCallback: ImageFilterSurfaceCallback?=null
