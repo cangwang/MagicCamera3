@@ -14,14 +14,14 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cppFlags "-std=c++11 -fexceptions"
-            }
-        }
-        ndk {
-            abiFilters "armeabi-v7a"
-        }
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags "-std=c++11 -fexceptions"
+//            }
+//        }
+//        ndk {
+//            abiFilters "armeabi-v7a"
+//        }
     }
     buildTypes {
         release {
@@ -34,11 +34,11 @@ android {
 //        jniLibs.srcDirs = ['libs']
 //    }
 
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
-    }
+//    externalNativeBuild {
+//        cmake {
+//            path "CMakeLists.txt"
+//        }
+//    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -64,6 +64,7 @@ dependencies {
     implementation project(':pickphotoview')
     kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
     implementation project(':base')
+    api project(':filter')
 }
 
 kapt {

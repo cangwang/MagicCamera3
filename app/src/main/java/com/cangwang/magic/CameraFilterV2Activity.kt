@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.content.pm.ActivityInfo
+import android.content.res.AssetManager
 import android.graphics.Point
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -17,7 +18,7 @@ import android.view.WindowManager
 import android.widget.RelativeLayout
 import com.cangwang.magic.adapter.FilterAdapter
 import com.cangwang.magic.camera.CameraCompat
-import com.cangwang.magic.util.OpenGLJniLib
+import com.cangwang.filter.util.OpenGLJniLib
 import com.cangwang.magic.view.CameraFilterSurfaceCallbackV3
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,7 +31,7 @@ import java.util.concurrent.TimeUnit
  * 滤镜录制
  * Created by cangwang on 2018/9/12.
  */
-class CameraFilterV2Activity:AppCompatActivity(){
+class CameraFilterV2Activity : AppCompatActivity() {
     private val TAG = CameraFilterV2Activity::class.java.simpleName
     private val MODE_PIC = 1
     private val MODE_VIDEO = 2
@@ -41,11 +42,11 @@ class CameraFilterV2Activity:AppCompatActivity(){
     private val VIDEO_MAX_TIME = 15
 
     private var mAdapter: FilterAdapter? = null
-    private var mSurfaceCallback:CameraFilterSurfaceCallbackV3?=null
-    private var beautyLevel:Int = 0
+    private var mSurfaceCallback: CameraFilterSurfaceCallbackV3? = null
+    private var beautyLevel: Int = 0
 
-    var mCamera: CameraCompat?=null
-    var filterType:Int=0
+    var mCamera: CameraCompat? = null
+    var filterType: Int = 0
 
     private var videoAnimator: ObjectAnimator? = null
     /**
@@ -56,7 +57,8 @@ class CameraFilterV2Activity:AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        window.setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_camera)
@@ -65,16 +67,17 @@ class CameraFilterV2Activity:AppCompatActivity(){
 
     private val types = OpenGLJniLib.getFilterTypes()
 
-    private fun initView(){
-        filter_listView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+    private fun initView() {
+        filter_listView.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         mAdapter = FilterAdapter(this, types)
-        mAdapter?.filterListener= object:FilterAdapter.onFilterChangeListener{
+        mAdapter?.filterListener = object : FilterAdapter.onFilterChangeListener {
             override fun onFilterChanged(filterType: Int) {
                 this@CameraFilterV2Activity.filterType = filterType
                 mSurfaceCallback?.setFilterType(filterType)
             }
         }
-        filter_listView.adapter= mAdapter
+        filter_listView.adapter = mAdapter
         btn_camera_filter.setOnClickListener {
             showFilters()
         }
@@ -83,9 +86,9 @@ class CameraFilterV2Activity:AppCompatActivity(){
         }
 
         btn_camera_shutter.setOnClickListener {
-            if(mode == MODE_PIC) {
+            if (mode == MODE_PIC) {
                 takePhoto()
-            }else if (mode == MODE_VIDEO){
+            } else if (mode == MODE_VIDEO) {
                 takeVideo()
             }
         }
@@ -95,10 +98,10 @@ class CameraFilterV2Activity:AppCompatActivity(){
         }
 
         btn_camera_mode.setOnClickListener {
-            if(mode == MODE_PIC){
+            if (mode == MODE_PIC) {
                 mode = MODE_VIDEO
                 btn_camera_mode.setImageResource(R.drawable.icon_camera)
-            }else if (mode == MODE_VIDEO){
+            } else if (mode == MODE_VIDEO) {
                 mode = MODE_PIC
                 btn_camera_mode.setImageResource(R.drawable.icon_video)
             }
@@ -106,8 +109,8 @@ class CameraFilterV2Activity:AppCompatActivity(){
 
         btn_camera_beauty.setOnClickListener {
             AlertDialog.Builder(this)
-                    .setSingleChoiceItems(arrayOf("关闭", "1", "2", "3", "4", "5"), beautyLevel) {
-                        dialog, which ->
+                    .setSingleChoiceItems(arrayOf("关闭", "1", "2", "3", "4", "5"),
+                            beautyLevel) { dialog, which ->
                         beautyLevel = which
                         OpenGLJniLib.setBeautyLevel(which)
                         dialog.dismiss()
@@ -124,37 +127,37 @@ class CameraFilterV2Activity:AppCompatActivity(){
     override fun onResume() {
         super.onResume()
         initCamera()
-        Log.d(TAG,"initCamera")
+        Log.d(TAG, "initCamera")
     }
 
-    private fun initCamera(){
+    private fun initCamera() {
         mCamera = CameraCompat.newInstance(this)
-        mSurfaceCallback = CameraFilterSurfaceCallbackV3(mCamera,filterType)
+        mSurfaceCallback = CameraFilterSurfaceCallbackV3(mCamera, filterType)
         glsurfaceview_camera.holder.addCallback(mSurfaceCallback)
         //初始化摄像头
         mCamera?.startPreview()
     }
 
     override fun onPause() {
-        if(mSurfaceCallback?.isRecording() == true) {
+        if (mSurfaceCallback?.isRecording() == true) {
             releaseVideoRecord()
         }
 //        mCamera?.stopPreview(true)
         glsurfaceview_camera.holder.removeCallback(mSurfaceCallback)
         mSurfaceCallback?.releaseOpenGL()
-        mSurfaceCallback =null
+        mSurfaceCallback = null
         mCamera = null
         super.onPause()
     }
 
-    private fun takePhoto(){
+    private fun takePhoto() {
         mSurfaceCallback?.takePhoto()
     }
 
-    private fun takeVideo(){
-        if(mSurfaceCallback?.isRecording() == true) {
+    private fun takeVideo() {
+        if (mSurfaceCallback?.isRecording() == true) {
             releaseVideoRecord()
-        }else{
+        } else {
             startVideoRecord()
         }
     }
@@ -162,7 +165,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
     private fun showFilters() {
         val animator = ObjectAnimator.ofInt(layout_filter, "translationY", layout_filter.height, 0)
         animator.duration = 200
-        animator.addListener(object :AnimatorListenerAdapter(){
+        animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
                 btn_camera_shutter.isClickable = false
                 layout_filter.visibility = View.VISIBLE
@@ -175,7 +178,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
     private fun hideFilters() {
         val animator = ObjectAnimator.ofInt(layout_filter, "translationY", 0, layout_filter.height)
         animator.duration = 200
-        animator.addListener(object :AnimatorListenerAdapter(){
+        animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 // TODO Auto-generated method stub
                 layout_filter.visibility = View.INVISIBLE
@@ -192,26 +195,26 @@ class CameraFilterV2Activity:AppCompatActivity(){
     }
 
     override fun onBackPressed() {
-        if(layout_filter.visibility == View.VISIBLE){
+        if (layout_filter.visibility == View.VISIBLE) {
             hideFilters()
-        }else {
+        } else {
             super.onBackPressed()
         }
     }
 
-    private fun startVideoRecord(){
+    private fun startVideoRecord() {
         showVideoRecord()
         mSurfaceCallback?.startRecordVideo()
         videoAnimator?.start()
     }
 
-    private fun releaseVideoRecord(){
+    private fun releaseVideoRecord() {
         mSurfaceCallback?.releaseRecordVideo()
         videoAnimator?.end()
         hideVideoRecord()
     }
 
-    private fun showVideoRecord(){
+    private fun showVideoRecord() {
         video_record_seek_bar.visibility = View.VISIBLE
         btn_camera_mode.visibility = View.GONE
         btn_camera_switch.visibility = View.GONE
@@ -221,7 +224,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
         recordCountDown()
     }
 
-    private fun hideVideoRecord(){
+    private fun hideVideoRecord() {
         video_record_seek_bar.visibility = View.GONE
         btn_camera_mode.visibility = View.VISIBLE
         btn_camera_switch.visibility = View.VISIBLE
@@ -244,12 +247,12 @@ class CameraFilterV2Activity:AppCompatActivity(){
         video_record_seek_bar.setPadding(0, 0, 0, 0)
     }
 
-    private fun recordCountDown(){
+    private fun recordCountDown() {
         val count = 15
         mDisposable = Observable.interval(1, 1, TimeUnit.SECONDS)
                 .take((count + 1).toLong())
                 .map { t ->
-                    count-t
+                    count - t
                 }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { aLong ->
@@ -262,7 +265,7 @@ class CameraFilterV2Activity:AppCompatActivity(){
                 }
     }
 
-    private fun stopRecordCountTime(){
+    private fun stopRecordCountTime() {
         mDisposable?.dispose()
         mDisposable = null
     }

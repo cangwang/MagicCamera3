@@ -12,7 +12,7 @@ import android.view.SurfaceHolder
 import android.widget.Toast
 import com.cangwang.magic.BaseApplication
 import com.cangwang.magic.camera.CameraCompat
-import com.cangwang.magic.util.OpenGLJniLib
+import com.cangwang.filter.util.OpenGLJniLib
 import com.cangwang.magic.video.VideoEncoderCoderMP4
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe

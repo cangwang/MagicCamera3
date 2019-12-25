@@ -5,7 +5,7 @@ import android.os.Build
 import android.os.Environment
 import android.util.Log
 import com.cangwang.magic.BaseApplication
-import com.cangwang.magic.util.OpenGLJniLib
+import com.cangwang.filter.util.OpenGLJniLib
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.functions.BiFunction

@@ -12,7 +12,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import com.cangwang.magic.adapter.FilterAdapter
-import com.cangwang.magic.util.OpenGLJniLib
+import com.cangwang.filter.util.OpenGLJniLib
 import com.cangwang.magic.view.ImageFilterSurfaceCallback
 import com.werb.pickphotoview.model.SelectModel
 import com.werb.pickphotoview.util.PickConfig

@@ -5,14 +5,11 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Point
 import android.hardware.Camera
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
 import android.support.v7.app.AppCompatActivity
@@ -22,9 +19,9 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.RelativeLayout
+import com.cangwang.filter.util.OpenGLJniLib
 import com.cangwang.magic.adapter.FilterAdapter
 import com.cangwang.magic.util.CameraHelper
-import com.cangwang.magic.util.OpenGLJniLib
 import com.cangwang.magic.view.CameraFilterSurfaceCallback
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.filter_layout.*
@@ -32,7 +29,7 @@ import kotlinx.android.synthetic.main.filter_layout.*
 /**
  * Created by cangwang on 2018/9/12.
  */
-class CameraFilterActivity:AppCompatActivity(){
+class CameraFilterActivity : AppCompatActivity() {
 
     private var isRecording = false
     private val MODE_PIC = 1
@@ -41,10 +38,10 @@ class CameraFilterActivity:AppCompatActivity(){
     private var CAMERA_PERMISSION_REQ = 1
     private var STORGE_PERMISSION_REQ = 2
     private var mAdapter: FilterAdapter? = null
-    private var mSurfaceCallback:CameraFilterSurfaceCallback?=null
-    private var beautyLevel:Int = 0
+    private var mSurfaceCallback: CameraFilterSurfaceCallback? = null
+    private var beautyLevel: Int = 0
 
-    var mCamera: Camera?=null
+    var mCamera: Camera? = null
     private val ASPECT_RATIO_ARRAY = floatArrayOf(9.0f / 16, 3.0f / 4)
     var mAspectRatio = ASPECT_RATIO_ARRAY[0]
 
@@ -53,21 +50,26 @@ class CameraFilterActivity:AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        window.setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_camera)
-        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) run {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),CAMERA_PERMISSION_REQ)
-        }else {
+        if (PermissionChecker.checkSelfPermission(this,
+                        Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) run {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_REQ)
+        } else {
             initView()
         }
-        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) run {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),STORGE_PERMISSION_REQ)
+        if (PermissionChecker.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) run {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), STORGE_PERMISSION_REQ)
         }
     }
 
-//    private val types = arrayOf(MagicFilterType.NONE, MagicFilterType.FAIRYTALE, MagicFilterType.SUNRISE,
+    //    private val types = arrayOf(MagicFilterType.NONE, MagicFilterType.FAIRYTALE, MagicFilterType.SUNRISE,
 //            MagicFilterType.SUNSET, MagicFilterType.WHITECAT, MagicFilterType.BLACKCAT, MagicFilterType.SKINWHITEN, MagicFilterType.HEALTHY,
 //            MagicFilterType.SWEETS, MagicFilterType.ROMANCE, MagicFilterType.SAKURA, MagicFilterType.WARM, MagicFilterType.ANTIQUE,
 //            MagicFilterType.NOSTALGIA, MagicFilterType.CALM, MagicFilterType.LATTE, MagicFilterType.TENDER, MagicFilterType.COOL,
@@ -78,15 +80,16 @@ class CameraFilterActivity:AppCompatActivity(){
 //            MagicFilterType.VALENCIA, MagicFilterType.WALDEN, MagicFilterType.XPROII)
     private val types = OpenGLJniLib.getFilterTypes()
 
-    fun initView(){
-        filter_listView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+    fun initView() {
+        filter_listView.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         mAdapter = FilterAdapter(this, types)
-        mAdapter?.filterListener= object:FilterAdapter.onFilterChangeListener{
+        mAdapter?.filterListener = object : FilterAdapter.onFilterChangeListener {
             override fun onFilterChanged(type: Int) {
                 mSurfaceCallback?.setFilterType(type)
             }
         }
-        filter_listView.adapter= mAdapter
+        filter_listView.adapter = mAdapter
         btn_camera_filter.setOnClickListener {
             showFilters()
         }
@@ -108,8 +111,8 @@ class CameraFilterActivity:AppCompatActivity(){
 
         btn_camera_beauty.setOnClickListener {
             AlertDialog.Builder(this)
-                    .setSingleChoiceItems(arrayOf("关闭", "1", "2", "3", "4", "5"), beautyLevel) {
-                        dialog, which ->
+                    .setSingleChoiceItems(arrayOf("关闭", "1", "2", "3", "4", "5"),
+                            beautyLevel) { dialog, which ->
                         beautyLevel = which
                         OpenGLJniLib.setBeautyLevel(which)
                         dialog.dismiss()
@@ -117,13 +120,12 @@ class CameraFilterActivity:AppCompatActivity(){
                     .setNegativeButton("取消", null)
                     .show()
         }
-        val screenSize =Point()
+        val screenSize = Point()
         windowManager.defaultDisplay.getSize(screenSize)
         val params = glsurfaceview_camera.layoutParams as RelativeLayout.LayoutParams
-        params.width= screenSize.x
-        params.height = screenSize.x* 16/9
+        params.width = screenSize.x
+        params.height = screenSize.x * 16 / 9
         glsurfaceview_camera.layoutParams = params
-
     }
 
     override fun onResume() {
@@ -131,7 +133,7 @@ class CameraFilterActivity:AppCompatActivity(){
         initCamera()
     }
 
-    private fun initCamera(){
+    private fun initCamera() {
         releaseCamera()
         mCamera = openCamera(glsurfaceview_camera.holder)
         mSurfaceCallback = CameraFilterSurfaceCallback(mCamera)
@@ -148,7 +150,9 @@ class CameraFilterActivity:AppCompatActivity(){
         super.onDestroy()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+            requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
 //        if (grantResults.size !=1 || grantResults[0] ==PackageManager.PERMISSION_GRANTED){
 //            if (mode == MODE_PIC){
 //                takePhoto()
@@ -157,7 +161,7 @@ class CameraFilterActivity:AppCompatActivity(){
 //            }
 //        }
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_PERMISSION_REQ &&(grantResults.size != 1 || grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+        if (requestCode == CAMERA_PERMISSION_REQ && (grantResults.size != 1 || grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
             initView()
             initCamera()
         } else {
@@ -165,43 +169,44 @@ class CameraFilterActivity:AppCompatActivity(){
         }
     }
 
-    fun takePhoto(){
+    fun takePhoto() {
         mSurfaceCallback?.takePhoto()
     }
 
-    fun takeVideo(){
-
+    fun takeVideo() {
     }
 
-    fun switchCamera(){
-        mCameraId = if (mCameraId == Camera.CameraInfo.CAMERA_FACING_BACK ) Camera.CameraInfo.CAMERA_FACING_FRONT else Camera.CameraInfo.CAMERA_FACING_BACK
+    fun switchCamera() {
+        mCameraId =
+                if (mCameraId == Camera.CameraInfo.CAMERA_FACING_BACK) Camera.CameraInfo.CAMERA_FACING_FRONT else Camera.CameraInfo.CAMERA_FACING_BACK
         releaseCamera()
         mCamera = openCamera(glsurfaceview_camera.holder)
         mSurfaceCallback?.changeCamera(mCamera)
     }
 
-    fun releaseCamera(){
+    fun releaseCamera() {
         mCamera?.setPreviewCallback(null)
         mCamera?.stopPreview()
         mCamera?.release()
         mCamera = null
     }
 
-
-    fun openCamera(holder: SurfaceHolder?):Camera?{
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+    fun openCamera(holder: SurfaceHolder?): Camera? {
+        if (ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             return null
         }
 
-        if (mCamera!=null){
+        if (mCamera != null) {
             return mCamera
         }
         mCamera = CameraHelper.openCamera(mCameraId)
 
         mCamera?.let {
             //这里android 相机长和宽默认偏移90度，所以传入要对调
-            CameraHelper.setOptimalSize(it,mAspectRatio,CameraHelper.getScreenHeight(),CameraHelper.getScreenWidth())
-            CameraHelper.setDisplayOritation(this,it,mCameraId)
+            CameraHelper.setOptimalSize(it, mAspectRatio, CameraHelper.getScreenHeight(),
+                    CameraHelper.getScreenWidth())
+            CameraHelper.setDisplayOritation(this, it, mCameraId)
         }
         return mCamera
     }
@@ -209,7 +214,7 @@ class CameraFilterActivity:AppCompatActivity(){
     private fun showFilters() {
         val animator = ObjectAnimator.ofInt(layout_filter, "translationY", layout_filter.height, 0)
         animator.duration = 200
-        animator.addListener(object :AnimatorListenerAdapter(){
+        animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
                 findViewById<View>(R.id.btn_camera_shutter).isClickable = false
                 layout_filter.visibility = View.VISIBLE
@@ -222,7 +227,7 @@ class CameraFilterActivity:AppCompatActivity(){
     private fun hideFilters() {
         val animator = ObjectAnimator.ofInt(layout_filter, "translationY", 0, layout_filter.height)
         animator.duration = 200
-        animator.addListener(object :AnimatorListenerAdapter(){
+        animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 // TODO Auto-generated method stub
                 layout_filter.visibility = View.INVISIBLE
