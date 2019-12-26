@@ -34,93 +34,34 @@ void MagicSutroFilter::onDestroy() {
 
 void MagicSutroFilter::onDrawArraysPre() {
     glUniform1f(mGLStrengthLocation, 1.0f);
-//    for (int i = 0; i < len; ++i) {
-//        if (inputTextureHandles[i] != 0) {
-//            glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
-//            glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
-//            glUniform1i(inputTextureUniformLocations[i], i+3);
-//        }
-//    }
-    if (inputTextureHandles[0] != 0) {
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[0]);
-        glUniform1i(inputTextureUniformLocations[0], 3);
-    }
-
-    if (inputTextureHandles[1] != 0) {
-        glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[1]);
-        glUniform1i(inputTextureUniformLocations[1], 4);
-    }
-
-    if (inputTextureHandles[2] != 0) {
-        glActiveTexture(GL_TEXTURE5);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[2]);
-        glUniform1i(inputTextureUniformLocations[2], 5);
-    }
-
-    if (inputTextureHandles[3] != 0) {
-        glActiveTexture(GL_TEXTURE6);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[3]);
-        glUniform1i(inputTextureUniformLocations[3], 6);
-    }
-    if (inputTextureHandles[4] != 0) {
-        glActiveTexture(GL_TEXTURE7);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[4]);
-        glUniform1i(inputTextureUniformLocations[4], 7);
+    for (int i = 0; i < len; ++i) {
+        if (inputTextureHandles[i] != 0) {
+            glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
+            glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
+            glUniform1i(inputTextureUniformLocations[i], i+3);
+        }
     }
 }
 
 void MagicSutroFilter::onDrawArraysAfter() {
-//    for (int i = 0; i < len; ++i) {
-//        if (inputTextureHandles[i] != 0) {
-//            glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
-//            glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
-//            glActiveTexture(GL_TEXTURE0);
-//        }
-//    }
-    if (inputTextureHandles[0] != 0) {
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[0]);
-        glActiveTexture(GL_TEXTURE0);
-    }
-
-    if (inputTextureHandles[1] != 0) {
-        glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[1]);
-        glActiveTexture(GL_TEXTURE0);
-    }
-
-    if (inputTextureHandles[2] != 0) {
-        glActiveTexture(GL_TEXTURE5);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[2]);
-        glActiveTexture(GL_TEXTURE0);
-    }
-
-    if (inputTextureHandles[3] != 0) {
-        glActiveTexture(GL_TEXTURE6);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[3]);
-        glActiveTexture(GL_TEXTURE0);
-    }
-
-    if (inputTextureHandles[4] != 0) {
-        glActiveTexture(GL_TEXTURE7);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[4]);
-        glActiveTexture(GL_TEXTURE0);
+    for (int i = 0; i < len; ++i) {
+        if (inputTextureHandles[i] != 0) {
+            glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
+            glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
+            glActiveTexture(GL_TEXTURE0);
+        }
     }
 }
 
 
 void MagicSutroFilter::onInit() {
     GPUImageFilter::onInit();
-//    for (int i = 0; i < len; ++i) {
-//        inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,"inputImageTexture"+(2+i));
-//    }
-    inputTextureUniformLocations[0] = glGetUniformLocation(mGLProgId,"inputImageTexture2");
-    inputTextureUniformLocations[1] = glGetUniformLocation(mGLProgId,"inputImageTexture3");
-    inputTextureUniformLocations[2] = glGetUniformLocation(mGLProgId,"inputImageTexture4");
-    inputTextureUniformLocations[3] = glGetUniformLocation(mGLProgId,"inputImageTexture5");
-    inputTextureUniformLocations[4] = glGetUniformLocation(mGLProgId,"inputImageTexture6");
+    for (int i = 0; i < len; ++i) {
+        std::ostringstream ss;
+        ss << "inputImageTexture" << 2+i;
+        inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,
+                                                               ss.str().c_str());
+    }
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 

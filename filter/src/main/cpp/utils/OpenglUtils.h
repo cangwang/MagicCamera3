@@ -27,4 +27,3 @@ unsigned char* getAddressFromAssetFilter(AAssetManager *manager, const char *fil
 int64_t getTimeNesc();
 int64_t getTimeMise();
 
-

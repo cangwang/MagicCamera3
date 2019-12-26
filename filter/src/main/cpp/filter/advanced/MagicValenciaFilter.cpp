@@ -34,55 +34,34 @@ void MagicValenciaFilter::onDestroy() {
 
 void MagicValenciaFilter::onDrawArraysPre() {
     glUniform1f(mGLStrengthLocation, 1.0f);
-//    for (int i = 0; i < len; ++i) {
-//        if (inputTextureHandles[i] != 0) {
-//            glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
-//            glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
-//            glUniform1i(inputTextureUniformLocations[i], i+3);
-//        }
-//    }
-    if (inputTextureHandles[0] != 0) {
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[0]);
-        glUniform1i(inputTextureUniformLocations[0], 3);
-    }
-
-    if (inputTextureHandles[1] != 0) {
-        glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[1]);
-        glUniform1i(inputTextureUniformLocations[1], 4);
+    for (int i = 0; i < len; ++i) {
+        if (inputTextureHandles[i] != 0) {
+            glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
+            glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
+            glUniform1i(inputTextureUniformLocations[i], i+3);
+        }
     }
 }
 
 void MagicValenciaFilter::onDrawArraysAfter() {
-//    for (int i = 0; i < len; ++i) {
-//        if (inputTextureHandles[i] != 0) {
-//            glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
-//            glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
-//            glActiveTexture(GL_TEXTURE0);
-//        }
-//    }
-    if (inputTextureHandles[0] != 0) {
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[0]);
-        glActiveTexture(GL_TEXTURE0);
-    }
-
-    if (inputTextureHandles[1] != 0) {
-        glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, inputTextureHandles[1]);
-        glActiveTexture(GL_TEXTURE0);
+    for (int i = 0; i < len; ++i) {
+        if (inputTextureHandles[i] != 0) {
+            glActiveTexture(static_cast<GLenum>(GL_TEXTURE3 + i));
+            glBindTexture(GL_TEXTURE_2D, inputTextureHandles[i]);
+            glActiveTexture(GL_TEXTURE0);
+        }
     }
 }
 
 
 void MagicValenciaFilter::onInit() {
     GPUImageFilter::onInit();
-//    for (int i = 0; i < len; ++i) {
-//        inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,"inputImageTexture"+(2+i));
-//    }
-    inputTextureUniformLocations[0] = glGetUniformLocation(mGLProgId,"inputImageTexture2");
-    inputTextureUniformLocations[1] = glGetUniformLocation(mGLProgId,"inputImageTexture3");
+    for (int i = 0; i < len; ++i) {
+        std::ostringstream ss;
+        ss << "inputImageTexture" << 2+i;
+        inputTextureUniformLocations[i] = glGetUniformLocation(mGLProgId,
+                                                               ss.str().c_str());
+    }
     mGLStrengthLocation = glGetUniformLocation(mGLProgId,"strength");
 }
 

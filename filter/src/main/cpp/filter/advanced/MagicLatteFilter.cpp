@@ -1,7 +1,7 @@
 #include "MagicLatteFilter.h"
 #include "utils/OpenglUtils.h"
 
-#define LOG_TAG "MagicCoolFilter"
+#define LOG_TAG "MagicLatteFilter"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #if DEBUG
 #define ALOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
