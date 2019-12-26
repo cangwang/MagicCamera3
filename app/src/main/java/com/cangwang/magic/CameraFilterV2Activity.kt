@@ -65,7 +65,7 @@ class CameraFilterV2Activity : AppCompatActivity() {
         initView()
     }
 
-    private val types = OpenGLJniLib.getFilterTypes()
+    private val types = OpenGLJniLib.getFilterType()
 
     private fun initView() {
         filter_listView.layoutManager =

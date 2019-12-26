@@ -78,7 +78,7 @@ class CameraFilterActivity : AppCompatActivity() {
 //            MagicFilterType.INKWELL, MagicFilterType.KEVIN, MagicFilterType.LOMO, MagicFilterType.N1977, MagicFilterType.NASHVILLE,
 //            MagicFilterType.PIXAR, MagicFilterType.RISE, MagicFilterType.SIERRA, MagicFilterType.SUTRO, MagicFilterType.TOASTER2,
 //            MagicFilterType.VALENCIA, MagicFilterType.WALDEN, MagicFilterType.XPROII)
-    private val types = OpenGLJniLib.getFilterTypes()
+    private val types = OpenGLJniLib.getFilterType()
 
     fun initView() {
         filter_listView.layoutManager =

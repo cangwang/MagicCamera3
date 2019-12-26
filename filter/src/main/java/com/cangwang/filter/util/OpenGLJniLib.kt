@@ -73,7 +73,7 @@ object OpenGLJniLib {
     /**
      * 获取滤镜列表
      */
-    external fun getFilterTypes(): IntArray
+    external fun getFilterType(): IntArray
 
     /**
      * 设置滤镜类型
