@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicXproIIFilter.h"
 #include "utils/OpenglUtils.h"
 

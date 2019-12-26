@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicSierraFilter.h"
 #include "utils/OpenglUtils.h"
 

@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicSutroFilter.h"
 #include "utils/OpenglUtils.h"
 

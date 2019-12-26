@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicLomoFilter.h"
 #include "utils/OpenglUtils.h"
 

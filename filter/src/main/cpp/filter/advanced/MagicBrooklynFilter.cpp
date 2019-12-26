@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicBrooklynFilter.h"
 #include "utils/OpenglUtils.h"
 

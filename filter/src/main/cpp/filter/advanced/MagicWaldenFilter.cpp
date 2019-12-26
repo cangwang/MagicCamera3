@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicWaldenFilter.h"
 #include "utils/OpenglUtils.h"
 

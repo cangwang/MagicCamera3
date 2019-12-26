@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicToasterFilter.h"
 #include "utils/OpenglUtils.h"
 

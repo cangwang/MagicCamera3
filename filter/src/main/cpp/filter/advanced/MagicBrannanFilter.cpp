@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicBrannanFilter.h"
 #include "utils/OpenglUtils.h"
 

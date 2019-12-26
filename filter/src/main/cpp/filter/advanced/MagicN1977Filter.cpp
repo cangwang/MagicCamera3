@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicN1977Filter.h"
 #include "utils/OpenglUtils.h"
 

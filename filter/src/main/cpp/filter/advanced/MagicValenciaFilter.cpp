@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicValenciaFilter.h"
 #include "utils/OpenglUtils.h"
 

@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicHudsonFilter.h"
 #include "utils/OpenglUtils.h"
 

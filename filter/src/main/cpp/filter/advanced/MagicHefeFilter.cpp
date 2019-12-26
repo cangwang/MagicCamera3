@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicHefeFilter.h"
 #include "utils/OpenglUtils.h"
 

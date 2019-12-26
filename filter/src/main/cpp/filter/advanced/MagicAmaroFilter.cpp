@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicAmaroFilter.h"
 #include "utils/OpenglUtils.h"
 #define LOG_TAG "MagicAmaroFilter"

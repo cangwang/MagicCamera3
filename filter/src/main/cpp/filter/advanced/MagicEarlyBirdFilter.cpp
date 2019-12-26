@@ -1,3 +1,4 @@
+#include <sstream>
 #include "MagicEarlyBirdFilter.h"
 #include "utils/OpenglUtils.h"
 
