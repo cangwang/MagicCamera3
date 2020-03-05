@@ -1,9 +1,6 @@
-#include <jni.h>
-#include <android/log.h>
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
-#include <GLES3/gl3.h>
 #include "filter/gpuimage/GpuImageFilter.h"
 
 /**

@@ -20,16 +20,21 @@ AAssetManager * g_aAssetManager = NULL;
 GLuint LoadShader(GLenum type,const char *shaderSrc){
     GLuint shader;
     GLint compiled;
+    //通过shader类型来获取
     shader = glCreateShader(type);
 
     if(shader ==0){
         return 0;
     }
 
+    //加载shader资源
     glShaderSource(shader,1,&shaderSrc,NULL);
+    //编译shader资源
     glCompileShader(shader);
+    //获取shader信息
     glGetShaderiv(shader,GL_COMPILE_STATUS,&compiled);
 
+    //编译不成功，打印日志
     if(!compiled){
         GLint infoLen = 0;
         glGetShaderiv(shader,GL_INFO_LOG_LENGTH,&infoLen);
@@ -43,6 +48,7 @@ GLuint LoadShader(GLenum type,const char *shaderSrc){
         glDeleteShader(shader);
         return 0;
     }
+    //返回编译成功的shader
     return shader;
 }
 
@@ -50,6 +56,7 @@ GLuint LoadShader(GLenum type,const char *shaderSrc){
 JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_RenderJNI_glesInit(JNIEnv *env, jobject obj) {
 
+    //顶点着色器内容
     char vShaderStr[] =
             "#version 300 es                        \n"
                     "layout(location = 0)in vec4 vPosition; \n"
@@ -58,6 +65,7 @@ Java_com_cangwang_magic_util_RenderJNI_glesInit(JNIEnv *env, jobject obj) {
                     " gl_Position = vPosition;              \n"
                     "}                                      \n";
 
+    //片元着色器内容
     char fShaderStr[] =
             "#version 300 es                        \n"
                     "precision mediump float;               \n"
@@ -72,53 +80,74 @@ Java_com_cangwang_magic_util_RenderJNI_glesInit(JNIEnv *env, jobject obj) {
     GLuint programObject;
     GLint linked;
 
+    //加载顶点着色器
     vertexShader = LoadShader(GL_VERTEX_SHADER, vShaderStr);
+    //加载片元着色器
     fragmentShader = LoadShader(GL_FRAGMENT_SHADER, fShaderStr);
 
+    //创建程序
     programObject = glCreateProgram();
     if (programObject == 0) {
         return;
     }
 
+    //绑定顶点着色器
     glAttachShader(programObject, vertexShader);
+    //绑定片元着色器
     glAttachShader(programObject, fragmentShader);
 
+    //关联到程序
     glLinkProgram(programObject);
 
+    //获取程序状态
     glGetProgramiv(programObject, GL_LINK_STATUS, &linked);
 
+    //如果没有链接成功
     if (!linked) {
         GLint infoLen = 0;
+        //获取错误日志
         glGetProgramiv(programObject, GL_INFO_LOG_LENGTH, &infoLen);
 
+        //错误日志有内容
         if (infoLen > 1) {
             char *infoLog = (char *) malloc(sizeof(char *) * infoLen);
-            glGetShaderInfoLog(programObject, infoLen, NULL, infoLog);
+            //读取对应长度内容
+            glGetProgramInfoLog(programObject, infoLen, NULL, infoLog);
+            //打印
             LOGE("Error compiling shader:[%s]", infoLog);
+            //释放log
             free(infoLog);
         }
+        //关闭程序
         glDeleteProgram(programObject);
         return;
     }
-
+    //转为全局地址
     g_programObject = programObject;
 
+    //清屏幕
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
 JNIEXPORT void JNICALL
 Java_com_cangwang_magic_util_RenderJNI_glesRender(JNIEnv *env, jobject obj) {
+    //顶点
     GLfloat vVertices[] = {
             0.0f, 0.5f, 0.0f,
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f
     };
 
+    //清屏
     glViewport(0, 0, g_width, g_height);
     glClear(GL_COLOR_BUFFER_BIT);
+    //使用程序
     glUseProgram(g_programObject);
+    //绑定顶点数据到shader
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
+    //允许顶点着色器读取GPU数据
     glEnableVertexAttribArray(0);
+    //画三角形
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 

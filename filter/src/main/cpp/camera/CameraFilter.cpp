@@ -5,9 +5,6 @@
 #include <GLES3/gl3.h>
 #include <GLES3/gl3ext.h>
 #include <GLES2/gl2ext.h>
-#include <filter/advanced/MagicCoolFilter.h>
-#include <filter/advanced/MagicAmaroFilter.h>
-#include <filter/advanced/MagicCalmFilter.h>
 #include <filter/advanced/MagicNoneFilter.h>
 #include <filter/gpuimage/CameraInputFilterV2.h>
 #include <filter/MagicFilterFactory.h>

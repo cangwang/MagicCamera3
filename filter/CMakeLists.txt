@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 include_directories(${CMAKE_SOURCE_DIR} src/main/cpp)
 
-set(SRC_DIR ../filter/src/main/cpp)
+set(SRC_DIR src/main/cpp)
 file(GLOB_RECURSE CPP_SRCS "${SRC_DIR}/*.cpp")  #指定当前目录下的所有.cpp文件（包括子目录）
 #add_library( # Sets the name of the library.
 #             native-lib
