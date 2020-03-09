@@ -1,7 +1,7 @@
 #ifndef Ref_hpp
 #define Ref_hpp
 
-#include "marcos.hpp"
+#include "macros.hpp"
 /**
  * cangwang 2020.3.5
  * 引用计数类
@@ -14,8 +14,8 @@ public:
 
     void retain();
     virtual void release();
-    void resetRefenceCount();
-    unsigned int getRefenceCount() const;
+    void resetReferenceCount();
+    unsigned int getReferenceCount() const;
 
 protected:
     unsigned int _referenceCount;

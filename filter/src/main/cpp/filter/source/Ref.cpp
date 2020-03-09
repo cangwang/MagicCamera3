@@ -28,11 +28,11 @@ void Ref::release() {
     }
 }
 
-void Ref::resetRefenceCount() {
+void Ref::resetReferenceCount() {
     _referenceCount = 1;
 }
 
-unsigned int Ref::getRefenceCount() const {
+unsigned int Ref::getReferenceCount() const {
     return _referenceCount;
 }
 

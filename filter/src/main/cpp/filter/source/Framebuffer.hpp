@@ -1,7 +1,7 @@
 #ifndef Framebuffer_hpp
 #define Framebuffer_hpp
 
-#include "marcos.hpp"
+#include "macros.hpp"
 
 #if PLATFORM == PLATFORM_IOS
 #import <OpenGLES/ES3/gl.h>
@@ -36,7 +36,7 @@ public:
             const TextureAttributes textureAttributes = defaultTextureAttributes);
     ~Framebuffer();
 
-    virtual void release(bool retureToCache = true);
+    virtual void release(bool returnToCache = true);
 
     GLuint getTexture() const {
         return _texture;
