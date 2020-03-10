@@ -9,6 +9,19 @@
  */
 NS_GI_BEGIN
 
+//TODO:解析
+std::vector<Framebuffer*> Framebuffer::_framebuffers;
+
+TextureAttributes Framebuffer::defaultTextureAttributes = {
+            .minFilter = GL_LINEAR,
+            .magFilter = GL_LINEAR,
+            .wrapS = GL_CLAMP_TO_EDGE,
+            .wrapT = GL_CLAMP_TO_EDGE,
+            .internalFormat = GL_RGBA,
+            .format = GL_RGBA,
+            .type = GL_UNSIGNED_BYTE
+};
+
 Framebuffer::Framebuffer(int width, int height, bool onlyGenerateTexture,
                          const GPUImage::TextureAttributes textureAttributes)
                          :_texture(-1)

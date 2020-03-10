@@ -10,15 +10,16 @@
 
 NS_GI_BEGIN
 
-std::vector<GLProgram*> _programs;
+//TODO:解析
+std::vector<GLProgram*> GLProgram::_programs;
 
 GLProgram::GLProgram()
-:_program(-1){
+:_program(static_cast<GLuint>(-1)){
     _programs.push_back(this);
 }
 
 GLProgram::~GLProgram() {
-    std::vector<GLProgram*>::iterator itr = std::find(_programs.begin(), _programs.end(), this);
+    auto itr = std::find(_programs.begin(), _programs.end(), this);
     if (itr != _programs.end()){
         _programs.erase(itr);
     }
@@ -36,7 +37,7 @@ GLProgram::~GLProgram() {
 
     if (bDeleteProgram) {
         glDeleteProgram(_program);
-        _program = -1;
+        _program = static_cast<GLuint>(-1);
     }
 }
 
@@ -55,11 +56,11 @@ GLProgram* GLProgram::createByShaderString(const std::string &vertexShaderSource
 bool GLProgram::_initWithShaderString(const std::string &vertexShaderSource,
                                       const std::string &fragmentShaderSource) {
     if (_program != -1){
-        CHECK_GL(glDeleteProgram(_program);
-        _program = -1;
+        CHECK_GL(glDeleteProgram(_program));
+        _program = static_cast<GLuint>(-1);
     }
     //重新创建
-    CHECK_GL(_program == glCreateProgram());
+    CHECK_GL(_program = glCreateProgram());
     //创建顶点着色器
     CHECK_GL(GLuint vertShader = glCreateShader(GL_VERTEX_SHADER));
     const char* vertexShaderSourceStr = vertexShaderSource.c_str();

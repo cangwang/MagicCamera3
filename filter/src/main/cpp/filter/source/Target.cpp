@@ -70,7 +70,7 @@ bool Target::isPrepared() const {
 }
 
 void Target::unPrepare() {
-    for (std::map<int, InputFrameBufferInfo>::const_iterator it = _inputFramebuffers.begin();
+    for (auto it = _inputFramebuffers.begin();
          it != _inputFramebuffers.end(); ++it) {
         if (!it->second.ignoreForPrepare) {
             if (it->second.framebuffer) {

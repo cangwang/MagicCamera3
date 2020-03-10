@@ -114,5 +114,3 @@ void Context::presentBufferForDisplay() {
 #endif
 
 NS_GI_END
-
-#endif
