@@ -11,11 +11,10 @@ Target::Target(int inputNumber)
 }
 
 Target::~Target() {
-    for(std::map<int, InputFrameBufferInfo>::iterator it = _inputFramebuffers.begin();
-    it != _inputFramebuffers.end(); ++it) {
-        if (it->second.framebuffer) {
-            it->second.framebuffer->release();
-            it->second.framebuffer = 0;
+    for(auto & _inputFramebuffer : _inputFramebuffers) {
+        if (_inputFramebuffer.second.framebuffer) {
+            _inputFramebuffer.second.framebuffer->release();
+            _inputFramebuffer.second.framebuffer = nullptr;
         }
     }
     _inputFramebuffers.clear();
@@ -23,7 +22,7 @@ Target::~Target() {
 
 void Target::setInputFramebuffer(GPUImage::Framebuffer *framebuffer,
                                  GPUImage::RotationMode rotationMode, int texIdx) {
-    InputFrameBufferInfo inputFrameBufferInfo;
+    InputFrameBufferInfo inputFrameBufferInfo{};
     inputFrameBufferInfo.framebuffer = framebuffer;
     inputFrameBufferInfo.rotationMode = rotationMode;
     inputFrameBufferInfo.texIndex = texIdx;
@@ -32,7 +31,7 @@ void Target::setInputFramebuffer(GPUImage::Framebuffer *framebuffer,
     if (_inputFramebuffers.find(texIdx) != _inputFramebuffers.end()
         && _inputFramebuffers[texIdx].framebuffer){
         _inputFramebuffers[texIdx].framebuffer->release();
-        _inputFramebuffers[texIdx].framebuffer = 0;
+        _inputFramebuffers[texIdx].framebuffer = nullptr;
     }
 
     _inputFramebuffers[texIdx] = inputFrameBufferInfo;
@@ -53,29 +52,23 @@ int Target::getNextAvailableTextureIndex() const {
 bool Target::isPrepared() const {
     int preparedNum = 0;
     int ignoreForPrepareNum = 0;
-    for (std::map<int, InputFrameBufferInfo>::const_iterator it = _inputFramebuffers.begin();
-        it != _inputFramebuffers.end(); ++it) {
-        if (it->second.ignoreForPrepare) {
+    for (const auto & _inputFramebuffer : _inputFramebuffers) {
+        if (_inputFramebuffer.second.ignoreForPrepare) {
             ignoreForPrepareNum++;
-        } else if (it->second.framebuffer) {
+        } else if (_inputFramebuffer.second.framebuffer) {
             preparedNum++;
         }
     }
 
-    if (ignoreForPrepareNum + preparedNum>= _inputNum) {
-        return true;
-    } else {
-        return false;
-    }
+    return ignoreForPrepareNum + preparedNum >= _inputNum;
 }
 
 void Target::unPrepare() {
-    for (auto it = _inputFramebuffers.begin();
-         it != _inputFramebuffers.end(); ++it) {
-        if (!it->second.ignoreForPrepare) {
-            if (it->second.framebuffer) {
-                it->second.framebuffer->release();
-                it->second.framebuffer = 0;
+    for (auto & _inputFramebuffer : _inputFramebuffers) {
+        if (!_inputFramebuffer.second.ignoreForPrepare) {
+            if (_inputFramebuffer.second.framebuffer) {
+                _inputFramebuffer.second.framebuffer->release();
+                _inputFramebuffer.second.framebuffer = nullptr;
             }
         }
     }

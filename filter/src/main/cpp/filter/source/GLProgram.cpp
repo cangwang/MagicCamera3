@@ -43,11 +43,11 @@ GLProgram::~GLProgram() {
 
 GLProgram* GLProgram::createByShaderString(const std::string &vertexShaderSource,
                                            const std::string &fragmentShaderSource) {
-    GLProgram* ret = new (std::nothrow) GLProgram();
+    auto ret = new (std::nothrow) GLProgram();
     if (ret) {
         if (!ret->_initWithShaderString(vertexShaderSource, fragmentShaderSource)) {
             delete ret;
-            ret = 0;
+            ret = nullptr;
         }
     }
     return ret;
@@ -106,6 +106,11 @@ void GLProgram::setUniformValue(const std::string& uniformName, float value) {
 }
 
 void GLProgram::setUniformValue(const std::string& uniformName, Matrix4 value) {
+    Context::getInstance()->setActiveShaderProgram(this);
+    setUniformValue(getUniformLocation(uniformName), value);
+}
+
+void GLProgram::setUniformValue(const std::string& uniformName, Matrix3 value) {
     Context::getInstance()->setActiveShaderProgram(this);
     setUniformValue(getUniformLocation(uniformName), value);
 }

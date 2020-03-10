@@ -17,7 +17,7 @@ FramebufferCache::~FramebufferCache() {
 //刷新帧缓冲
 Framebuffer* FramebufferCache::fetchFramebuffer(int width, int height, bool onlyTexture,
                                                 const GPUImage::TextureAttributes textureAttributes) {
-    Framebuffer* framebufferFromCache = 0;
+    Framebuffer* framebufferFromCache = nullptr;
     //确定key值
     std::string lookupHash = _getHash(width, height, onlyTexture, textureAttributes);
     int numberOfMatchingFramebuffers = 0;
@@ -38,7 +38,7 @@ Framebuffer* FramebufferCache::fetchFramebuffer(int width, int height, bool only
                 framebufferFromCache = _framebuffers[framebufferHash];
                 _framebuffers.erase(framebufferHash);
             } else {
-                framebufferFromCache = 0;
+                framebufferFromCache = nullptr;
             }
             curFramebufferId--;
         }
@@ -84,6 +84,10 @@ std::string FramebufferCache::_getHash(int width, int height, bool onlyTexture,
         return str_format("%.1dx%.1d-%d:%d:%d:%d:%d:%d:%d", width, height, textureAttributes.minFilter, textureAttributes.magFilter,
                 textureAttributes.wrapS, textureAttributes.wrapT, textureAttributes.internalFormat, textureAttributes.format, textureAttributes.type);
     }
+}
+
+Framebuffer* FramebufferCache::_getFramebufferByHash(const std::string &hash) {
+    return _framebuffers[hash];
 }
 
 void FramebufferCache::purge() {

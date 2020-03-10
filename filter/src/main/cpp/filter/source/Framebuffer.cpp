@@ -24,8 +24,8 @@ TextureAttributes Framebuffer::defaultTextureAttributes = {
 
 Framebuffer::Framebuffer(int width, int height, bool onlyGenerateTexture,
                          const GPUImage::TextureAttributes textureAttributes)
-                         :_texture(-1)
-                         ,_framebuffer(-1) {
+                         :_texture(static_cast<GLuint>(-1))
+                         ,_framebuffer(static_cast<GLuint>(-1)) {
     _width = width;
     _height = height;
     _textureAttributes = textureAttributes;
@@ -42,7 +42,7 @@ Framebuffer::Framebuffer(int width, int height, bool onlyGenerateTexture,
 
 Framebuffer::~Framebuffer() {
 
-    std::vector<Framebuffer* >::iterator itr = std::find(_framebuffers.begin(),
+    auto itr = std::find(_framebuffers.begin(),
             _framebuffers.end(),this);
     //释放帧缓冲
     if (itr != _framebuffers.end()) {
@@ -71,12 +71,12 @@ Framebuffer::~Framebuffer() {
 
     if (bDeleteTex) {
         CHECK_GL(glDeleteTextures(1, &_texture));
-        _texture = -1;
+        _texture = static_cast<GLuint>(-1);
     }
 
     if (bDeleteFB) {
         CHECK_GL(glDeleteFramebuffers(1, &_framebuffer));
-        _framebuffer = -1;
+        _framebuffer = static_cast<GLuint>(-1);
     }
 }
 

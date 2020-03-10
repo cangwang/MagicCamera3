@@ -19,10 +19,10 @@ Context* Context::_instance = 0;
 std::mutex Context::_mutex;
 
 Context::Context()
-:_curShaderProgram(0)
+:_curShaderProgram(nullptr)
 ,isCapturingFrame(false)
-,captureUpToFilter(0)
-,capturedFrameData(0){
+,captureUpToFilter(nullptr)
+,capturedFrameData(nullptr){
     _framebufferCache = new FramebufferCache();
 #if PLATFORM == PLATFORM_IOS
     _contextQueue = dispatch_queue_create(GL_CONTEXT_QUEUE,

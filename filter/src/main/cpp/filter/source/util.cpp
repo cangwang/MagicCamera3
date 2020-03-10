@@ -33,7 +33,7 @@ NS_GI_BEGIN
         {
             va_list marker;
             va_start(marker, fmt);
-            char *buf = 0;
+            char *buf = nullptr;
             int result = vasprintf (&buf, fmt, marker);
             if (!buf)
             {
@@ -49,7 +49,7 @@ NS_GI_BEGIN
             }
 
             result = (int)strlen (buf);
-            strResult.append(buf,result);
+            strResult.append(buf, static_cast<unsigned int>(result));
             free(buf);
             va_end(marker);
         }

@@ -48,11 +48,7 @@ Source* Source::addTarget(id<GPUImageTarget> target) {
 #endif
 
 bool Source::hasTarget(const GPUImage::Target* target) const {
-    if (_targets.find(const_cast<Target*>(target)) !=_targets.end()) {
-        return true;
-    } else {
-        return false;
-    }
+    return _targets.find(const_cast<Target *>(target)) != _targets.end();
 }
 
 void Source::removeTarget(GPUImage::Target *target) {
@@ -95,10 +91,10 @@ void Source::updateTargets(float frameTime) {
 }
 
 unsigned char* Source::captureAProcessedFrameData(Filter *upToFilter, int width, int height) {
-    if (Context::getInstance()->isCapturingFrame) return 0;
+    if (Context::getInstance()->isCapturingFrame) return nullptr;
 
     if (width <= 0 || height <= 0) {
-        if (!_framebuffer) return 0;
+        if (!_framebuffer) return nullptr;
         width = getRotatedFramebufferWidth();
         height = getRotatedFramebufferHeight();
     }
@@ -120,7 +116,7 @@ unsigned char* Source::captureAProcessedFrameData(Filter *upToFilter, int width,
 }
 
 void Source::setFrameBuffer(GPUImage::Framebuffer *fb, GPUImage::RotationMode outputRotation) {
-    if (_framebuffer != fb &&_framebuffer != 0) {
+    if (_framebuffer != fb &&_framebuffer != nullptr) {
         _framebuffer->release();
         _framebuffer = nullptr;
     }
