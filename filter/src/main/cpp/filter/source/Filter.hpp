@@ -140,15 +140,15 @@ private:
 };
 
 #if PLATFORM == PLATFORM_ANDROID
-#define REGISTER_FILTERCLASS(className) \
+#define REGISTER_FILTER_CLASS(className) \
 class className##Registry { \
     public: \
-    static Filter* newInstance() { \
-        return className::create(); \
-    } \
-    private:\
-    static const Filter::Registry _registry;\
-};\
+        static Filter* newInstance() { \
+            return className::create(); \
+        } \
+    private: \
+        static const Filter::Registry _registry; \
+}; \
 const Filter::Registry className##Registry::_registry(#className, className##Registry::newInstance);
 #elif PLATFORM == PLATFORM_IOS
 #define  REGISTER_FILTER_CLASS(className)

@@ -31,7 +31,7 @@ public:
     virtual std::map<Target*, int>& getTargets() {
         return _targets;
     };
-    virtual void setFrameBuffer(Framebuffer* fb,
+    virtual void setFramebuffer(Framebuffer* fb,
             RotationMode outputRotation = RotationMode::NoRotation);
     virtual Framebuffer* getFramebuffer() const ;
     virtual void releaseFramebuffer(bool returnToCache = true);

@@ -115,7 +115,7 @@ unsigned char* Source::captureAProcessedFrameData(Filter *upToFilter, int width,
     return processedFrameData;
 }
 
-void Source::setFrameBuffer(GPUImage::Framebuffer *fb, GPUImage::RotationMode outputRotation) {
+void Source::setFramebuffer(GPUImage::Framebuffer *fb, GPUImage::RotationMode outputRotation) {
     if (_framebuffer != fb &&_framebuffer != nullptr) {
         _framebuffer->release();
         _framebuffer = nullptr;
