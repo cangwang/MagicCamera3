@@ -1,14 +1,13 @@
 #ifndef Filter_hpp
 #define Filter_hpp
 
-#include "macros.hpp"
+#include "src/main/cpp/filter/source/macros.hpp"
 #include "string"
-#include "Source.hpp"
-#include "Target.hpp"
-#include "GLProgram.hpp"
-#include "Ref.hpp"
-#include "util.h"
-#include <functional>
+#include "src/main/cpp/filter/source/Source.hpp"
+#include "src/main/cpp/filter/source/Target.hpp"
+#include "src/main/cpp/filter/source/GLProgram.hpp"
+#include "src/main/cpp/filter/source/Ref.hpp"
+#include "src/main/cpp/filter/source/util.h"
 
 /**
  * cangwang 2020.3.5
@@ -84,7 +83,7 @@ public:
     bool getPropertyComment(const std::string& name, std::string& retComment);
     bool getPropertyType(const std::string& name, std::string& retType);
 
-#if PLATFORM == PLATFORM_IOS
+#if PLATFORM == PLATFORM_ANDROID
 class Registry {
     public:
         Registry(const std::string &name, std::function<Filter *()> createFunc) {

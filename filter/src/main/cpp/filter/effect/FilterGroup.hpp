@@ -5,7 +5,7 @@
 #include "../source/Source.hpp"
 #include "../source/Target.hpp"
 #include <vector>
-#include "../source/Filter.hpp"
+#include "Filter.hpp"
 
 NS_GI_BEGIN
 
@@ -54,3 +54,5 @@ protected:
 
 
 NS_GI_END
+
+#endif

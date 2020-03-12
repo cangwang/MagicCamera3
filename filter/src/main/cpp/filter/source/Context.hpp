@@ -6,7 +6,7 @@
 #include <mutex>
 #include <pthread.h>
 #include "GLProgram.hpp"
-#include "Filter.hpp"
+#include "src/main/cpp/filter/effect/Filter.hpp"
 
 #if PLATFORM == PLATFORM_IOS
 #import <OpengGLES/EGAL.h>

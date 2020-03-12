@@ -3,7 +3,7 @@
 
 #include "../source/macros.hpp"
 #include "FilterGroup.hpp"
-#include "../source/Filter.hpp"
+#include "Filter.hpp"
 
 NS_GI_BEGIN
     class BilateralMonoFilter : public Filter {
@@ -22,14 +22,14 @@ NS_GI_BEGIN
     protected:
         BilateralMonoFilter(Type type);
         Type _type;
-        float _texelSpcingMultiplier;
+        float _texelSpacingMultiplier;
         float _distanceNormalizationFactor;
     };
 
     class BilateralFilter : public FilterGroup {
     public:
         virtual ~BilateralFilter();
-        static BilateralMonoFilter* create();
+        static BilateralFilter* create();
         bool init();
 
         void setTexelSpacingMultiplier(float multiplier);
@@ -44,3 +44,5 @@ NS_GI_BEGIN
     };
 
 NS_GI_END
+
+#endif
