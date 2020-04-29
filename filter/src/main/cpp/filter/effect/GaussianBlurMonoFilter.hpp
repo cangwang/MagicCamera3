@@ -14,6 +14,9 @@ NS_GI_BEGIN
                                               int radius = 4, float sigma = 2.0);
         bool init(int radius, float sigma);
 
+        void setRadius(int radius);
+        void setSigma(float sigma);
+
         virtual bool proceed(bool bUpdateTargets = true) override ;
 
     protected:
@@ -23,8 +26,6 @@ NS_GI_BEGIN
         float _sigma;
 
     private:
-        virtual std::string _generateVertexShaderString(int radius, float sigma);
-        virtual std::string _generateFragmentShaderString(int radius, float sigma);
 
         virtual std::string _generateOptimizedVertexShaderString(int radius, float sigma);
         virtual std::string _generateOptimizedFragmentShaderString(int radius, float sigma);

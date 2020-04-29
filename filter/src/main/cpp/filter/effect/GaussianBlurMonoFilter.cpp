@@ -4,6 +4,90 @@
 
 NS_GI_BEGIN
 
+GaussianBlurMonoFilter::GaussianBlurMonoFilter(GPUImage::GaussianBlurMonoFilter::Type type)
+:_type(type)
+,_radius(4)
+,_sigma(2.0){
+
+}
+
+GaussianBlurMonoFilter* GaussianBlurMonoFilter::create(GPUImage::GaussianBlurMonoFilter::Type type,
+                                                       int radius, float sigma) {
+    auto ret = new (std::nothrow) GaussianBlurMonoFilter(type);
+    if (ret && !ret->init(radius, sigma)) {
+        delete ret;
+        ret = 0;
+    }
+    return ret;
+}
+
+bool GaussianBlurMonoFilter::init(int radius, float sigma) {
+    return Filter::initWithShaderString(_generateOptimizedVertexShaderString(radius,sigma),
+            _generateOptimizedFragmentShaderString(radius,sigma));
+}
+
+void GaussianBlurMonoFilter::setRadius(int radius) {
+    if(radius == _radius) return;
+    _radius = radius;
+    if (_filterProgram) {
+       delete _filterProgram;
+       _filterProgram = nullptr;
+    }
+
+    initWithShaderString(_generateOptimizedVertexShaderString(_radius, _sigma),
+            _generateOptimizedFragmentShaderString(_radius,_sigma));
+}
+
+void GaussianBlurMonoFilter::setSigma(float sigma) {
+    if (_sigma == sigma) return;
+    _sigma = round(sigma);
+
+    int calculatedSampleRadius = 0;
+    if (_sigma >= 1) // Avoid a divide-by-zero error here
+    {
+        // Calculate the number of pixels to sample from by setting a bottom limit for the contribution of the outermost pixel
+        auto minimumWeightToFindEdgeOfSamplingArea = static_cast<float>(1.0 / 256.0);
+        calculatedSampleRadius = static_cast<int>(floor(sqrt(-2.0 * pow(_sigma, 2.0) *
+                                                             log(minimumWeightToFindEdgeOfSamplingArea *
+                                                                 sqrt(2.0 * M_PI *
+                                                                      pow(_sigma, 2.0))))));
+        calculatedSampleRadius += calculatedSampleRadius % 2; // There's nothing to gain from handling odd radius sizes, due to the optimizations I use
+    }
+    _radius = calculatedSampleRadius;
+
+    if (_filterProgram) {
+        delete _filterProgram;
+        _filterProgram = 0;
+    }
+    initWithShaderString(_generateOptimizedVertexShaderString(_radius, _sigma), _generateOptimizedFragmentShaderString(_radius, _sigma));
+}
+
+    bool GaussianBlurMonoFilter::proceed(bool bUpdateTargets/* = true*/) {
+
+        RotationMode inputRotation = _inputFramebuffers.begin()->second.rotationMode;
+
+        if (rotationSwapsSize(inputRotation))
+        {
+            if (_type == HORIZONTAL) {
+                _filterProgram->setUniformValue("texelWidthOffset", (float)0.0);
+                _filterProgram->setUniformValue("texelHeightOffset", (float)(1.0 / _framebuffer->getWidth()));
+            } else {
+                _filterProgram->setUniformValue("texelWidthOffset", (float)(1.0 / _framebuffer->getHeight()));
+                _filterProgram->setUniformValue("texelHeightOffset", (float)0.0);
+            }
+        } else {
+            if (_type == HORIZONTAL) {
+                _filterProgram->setUniformValue("texelWidthOffset", (float)(1.0 / _framebuffer->getWidth()));
+                _filterProgram->setUniformValue("texelHeightOffset", (float)0.0);
+            } else {
+                _filterProgram->setUniformValue("texelWidthOffset", (float)0.0);
+                _filterProgram->setUniformValue("texelHeightOffset", (float)(1.0 / _framebuffer->getHeight()));
+            }
+        }
+        return Filter::proceed(bUpdateTargets);
+    }
+
+
 std::string GaussianBlurMonoFilter::_generateOptimizedVertexShaderString(int radius, float sigma)
 {
     if (radius < 1 || sigma <= 0.0)
@@ -12,11 +96,13 @@ std::string GaussianBlurMonoFilter::_generateOptimizedVertexShaderString(int rad
     }
 
     // 1. generate the normal Gaussian weights for a given sigma
-    float* standardGaussianWeights = new float[radius + 1];
+    auto* standardGaussianWeights = new float[radius + 1];
     float sumOfWeights = 0.0;
     for (int i = 0; i < radius + 1; ++i)
     {
-        standardGaussianWeights[i] = (1.0 / sqrt(2.0 * M_PI * pow(sigma, 2.0))) * exp(-pow(i, 2.0) / (2.0 * pow(sigma, 2.0)));
+        standardGaussianWeights[i] = static_cast<float>((1.0 / sqrt(2.0 * M_PI * pow(sigma, 2.0))) *
+                                                        exp(-pow(i, 2.0) /
+                                                            (2.0 * pow(sigma, 2.0))));
         if (i == 0)
             sumOfWeights += standardGaussianWeights[i];
         else
@@ -30,8 +116,8 @@ std::string GaussianBlurMonoFilter::_generateOptimizedVertexShaderString(int rad
     }
 
     // 3. From these weights we calculate the offsets to read interpolated values from
-    int numberOfOptimizedOffsets = fmin(radius / 2 + (radius % 2), 7);
-    float* optimizedGaussianOffsets = new float[numberOfOptimizedOffsets];
+    int numberOfOptimizedOffsets = static_cast<int>(fmin(radius / 2 + (radius % 2), 7));
+    auto* optimizedGaussianOffsets = new float[numberOfOptimizedOffsets];
 
     for (int i = 0; i < numberOfOptimizedOffsets; ++i)
     {

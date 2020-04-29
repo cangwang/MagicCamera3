@@ -1,4 +1,4 @@
-#include "BilaternalFilter.hpp"
+#include "BilateralFilter.hpp"
 
 NS_GI_BEGIN
 

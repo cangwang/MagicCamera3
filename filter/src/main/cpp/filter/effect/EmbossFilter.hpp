@@ -16,25 +16,27 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef EmbossFilter_hpp
+#define EmbossFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "Convolution3x3Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class EmbossFilter : public Convolution3x3Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static EmbossFilter* create();
     bool init();
-
+    
+    void setIntensity(float intensity);
 
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    EmbossFilter() {};
+    
+    float _intensity;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* EmbossFilter_hpp */

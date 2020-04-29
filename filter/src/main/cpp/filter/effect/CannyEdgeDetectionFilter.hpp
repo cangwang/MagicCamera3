@@ -10,16 +10,20 @@
 #include "WeakPixelInclusionFilter.hpp"
 
 NS_GI_BEGIN
-class CannyEdgeDetecionFilter : public FilterGroup  {
+class CannyEdgeDetectionFilter : public FilterGroup  {
 public:
-    static CannyEdgeDetecionFilter* create();
+    static CannyEdgeDetectionFilter* create();
     bool init();
 
 protected:
-    CannyEdgeDetecionFilter();
-    ~CannyEdgeDetecionFilter();
+    CannyEdgeDetectionFilter();
+    ~CannyEdgeDetectionFilter();
 
-
+    GrayscaleFilter* _grayscaleFilter;
+    SingleComponentGaussianBlurFilter* _blurFilter;
+    DirectionalSobelEdgeDetectionFilter* _edgeDetectionFilter;
+    DirectionalNonMaximumSuppressionFilter* _nonMaximumSuppressionFilter;
+    WeakPixelInclusionFilter* _weakPixelInclusionFilter;
 };
 
 

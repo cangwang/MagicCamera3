@@ -16,25 +16,28 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef SaturationFilter_hpp
+#define SaturationFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class SaturationFilter : public Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static SaturationFilter* create();
     bool init();
-
+    virtual bool proceed(bool bUpdateTargets = true) override;
+    
+    void setSaturation(float saturation);
 
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    SaturationFilter() {};
+    
+    float _saturation;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* SaturationFilter_hpp */

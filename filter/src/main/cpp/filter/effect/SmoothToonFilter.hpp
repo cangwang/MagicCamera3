@@ -16,25 +16,40 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef SmoothToonFilter_hpp
+#define SmoothToonFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "FilterGroup.hpp"
+#include "GaussianBlurFilter.hpp"
+#include "ToonFilter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class SmoothToonFilter : public FilterGroup {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    virtual ~SmoothToonFilter();
+    
+    static SmoothToonFilter* create();
     bool init();
-
-
+    
+    void setBlurRadius(int blurRadius);
+    void setToonThreshold(float toonThreshold);
+    void setToonQuantizationLevels(float toonQuantizationLevels);
+    
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    SmoothToonFilter();
+    
+private:
+    GaussianBlurFilter* _gaussianBlurFilter;
+    ToonFilter* _toonFilter;
+    
+    float _blurRadius;
+    float _toonThreshold;
+    float _toonQuantizationLevels;
 };
+
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* SmoothToonFilter_hpp */

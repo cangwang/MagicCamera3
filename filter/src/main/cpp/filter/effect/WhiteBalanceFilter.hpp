@@ -16,25 +16,30 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef WhiteBalanceFilter_hpp
+#define WhiteBalanceFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class WhiteBalanceFilter : public Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static WhiteBalanceFilter* create();
     bool init();
-
+    virtual bool proceed(bool bUpdateTargets = true) override;
+    
+    void setTemperature(float temperature);
+    void setTint(float tint);
 
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    WhiteBalanceFilter() {};
+    
+    float _temperature;
+    float _tint;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* WhiteBalanceFilter_hpp */

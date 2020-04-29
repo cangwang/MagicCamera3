@@ -16,25 +16,34 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef ColorMatrixFilter_hpp
+#define ColorMatrixFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "Filter.hpp"
+#include "../source/math.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+
+class ColorMatrixFilter : public Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static ColorMatrixFilter* create();
     bool init();
-
-
+    
+    virtual bool proceed(bool bUpdateTargets = true) override;
+    
+    void setIntensity(float intensity) { _intensity = intensity; }
+    void setColorMatrix(Matrix4 colorMatrix) { _colorMatrix = colorMatrix; }
+    
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    ColorMatrixFilter();
+    
+    float _intensity;
+    Matrix4 _colorMatrix;
 };
+
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* ColorMatrixFilter_hpp */

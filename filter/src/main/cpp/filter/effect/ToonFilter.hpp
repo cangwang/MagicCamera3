@@ -16,25 +16,30 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef ToonFilter_hpp
+#define ToonFilter_hpp
 
 #include "../source/macros.hpp"
 #include "NearbySampling3x3Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class ToonFilter : public NearbySampling3x3Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static ToonFilter* create();
     bool init();
-
+    virtual bool proceed(bool bUpdateTargets = true) override;
+    
+    void setThreshold(float threshold);
+    void setQuantizatinLevels(float quantizationLevels);
 
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    ToonFilter() {};
+    
+    float _threshold;
+    float _quantizationLevels;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* ToonFilter_hpp */

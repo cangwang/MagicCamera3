@@ -16,25 +16,27 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef Convolution3x3Filter_hpp
+#define Convolution3x3Filter_hpp
 
 #include "../source/macros.hpp"
 #include "NearbySampling3x3Filter.hpp"
+#include "../source/math.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class Convolution3x3Filter : public NearbySampling3x3Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
-    bool init();
-
-
+    virtual bool init();
+    virtual bool proceed(bool bUpdateTargets = true) override;
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    Convolution3x3Filter() {};
+    
+    
+    //The convolution kernel is a 3x3 matrix of values to apply to the pixel and its 8 surrounding pixels.
+    Matrix3 _convolutionKernel;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* Convolution3x3Filter_hpp */

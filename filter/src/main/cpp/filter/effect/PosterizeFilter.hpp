@@ -16,25 +16,28 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef PosterizeFilter_hpp
+#define PosterizeFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class PosterizeFilter : public Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static PosterizeFilter* create();
     bool init();
-
+    virtual bool proceed(bool bUpdateTargets = true) override;
+    
+    void setColorLevels(int colorLevels);
 
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    PosterizeFilter() {};
+    
+    int _colorLevels;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* PosterizeFilter_hpp */

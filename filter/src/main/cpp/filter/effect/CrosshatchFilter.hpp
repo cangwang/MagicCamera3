@@ -16,25 +16,30 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef CrosshatchFilter_hpp
+#define CrosshatchFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class CrosshatchFilter : public Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static CrosshatchFilter* create();
     bool init();
+    virtual bool proceed(bool bUpdateTargets = true) override;
 
-
+    void setCrossHatchSpacing(float crossHatchSpacing);
+    void setLineWidth(float lineWidth);
+    
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    CrosshatchFilter() {};
+    
+    float _crossHatchSpacing;
+    float _lineWidth;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* CrosshatchFilter_hpp */

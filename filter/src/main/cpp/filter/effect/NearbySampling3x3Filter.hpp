@@ -16,25 +16,30 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef NearbySampling3x3Filter_hpp
+#define NearbySampling3x3Filter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+extern const std::string kNearbySampling3x3SamplingVertexShaderString;
+
+class NearbySampling3x3Filter : public Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
-    bool init();
-
-
+    virtual bool initWithFragmentShaderString(const std::string& fragmentShaderSource, int inputNumber = 1) override;
+    virtual bool proceed(bool bUpdateTargets = true) override;
+    
+    void setTexelSizeMultiplier(float texelSizeMultiplier);
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    NearbySampling3x3Filter() {};
+    
+    float _texelSizeMultiplier;
+    GLuint _texelWidthUniform;
+    GLuint _texelHeightUniform;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* NearbySampling3x3Filter_hpp */

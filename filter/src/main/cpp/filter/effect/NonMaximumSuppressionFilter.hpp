@@ -16,25 +16,25 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef NonMaximumSuppressionFilter_hpp
+#define NonMaximumSuppressionFilter_hpp
 
 #include "../source/macros.hpp"
 #include "NearbySampling3x3Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class NonMaximumSuppressionFilter : public NearbySampling3x3Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static NonMaximumSuppressionFilter* create();
     bool init();
-
-
+    
+    
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    
+    NonMaximumSuppressionFilter() {};
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* NonMaximumSuppressionFilter_hpp */

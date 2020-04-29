@@ -16,25 +16,28 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef PixellationFilter_hpp
+#define PixellationFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class PixellationFilter : public Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static PixellationFilter* create();
     bool init();
-
+    virtual bool proceed(bool bUpdateTargets = true) override;
+    
+    void setPixelSize(float pixelSize);
 
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    PixellationFilter() {};
+    
+    float _pixelSize;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* PixellationFilter_hpp */

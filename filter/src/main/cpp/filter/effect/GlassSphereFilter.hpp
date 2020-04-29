@@ -16,25 +16,23 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef GlassSphereFilter_hpp
+#define GlassSphereFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "SphereRefractionFilter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class GlassSphereFilter : public SphereRefractionFilter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static GlassSphereFilter* create();
     bool init();
 
-
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    GlassSphereFilter() {};
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* GlassSphereFilter_hpp */

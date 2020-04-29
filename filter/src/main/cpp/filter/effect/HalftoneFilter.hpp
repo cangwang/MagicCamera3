@@ -16,25 +16,23 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef HalftoneFilter_hpp
+#define HalftoneFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "PixellationFilter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class HalftoneFilter : public PixellationFilter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static HalftoneFilter* create();
     bool init();
 
-
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    HalftoneFilter() {};
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* HalftoneFilter_hpp */

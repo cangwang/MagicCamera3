@@ -16,25 +16,32 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef RGBFilter_hpp
+#define RGBFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class RGBFilter : public Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static RGBFilter* create();
     bool init();
-
+    virtual bool proceed(bool bUpdateTargets = true) override;
+    
+    void setRedAdjustment(float redAdjustment);
+    void setGreenAdjustment(float greenAdjustment);
+    void setBlueAdjustment(float blueAdjustment);
 
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    RGBFilter() {};
+    
+    float _redAdjustment;
+    float _greenAdjustment;
+    float _blueAdjustment;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* RGBFilter_hpp */

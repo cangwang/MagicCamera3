@@ -16,25 +16,33 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef GaussianBlurFilter_hpp
+#define GaussianBlurFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "FilterGroup.hpp"
+#include "GaussianBlurMonoFilter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class GaussianBlurFilter : public FilterGroup {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
-    bool init();
-
-
+    virtual ~GaussianBlurFilter();
+    
+    static GaussianBlurFilter* create(int radius = 4, float sigma = 2.0);
+    bool init(int radius, float sigma);
+    void setRadius(int radius);
+    void setSigma(float sigma);
+    
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    GaussianBlurFilter();
+    
+private:
+    GaussianBlurMonoFilter* _hBlurFilter;
+    GaussianBlurMonoFilter* _vBlurFilter;
 };
+
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* GaussianBlurFilter_hpp */

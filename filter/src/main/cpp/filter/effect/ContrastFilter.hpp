@@ -16,25 +16,28 @@
  * limitations under the License.
  */
 
-#ifndef DirectionalSobelEdgeDetectionFilter_hpp
-#define DirectionalSobelEdgeDetectionFilter_hpp
+#ifndef ContrastFilter_hpp
+#define ContrastFilter_hpp
 
 #include "../source/macros.hpp"
-#include "NearbySampling3x3Filter.hpp"
+#include "Filter.hpp"
 
 NS_GI_BEGIN
 
-class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
+class ContrastFilter : public Filter {
 public:
-    static DirectionalSobelEdgeDetectionFilter* create();
+    static ContrastFilter* create();
     bool init();
-
+    virtual bool proceed(bool bUpdateTargets = true) override;
+    
+    void setContrast(float contrast);
 
 protected:
-
-    DirectionalSobelEdgeDetectionFilter() {};
+    ContrastFilter() {};
+    
+    float _contrast;
 };
 
 NS_GI_END
 
-#endif /* DirectionalSobelEdgeDetectionFilter_hpp */
+#endif /* ContrastFilter_hpp */
