@@ -80,7 +80,7 @@ NS_GI_BEGIN
         float texelWidth = 1.0 / _framebuffer->getWidth();
         float texelHeight = 1.0 / _framebuffer->getHeight();
 
-        Framebuffer* inputFramebuffer = _inputFramebuffers.begin()->second.framebuffer;
+        Framebuffer* inputFramebuffer = _inputFramebuffers.begin()->second.frameBuffer;
         RotationMode inputRotation = _inputFramebuffers.begin()->second.rotationMode;
 
         if (rotationSwapsSize(inputRotation)){

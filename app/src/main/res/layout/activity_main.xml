@@ -27,6 +27,11 @@
         android:layout_below="@+id/button_filter"
         android:layout_marginTop="10dp" />
 
-
-
+    <Button
+        android:id="@+id/button_effect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EFFCT"
+        android:layout_below="@+id/button_album"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>

@@ -123,7 +123,7 @@ bool Filter::proceed(bool bUpdateTargets) {
     CHECK_GL(glClear(GL_COLOR_BUFFER_BIT));
     for(auto it = _inputFramebuffers.begin(); it != _inputFramebuffers.end(); ++it) {
         int texIdx = it->first;
-        Framebuffer* fb = it->second.framebuffer;
+        Framebuffer* fb = it->second.frameBuffer;
         CHECK_GL(glActiveTexture(GL_TEXTURE0 + texIdx));
         CHECK_GL(glBindTexture(GL_TEXTURE_2D, fb->getTexture()));
         _filterProgram->setUniformValue(
@@ -249,7 +249,7 @@ void Filter::update(float frameTime) {
                 Context::getInstance()->capturedFrameData));
         _framebuffer->inactive();
     } else {
-        Framebuffer* firstInputFrameBuffer = _inputFramebuffers.begin()->second.framebuffer;
+        Framebuffer* firstInputFrameBuffer = _inputFramebuffers.begin()->second.frameBuffer;
         RotationMode firstInputRotation = _inputFramebuffers.begin()->second.rotationMode;
         if (!firstInputFrameBuffer) return;
 

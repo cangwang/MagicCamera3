@@ -45,9 +45,6 @@ android {
     }
 
     publishNonDefault true
-    dynamicFeatures = [":player"]
-
-
 }
 
 dependencies {

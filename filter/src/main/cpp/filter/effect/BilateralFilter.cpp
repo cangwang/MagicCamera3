@@ -133,7 +133,7 @@ bool BilateralMonoFilter::init() {
 }
 
 bool BilateralMonoFilter::proceed(bool bUpdateTargets) {
-    Framebuffer* inputFramebuffer = _inputFramebuffers.begin()->second.framebuffer;
+    Framebuffer* inputFramebuffer = _inputFramebuffers.begin()->second.frameBuffer;
     RotationMode inputRotation = _inputFramebuffers.begin()->second.rotationMode;
 
     //横竖屏判断

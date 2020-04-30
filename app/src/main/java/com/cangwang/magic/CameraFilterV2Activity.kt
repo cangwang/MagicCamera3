@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.content.pm.ActivityInfo
-import android.content.res.AssetManager
 import android.graphics.Point
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

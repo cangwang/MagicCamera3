@@ -54,6 +54,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".CameraSampleActivity"/>
     </application>
 
 </manifest>

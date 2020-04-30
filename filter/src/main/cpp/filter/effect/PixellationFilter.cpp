@@ -69,7 +69,7 @@ void PixellationFilter::setPixelSize(float pixelSize) {
 bool PixellationFilter::proceed(bool bUpdateTargets/* = true*/) {
     
     float aspectRatio = 1.0;
-    Framebuffer* firstInputFramebuffer = _inputFramebuffers.begin()->second.framebuffer;
+    Framebuffer* firstInputFramebuffer = _inputFramebuffers.begin()->second.frameBuffer;
     aspectRatio = firstInputFramebuffer->getHeight() / (float)(firstInputFramebuffer->getWidth());
     _filterProgram->setUniformValue("aspectRatio", aspectRatio);
     

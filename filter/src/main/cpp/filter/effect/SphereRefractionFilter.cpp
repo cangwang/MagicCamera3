@@ -94,7 +94,7 @@ bool SphereRefractionFilter::proceed(bool bUpdateTargets/* = true*/) {
     _filterProgram->setUniformValue("refractiveIndex", _refractiveIndex);
     
     float aspectRatio = 1.0;
-    Framebuffer* firstInputFramebuffer = _inputFramebuffers.begin()->second.framebuffer;
+    Framebuffer* firstInputFramebuffer = _inputFramebuffers.begin()->second.frameBuffer;
     aspectRatio = firstInputFramebuffer->getHeight() / (float)(firstInputFramebuffer->getWidth());
     _filterProgram->setUniformValue("aspectRatio", aspectRatio);
     
