@@ -13,7 +13,40 @@ cmake_minimum_required(VERSION 3.4.1)
 include_directories(${CMAKE_SOURCE_DIR} src/main/cpp)
 
 set(SRC_DIR src/main/cpp)
-file(GLOB_RECURSE CPP_SRCS "${SRC_DIR}/*.cpp")  #指定当前目录下的所有.cpp文件（包括子目录）
+#file(GLOB_RECURSE CPP_SRCS "${SRC_DIR}/*.cpp")  #指定当前目录下的所有.cpp文件（包括子目录）
+file(GLOB_RECURSE CPP_SRCS
+        "${SRC_DIR}/bitmap/*.cpp"
+        "${SRC_DIR}/camera/*.cpp"
+        "${SRC_DIR}/egl/*.cpp"
+        "${SRC_DIR}/filter/*.cpp"
+        "${SRC_DIR}/image/*.cpp"
+        "${SRC_DIR}/utils/*.cpp"
+        "${SRC_DIR}/video/*.cpp"
+        "${SRC_DIR}/magicjni.cpp")
+
+add_library( # Sets the name of the library.
+        magicjni
+
+        # Sets the library as a shared library.
+        SHARED
+
+        # Provides a relative path to your source file(s).
+        ${CPP_SRCS})
+
+
+file(GLOB_RECURSE Files_CPP
+        "${SRC_DIR}/effect/*.cpp"
+        "${SRC_DIR}/source/*.cpp")
+
+add_library( # Sets the name of the library.
+        GPUImage-x
+
+        # Sets the library as a shared library.
+        SHARED
+
+        # Provides a relative path to your source file(s).
+        ${Files_CPP})
+
 #add_library( # Sets the name of the library.
 #             native-lib
 #
@@ -32,14 +65,7 @@ file(GLOB_RECURSE CPP_SRCS "${SRC_DIR}/*.cpp")  #指定当前目录下的所有.
 #             # Provides a relative path to your source file(s).
 #             src/main/cpp/triangle.cpp)
 
-add_library( # Sets the name of the library.
-             magicjni
 
-             # Sets the library as a shared library.
-             SHARED
-
-             # Provides a relative path to your source file(s).
-             ${CPP_SRCS})
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -75,12 +101,18 @@ find_library( # Sets the name of the path variable.
 #                       ${log-lib} )
 
 target_link_libraries( # Specifies the target library.
-                       magicjni
-                       android
-                       GLESv3
-                       EGL
-                       jnigraphics
+        magicjni
+        android
+        GLESv3
+        EGL
+        jnigraphics
 
-                       # Links the target library to the log library
-                       # included in the NDK.
-                       ${log-lib} )
+        # Links the target library to the log library
+        # included in the NDK.
+        ${log-lib} )
+
+target_link_libraries(
+        GPUImage-x
+        ${log-lib}
+        GLESv2
+        jnigraphics )

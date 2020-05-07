@@ -1,13 +1,13 @@
 #ifndef Filter_hpp
 #define Filter_hpp
 
-#include "src/main/cpp/filter/source/macros.hpp"
+#include "../source/macros.hpp"
 #include "string"
-#include "src/main/cpp/filter/source/Source.hpp"
-#include "src/main/cpp/filter/source/Target.hpp"
-#include "src/main/cpp/filter/source/GLProgram.hpp"
-#include "src/main/cpp/filter/source/Ref.hpp"
-#include "src/main/cpp/filter/source/util.h"
+#include "../source/Source.hpp"
+#include "../source/Target.hpp"
+#include "../source/GLProgram.hpp"
+#include "../source/Ref.hpp"
+#include "../source/util.h"
 
 /**
  * cangwang 2020.3.5

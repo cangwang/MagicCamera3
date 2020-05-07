@@ -1,7 +1,9 @@
 package com.cangwang.filter.util
 
 import android.content.res.AssetManager
+import android.util.Log
 import android.view.Surface
+import java.lang.Exception
 
 /**
  * openGL辅助类
@@ -9,7 +11,11 @@ import android.view.Surface
  */
 object OpenGLJniLib {
     init {
-        System.loadLibrary("magicjni")
+        try {
+            System.loadLibrary("magicjni")
+        } catch (e: Exception) {
+            Log.e("OpenGLJniLib", e.toString())
+        }
     }
 
     /**

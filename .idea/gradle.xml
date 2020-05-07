@@ -12,7 +12,6 @@
             <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/filter" />
             <option value="$PROJECT_DIR$/pickphotoview" />
-            <option value="$PROJECT_DIR$/player" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

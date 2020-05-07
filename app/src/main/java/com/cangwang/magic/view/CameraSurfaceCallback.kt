@@ -1,6 +1,5 @@
 package com.cangwang.magic.view
 
-
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
 import android.util.Log
@@ -15,12 +14,12 @@ import java.util.concurrent.Executors
 /**
  * Created by zjl on 2018/10/12.
  */
-class CameraSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
+class CameraSurfaceCallback(camera: Camera?) : SurfaceHolder.Callback {
     private val mExecutor = Executors.newSingleThreadExecutor()
 
-    private val TAG= CameraSurfaceCallback::class.java.simpleName!!
-    private var mSurfaceTexture:SurfaceTexture?=null
-    private val mCamera=camera
+    private val TAG = CameraSurfaceCallback::class.java.simpleName!!
+    private var mSurfaceTexture: SurfaceTexture? = null
+    private val mCamera = camera
     private val mMatrix = FloatArray(16)
     private var width = 0
     private var height = 0
@@ -29,7 +28,7 @@ class CameraSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
         this.width = width
         this.height = height
         holder?.let {
-            initOpenGL(it.surface,width,height)
+            initOpenGL(it.surface, width, height)
         }
     }
 
@@ -38,14 +37,14 @@ class CameraSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
     }
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
-
     }
 
-    fun initOpenGL(surface: Surface, width: Int, height: Int){
+    fun initOpenGL(surface: Surface, width: Int, height: Int) {
         mExecutor.execute {
             //获取纹理id
-            val textureId = OpenGLJniLib.magicBaseInit(surface,width,height,BaseApplication.context.assets)
-            if (textureId < 0){
+            val textureId = OpenGLJniLib.magicBaseInit(surface, width, height,
+                    BaseApplication.context.assets)
+            if (textureId < 0) {
                 Log.e(TAG, "surfaceCreated init OpenGL ES failed!")
                 return@execute
             }
@@ -58,14 +57,14 @@ class CameraSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
                 mCamera?.setPreviewTexture(mSurfaceTexture)
                 //开始摄像头采样
                 doStartPreview()
-            }catch (e:IOException){
-                Log.e(TAG,e.localizedMessage)
+            } catch (e: IOException) {
+                Log.e(TAG, e.localizedMessage)
                 releaseOpenGL()
             }
         }
     }
 
-    fun drawOpenGL(){
+    fun drawOpenGL() {
         mExecutor.execute {
             //重新获取纹理图像
             mSurfaceTexture?.updateTexImage()
@@ -76,20 +75,20 @@ class CameraSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
         }
     }
 
-    fun releaseOpenGL(){
+    fun releaseOpenGL() {
         mExecutor.execute {
             mSurfaceTexture?.release()
-            mSurfaceTexture=null
+            mSurfaceTexture = null
             OpenGLJniLib.magicBaseRelease()
         }
     }
 
-    fun doStartPreview(){
+    fun doStartPreview() {
         mCamera?.startPreview()
-        cameraFocus(width/2.0f,height/2.0f)
+        cameraFocus(width / 2.0f, height / 2.0f)
     }
 
-    fun cameraFocus(x:Float,y:Float){
+    fun cameraFocus(x: Float, y: Float) {
         mCamera?.let {
             it.cancelAutoFocus()
             CameraHelper.setFocusMode(it, Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)

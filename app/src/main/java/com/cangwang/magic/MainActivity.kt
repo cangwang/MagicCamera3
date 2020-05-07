@@ -5,25 +5,16 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
 import android.widget.Toast
-import com.cangwang.magic.util.CorountinesUtil
 import com.werb.pickphotoview.PickPhotoView
 import com.werb.pickphotoview.model.SelectModel
 import com.werb.pickphotoview.util.PickConfig
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newFixedThreadPoolContext
-import kotlinx.coroutines.runBlocking
 import java.util.ArrayList
-import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispatchers.Default) {
     companion object {

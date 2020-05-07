@@ -101,7 +101,7 @@ void Framebuffer::active() {
 
 //关闭framebuffer
 void Framebuffer::inactive() {
-    CHECK_GL(glGetUniformBlockIndex(GL_FRAMEBUFFER, 0));
+    CHECK_GL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 }
 
 //合成纹理
