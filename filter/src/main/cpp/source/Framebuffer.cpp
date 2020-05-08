@@ -38,8 +38,8 @@ TextureAttributes Framebuffer::defaultTextureAttribures = {
 };
 
 Framebuffer::Framebuffer(int width, int height, bool onlyGenerateTexture/* = false*/, const TextureAttributes textureAttributes/* = defaultTextureAttribures*/)
-:_texture(-1)
-,_framebuffer(-1)
+:_texture(static_cast<GLuint>(-1))
+,_framebuffer(static_cast<GLuint>(-1))
 {
     _width = width;
     _height = height;
@@ -57,7 +57,7 @@ Framebuffer::Framebuffer(int width, int height, bool onlyGenerateTexture/* = fal
 
 Framebuffer::~Framebuffer() {
     // todo
-    std::vector<Framebuffer*>::iterator itr = std::find(_framebuffers.begin(), _framebuffers.end(), this);
+    auto itr = std::find(_framebuffers.begin(), _framebuffers.end(), this);
     if (itr != _framebuffers.end()) {
         _framebuffers.erase(itr);
     }
@@ -81,11 +81,11 @@ Framebuffer::~Framebuffer() {
 
     if (bDeleteTex) {
         CHECK_GL(glDeleteTextures(1, &_texture));
-        _texture = -1;
+        _texture = static_cast<GLuint>(-1);
     }
     if (bDeleteFB) {
         CHECK_GL(glDeleteFramebuffers(1, &_framebuffer));
-        _framebuffer = -1;
+        _framebuffer = static_cast<GLuint>(-1);
     }
 }
 

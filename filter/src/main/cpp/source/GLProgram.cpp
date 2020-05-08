@@ -26,13 +26,13 @@ NS_GI_BEGIN
 std::vector<GLProgram*> GLProgram::_programs;
 
 GLProgram::GLProgram()
-:_program(-1)
+:_program(static_cast<GLuint>(-1))
 {
     _programs.push_back(this);
 }
 
 GLProgram::~GLProgram() {
-    std::vector<GLProgram*>::iterator itr = std::find(_programs.begin(), _programs.end(), this);
+    auto itr = std::find(_programs.begin(), _programs.end(), this);
     if (itr != _programs.end()) {
         _programs.erase(itr);
     }
@@ -50,12 +50,12 @@ GLProgram::~GLProgram() {
 
     if (bDeleteProgram) {
         glDeleteProgram(_program);
-        _program = -1;
+        _program = static_cast<GLuint>(-1);
     }
 }
 
 GLProgram* GLProgram::createByShaderString(const std::string& vertexShaderSource, const std::string& fragmentShaderSource) {
-    GLProgram* ret = new (std::nothrow) GLProgram();
+    auto* ret = new (std::nothrow) GLProgram();
     if (ret) {
         if (!ret->_initWithShaderString(vertexShaderSource, fragmentShaderSource))
         {
@@ -69,9 +69,9 @@ GLProgram* GLProgram::createByShaderString(const std::string& vertexShaderSource
 
 bool GLProgram::_initWithShaderString(const std::string& vertexShaderSource, const std::string& fragmentShaderSource) {
 
-    if (_program != -1) {
+    if (_program != static_cast<GLuint>(-1)) {
         CHECK_GL(glDeleteProgram(_program));
-        _program = -1;
+        _program = static_cast<GLuint>(-1);
     }
     CHECK_GL(_program = glCreateProgram());
 
@@ -101,7 +101,7 @@ void GLProgram::use() {
 }
 
 GLuint GLProgram::getAttribLocation(const std::string& attribute) {
-    return glGetAttribLocation(_program, attribute.c_str());
+    return static_cast<GLuint>(glGetAttribLocation(_program, attribute.c_str()));
 }
 
 GLuint GLProgram::getUniformLocation(const std::string& uniformName) {

@@ -72,14 +72,11 @@ Source* Source::addTarget(id<GPUImageTarget> target) {
 #endif
 
 bool Source::hasTarget(const Target* target) const {
-    if (_targets.find(const_cast<Target*>(target)) != _targets.end())
-        return true;
-    else
-        return false;
+    return _targets.find(const_cast<Target *>(target)) != _targets.end();
 }
 
 void Source::removeTarget(Target* target) {
-    std::map<Target*, int>::iterator itr = _targets.find(target);
+    auto itr = _targets.find(target);
     if (itr != _targets.end()) {
         Ref* ref = (Ref*)(itr->first);
         if (ref) {

@@ -28,7 +28,7 @@ Target::Target(int inputNumber/* = 1*/)
 
 Target::~Target()
 {
-    for (std::map<int, InputFrameBufferInfo>::iterator it = _inputFramebuffers.begin(); it != _inputFramebuffers.end(); ++it) {
+    for (auto it = _inputFramebuffers.begin(); it != _inputFramebuffers.end(); ++it) {
         if (it->second.frameBuffer) {
             it->second.frameBuffer->release();
             it->second.frameBuffer = 0;
@@ -64,20 +64,17 @@ int Target::getNextAvailableTextureIndex() const {
 bool Target::isPrepared() const {
     int preparedNum = 0;
     int ignoreForPrepareNum = 0;
-    for (std::map<int, InputFrameBufferInfo>::const_iterator it = _inputFramebuffers.begin(); it != _inputFramebuffers.end(); ++it) {
+    for (auto it = _inputFramebuffers.begin(); it != _inputFramebuffers.end(); ++it) {
         if (it->second.ignoreForPrepare)
             ignoreForPrepareNum++;
         else if (it->second.frameBuffer)
             preparedNum++;
     }
-    if (ignoreForPrepareNum + preparedNum >= _inputNum)
-        return true;
-    else
-        return false;
+    return ignoreForPrepareNum + preparedNum >= _inputNum;
 }
 
 void Target::unPrepare() {
-    for (std::map<int, InputFrameBufferInfo>::iterator it = _inputFramebuffers.begin(); it != _inputFramebuffers.end(); ++it) {
+    for (auto it = _inputFramebuffers.begin(); it != _inputFramebuffers.end(); ++it) {
         if (!it->second.ignoreForPrepare) {
             if (it->second.frameBuffer) {
                 it->second.frameBuffer->release();
