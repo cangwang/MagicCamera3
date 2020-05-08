@@ -16,8 +16,14 @@ class GPUImageSourceCamera : GPUImageSource, Camera.PreviewCallback {
     private var mCurrentCameraId = 0
     private var mRGBABuffer: IntBuffer? = null
     private var mRotation = GPUImage.NoRotation
-    private lateinit var mContext: Context
+    private var mContext: Context
     private var mSurfaceTexture: SurfaceTexture? = null
+
+    init {
+        GPUImage.runOnDraw(Runnable {
+            mNativeClassID = GPUImage.nativeSourceCameraNew()
+        })
+    }
 
     constructor(context: Context) {
         mContext = context

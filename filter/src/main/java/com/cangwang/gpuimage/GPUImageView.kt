@@ -36,6 +36,7 @@ class GPUImageView : FrameLayout, GPUImageTarget {
 
     private fun init(context: Context, attrs: AttributeSet?) {
         if (nativeClassID != 0L) return
+        GPUImage.init()
         GPUImage.runOnDraw(
                 Runnable { nativeClassID = GPUImage.nativeTargetViewNew() })
 

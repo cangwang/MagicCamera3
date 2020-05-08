@@ -17,18 +17,25 @@ object GPUImage {
     val RotateRightFlipHorizontal = 6
     val Rotate180 = 7
 
-    private var mRenderer: GPUImageRenderer? = GPUImageRenderer()
+    private var mRenderer: GPUImageRenderer? = null
     private var mGLSurfaceView: GLSurfaceView? = null
     private var mGLSurfaceViewRenderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
 
     init {
         System.loadLibrary("GPUImage-x")
-        runOnDraw(Runnable {
-            nativeContextInit()
-        })
+        init()
     }
 
-    fun isInited(): Boolean {
+    fun init() {
+        if (!isInited()) {
+            mRenderer = GPUImageRenderer()
+            runOnDraw(Runnable {
+                nativeContextInit()
+            })
+        }
+    }
+
+    private fun isInited(): Boolean {
         return mRenderer != null
     }
 
