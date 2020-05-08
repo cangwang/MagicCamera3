@@ -20,7 +20,7 @@
 #define Target_hpp
 
 
-#include "macros.hpp"
+#include "macros.h"
 #include "Framebuffer.hpp"
 #include <map>
 

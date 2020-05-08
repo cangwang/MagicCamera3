@@ -19,7 +19,7 @@
 #ifndef HalftoneFilter_hpp
 #define HalftoneFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "PixellationFilter.hpp"
 
 NS_GI_BEGIN

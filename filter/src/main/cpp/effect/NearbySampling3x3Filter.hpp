@@ -19,7 +19,7 @@
 #ifndef NearbySampling3x3Filter_hpp
 #define NearbySampling3x3Filter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "Filter.hpp"
 
 NS_GI_BEGIN

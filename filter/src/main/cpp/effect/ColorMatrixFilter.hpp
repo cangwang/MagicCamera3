@@ -19,7 +19,7 @@
 #ifndef ColorMatrixFilter_hpp
 #define ColorMatrixFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "Filter.hpp"
 #include "../source/math.hpp"
 

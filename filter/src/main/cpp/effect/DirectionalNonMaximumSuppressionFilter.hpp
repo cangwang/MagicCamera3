@@ -19,24 +19,24 @@
 #ifndef DirectionalNonMaximumSuppressionFilter_hpp
 #define DirectionalNonMaximumSuppressionFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "Filter.hpp"
 
 NS_GI_BEGIN
 
-    class DirectionalNonMaximumSuppressionFilter : public Filter {
-    public:
-        static DirectionalNonMaximumSuppressionFilter* create();
-        bool init();
-
-        virtual bool proceed(bool bUpdateTargets = true) override;
-
-
-    protected:
-        GLuint _texelWidthUniform;
-        GLuint _texelHeightUniform;
-        DirectionalNonMaximumSuppressionFilter() {};
-    };
+class DirectionalNonMaximumSuppressionFilter : public Filter {
+public:
+    static DirectionalNonMaximumSuppressionFilter* create();
+    bool init();
+    
+    virtual bool proceed(bool bUpdateTargets = true) override;
+    
+    
+protected:
+    GLuint _texelWidthUniform;
+    GLuint _texelHeightUniform;
+    DirectionalNonMaximumSuppressionFilter() {};
+};
 
 NS_GI_END
 

@@ -19,7 +19,7 @@
 #ifndef GlassSphereFilter_hpp
 #define GlassSphereFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "SphereRefractionFilter.hpp"
 
 NS_GI_BEGIN

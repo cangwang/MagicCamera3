@@ -13,7 +13,7 @@ class GPUImageRenderer : GLSurfaceView.Renderer {
     private var mPostDrawQueue = LinkedList<Runnable>()
     private var mSource: GPUImageSource? = null
 
-    fun setSource(source: GPUImageSource) {
+    fun setSource(source: GPUImageSource?) {
         mSource = source
     }
 

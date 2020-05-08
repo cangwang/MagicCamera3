@@ -3,45 +3,46 @@
 #include <jni.h>
 #include <string>
 #include <android/bitmap.h>
-#include "SourceImage.h"
-#include "SourceCamera.h"
-#include "TargetView.h"
-#include "../effect/Filter.hpp"
-#include "Context.hpp"
+#include "src/main/cpp/source/SourceImage.h"
+#include "src/main/cpp/source/SourceCamera.h"
+#include "src/main/cpp/source/TargetView.h"
+#include "src/main/cpp/effect/Filter.hpp"
+#include "src/main/cpp/source/Context.hpp"
 
 USING_NS_GI
 
-extern "C"
-jlong Java_com_jin_gpuimage_GPUImage_nativeSourceImageNew(
+extern "C" {
+JNIEXPORT jlong JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceImageNew(
         JNIEnv *env,
-        jobject)
+        jclass obj)
 {
     return (uintptr_t)(new SourceImage());
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeSourceImageDestroy(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceImageDestroy(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId)
 {
     ((SourceImage*)classId)->release();
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeSourceImageFinalize(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceImageFinalize(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId)
 {
     ((SourceImage*)classId)->releaseFramebuffer(false);
     ((SourceImage*)classId)->release();
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeSourceImageSetImage(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceImageSetImage(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId,
         jobject bitmap)
 {
@@ -60,37 +61,37 @@ void Java_com_jin_gpuimage_GPUImage_nativeSourceImageSetImage(
     AndroidBitmap_unlockPixels(env, bitmap);
 };
 
-extern "C"
-jlong Java_com_jin_gpuimage_GPUImage_nativeSourceCameraNew(
+JNIEXPORT jlong JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceCameraNew(
         JNIEnv *env,
-        jobject)
+        jclass obj)
 {
     return (uintptr_t)(new SourceCamera());
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeSourceCameraDestroy(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceCameraDestroy(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId)
 {
     ((SourceCamera*)classId)->release();
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeSourceCameraFinalize(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceCameraFinalize(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId)
 {
     ((SourceCamera*)classId)->releaseFramebuffer(false);
     ((SourceCamera*)classId)->release();
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeSourceCameraSetFrame(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceCameraSetFrame(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId,
         jint width,
         jint height,
@@ -102,10 +103,10 @@ void Java_com_jin_gpuimage_GPUImage_nativeSourceCameraSetFrame(
     env->ReleasePrimitiveArrayCritical(jdata, data, 0);
 };
 
-extern "C"
-jlong Java_com_jin_gpuimage_GPUImage_nativeSourceAddTarget(
+JNIEXPORT jlong JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceAddTarget(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId,
         jlong targetClassId,
         jint texID,
@@ -120,10 +121,10 @@ jlong Java_com_jin_gpuimage_GPUImage_nativeSourceAddTarget(
     }
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeSourceRemoveTarget(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceRemoveTarget(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId,
         jlong targetClassId,
         jboolean isFilter)
@@ -133,47 +134,47 @@ void Java_com_jin_gpuimage_GPUImage_nativeSourceRemoveTarget(
     source->removeTarget(target);
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeSourceRemoveAllTargets(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceRemoveAllTargets(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId)
 {
     ((Source *) classId)->removeAllTargets();
 };
 
-extern "C"
-jlong Java_com_jin_gpuimage_GPUImage_nativeSourceProceed(
+JNIEXPORT jlong JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceProceed(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId,
         jboolean bUpdateTargets )
 {
     return ((Source *) classId)->proceed(bUpdateTargets);
 };
 
-extern "C"
-jint Java_com_jin_gpuimage_GPUImage_nativeSourceGetRotatedFramebuferWidth(
+JNIEXPORT jint JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceGetRotatedFramebuferWidth(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId)
 {
     return ((Source *) classId)->getRotatedFramebufferWidth();
 };
 
-extern "C"
-jint Java_com_jin_gpuimage_GPUImage_nativeSourceGetRotatedFramebuferHeight(
+JNIEXPORT jint JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceGetRotatedFramebuferHeight(
         JNIEnv *env,
-        jobject,
+        jclass,
         jlong classId)
 {
     return ((Source *) classId)->getRotatedFramebufferHeight();
 };
 
-extern "C"
-jbyteArray Java_com_jin_gpuimage_GPUImage_nativeSourceCaptureAProcessedFrameData(
+JNIEXPORT jbyteArray JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeSourceCaptureAProcessedFrameData(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId,
         jlong upToFilterClassId,
         jint width,
@@ -194,27 +195,27 @@ jbyteArray Java_com_jin_gpuimage_GPUImage_nativeSourceCaptureAProcessedFrameData
     return jresult;
 };
 
-extern "C"
-jlong Java_com_jin_gpuimage_GPUImage_nativeTargetViewNew(
+JNIEXPORT jlong JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeTargetViewNew(
         JNIEnv *env,
-        jobject obj)
+        jclass obj)
 {
     return (uintptr_t)(new TargetView());
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeTargetViewFinalize(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeTargetViewFinalize(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId)
 {
     ((TargetView*)classId)->release();
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeTargetViewOnSizeChanged(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeTargetViewOnSizeChanged(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId,
         jint width,
         jint height)
@@ -222,20 +223,20 @@ void Java_com_jin_gpuimage_GPUImage_nativeTargetViewOnSizeChanged(
     ((TargetView*)classId)->onSizeChanged(width, height);
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeTargetViewSetFillMode(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeTargetViewSetFillMode(
         JNIEnv *env,
-        jobject,
+        jclass obj,
         jlong classId,
         jint fillMode)
 {
     ((TargetView*)classId)->setFillMode((TargetView::FillMode)fillMode);
 };
 
-extern "C"
-jlong Java_com_jin_gpuimage_GPUImage_nativeFilterCreate(
+JNIEXPORT jlong JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeFilterCreate(
         JNIEnv *env,
-        jobject obj,
+        jclass obj,
         jstring jFilterClassName)
 {
     const char* filterClassName = env->GetStringUTFChars(jFilterClassName, 0);
@@ -244,29 +245,29 @@ jlong Java_com_jin_gpuimage_GPUImage_nativeFilterCreate(
     return ret;
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeFilterDestroy(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeFilterDestroy(
         JNIEnv *env,
-        jobject obj,
+        jclass obj,
         jlong classId)
 {
     ((Filter*)classId)->release();
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeFilterFinalize(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeFilterFinalize(
         JNIEnv *env,
-        jobject obj,
+        jclass obj,
         jlong classId)
 {
     ((Filter*)classId)->releaseFramebuffer(false);
     ((Filter*)classId)->release();
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeFilterSetPropertyFloat(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeFilterSetPropertyFloat(
         JNIEnv *env,
-        jobject obj,
+        jclass obj,
         jlong classId,
         jstring jProperty,
         jfloat value)
@@ -277,10 +278,10 @@ void Java_com_jin_gpuimage_GPUImage_nativeFilterSetPropertyFloat(
 
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeFilterSetPropertyInt(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeFilterSetPropertyInt(
         JNIEnv *env,
-        jobject obj,
+        jclass obj,
         jlong classId,
         jstring jProperty,
         jint value)
@@ -291,10 +292,10 @@ void Java_com_jin_gpuimage_GPUImage_nativeFilterSetPropertyInt(
 
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeFilterSetPropertyString(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeFilterSetPropertyString(
         JNIEnv *env,
-        jobject obj,
+        jclass obj,
         jlong classId,
         jstring jProperty,
         jstring jValue)
@@ -307,33 +308,32 @@ void Java_com_jin_gpuimage_GPUImage_nativeFilterSetPropertyString(
 
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeContextInit(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeContextInit(
         JNIEnv *env,
-        jobject obj)
+        jclass obj)
 {
     Context::init();
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeContextDestroy(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeContextDestroy(
         JNIEnv *env,
-        jobject obj)
+        jclass obj)
 {
     Context::destroy();
 };
 
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeContextPurge(
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeContextPurge(
         JNIEnv *env,
-        jobject obj)
+        jclass obj)
 {
     Context::getInstance()->purge();
 };
 
-
-extern "C"
-void Java_com_jin_gpuimage_GPUImage_nativeYUVtoRBGA(JNIEnv * env, jobject obj, jbyteArray yuv420sp, jint width, jint height, jintArray rgbOut)
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_nativeYUVtoRBGA(JNIEnv * env, jclass obj, jbyteArray yuv420sp, jint width, jint height, jintArray rgbOut)
 {
     int             sz;
     int             i;
@@ -387,6 +387,8 @@ void Java_com_jin_gpuimage_GPUImage_nativeYUVtoRBGA(JNIEnv * env, jobject obj, j
 
     env->ReleasePrimitiveArrayCritical(rgbOut, rgbData, 0);
     env->ReleasePrimitiveArrayCritical(yuv420sp, yuv, 0);
+}
+
 }
 
 #endif

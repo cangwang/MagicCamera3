@@ -19,7 +19,7 @@
 #ifndef ExposureFilter_hpp
 #define ExposureFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "Filter.hpp"
 
 NS_GI_BEGIN

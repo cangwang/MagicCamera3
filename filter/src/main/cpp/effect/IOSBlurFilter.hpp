@@ -19,7 +19,7 @@
 #ifndef IOSBlurFilter_hpp
 #define IOSBlurFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "FilterGroup.hpp"
 #include "SaturationFilter.hpp"
 #include "GaussianBlurFilter.hpp"

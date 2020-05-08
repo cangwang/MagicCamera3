@@ -19,7 +19,7 @@
 #ifndef HueFilter_hpp
 #define HueFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "Filter.hpp"
 
 NS_GI_BEGIN

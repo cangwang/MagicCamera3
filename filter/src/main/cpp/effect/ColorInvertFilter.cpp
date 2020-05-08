@@ -20,40 +20,40 @@
 
 NS_GI_BEGIN
 
-    REGISTER_FILTER_CLASS(ColorInvertFilter)
+REGISTER_FILTER_CLASS(ColorInvertFilter)
 
-    const std::string kColorInvertFragmentShaderString = SHADER_STRING
-    (
+const std::string kColorInvertFragmentShaderString = SHADER_STRING
+(
+ 
+    uniform sampler2D colorMap;
+    varying highp vec2 vTexCoord;
 
-            uniform sampler2D colorMap;
-            varying highp vec2 vTexCoord;
-
-            void main()
-            {
-                lowp vec4 color = texture2D(colorMap, vTexCoord);
-                gl_FragColor = vec4((1.0 - color.rgb), color.a);
-            }
-    );
-
-
-    ColorInvertFilter* ColorInvertFilter::create() {
-        ColorInvertFilter* ret = new (std::nothrow) ColorInvertFilter();
-        if (ret && !ret->init()) {
-            delete ret;
-            ret = 0;
-        }
-        return ret;
+    void main()
+    {
+        lowp vec4 color = texture2D(colorMap, vTexCoord);
+        gl_FragColor = vec4((1.0 - color.rgb), color.a);
     }
+);
 
-    bool ColorInvertFilter::init() {
-        if (!Filter::initWithFragmentShaderString(kColorInvertFragmentShaderString)) return false;
-        return true;
+
+ColorInvertFilter* ColorInvertFilter::create() {
+    ColorInvertFilter* ret = new (std::nothrow) ColorInvertFilter();
+    if (ret && !ret->init()) {
+        delete ret;
+        ret = 0;
     }
+    return ret;
+}
+
+bool ColorInvertFilter::init() {
+    if (!Filter::initWithFragmentShaderString(kColorInvertFragmentShaderString)) return false;
+    return true;
+}
 
 
-    bool ColorInvertFilter::proceed(bool bUpdateTargets/* = true*/) {
-        return Filter::proceed(bUpdateTargets);
-    }
+bool ColorInvertFilter::proceed(bool bUpdateTargets/* = true*/) {
+    return Filter::proceed(bUpdateTargets);
+}
 
 
 NS_GI_END

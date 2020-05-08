@@ -19,7 +19,7 @@
 #ifndef BeautifyFilter_hpp
 #define BeautifyFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "FilterGroup.hpp"
 #include "BilateralFilter.hpp"
 #include "CannyEdgeDetectionFilter.hpp"
@@ -29,25 +29,25 @@
 
 NS_GI_BEGIN
 
-    class CombinationFilter;
+class CombinationFilter;
 
-    class BeautifyFilter : public FilterGroup {
-    public:
-        static BeautifyFilter* create();
-        bool init();
-        bool proceed(bool bUpdateTargets = true) override;
-
-        virtual void setInputFramebuffer(Framebuffer* framebuffer, RotationMode rotationMode = NoRotation, int texIdx = 0) override;
-
-    protected:
-        BeautifyFilter();
-        ~BeautifyFilter();
-
-        BilateralFilter* _bilateralFilter;
-        CannyEdgeDetectionFilter* _cannyEdgeDetectionFilter;
-        CombinationFilter* _combinationFilter;
-        HSBFilter* _hsbFilter;
-    };
+class BeautifyFilter : public FilterGroup {
+public:
+    static BeautifyFilter* create();
+    bool init();
+    bool proceed(bool bUpdateTargets = true) override;
+    
+    virtual void setInputFramebuffer(Framebuffer* framebuffer, RotationMode rotationMode = NoRotation, int texIdx = 0) override;
+    
+protected:
+    BeautifyFilter();
+    ~BeautifyFilter();
+    
+    BilateralFilter* _bilateralFilter;
+    CannyEdgeDetectionFilter* _cannyEdgeDetectionFilter;
+    CombinationFilter* _combinationFilter;
+    HSBFilter* _hsbFilter;
+};
 
 NS_GI_END
 

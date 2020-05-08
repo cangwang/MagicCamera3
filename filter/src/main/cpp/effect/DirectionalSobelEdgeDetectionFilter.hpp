@@ -19,7 +19,7 @@
 #ifndef DirectionalSobelEdgeDetectionFilter_hpp
 #define DirectionalSobelEdgeDetectionFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "NearbySampling3x3Filter.hpp"
 
 NS_GI_BEGIN
@@ -28,10 +28,10 @@ class DirectionalSobelEdgeDetectionFilter : public NearbySampling3x3Filter {
 public:
     static DirectionalSobelEdgeDetectionFilter* create();
     bool init();
-
-
+    
+    
 protected:
-
+    
     DirectionalSobelEdgeDetectionFilter() {};
 };
 

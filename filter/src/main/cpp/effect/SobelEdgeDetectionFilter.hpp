@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 
-#ifndef SketchFilter_hpp
-#define SketchFilter_hpp
+#ifndef SobelEdgeDetectionFilter_hpp
+#define SobelEdgeDetectionFilter_hpp
 
 #include "../source/macros.h"
 #include "FilterGroup.hpp"
@@ -26,39 +26,37 @@
 
 NS_GI_BEGIN
 
-// Sketch filter is just the Sobel edge detection filter with the colors inverted.
+class _SobelEdgeDetectionFilter;
 
-class _SketchFilter;
-
-class SketchFilter : public FilterGroup {
+class SobelEdgeDetectionFilter : public FilterGroup {
 public:
-    static SketchFilter* create();
+    static SobelEdgeDetectionFilter* create();
     bool init();
     
 protected:
-    SketchFilter();
-    ~SketchFilter();
+    SobelEdgeDetectionFilter();
+    ~SobelEdgeDetectionFilter();
     
     GrayscaleFilter* _grayscaleFilter;
-    _SketchFilter* _sketchFilter;
+    _SobelEdgeDetectionFilter* _sobelEdgeDetectionFilter;
     
     float _edgeStrength;
 };
 
-class _SketchFilter : public NearbySampling3x3Filter {
+class _SobelEdgeDetectionFilter : public NearbySampling3x3Filter {
 public:
-    static _SketchFilter* create();
+    static _SobelEdgeDetectionFilter* create();
     bool init();
     virtual bool proceed(bool bUpdateTargets = true) override;
     
     void setEdgeStrength(float edgeStrength);
     
 protected:
-    _SketchFilter() {};
+    _SobelEdgeDetectionFilter() {};
     
     float _edgeStrength;
 };
 
 NS_GI_END
 
-#endif /* SketchFilter_hpp */
+#endif /* SobelEdgeDetectionFilter_hpp */

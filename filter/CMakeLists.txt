@@ -34,18 +34,75 @@ add_library( # Sets the name of the library.
         ${CPP_SRCS})
 
 
-file(GLOB_RECURSE Files_CPP
-        "${SRC_DIR}/effect/*.cpp"
-        "${SRC_DIR}/source/*.cpp")
+#file(GLOB_RECURSE Files_CPP
+#        "${SRC_DIR}/effect/*.cpp"
+#        "${SRC_DIR}/source/*.cpp"
+#        "${SRC_DIR}/GPUImagexJNI.cpp")
+#
+#add_library( # Sets the name of the library.
+#        GPUImage-x
+#
+#        # Sets the library as a shared library.
+#        SHARED
+#
+#        # Provides a relative path to your source file(s).
+#        ${Files_CPP})
 
-add_library( # Sets the name of the library.
-        GPUImage-x
-
-        # Sets the library as a shared library.
+add_library( GPUImage-x
         SHARED
-
-        # Provides a relative path to your source file(s).
-        ${Files_CPP})
+        src/main/cpp/source/Ref.cpp
+        src/main/cpp/source/util.cpp
+        src/main/cpp/source/FramebufferCache.cpp
+        src/main/cpp/source/Framebuffer.cpp
+        src/main/cpp/source/GLProgram.cpp
+        src/main/cpp/source/Context.cpp
+        src/main/cpp/source/math.cpp
+        src/main/cpp/GPUImagexJNI.cpp
+        src/main/cpp/source/Source.cpp
+        src/main/cpp/source/SourceImage.cpp
+        src/main/cpp/source/SourceCamera.cpp
+        src/main/cpp/source/Target.cpp
+        src/main/cpp/source/TargetView.cpp
+        src/main/cpp/effect/Filter.cpp
+        src/main/cpp/effect/FilterGroup.cpp
+        src/main/cpp/effect/BrightnessFilter.cpp
+        src/main/cpp/effect/ColorInvertFilter.cpp
+        src/main/cpp/effect/GrayscaleFilter.cpp
+        src/main/cpp/effect/GaussianBlurFilter.cpp
+        src/main/cpp/effect/GaussianBlurMonoFilter.cpp
+        src/main/cpp/effect/NearbySampling3x3Filter.cpp
+        src/main/cpp/effect/DirectionalSobelEdgeDetectionFilter.cpp
+        src/main/cpp/effect/DirectionalNonMaximumSuppressionFilter.cpp
+        src/main/cpp/effect/WeakPixelInclusionFilter.cpp
+        src/main/cpp/effect/CannyEdgeDetectionFilter.cpp
+        src/main/cpp/effect/BilateralFilter.cpp
+        src/main/cpp/effect/ColorMatrixFilter.cpp
+        src/main/cpp/effect/HSBFilter.cpp
+        src/main/cpp/effect/BeautifyFilter.cpp
+        src/main/cpp/effect/SobelEdgeDetectionFilter.cpp
+        src/main/cpp/effect/SketchFilter.cpp
+        src/main/cpp/effect/ToonFilter.cpp
+        src/main/cpp/effect/PixellationFilter.cpp
+        src/main/cpp/effect/SaturationFilter.cpp
+        src/main/cpp/effect/ContrastFilter.cpp
+        src/main/cpp/effect/ExposureFilter.cpp
+        src/main/cpp/effect/RGBFilter.cpp
+        src/main/cpp/effect/HueFilter.cpp
+        src/main/cpp/effect/WhiteBalanceFilter.cpp
+        src/main/cpp/effect/SmoothToonFilter.cpp
+        src/main/cpp/effect/PosterizeFilter.cpp
+        src/main/cpp/effect/LuminanceRangeFilter.cpp
+        src/main/cpp/effect/IOSBlurFilter.cpp
+        src/main/cpp/effect/NonMaximumSuppressionFilter.cpp
+        src/main/cpp/effect/SingleComponentGaussianBlurMonoFilter.cpp
+        src/main/cpp/effect/SingleComponentGaussianBlurFilter.cpp
+        src/main/cpp/effect/Convolution3x3Filter.cpp
+        src/main/cpp/effect/EmbossFilter.cpp
+        src/main/cpp/effect/HalftoneFilter.cpp
+        src/main/cpp/effect/CrosshatchFilter.cpp
+        src/main/cpp/effect/SphereRefractionFilter.cpp
+        src/main/cpp/effect/GlassSphereFilter.cpp
+        )
 
 #add_library( # Sets the name of the library.
 #             native-lib
@@ -116,3 +173,16 @@ target_link_libraries(
         ${log-lib}
         GLESv2
         jnigraphics )
+
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+elseif(COMPILER_SUPPORTS_CXX0X)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+else()
+    message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -frtti")

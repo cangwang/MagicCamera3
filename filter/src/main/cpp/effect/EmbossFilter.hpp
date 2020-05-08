@@ -19,7 +19,7 @@
 #ifndef EmbossFilter_hpp
 #define EmbossFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "Convolution3x3Filter.hpp"
 
 NS_GI_BEGIN

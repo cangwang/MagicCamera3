@@ -19,7 +19,7 @@
 #ifndef math_hpp
 #define math_hpp
 
-#include "macros.hpp"
+#include "macros.h"
 
 NS_GI_BEGIN
 

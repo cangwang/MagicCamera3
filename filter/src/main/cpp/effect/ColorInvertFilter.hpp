@@ -19,21 +19,21 @@
 #ifndef ColorInvertFilter_hpp
 #define ColorInvertFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "Filter.hpp"
 
 NS_GI_BEGIN
 
-    class ColorInvertFilter : public Filter {
-    public:
+class ColorInvertFilter : public Filter {
+public:
+    
+    static ColorInvertFilter* create();
+    bool init();
 
-        static ColorInvertFilter* create();
-        bool init();
-
-        virtual bool proceed(bool bUpdateTargets = true) override;
-    protected:
-        ColorInvertFilter() {};
-    };
+    virtual bool proceed(bool bUpdateTargets = true) override;
+protected:
+    ColorInvertFilter() {};
+};
 
 NS_GI_END
 

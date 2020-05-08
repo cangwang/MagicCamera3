@@ -19,7 +19,7 @@
 #ifndef NonMaximumSuppressionFilter_hpp
 #define NonMaximumSuppressionFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "NearbySampling3x3Filter.hpp"
 
 NS_GI_BEGIN

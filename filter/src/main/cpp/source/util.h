@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <string>
 #include <string.h>
-#include "macros.hpp"
+#include "macros.h"
 #include <stdarg.h>
 
 NS_GI_BEGIN

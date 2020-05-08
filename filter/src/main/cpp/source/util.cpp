@@ -26,14 +26,14 @@
 
 
 NS_GI_BEGIN
-    //格式化文本输出
+
     std::string str_format(const char *fmt,...) {
         std::string strResult="";
         if (NULL != fmt)
         {
             va_list marker;
             va_start(marker, fmt);
-            char *buf = nullptr;
+            char *buf = 0;
             int result = vasprintf (&buf, fmt, marker);
             if (!buf)
             {
@@ -49,7 +49,7 @@ NS_GI_BEGIN
             }
 
             result = (int)strlen (buf);
-            strResult.append(buf, static_cast<unsigned int>(result));
+            strResult.append(buf,result);
             free(buf);
             va_end(marker);
         }

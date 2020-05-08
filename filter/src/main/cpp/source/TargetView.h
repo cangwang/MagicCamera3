@@ -21,7 +21,6 @@
 
 #include "Target.hpp"
 #include "GLProgram.hpp"
-#include "Framebuffer.hpp"
 
 NS_GI_BEGIN
 

@@ -19,7 +19,7 @@
 #ifndef Convolution3x3Filter_hpp
 #define Convolution3x3Filter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "NearbySampling3x3Filter.hpp"
 #include "../source/math.hpp"
 

@@ -19,21 +19,21 @@
 #ifndef WeakPixelInclusionFilter_hpp
 #define WeakPixelInclusionFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "NearbySampling3x3Filter.hpp"
 
 NS_GI_BEGIN
 
-    class WeakPixelInclusionFilter : public NearbySampling3x3Filter {
-    public:
-        static WeakPixelInclusionFilter* create();
-        bool init();
-
-
-    protected:
-
-        WeakPixelInclusionFilter() {};
-    };
+class WeakPixelInclusionFilter : public NearbySampling3x3Filter {
+public:
+    static WeakPixelInclusionFilter* create();
+    bool init();
+    
+    
+protected:
+    
+    WeakPixelInclusionFilter() {};
+};
 
 NS_GI_END
 

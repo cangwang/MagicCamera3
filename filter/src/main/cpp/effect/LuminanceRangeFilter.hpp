@@ -19,7 +19,7 @@
 #ifndef LuminanceRangeFilter_hpp
 #define LuminanceRangeFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "Filter.hpp"
 
 NS_GI_BEGIN

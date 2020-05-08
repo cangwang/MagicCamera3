@@ -22,7 +22,7 @@ object GPUImage {
     private var mGLSurfaceViewRenderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
 
     init {
-        System.loadLibrary("magicjni")
+        System.loadLibrary("GPUImage-x")
         runOnDraw(Runnable {
             nativeContextInit()
         })
@@ -35,13 +35,17 @@ object GPUImage {
     fun destroy() {
         if (!isInited()) return
         purge()
+        setGLSurfaceView(null)
+        setSource(null)
+        mRenderer?.clear()
+        mRenderer = null
     }
 
-    fun setSource(source: GPUImageSource) {
+    fun setSource(source: GPUImageSource?) {
         mRenderer?.setSource(source)
     }
 
-    fun setGLSurfaceView(view: GLSurfaceView) {
+    fun setGLSurfaceView(view: GLSurfaceView?) {
         mGLSurfaceView = view
         if (mGLSurfaceView != null) {
             mGLSurfaceView?.setEGLContextClientVersion(2)

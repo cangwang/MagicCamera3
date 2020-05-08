@@ -19,7 +19,7 @@
 #ifndef GaussianBlurFilter_hpp
 #define GaussianBlurFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "FilterGroup.hpp"
 #include "GaussianBlurMonoFilter.hpp"
 

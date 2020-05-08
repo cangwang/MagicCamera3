@@ -19,7 +19,7 @@
 #ifndef SmoothToonFilter_hpp
 #define SmoothToonFilter_hpp
 
-#include "../source/macros.hpp"
+#include "../source/macros.h"
 #include "FilterGroup.hpp"
 #include "GaussianBlurFilter.hpp"
 #include "ToonFilter.hpp"

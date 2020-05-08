@@ -11,20 +11,18 @@ import android.view.WindowManager
 import java.io.IOException
 import java.nio.IntBuffer
 
-class GPUImageSourceCamera(context: Context) : GPUImageSource(), Camera.PreviewCallback {
+class GPUImageSourceCamera : GPUImageSource, Camera.PreviewCallback {
     private var mCamera: Camera? = null
     private var mCurrentCameraId = 0
     private var mRGBABuffer: IntBuffer? = null
     private var mRotation = GPUImage.NoRotation
-    private val mContext = context
+    private lateinit var mContext: Context
     private var mSurfaceTexture: SurfaceTexture? = null
 
-    init {
-        if (mNativeClassID != 0L) {
-            GPUImage.runOnDraw(Runnable {
-                mNativeClassID = GPUImage.nativeSourceCameraNew()
-            })
-        }
+    constructor(context: Context) {
+        mContext = context
+        if (mNativeClassID != 0L) return
+        GPUImage.runOnDraw(Runnable { mNativeClassID = GPUImage.nativeSourceImageNew() })
     }
 
     override fun onPreviewFrame(data: ByteArray?, camera: Camera?) {

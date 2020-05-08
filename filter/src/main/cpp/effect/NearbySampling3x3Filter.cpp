@@ -18,7 +18,11 @@
 
 #include "NearbySampling3x3Filter.hpp"
 
+
+
 NS_GI_BEGIN
+
+
 
 const std::string kNearbySampling3x3SamplingVertexShaderString = SHADER_STRING
 (
