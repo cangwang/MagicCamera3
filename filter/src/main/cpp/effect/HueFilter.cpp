@@ -29,18 +29,20 @@ const std::string kHueFragmentShaderString = SHADER_STRING
     precision highp float;
     uniform sampler2D colorMap;
     uniform mediump float hueAdjustment;
-    varying highp vec2 vTexCoord;
+    in highp vec2 vTexCoord;
     const highp  vec4  kRGBToYPrime = vec4 (0.299, 0.587, 0.114, 0.0);
     const highp  vec4  kRGBToI     = vec4 (0.595716, -0.274453, -0.321263, 0.0);
     const highp  vec4  kRGBToQ     = vec4 (0.211456, -0.522591, 0.31135, 0.0);
     const highp  vec4  kYIQToR   = vec4 (1.0, 0.9563, 0.6210, 0.0);
     const highp  vec4  kYIQToG   = vec4 (1.0, -0.2721, -0.6474, 0.0);
     const highp  vec4  kYIQToB   = vec4 (1.0, -1.1070, 1.7046, 0.0);
+
+    out vec4 gl_FragColor;
  
     void main()
     {
         // Sample the input pixel
-        highp vec4 color = texture2D(colorMap, vTexCoord);
+        highp vec4 color = texture(colorMap, vTexCoord);
         
         // Convert to YIQ
         highp float YPrime = dot(color, kRGBToYPrime);

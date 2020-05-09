@@ -26,13 +26,15 @@ const std::string kGrayscaleFragmentShaderString = SHADER_STRING
 (
  precision highp float;
  uniform sampler2D colorMap;
- varying highp vec2 vTexCoord;
+ in highp vec2 vTexCoord;
+
+ out vec4 gl_FragColor;
  
  const highp vec3 W = vec3(0.2125, 0.7154, 0.0721);
  
  void main()
  {
-     lowp vec4 color = texture2D(colorMap, vTexCoord);
+     lowp vec4 color = texture(colorMap, vTexCoord);
      float luminance = dot(color.rgb, vec3(0.2125, 0.7154, 0.0721));
      gl_FragColor = vec4(vec3(luminance), color.a);
  }
@@ -49,6 +51,7 @@ GrayscaleFilter* GrayscaleFilter::create() {
 }
 
 bool GrayscaleFilter::init() {
+    Log("GrayscaleFilter","init");
     if (Filter::initWithFragmentShaderString(kGrayscaleFragmentShaderString)) {
         return true;
     }

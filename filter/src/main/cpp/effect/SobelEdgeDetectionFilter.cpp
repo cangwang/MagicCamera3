@@ -29,28 +29,30 @@ const std::string kSobelEdgeDetectionFragmentShaderString = SHADER_STRING
  uniform sampler2D colorMap;
  uniform float edgeStrength;
  
- varying vec2 vTexCoord;
- varying vec2 vLeftTexCoord;
- varying vec2 vRightTexCoord;
+ in vec2 vTexCoord;
+ in vec2 vLeftTexCoord;
+ in vec2 vRightTexCoord;
  
- varying vec2 vTopTexCoord;
- varying vec2 vTopLeftTexCoord;
- varying vec2 vTopRightTexCoord;
+ in vec2 vTopTexCoord;
+ in vec2 vTopLeftTexCoord;
+ in vec2 vTopRightTexCoord;
  
- varying vec2 vBottomTexCoord;
- varying vec2 vBottomLeftTexCoord;
- varying vec2 vBottomRightTexCoord;
+ in vec2 vBottomTexCoord;
+ in vec2 vBottomLeftTexCoord;
+ in vec2 vBottomRightTexCoord;
+
+ out vec4 gl_FragColor;
 
  void main()
  {
-     float bottomLeftIntensity = texture2D(colorMap, vBottomLeftTexCoord).r;
-     float topRightIntensity = texture2D(colorMap, vTopRightTexCoord).r;
-     float topLeftIntensity = texture2D(colorMap, vTopLeftTexCoord).r;
-     float bottomRightIntensity = texture2D(colorMap, vBottomRightTexCoord).r;
-     float leftIntensity = texture2D(colorMap, vLeftTexCoord).r;
-     float rightIntensity = texture2D(colorMap, vRightTexCoord).r;
-     float bottomIntensity = texture2D(colorMap, vBottomTexCoord).r;
-     float topIntensity = texture2D(colorMap, vTopTexCoord).r;
+     float bottomLeftIntensity = texture(colorMap, vBottomLeftTexCoord).r;
+     float topRightIntensity = texture(colorMap, vTopRightTexCoord).r;
+     float topLeftIntensity = texture(colorMap, vTopLeftTexCoord).r;
+     float bottomRightIntensity = texture(colorMap, vBottomRightTexCoord).r;
+     float leftIntensity = texture(colorMap, vLeftTexCoord).r;
+     float rightIntensity = texture(colorMap, vRightTexCoord).r;
+     float bottomIntensity = texture(colorMap, vBottomTexCoord).r;
+     float topIntensity = texture(colorMap, vTopTexCoord).r;
      float h = -topLeftIntensity - 2.0 * topIntensity - topRightIntensity + bottomLeftIntensity + 2.0 * bottomIntensity + bottomRightIntensity;
      float v = -bottomLeftIntensity - 2.0 * leftIntensity - topLeftIntensity + bottomRightIntensity + 2.0 * rightIntensity + topRightIntensity;
      

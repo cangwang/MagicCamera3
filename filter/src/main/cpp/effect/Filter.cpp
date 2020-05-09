@@ -22,7 +22,7 @@
 
 NS_GI_BEGIN
 
-std::map<std::string, std::function<Filter*()>> Filter::_filterFactories       ;
+std::map<std::string, std::function<Filter*()>> Filter::_filterFactories;
 
 Filter::Filter()
 :_filterProgram(0)
@@ -97,14 +97,14 @@ std::string Filter::_getVertexShaderString() const {
     }
     
     std::string shaderStr = "\
-                attribute vec4 position;\n\
-                attribute vec4 texCoord;\n\
-                varying vec2 vTexCoord;\n\
+                in vec4 position;\n\
+                in vec4 texCoord;\n\
+                out vec2 vTexCoord;\n\
                 ";
     for (int i = 1; i < _inputNum; ++i) {
         shaderStr += str_format("\
-                attribute vec4 texCoord%d;\n\
-                varying vec2 vTexCoord%d;\n\
+                in vec4 texCoord%d;\n\
+                out vec2 vTexCoord%d;\n\
                                 ", i, i);
     }
     shaderStr += "\

@@ -28,11 +28,12 @@ const std::string kColorMatrixFragmentShaderString = SHADER_STRING
  uniform lowp mat4 colorMatrix;
  uniform lowp float intensity;
  
- varying highp vec2 vTexCoord;
+ in highp vec2 vTexCoord;
+ out vec4 gl_FragColor;
  
  void main()
  {
-     lowp vec4 textureColor = texture2D(colorMap, vTexCoord);
+     lowp vec4 textureColor = texture(colorMap, vTexCoord);
      lowp vec4 outputColor = textureColor * colorMatrix;
      
      gl_FragColor = (intensity * outputColor) + ((1.0 - intensity) * textureColor);

@@ -26,11 +26,13 @@ const std::string kExposureFragmentShaderString = SHADER_STRING
 (
     uniform sampler2D colorMap;
     uniform lowp float exposure;
-    varying highp vec2 vTexCoord;
+    in highp vec2 vTexCoord;
+
+    out vec4 gl_FragColor;
  
     void main()
     {
-        lowp vec4 color = texture2D(colorMap, vTexCoord);
+        lowp vec4 color = texture(colorMap, vTexCoord);
         gl_FragColor = vec4(color.rgb * pow(2.0, exposure), color.a);
     }
 );

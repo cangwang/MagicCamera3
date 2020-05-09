@@ -28,13 +28,15 @@ const std::string kPixellationFragmentShaderString = SHADER_STRING
  uniform highp float aspectRatio;
  
  uniform sampler2D colorMap;
- varying highp vec2 vTexCoord;
+ in highp vec2 vTexCoord;
+
+ out vec4 gl_FragColor;
  
  void main()
  {
      highp vec2 pixelSizeVec = vec2(pixelSize, pixelSize / aspectRatio);
      highp vec2 samplePos = floor(vTexCoord / pixelSizeVec) * pixelSizeVec + 0.5 * pixelSizeVec;
-     gl_FragColor = texture2D(colorMap, samplePos);
+     gl_FragColor = texture(colorMap, samplePos);
  }
  );
 

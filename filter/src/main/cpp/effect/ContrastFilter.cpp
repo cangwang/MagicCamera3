@@ -26,11 +26,13 @@ const std::string kContrastFragmentShaderString = SHADER_STRING
 (
     uniform sampler2D colorMap;
     uniform lowp float contrast;
-    varying highp vec2 vTexCoord;
+    in highp vec2 vTexCoord;
+
+    out vec4 gl_FragColor;
  
     void main()
     {
-        lowp vec4 color = texture2D(colorMap, vTexCoord);
+        lowp vec4 color = texture(colorMap, vTexCoord);
         gl_FragColor = vec4(((color.rgb - vec3(0.5)) * contrast + vec3(0.5)), color.a);
     }
 );

@@ -28,7 +28,8 @@ const std::string kHalftoneFragmentShaderString = SHADER_STRING
  uniform highp float aspectRatio;
  
  uniform sampler2D colorMap;
- varying highp vec2 vTexCoord;
+ in highp vec2 vTexCoord;
+ out vec4 gl_FragColor;
  
  const highp vec3 W = vec3(0.2125, 0.7154, 0.0721);
  
@@ -40,7 +41,7 @@ const std::string kHalftoneFragmentShaderString = SHADER_STRING
      highp vec2 textureCoordinateToUse = vec2(vTexCoord.x, (vTexCoord.y * aspectRatio + 0.5 - 0.5 * aspectRatio));
      highp vec2 adjustedSamplePos = vec2(samplePos.x, (samplePos.y * aspectRatio + 0.5 - 0.5 * aspectRatio));
      highp float distanceFromSamplePoint = distance(adjustedSamplePos, textureCoordinateToUse);
-     lowp vec3 sampledColor = texture2D(colorMap, samplePos ).rgb;
+     lowp vec3 sampledColor = texture(colorMap, samplePos ).rgb;
      highp float dotScaling = 1.0 - dot(sampledColor, W);
      
      lowp float checkForPresenceWithinDot = 1.0 - step(distanceFromSamplePoint, (pixelSize * 0.5) * dotScaling);

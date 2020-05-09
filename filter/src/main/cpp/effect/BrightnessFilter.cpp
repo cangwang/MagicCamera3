@@ -26,15 +26,17 @@ const std::string kBrightnessFragmentShaderString = SHADER_STRING
 (
     uniform sampler2D colorMap;
     uniform lowp float brightness;
-    varying highp vec2 vTexCoord;
- 
+    in highp vec2 vTexCoord;
+    out vec4 gl_FragColor;
+
     void main()
     {
-        lowp vec4 color = texture2D(colorMap, vTexCoord);
+        lowp vec4 color = texture(colorMap, vTexCoord);
         gl_FragColor = vec4((color.rgb + vec3(brightness)), color.a);
     }
 );
 
+//const std::string kBrightnessFragmentShaderString = "#version 300 es \n uniform sampler2D colorMap;uniform lowp float brightness;in highp vec2 vTexCoord;out vec4 gl_FragColor;void main(){lowp vec4 color = texture(colorMap, vTexCoord);gl_FragColor = vec4((color.rgb + vec3(brightness)), color.a);}";
 
 BrightnessFilter* BrightnessFilter::create(float brightness/* = 0.0*/) {
     BrightnessFilter* ret = new (std::nothrow) BrightnessFilter();

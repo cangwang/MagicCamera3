@@ -33,10 +33,10 @@ NS_GI_BEGIN
 // Hardcode the vertex shader for standard filters, but this can be overridden
     const std::string kDefaultVertexShader = SHADER_STRING
     (
-            attribute vec4 position;
-            attribute vec4 texCoord;
-
-            varying vec2 vTexCoord;
+//            \#version 300 es\n
+            in vec4 position;
+            in vec4 texCoord;
+            out vec2 vTexCoord;
 
             void main()
             {
@@ -45,14 +45,19 @@ NS_GI_BEGIN
             }
     );
 
+//  const std::string kDefaultVertexShader = "#version 300 es in vec4 position; in vec4 "
+//                                              "texCoord;out vec2 vTexCoord;void main(){gl_Position = position;vTexCoord = texCoord.xy;}";
+
     const std::string kDefaultFragmentShader = SHADER_STRING
     (
-            varying highp vec2 vTexCoord;
+//            \#version 300 es\n
+            in highp vec2 vTexCoord;
             uniform sampler2D colorMap;
+            out vec4 gl_FragColor;
 
             void main()
             {
-                gl_FragColor = texture2D(colorMap, vTexCoord);
+                gl_FragColor = texture(colorMap, vTexCoord);
             }
     );
 

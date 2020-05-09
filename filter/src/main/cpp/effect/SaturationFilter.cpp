@@ -26,14 +26,15 @@ const std::string kSaturationFragmentShaderString = SHADER_STRING
 (
     uniform sampler2D colorMap;
     uniform lowp float saturation;
-    varying highp vec2 vTexCoord;
+    in highp vec2 vTexCoord;
+    out vec4 gl_FragColor;
  
     // Values from "Graphics Shaders: Theory and Practice" by Bailey and Cunningham
     const mediump vec3 luminanceWeighting = vec3(0.2125, 0.7154, 0.0721);
 
     void main()
     {
-        lowp vec4 color = texture2D(colorMap, vTexCoord);
+        lowp vec4 color = texture(colorMap, vTexCoord);
         lowp float luminance = dot(color.rgb, luminanceWeighting);
         lowp vec3 greyScaleColor = vec3(luminance);
 

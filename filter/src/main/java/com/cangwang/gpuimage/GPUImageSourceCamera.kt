@@ -3,7 +3,7 @@ package com.cangwang.gpuimage
 import android.content.Context
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
-import android.opengl.GLES20
+import android.opengl.GLES30
 import android.os.Build
 import android.util.Log
 import android.view.Surface
@@ -113,7 +113,7 @@ class GPUImageSourceCamera : GPUImageSource, Camera.PreviewCallback {
             GPUImage.runOnDraw(Runnable {
                 if (mNativeClassID != 0L) {
                     val textures = IntArray(1)
-                    GLES20.glGenTextures(1, textures, 0)
+                    GLES30.glGenTextures(1, textures, 0)
                     mSurfaceTexture = SurfaceTexture(textures[0])
                     try {
                         mCamera?.setPreviewTexture(mSurfaceTexture)

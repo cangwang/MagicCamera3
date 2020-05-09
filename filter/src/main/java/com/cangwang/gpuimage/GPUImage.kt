@@ -55,7 +55,7 @@ object GPUImage {
     fun setGLSurfaceView(view: GLSurfaceView?) {
         mGLSurfaceView = view
         if (mGLSurfaceView != null) {
-            mGLSurfaceView?.setEGLContextClientVersion(2)
+            mGLSurfaceView?.setEGLContextClientVersion(3)
             mGLSurfaceView?.setEGLConfigChooser(8, 8, 8, 8, 16, 0)
             mGLSurfaceView?.holder?.setFormat(PixelFormat.RGBA_8888)
             mGLSurfaceView?.setRenderer(mRenderer)

@@ -30,29 +30,29 @@ const std::string kConvolution3x3FragmentShaderString = SHADER_STRING
  uniform sampler2D colorMap;
  uniform mediump mat3 convolutionMatrix;
  
- varying vec2 vTexCoord;
- varying vec2 vLeftTexCoord;
- varying vec2 vRightTexCoord;
- varying vec2 vTopTexCoord;
- varying vec2 vTopLeftTexCoord;
- varying vec2 vTopRightTexCoord;
- varying vec2 vBottomTexCoord;
- varying vec2 vBottomLeftTexCoord;
- varying vec2 vBottomRightTexCoord;
- 
+ in vec2 vTexCoord;
+ in vec2 vLeftTexCoord;
+ in vec2 vRightTexCoord;
+ in vec2 vTopTexCoord;
+ in vec2 vTopLeftTexCoord;
+ in vec2 vTopRightTexCoord;
+ in vec2 vBottomTexCoord;
+ in vec2 vBottomLeftTexCoord;
+ in vec2 vBottomRightTexCoord;
 
+ out vec4 gl_FragColor;
  
  void main()
  {
-     mediump vec3 bottomColor = texture2D(colorMap, vBottomTexCoord).rgb;
-     mediump vec3 bottomLeftColor = texture2D(colorMap, vBottomLeftTexCoord).rgb;
-     mediump vec3 bottomRightColor = texture2D(colorMap, vBottomRightTexCoord).rgb;
-     mediump vec4 centerColor = texture2D(colorMap, vTexCoord);
-     mediump vec3 leftColor = texture2D(colorMap, vLeftTexCoord).rgb;
-     mediump vec3 rightColor = texture2D(colorMap, vRightTexCoord).rgb;
-     mediump vec3 topColor = texture2D(colorMap, vTopTexCoord).rgb;
-     mediump vec3 topRightColor = texture2D(colorMap, vTopRightTexCoord).rgb;
-     mediump vec3 topLeftColor = texture2D(colorMap, vTopLeftTexCoord).rgb;
+     mediump vec3 bottomColor = texture(colorMap, vBottomTexCoord).rgb;
+     mediump vec3 bottomLeftColor = texture(colorMap, vBottomLeftTexCoord).rgb;
+     mediump vec3 bottomRightColor = texture(colorMap, vBottomRightTexCoord).rgb;
+     mediump vec4 centerColor = texture(colorMap, vTexCoord);
+     mediump vec3 leftColor = texture(colorMap, vLeftTexCoord).rgb;
+     mediump vec3 rightColor = texture(colorMap, vRightTexCoord).rgb;
+     mediump vec3 topColor = texture(colorMap, vTopTexCoord).rgb;
+     mediump vec3 topRightColor = texture(colorMap, vTopRightTexCoord).rgb;
+     mediump vec3 topLeftColor = texture(colorMap, vTopLeftTexCoord).rgb;
      
      mediump vec3 resultColor = topLeftColor * convolutionMatrix[0][0] + topColor * convolutionMatrix[0][1] + topRightColor * convolutionMatrix[0][2];
      resultColor += leftColor * convolutionMatrix[1][0] + centerColor.rgb * convolutionMatrix[1][1] + rightColor * convolutionMatrix[1][2];

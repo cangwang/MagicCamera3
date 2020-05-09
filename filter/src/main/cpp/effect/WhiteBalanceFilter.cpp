@@ -27,14 +27,16 @@ const std::string kWhiteBalanceFragmentShaderString = SHADER_STRING
     uniform sampler2D colorMap;
     uniform lowp float temperature;
     uniform lowp float tint;
-    varying highp vec2 vTexCoord;
+    in highp vec2 vTexCoord;
     const lowp vec3 warmFilter = vec3(0.93, 0.54, 0.0);
     const mediump mat3 RGBtoYIQ = mat3(0.299, 0.587, 0.114, 0.596, -0.274, -0.322, 0.212, -0.523, 0.311);
     const mediump mat3 YIQtoRGB = mat3(1.0, 0.956, 0.621, 1.0, -0.272, -0.647, 1.0, -1.105, 1.702);
+
+    out vec4 gl_FragColor;
  
     void main()
     {
-        lowp vec4 color = texture2D(colorMap, vTexCoord);
+        lowp vec4 color = texture(colorMap, vTexCoord);
         mediump vec3 yiq = RGBtoYIQ * color.rgb; //adjusting tint
         yiq.b = clamp(yiq.b + tint * 0.5226 * 0.1, -0.5226, 0.5226);
         lowp vec3 rgb = YIQtoRGB * yiq;

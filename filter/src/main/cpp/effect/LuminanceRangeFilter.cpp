@@ -26,14 +26,16 @@ const std::string kLuminanceRangeFragmentShaderString = SHADER_STRING
 (
     uniform sampler2D colorMap;
     uniform lowp float rangeReductionFactor;
-    varying highp vec2 vTexCoord;
+    in highp vec2 vTexCoord;
+
+    out vec4 gl_FragColor;
  
     // Values from "Graphics Shaders: Theory and Practice" by Bailey and Cunningham
     const mediump vec3 luminanceWeighting = vec3(0.2125, 0.7154, 0.0721);
  
     void main()
     {
-        lowp vec4 color = texture2D(colorMap, vTexCoord);
+        lowp vec4 color = texture(colorMap, vTexCoord);
         mediump float luminance = dot(color.rgb, luminanceWeighting);
         mediump float luminanceRatio = ((0.5 - luminance) * rangeReductionFactor);
         gl_FragColor = vec4((color.rgb) + (luminanceRatio), color.a);

@@ -4,12 +4,12 @@
  * Copyright (C) 2017 Yijin Wang, Yiqian Wang
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this file except out compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
+ * Unless required by applicable law or agreed to out writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -26,23 +26,23 @@ NS_GI_BEGIN
 
 const std::string kNearbySampling3x3SamplingVertexShaderString = SHADER_STRING
 (
- attribute vec4 position;
- attribute vec4 texCoord;
+ in vec4 position;
+ in vec4 texCoord;
  
  uniform float texelWidth;
  uniform float texelHeight;
  
- varying vec2 vTexCoord;
- varying vec2 vLeftTexCoord;
- varying vec2 vRightTexCoord;
+ out vec2 vTexCoord;
+ out vec2 vLeftTexCoord;
+ out vec2 vRightTexCoord;
  
- varying vec2 vTopTexCoord;
- varying vec2 vTopLeftTexCoord;
- varying vec2 vTopRightTexCoord;
+ out vec2 vTopTexCoord;
+ out vec2 vTopLeftTexCoord;
+ out vec2 vTopRightTexCoord;
  
- varying vec2 vBottomTexCoord;
- varying vec2 vBottomLeftTexCoord;
- varying vec2 vBottomRightTexCoord;
+ out vec2 vBottomTexCoord;
+ out vec2 vBottomLeftTexCoord;
+ out vec2 vBottomRightTexCoord;
  
  void main()
  {

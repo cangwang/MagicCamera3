@@ -32,15 +32,16 @@ const std::string kDirectionalNonmaximumSuppressionFragmentShaderString = SHADER
  uniform mediump float upperThreshold;
  uniform mediump float lowerThreshold;
  
- varying highp vec2 vTexCoord;
+ in highp vec2 vTexCoord;
+ out vec4 gl_FragColor;
  
  void main()
  {
-     vec3 currentGradientAndDirection = texture2D(colorMap, vTexCoord).rgb;
+     vec3 currentGradientAndDirection = texture(colorMap, vTexCoord).rgb;
      vec2 gradientDirection = ((currentGradientAndDirection.gb * 2.0) - 1.0) * vec2(texelWidth, texelHeight);
      
-     float firstSampledGradientMagnitude = texture2D(colorMap, vTexCoord + gradientDirection).r;
-     float secondSampledGradientMagnitude = texture2D(colorMap, vTexCoord - gradientDirection).r;
+     float firstSampledGradientMagnitude = texture(colorMap, vTexCoord + gradientDirection).r;
+     float secondSampledGradientMagnitude = texture(colorMap, vTexCoord - gradientDirection).r;
      
      float multiplier = step(firstSampledGradientMagnitude, currentGradientAndDirection.r);
      multiplier = multiplier * step(secondSampledGradientMagnitude, currentGradientAndDirection.r);
@@ -63,6 +64,7 @@ DirectionalNonMaximumSuppressionFilter* DirectionalNonMaximumSuppressionFilter::
 }
 
 bool DirectionalNonMaximumSuppressionFilter::init() {
+    Log("DirectionalNonMaximumSuppressionFilter","init");
     if (initWithFragmentShaderString(kDirectionalNonmaximumSuppressionFragmentShaderString)) {
         _texelWidthUniform = _filterProgram->getUniformLocation("texelWidth");
         _texelHeightUniform = _filterProgram->getUniformLocation("texelWidth");

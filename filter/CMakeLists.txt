@@ -48,6 +48,7 @@ add_library( # Sets the name of the library.
 #        # Provides a relative path to your source file(s).
 #        ${Files_CPP})
 
+#一定要保证加载的顺序，因为_registerFilterClass有先后顺序，不然System.loadLibrary会崩溃
 add_library( GPUImage-x
         SHARED
         src/main/cpp/source/Ref.cpp
@@ -171,18 +172,5 @@ target_link_libraries( # Specifies the target library.
 target_link_libraries(
         GPUImage-x
         ${log-lib}
-        GLESv2
+        GLESv3
         jnigraphics )
-
-include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-if(COMPILER_SUPPORTS_CXX11)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-elseif(COMPILER_SUPPORTS_CXX0X)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-else()
-    message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
-endif()
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -frtti")

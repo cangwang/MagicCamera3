@@ -28,11 +28,12 @@ const std::string kRGBFragmentShaderString = SHADER_STRING
     uniform highp float redAdjustment;
     uniform highp float greenAdjustment;
     uniform highp float blueAdjustment;
-    varying highp vec2 vTexCoord;
+    in highp vec2 vTexCoord;
+    out vec4 gl_FragColor;
  
     void main()
     {
-        lowp vec4 color = texture2D(colorMap, vTexCoord);
+        lowp vec4 color = texture(colorMap, vTexCoord);
         gl_FragColor = vec4(color.r * redAdjustment, color.g * greenAdjustment, color.b * blueAdjustment, color.a);
     }
 );

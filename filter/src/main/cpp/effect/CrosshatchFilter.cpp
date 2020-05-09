@@ -25,15 +25,16 @@ REGISTER_FILTER_CLASS(CrosshatchFilter)
 const std::string kCrosshatchFragmentShaderString = SHADER_STRING
 (
  uniform sampler2D colorMap;
- varying highp vec2 vTexCoord;
+ in highp vec2 vTexCoord;
  uniform highp float crossHatchSpacing;
  uniform highp float lineWidth;
+ out vec4 gl_FragColor;
  
  const highp vec3 W = vec3(0.2125, 0.7154, 0.0721);
  
  void main()
  {
-     highp float luminance = dot(texture2D(colorMap, vTexCoord).rgb, W);
+     highp float luminance = dot(texture(colorMap, vTexCoord).rgb, W);
      
      lowp vec4 colorToDisplay = vec4(1.0, 1.0, 1.0, 1.0);
      if (luminance < 1.00)

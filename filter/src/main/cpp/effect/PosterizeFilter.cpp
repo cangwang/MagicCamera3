@@ -26,11 +26,12 @@ const std::string kPosterizeFragmentShaderString = SHADER_STRING
 (
     uniform sampler2D colorMap;
     uniform highp float colorLevels;
-    varying highp vec2 vTexCoord;
+    in highp vec2 vTexCoord;
+    out vec4 gl_FragColor;
  
     void main()
     {
-        lowp vec4 color = texture2D(colorMap, vTexCoord);
+        lowp vec4 color = texture(colorMap, vTexCoord);
         
         gl_FragColor = floor((color * colorLevels) + vec4(0.5)) / colorLevels;
     }

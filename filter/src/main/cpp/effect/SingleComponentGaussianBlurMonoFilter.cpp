@@ -39,6 +39,7 @@ SingleComponentGaussianBlurMonoFilter* SingleComponentGaussianBlurMonoFilter::cr
 
 std::string SingleComponentGaussianBlurMonoFilter::_generateOptimizedVertexShaderString(int radius, float sigma)
 {
+    Log("SingleComponentGaussianBlurMonoFilter","_generateOptimizedVertexShaderString");
     if (radius < 1 || sigma <= 0.0)
     {
         return kDefaultVertexShader;
@@ -78,11 +79,12 @@ std::string SingleComponentGaussianBlurMonoFilter::_generateOptimizedVertexShade
     
     std::string shaderStr =
     str_format("\
-               attribute vec4 position;\n\
-               attribute vec4 texCoord;\n\
+               #version 300 es\n\
+               in vec4 position;\n\
+               in vec4 texCoord;\n\
                uniform float texelWidthOffset;\n\
                uniform float texelHeightOffset;\n\
-               varying highp vec2 blurCoordinates[%d];\n\
+               out highp vec2 blurCoordinates[%d];\n\
                void main()\n\
                {\n\
                gl_Position = position;\n\
@@ -110,6 +112,7 @@ std::string SingleComponentGaussianBlurMonoFilter::_generateOptimizedVertexShade
 
 std::string SingleComponentGaussianBlurMonoFilter::_generateOptimizedFragmentShaderString(int radius, float sigma)
 {
+    Log("SingleComponentGaussianBlurMonoFilter","_generateOptimizedFragmentShaderString");
     if (radius < 1 || sigma <= 0.0)
     {
         return kDefaultFragmentShader;
@@ -139,22 +142,24 @@ std::string SingleComponentGaussianBlurMonoFilter::_generateOptimizedFragmentSha
 
     std::string shaderStr =
     str_format("\
+               #version 300 es\n\
                uniform sampler2D colorMap;\n\
                uniform highp float texelWidthOffset;\n\
                uniform highp float texelHeightOffset;\n\
-               varying highp vec2 blurCoordinates[%d];\n\
+               in highp vec2 blurCoordinates[%d];\n\
+               out vec4 gl_FragColor;\n\
                void main()\n\
                {\n\
                lowp float sum = 0.0;\n", numberOfOptimizedOffsets * 2 + 1);
     
-    shaderStr += str_format("gl_FragColor += texture2D(colorMap, blurCoordinates[0]) * %f;\n", standardGaussianWeights[0]);
+    shaderStr += str_format("gl_FragColor += texture(colorMap, blurCoordinates[0]) * %f;\n", standardGaussianWeights[0]);
     for (int i = 0; i < numberOfOptimizedOffsets; ++i) {
         float firstWeight = standardGaussianWeights[i * 2 + 1];
         float secondWeight = standardGaussianWeights[i * 2 + 2];
         float optimizedWeight = firstWeight + secondWeight;
         
-        shaderStr += str_format("sum += texture2D(colorMap, blurCoordinates[%d]).r * %f;\n", i * 2 + 1, optimizedWeight);
-        shaderStr += str_format("sum += texture2D(colorMap, blurCoordinates[%d]).r * %f;\n", i * 2 + 2, optimizedWeight);
+        shaderStr += str_format("sum += texture(colorMap, blurCoordinates[%d]).r * %f;\n", i * 2 + 1, optimizedWeight);
+        shaderStr += str_format("sum += texture(colorMap, blurCoordinates[%d]).r * %f;\n", i * 2 + 2, optimizedWeight);
     }
     
     // If the number of required samples exceeds the amount we can pass in via varyings, we have to do dependent texture reads in the fragment shader
@@ -170,9 +175,9 @@ std::string SingleComponentGaussianBlurMonoFilter::_generateOptimizedFragmentSha
             float optimizedWeight = firstWeight + secondWeight;
             float optimizedOffset = (firstWeight * (i * 2 + 1) + secondWeight * (i * 2 + 2)) / optimizedWeight;
             
-            shaderStr += str_format("sum += texture2D(colorMap, blurCoordinates[0] + texelSpacing * %f).r * %f;\n", optimizedOffset, optimizedWeight);
+            shaderStr += str_format("sum += texture(colorMap, blurCoordinates[0] + texelSpacing * %f).r * %f;\n", optimizedOffset, optimizedWeight);
             
-            shaderStr += str_format("sum += texture2D(colorMap, blurCoordinates[0] - texelSpacing * %f).r * %f;\n", optimizedOffset, optimizedWeight);
+            shaderStr += str_format("sum += texture(colorMap, blurCoordinates[0] - texelSpacing * %f).r * %f;\n", optimizedOffset, optimizedWeight);
         }
     }
 

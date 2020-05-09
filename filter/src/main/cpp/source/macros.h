@@ -37,13 +37,14 @@
 #define NS_GI_END                       }
 #define USING_NS_GI                     using namespace GPUImage;
 
-
-#define STRINGIZE(x) #x
+//#x = "x"
+//更改shader为opengles3，需要添加version版本
+#define STRINGIZE(x) std::string("#version 300 es\n").append(#x)
 #define SHADER_STRING(text) STRINGIZE(text)
 
 #define PI 3.14159265358979323846264338327950288
 
-#define ENABLE_GL_CHECK false
+#define ENABLE_GL_CHECK true
 
 #if ENABLE_GL_CHECK
     #define CHECK_GL(glFunc) \

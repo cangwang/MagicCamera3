@@ -31,7 +31,8 @@ const std::string kSphereRefractionShaderString = SHADER_STRING
  uniform highp float aspectRatio;
  uniform highp float refractiveIndex;
  
- varying highp vec2 vTexCoord;
+ in highp vec2 vTexCoord;
+ out vec4 gl_FragColor;
  
  void main()
  {
@@ -46,7 +47,7 @@ const std::string kSphereRefractionShaderString = SHADER_STRING
      
      highp vec3 refractedVector = refract(vec3(0.0, 0.0, -1.0), sphereNormal, refractiveIndex);
      
-     gl_FragColor = texture2D(colorMap, (refractedVector.xy + 1.0) * 0.5) * checkForPresenceWithinSphere;
+     gl_FragColor = texture(colorMap, (refractedVector.xy + 1.0) * 0.5) * checkForPresenceWithinSphere;
  }
 
 );
