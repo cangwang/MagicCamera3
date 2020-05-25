@@ -8,10 +8,10 @@ import com.cangwang.magic.util.RenderJNI
 /**
  * Created by zjl on 2018/10/12.
  */
-class TriangleActivity:AppCompatActivity(){
+class TriangleActivity : AppCompatActivity() {
 
-    lateinit var mGLSurfaceView:GLSurfaceView
-    lateinit var mRenderer:RenderJNI
+    lateinit var mGLSurfaceView: GLSurfaceView
+    lateinit var mRenderer: RenderJNI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +32,4 @@ class TriangleActivity:AppCompatActivity(){
         super.onPause()
         mGLSurfaceView.onPause()
     }
-
-
 }

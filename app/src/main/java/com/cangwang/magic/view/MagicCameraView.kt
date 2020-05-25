@@ -3,7 +3,7 @@
 //import android.content.Context
 //import android.opengl.GLSurfaceView
 //import android.util.AttributeSet
-//import com.cangwang.magic.util.OpenGLJniLib
+//import OpenGLJniLib
 //import javax.microedition.khronos.egl.EGLConfig
 //import javax.microedition.khronos.opengles.GL10
 //

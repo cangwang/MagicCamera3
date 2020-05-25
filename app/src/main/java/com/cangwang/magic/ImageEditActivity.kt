@@ -12,7 +12,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import com.cangwang.magic.adapter.FilterAdapter
-import com.cangwang.magic.util.OpenGLJniLib
+import com.cangwang.filter.util.OpenGLJniLib
 import com.cangwang.magic.view.ImageFilterSurfaceCallback
 import com.werb.pickphotoview.model.SelectModel
 import com.werb.pickphotoview.util.PickConfig
@@ -22,16 +22,18 @@ import kotlinx.android.synthetic.main.filter_layout.*
 /**
  * 图片编辑
  */
-class ImageEditActivity:AppCompatActivity(){
+class ImageEditActivity : AppCompatActivity() {
 
     private var mAdapter: FilterAdapter? = null
-    private var mSurfaceCallback: ImageFilterSurfaceCallback?=null
-    private var beautyLevel:Int = 0
-    private val types = OpenGLJniLib.getFilterTypes()
+    private var mSurfaceCallback: ImageFilterSurfaceCallback? = null
+    private var beautyLevel: Int = 0
+    private val types = OpenGLJniLib.getFilterType()
+    private var filterType = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_album)
@@ -42,15 +44,17 @@ class ImageEditActivity:AppCompatActivity(){
         super.onResume()
     }
 
-    private fun initView(){
-        filter_listView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
+    private fun initView() {
+        filter_listView.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         mAdapter = FilterAdapter(this, types)
-        mAdapter?.filterListener= object: FilterAdapter.onFilterChangeListener{
+        mAdapter?.filterListener = object : FilterAdapter.onFilterChangeListener {
             override fun onFilterChanged(type: Int) {
+                filterType = type
                 mSurfaceCallback?.setFilterType(type)
             }
         }
-        filter_listView.adapter= mAdapter
+        filter_listView.adapter = mAdapter
         initPreview()
         btn_album_filter.setOnClickListener {
             showFilters()
@@ -65,8 +69,8 @@ class ImageEditActivity:AppCompatActivity(){
 
         btn_album_beauty.setOnClickListener {
             AlertDialog.Builder(this)
-                    .setSingleChoiceItems(arrayOf("关闭", "1", "2", "3", "4", "5"), beautyLevel) {
-                        dialog, which ->
+                    .setSingleChoiceItems(arrayOf("关闭", "1", "2", "3", "4", "5"),
+                            beautyLevel) { dialog, which ->
                         beautyLevel = which
                         OpenGLJniLib.setImageBeautyLevel(which)
                         dialog.dismiss()
@@ -74,19 +78,26 @@ class ImageEditActivity:AppCompatActivity(){
                     .setNegativeButton("取消", null)
                     .show()
         }
-
     }
 
-    private fun initPreview(){
-        val selectPaths = intent.getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT) as SelectModel
-        mSurfaceCallback = ImageFilterSurfaceCallback(selectPaths.path)
+    private fun initPreview() {
+        val selectPaths =
+                intent.getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT) as SelectModel
+        mSurfaceCallback = ImageFilterSurfaceCallback(selectPaths.path, filterType)
         album_surfaceview.holder.addCallback(mSurfaceCallback)
+    }
+
+    override fun onDestroy() {
+        album_surfaceview.holder.removeCallback(mSurfaceCallback)
+        mSurfaceCallback?.releaseOpenGL()
+        mSurfaceCallback = null
+        super.onDestroy()
     }
 
     private fun showFilters() {
         val animator = ObjectAnimator.ofInt(layout_filter, "translationY", layout_filter.height, 0)
         animator.duration = 200
-        animator.addListener(object :AnimatorListenerAdapter(){
+        animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
                 btn_album_save.isClickable = false
                 layout_filter.visibility = View.VISIBLE
@@ -99,7 +110,7 @@ class ImageEditActivity:AppCompatActivity(){
     private fun hideFilters() {
         val animator = ObjectAnimator.ofInt(layout_filter, "translationY", 0, layout_filter.height)
         animator.duration = 200
-        animator.addListener(object : AnimatorListenerAdapter(){
+        animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 // TODO Auto-generated method stub
                 layout_filter.visibility = View.INVISIBLE

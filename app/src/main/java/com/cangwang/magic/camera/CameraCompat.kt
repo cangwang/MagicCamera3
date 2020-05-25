@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
 import android.os.Build
-import android.os.Looper
 import android.support.annotation.IntDef
 import android.util.Size
 import android.util.SparseArray
@@ -85,7 +84,7 @@ abstract class CameraCompat(protected var mContext: Context) {
      * 这里会两次调用此函数，第一次会初始化走openCamera，
      * 第二次调用才能正常开始预览
      */
-    fun startPreview() {
+    fun startPreview(callBack: CameraStateCallBack?=null) {
 //        if (Looper.myLooper() != Looper.getMainLooper()) {
 //            throw RuntimeException("you must start camera preview in main thread")
 //        }
@@ -103,10 +102,10 @@ abstract class CameraCompat(protected var mContext: Context) {
             return
         }
         mStarted = true
-        onStartPreview()
+        onStartPreview(callBack)
     }
 
-    protected abstract fun onStartPreview()
+    protected abstract fun onStartPreview(callBack: CameraStateCallBack?=null)
 
     fun stopPreview(releaseSurface: Boolean) {
         if (!mStarted) {
@@ -115,6 +114,7 @@ abstract class CameraCompat(protected var mContext: Context) {
         mCameraReady = false
         mStarted = false
         if (releaseSurface) {
+            mSurfaceTexture?.release()
             mSurfaceTexture = null
         }
         onStopPreview()
@@ -152,6 +152,22 @@ abstract class CameraCompat(protected var mContext: Context) {
         mSwitchFlag = false
     }
 
+    fun getCameraType():Int{
+        return if (mCameraType == FRONT_CAMERA) BACK_CAMERA else FRONT_CAMERA
+    }
+
+    open fun getMaxZoom():Float{
+        return 0f
+    }
+
+    open fun cameraZoom(scale:Float){
+
+    }
+
+    open fun requestFocus(x:Int,y:Int){
+
+    }
+
     class CameraSize {
         var width: Int = 0
         var height: Int = 0
@@ -187,4 +203,8 @@ abstract class CameraCompat(protected var mContext: Context) {
         }
     }
 
+    interface CameraStateCallBack{
+        fun onConfigured()
+        fun onConfigureFailed()
+    }
 }

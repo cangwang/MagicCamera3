@@ -10,7 +10,7 @@ import android.view.SurfaceHolder
 import android.widget.Toast
 import com.cangwang.magic.BaseApplication
 import com.cangwang.magic.util.ExifUtil
-import com.cangwang.magic.util.OpenGLJniLib
+import com.cangwang.filter.util.OpenGLJniLib
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,21 +21,27 @@ import java.util.concurrent.Executors
 /**
  * Created by zjl on 2018/10/12.
  */
-class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
+class ImageFilterSurfaceCallback(path: String, filterType: Int) : SurfaceHolder.Callback {
     private val mExecutor = Executors.newSingleThreadExecutor()
 
-    private val TAG= ImageFilterSurfaceCallback::class.java.simpleName!!
-    private var mSurfaceTexture:SurfaceTexture?=null
+    private val TAG = ImageFilterSurfaceCallback::class.java.simpleName!!
+    private var mSurfaceTexture: SurfaceTexture? = null
     private val mMatrix = FloatArray(16)
     private var width = 0
     private var height = 0
     private var isTakePhoto = false
     private val imagePath = path
+    private var filterType = 0
+
+    init {
+        this.filterType = filterType
+    }
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
         this.width = width
         this.height = height
-        changeOpenGL(width,height)
+        changeOpenGL(width, height)
+        setFilterType(filterType)
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
@@ -48,10 +54,12 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
         }
     }
 
-    private fun initOpenGL(surface: Surface){
+    private fun initOpenGL(surface: Surface) {
         mExecutor.execute {
-            val textureId = OpenGLJniLib.magicImageFilterCreate(surface,BaseApplication.context.assets,imagePath,ExifUtil.getExifOrientation(imagePath))
-            if (textureId < 0){
+            val textureId =
+                    OpenGLJniLib.magicImageFilterCreate(surface, BaseApplication.context.assets,
+                            imagePath, ExifUtil.getExifOrientation(imagePath))
+            if (textureId < 0) {
                 Log.e(TAG, "surfaceCreated init OpenGL ES failed!")
                 return@execute
             }
@@ -63,65 +71,66 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
         }
     }
 
-
-    fun changeOpenGL(width:Int,height:Int){
+    fun changeOpenGL(width: Int, height: Int) {
         mExecutor.execute {
-            OpenGLJniLib.magicImageFilterChange(width,height)
-            OpenGLJniLib.magicImageFilterDraw(mMatrix,"")
+            OpenGLJniLib.magicImageFilterChange(width, height)
+            OpenGLJniLib.magicImageFilterDraw(mMatrix, "")
         }
     }
 
-    fun drawOpenGL(){
+    fun drawOpenGL() {
         mExecutor.execute {
             mSurfaceTexture?.updateTexImage()
 //            mSurfaceTexture?.getTransformMatrix(mMatrix)
-            if (isTakePhoto){
-                val photoAddress = if(Build.BRAND == "Xiaomi"){ // 小米手机
-                    Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
-                }else{  // Meizu 、Oppo
-                    Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
+            if (isTakePhoto) {
+                val photoAddress = if (Build.BRAND == "Xiaomi") { // 小米手机
+                    Environment.getExternalStorageDirectory().path + "/DCIM/Camera/" + System.currentTimeMillis() + ".png"
+                } else {  // Meizu 、Oppo
+                    Environment.getExternalStorageDirectory().path + "/DCIM/" + System.currentTimeMillis() + ".png"
                 }
-                OpenGLJniLib.magicImageFilterDraw(mMatrix,photoAddress)
-            }else {
-                OpenGLJniLib.magicImageFilterDraw(mMatrix,"")
+                OpenGLJniLib.magicImageFilterDraw(mMatrix, photoAddress)
+            } else {
+                OpenGLJniLib.magicImageFilterDraw(mMatrix, "")
             }
         }
     }
 
-    private fun releaseOpenGL(){
+    fun releaseOpenGL() {
         mExecutor.execute {
             OpenGLJniLib.magicImageFilterRelease()
             mSurfaceTexture?.release()
-            mSurfaceTexture=null
+            mSurfaceTexture = null
         }
     }
 
-    fun setFilterType(type:Int){
+    fun setFilterType(type: Int) {
         mExecutor.execute {
             OpenGLJniLib.setImageFilterType(type)
-            OpenGLJniLib.magicImageFilterDraw(mMatrix,"")
+            OpenGLJniLib.magicImageFilterDraw(mMatrix, "")
         }
     }
 
     @SuppressLint("CheckResult")
-    fun saveImage(){
-        val rootAddress = if(Build.BRAND == "Xiaomi"){ // 小米手机
-            Environment.getExternalStorageDirectory().path +"/DCIM/Camera/"+System.currentTimeMillis()+".png"
-        }else{  // Meizu 、Oppo
-            Environment.getExternalStorageDirectory().path +"/DCIM/"+System.currentTimeMillis()+".png"
+    fun saveImage() {
+        val rootAddress = if (Build.BRAND == "Xiaomi") { // 小米手机
+            Environment.getExternalStorageDirectory().path + "/DCIM/Camera/" + System.currentTimeMillis() + ".png"
+        } else {  // Meizu 、Oppo
+            Environment.getExternalStorageDirectory().path + "/DCIM/" + System.currentTimeMillis() + ".png"
         }
         Observable.create(ObservableOnSubscribe<Boolean> {
             it.onNext(OpenGLJniLib.saveImage(rootAddress))
         }).subscribeOn(Schedulers.from(mExecutor))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    if (!it){
-                        Toast.makeText(BaseApplication.context,"save fail",Toast.LENGTH_SHORT).show()
-                    }else{
-                        Toast.makeText(BaseApplication.context,"save success",Toast.LENGTH_SHORT).show()
+                    if (!it) {
+                        Toast.makeText(BaseApplication.context, "save fail", Toast.LENGTH_SHORT)
+                                .show()
+                    } else {
+                        Toast.makeText(BaseApplication.context, "save success", Toast.LENGTH_SHORT)
+                                .show()
                     }
-                },{
-                    Log.e(TAG,it.toString())
+                }, {
+                    Log.e(TAG, it.toString())
                 })
     }
 }

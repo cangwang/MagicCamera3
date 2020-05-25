@@ -10,6 +10,10 @@ object ExifUtil{
 
     fun getExifOrientation(filepath: String): Int {
         var degree = 0
+        if (filepath.endsWith(".png")){
+            Log.d(TAG,"png file degree 0")
+            return degree
+        }
         var exif: ExifInterface? = null
         try {
             exif = ExifInterface(filepath)
