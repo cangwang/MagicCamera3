@@ -97,6 +97,7 @@ std::string Filter::_getVertexShaderString() const {
     }
     
     std::string shaderStr = "\
+                #version 300 es\n\
                 in vec4 position;\n\
                 in vec4 texCoord;\n\
                 out vec2 vTexCoord;\n\

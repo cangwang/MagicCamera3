@@ -47,6 +47,7 @@ HSBFilter* HSBFilter::create() {
 }
 
 bool HSBFilter::init() {
+    Log("HSBFilter","init");
     if (!ColorMatrixFilter::init()) return false;
     reset();
 

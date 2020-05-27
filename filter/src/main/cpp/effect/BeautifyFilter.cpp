@@ -28,37 +28,39 @@ NS_GI_BEGIN
 // http://m.blog.csdn.net/article/details?id=50496969
 const std::string kBeautifyCombinationFragmentShaderString = SHADER_STRING
 (
- varying highp vec2 vTexCoord;
- varying highp vec2 vTexCoord1;
- varying highp vec2 vTexCoord2;
- 
  uniform sampler2D colorMap;
  uniform sampler2D colorMap1;
  uniform sampler2D colorMap2;
- uniform mediump float smoothDegree;
+ uniform mediump float smoDegree;
+
+ in highp vec2 vTexCoord;
+ in highp vec2 vTexCoord1;
+ in highp vec2 vTexCoord2;
+
+ out vec4 gl_FragColor;
  
  void main()
  {
-     highp vec4 bilateral = texture2D(colorMap, vTexCoord);
-     highp vec4 canny = texture2D(colorMap1, vTexCoord1);
+     highp vec4 bilateral = texture(colorMap, vTexCoord);
+     highp vec4 canny = texture(colorMap1, vTexCoord1);
      
-     highp vec4 origin = texture2D(colorMap2,vTexCoord2);
-     highp vec4 smooth;
+     highp vec4 origin = texture(colorMap2,vTexCoord2);
+     highp vec4 smo;
      lowp float r = origin.r;
      lowp float g = origin.g;
      lowp float b = origin.b;
      
      if (canny.r < 0.2 && r > 0.3725 && g > 0.1568 && b > 0.0784 && r > b && (max(max(r, g), b) - min(min(r, g), b)) > 0.0588 && abs(r-g) > 0.0588) {
-         smooth = (1.0 - smoothDegree) * (origin - bilateral) + bilateral;
+         smo = (1.0 - smoDegree) * (origin - bilateral) + bilateral;
      }
      else {
-         smooth = origin;
+         smo = origin;
      }
      
-     smooth.r = log(1.0 + 0.2 * smooth.r)/log(1.2);
-     smooth.g = log(1.0 + 0.2 * smooth.g)/log(1.2);
-     smooth.b = log(1.0 + 0.2 * smooth.b)/log(1.2);
-     gl_FragColor = smooth;
+     smo.r = log(1.0 + 0.2 * smo.r)/log(1.2);
+     smo.g = log(1.0 + 0.2 * smo.g)/log(1.2);
+     smo.b = log(1.0 + 0.2 * smo.b)/log(1.2);
+     gl_FragColor = smo;
      //gl_FragColor = origin;
  }
  );
@@ -75,6 +77,7 @@ public:
     }
     
     bool init() {
+        Log("CombinationFilter","init");
         if (!Filter::initWithFragmentShaderString(kBeautifyCombinationFragmentShaderString, 3)) {
             return false;
         }
@@ -84,7 +87,7 @@ public:
     }
     
     virtual bool proceed(bool bUpdateTargets = true) override {
-        _filterProgram->setUniformValue("smoothDegree", _intensity);
+        _filterProgram->setUniformValue("smoDegree", _intensity);
         return Filter::proceed(bUpdateTargets);
     }
     
@@ -134,11 +137,12 @@ BeautifyFilter* BeautifyFilter::create() {
 }
 
 bool BeautifyFilter::init() {
+    Log("CombinationFilter","init");
     if (!FilterGroup::init()) {
         return false;
     }
     
-    // 1. face smoothing
+    // 1. face smoing
     _bilateralFilter = BilateralFilter::create();
     _bilateralFilter->setDistanceNormalizationFactor(4.0);
     addFilter(_bilateralFilter);
