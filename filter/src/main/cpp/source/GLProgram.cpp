@@ -96,6 +96,27 @@ bool GLProgram::_initWithShaderString(const std::string& vertexShaderSource, con
     return true;
 }
 
+GLProgram* GLProgram::_initWithEmptyProgram() {
+    auto* ret = new (std::nothrow) GLProgram();
+    if (ret) {
+        if (!ret->_initProgram())
+        {
+            delete ret;
+            ret = 0;
+        }
+    }
+    return ret;
+}
+
+bool GLProgram::_initProgram(){
+    if (_program != static_cast<GLuint>(-1)) {
+        CHECK_GL(glDeleteProgram(_program));
+        _program = static_cast<GLuint>(-1);
+    }
+    CHECK_GL(_program = glCreateProgram());
+    return true;
+}
+
 void GLProgram::use() {
     CHECK_GL(glUseProgram(_program));
 }

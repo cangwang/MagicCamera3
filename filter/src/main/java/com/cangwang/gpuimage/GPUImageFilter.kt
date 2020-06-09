@@ -48,6 +48,14 @@ class GPUImageFilter : GPUImageSource, GPUImageTarget {
         })
     }
 
+    fun setTouchLocation(x: Float, y: Float) {
+        GPUImage.runOnDraw(Runnable {
+            if (mNativeClassID != 0L) {
+                GPUImage.setTouchLocation(mNativeClassID, x, y)
+            }
+        })
+    }
+
     override fun getNativeClassID(): Long {
         return mNativeClassID
     }

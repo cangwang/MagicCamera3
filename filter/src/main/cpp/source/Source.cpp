@@ -102,6 +102,10 @@ bool Source::proceed(bool bUpdateTargets/* = true*/) {
     return true;
 }
 
+void Source::setTouchLocation(float x, float y) {
+
+}
+
 void Source::updateTargets(float frameTime) {
     for(auto& it : _targets){
         Target* target = it.first;

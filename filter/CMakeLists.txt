@@ -11,6 +11,7 @@ cmake_minimum_required(VERSION 3.4.1)
 # Gradle automatically packages shared libraries with your APK.
 
 include_directories(${CMAKE_SOURCE_DIR} src/main/cpp)
+include_directories(glm)
 
 set(SRC_DIR src/main/cpp)
 #file(GLOB_RECURSE CPP_SRCS "${SRC_DIR}/*.cpp")  #指定当前目录下的所有.cpp文件（包括子目录）
@@ -32,6 +33,7 @@ add_library( # Sets the name of the library.
 
         # Provides a relative path to your source file(s).
         ${CPP_SRCS})
+
 
 
 #file(GLOB_RECURSE Files_CPP
@@ -103,6 +105,7 @@ add_library( GPUImage-x
         src/main/cpp/effect/CrosshatchFilter.cpp
         src/main/cpp/effect/SphereRefractionFilter.cpp
         src/main/cpp/effect/GlassSphereFilter.cpp
+        src/main/cpp/effect/ScratchCardFilter.cpp
         )
 
 #add_library( # Sets the name of the library.

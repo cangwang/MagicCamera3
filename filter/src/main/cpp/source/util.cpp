@@ -20,6 +20,7 @@
 
 #if PLATFORM == PLATFORM_ANDROID
 #include <android/log.h>
+
 #elif PLATFORM == PLATFORM_IOS
 #import <Foundation/Foundation.h>
 #endif

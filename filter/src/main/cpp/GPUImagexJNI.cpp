@@ -389,6 +389,15 @@ Java_com_cangwang_gpuimage_GPUImage_nativeYUVtoRBGA(JNIEnv * env, jclass obj, jb
     env->ReleasePrimitiveArrayCritical(yuv420sp, yuv, 0);
 }
 
+JNIEXPORT void JNICALL
+Java_com_cangwang_gpuimage_GPUImage_setTouchLocation(
+        JNIEnv *env,
+        jclass obj, jlong classId, jfloat x, jfloat y)
+{
+    ((Filter*)classId)->setTouchLocation(x, y);
+};
+
+
 }
 
 #endif

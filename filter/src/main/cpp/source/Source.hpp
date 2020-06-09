@@ -55,6 +55,7 @@ public:
     int getRotatedFramebufferHeight() const;
     
     virtual bool proceed(bool bUpdateTargets = true);
+    virtual void setTouchLocation(float x, float y);
     virtual void updateTargets(float frameTime);
 
     virtual unsigned char* captureAProcessedFrameData(Filter* upToFilter, int width = 0, int height = 0);

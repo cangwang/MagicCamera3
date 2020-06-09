@@ -54,6 +54,7 @@ object FilterHelper {
     internal val FILTER_CROSSHATCH = 25
     internal val FILTER_SPHERE_REFRACTION = 26
     internal val FILTER_GLASS_SPHERE = 27
+    internal val FILTER_SCRATCH_CARD = 28
 
     private var filterList: FilterList? = null
 
@@ -94,6 +95,7 @@ object FilterHelper {
             filterList!!.addFilter(FILTER_SPHERE_REFRACTION, "Sphere Refraction Filter",
                     "SphereRefractionFilter")
             filterList!!.addFilter(FILTER_GLASS_SPHERE, "Glass Sphere Filter", "GlassSphereFilter")
+            filterList!!.addFilter(FILTER_SCRATCH_CARD, "Scatch card Filter", "ScratchCardFilter")
         }
         return filterList!!
     }
@@ -264,6 +266,12 @@ object FilterHelper {
             }
             FILTER_GLASS_SPHERE -> {
                 run { filter.setProperty("radius", value) }
+            }
+            FILTER_SCRATCH_CARD -> {
+                run {
+                    value = value * 5000.0f + 2500.0f
+                    filter.setProperty("temperature", value)
+                }
             }
             else -> {
             }

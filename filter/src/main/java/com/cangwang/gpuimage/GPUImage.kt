@@ -177,4 +177,7 @@ object GPUImage {
 
     // utils
     external fun nativeYUVtoRBGA(yuv: ByteArray, width: Int, height: Int, out: IntArray)
+
+    //设置点击坐标
+    external fun setTouchLocation(classID: Long, x: Float, y: Float): Boolean
 }

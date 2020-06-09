@@ -3,6 +3,7 @@ package com.cangwang.gpuimage
 import android.content.Context
 import android.opengl.GLSurfaceView
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.widget.FrameLayout
 
@@ -86,4 +87,37 @@ class GPUImageView : FrameLayout, GPUImageTarget {
             super.surfaceDestroyed(holder)
         }
     }
+
+//    override fun onTouchEvent(event: MotionEvent?): Boolean {
+//        //一个手指操作
+//        if (event?.pointerCount == 1) {
+//            consumeTouchEvent(event)
+//        }
+//        return super.onTouchEvent(event)
+//    }
+//
+//    private fun consumeTouchEvent(e: MotionEvent) {
+//        var touchX = -1f
+//        var touchY = -1f
+//        when (e.action) {
+//            MotionEvent.ACTION_MOVE -> {
+//                touchX = e.x
+//                touchY = e.y
+//            }
+//            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+//                touchX = -1f
+//                touchY = -1f
+//            }
+//        }
+////        when (mGLRender.getSampleType()) {
+////            SAMPLE_TYPE_KEY_SCRATCH_CARD -> {
+////                mGLRender.setTouchLoc(touchX, touchY)
+////                requestRender()
+////            }
+////            else -> {
+////            }
+////        }
+//        GPUImage.setTouchLocation(nativeClassID, touchX, touchY)
+//        GPUImage.requestRender()
+//    }
 }

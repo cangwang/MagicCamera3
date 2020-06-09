@@ -56,11 +56,15 @@ public:
     void setUniformValue(int uniformLocation, Vector2 value);
     void setUniformValue(int uniformLocation, Matrix3 value);
     void setUniformValue(int uniformLocation, Matrix4 value);
+
+    static GLProgram* _initWithEmptyProgram();
+
     
 private:
     static std::vector<GLProgram*> _programs;
     GLuint _program;
     bool _initWithShaderString(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
+    bool _initProgram();
 };
 
 

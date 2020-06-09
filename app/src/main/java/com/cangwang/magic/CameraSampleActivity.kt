@@ -23,6 +23,7 @@ import android.graphics.Bitmap
 import android.media.MediaScannerConnection
 import android.os.Bundle
 import android.os.Environment
+import android.view.MotionEvent
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
@@ -108,6 +109,31 @@ class CameraSampleActivity : Activity(), View.OnClickListener, SeekBar.OnSeekBar
             else -> {
             }
         }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        //一个手指操作
+        if (event?.pointerCount == 1) {
+            consumeTouchEvent(event)
+        }
+        return super.onTouchEvent(event)
+    }
+
+    private fun consumeTouchEvent(e: MotionEvent) {
+        var touchX = -1f
+        var touchY = -1f
+        when (e.action) {
+            MotionEvent.ACTION_MOVE -> {
+                touchX = e.x
+                touchY = e.y
+            }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                touchX = -1f
+                touchY = -1f
+            }
+        }
+        filter?.setTouchLocation(touchX, touchY)
+        GPUImage.requestRender()
     }
 
     override fun OnFilterSelected(newFilter: GPUImageFilter) {
