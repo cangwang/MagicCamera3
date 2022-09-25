@@ -25,7 +25,7 @@ class CameraSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
     private var width = 0
     private var height = 0
 
-    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         this.width = width
         this.height = height
         holder?.let {
@@ -33,11 +33,11 @@ class CameraSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
         }
     }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder?) {
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
         releaseOpenGL()
     }
 
-    override fun surfaceCreated(holder: SurfaceHolder?) {
+    override fun surfaceCreated(holder: SurfaceHolder) {
 
     }
 

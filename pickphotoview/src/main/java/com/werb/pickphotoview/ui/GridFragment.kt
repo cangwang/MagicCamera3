@@ -2,14 +2,14 @@ package com.werb.pickphotoview.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.werb.eventbus.EventBus
@@ -26,9 +26,7 @@ import com.werb.pickphotoview.adapter.SpaceItemDecoration
 import com.werb.pickphotoview.event.PickFinishEvent
 import com.werb.pickphotoview.event.PickImageEvent
 import com.werb.pickphotoview.event.PickPreviewEvent
-import com.werb.pickphotoview.extensions.string
 import com.werb.pickphotoview.model.GridImage
-import com.werb.pickphotoview.model.MediaModel
 import com.werb.pickphotoview.model.SelectModel
 import com.werb.pickphotoview.util.PickConfig
 import com.werb.pickphotoview.util.PickPhotoHelper
@@ -41,12 +39,13 @@ import java.io.Serializable
 class GridFragment : Fragment() {
 
     private lateinit var adapter: MoreAdapter
-    private val manager: RequestManager by lazy { Glide.with(this) }
+    private val TAG = GridFragment::class.java.simpleName
+    private val manager: RequestManager by lazy { Glide.with(requireActivity()) }
     private val selectImages = PickPhotoHelper.selectImages
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("GridFragment create " + this)
+        Log.i(TAG, "GridFragment create $this")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -91,7 +90,7 @@ class GridFragment : Fragment() {
                         val pickSize = selectImages.size + it.hasPhotoSize
                         if (pickSize >= it.allPhotoSize) {
                             context?.let {c ->
-                                Toast.makeText(c, String.format(c.string(R.string.pick_photo_size_limit), it.allPhotoSize.toString()), Toast.LENGTH_SHORT).show()
+                                Toast.makeText(c, String.format(c.getString(R.string.pick_photo_size_limit), it.allPhotoSize.toString()), Toast.LENGTH_SHORT).show()
                             }
                             return
                         }
@@ -99,7 +98,7 @@ class GridFragment : Fragment() {
                     val pickSize = selectImages.size
                     if (pickSize >= it.pickPhotoSize) {
                         context?.let {c ->
-                            Toast.makeText(c, String.format(c.string(R.string.pick_photo_size_limit), it.allPhotoSize.toString()), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(c, String.format(c.getString(R.string.pick_photo_size_limit), it.allPhotoSize.toString()), Toast.LENGTH_SHORT).show()
                         }
                         return
                     } else {
@@ -130,7 +129,7 @@ class GridFragment : Fragment() {
     }
 
     private fun add() {
-        if (selectImages.isNotEmpty()) {
+        if (!selectImages.isEmpty()) {
             val intent = Intent()
             intent.putExtra(PickConfig.INTENT_IMG_LIST_SELECT, selectImages as Serializable)
             activity?.setResult(PickConfig.PICK_PHOTO_DATA, intent)
@@ -180,7 +179,7 @@ class GridFragment : Fragment() {
 
     /** image load pause when recyclerView scroll quickly */
     private var scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             if (Math.abs(dy) > PickConfig.SCROLL_THRESHOLD) {
                 manager.pauseRequests()
@@ -189,7 +188,7 @@ class GridFragment : Fragment() {
             }
         }
 
-        override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                 manager.resumeRequests()
             }

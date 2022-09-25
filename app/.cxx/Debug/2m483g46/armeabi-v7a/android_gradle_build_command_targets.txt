@@ -1,0 +1,9 @@
+Executable : D:\AndroidSDK\cmake\3.10.2.4988404\bin\ninja.exe
+arguments : 
+-C
+D:\AndroidProject\MagicCamera\app\.cxx\Debug\2m483g46\armeabi-v7a
+magicjni
+native-lib
+triangle-lib
+jvmArgs : 
+

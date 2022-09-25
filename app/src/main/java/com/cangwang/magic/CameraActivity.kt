@@ -2,18 +2,17 @@ package com.cangwang.magic
 
 import android.Manifest
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.graphics.Point
 import android.hardware.Camera
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.PermissionChecker
-import android.support.v7.app.AppCompatActivity
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker
 import com.cangwang.magic.util.CameraHelper
 import com.cangwang.magic.view.CameraSurfaceCallback
 import kotlinx.android.synthetic.main.activity_camera.*
@@ -37,7 +36,7 @@ class CameraActivity:AppCompatActivity(){
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_camera)
-        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) run {
+        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.CAMERA) == PermissionChecker.PERMISSION_DENIED) run {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),CAMERA_PERMISSION_REQ)
         }else {
             initView()
@@ -77,7 +76,7 @@ class CameraActivity:AppCompatActivity(){
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == CAMERA_PERMISSION_REQ &&(grantResults.size != 1 || grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+        if (requestCode == CAMERA_PERMISSION_REQ &&(grantResults.size != 1 || grantResults[0] == PermissionChecker.PERMISSION_GRANTED)) {
             initView()
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -85,7 +84,7 @@ class CameraActivity:AppCompatActivity(){
     }
 
     fun openCamera(holder: SurfaceHolder?):Camera?{
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PermissionChecker.PERMISSION_GRANTED) {
             return null
         }
 

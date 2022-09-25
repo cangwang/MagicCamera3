@@ -112,7 +112,7 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
 
     private fun startRequest(session: CameraCaptureSession?) {
         try {
-            session?.setRepeatingRequest(mRequestBuilder?.build(), null, null)
+            mRequestBuilder?.build()?.let { session?.setRepeatingRequest(it, null, null) }
         } catch (e: Throwable) {
             Log.e(TAG, "", e)
         }
@@ -173,7 +173,7 @@ class CameraCompatV21(context: Context) : CameraCompat(context) {
     fun startBackgroundThread(){
         mBackgroundThread = HandlerThread("CameraBackground")
         mBackgroundThread?.start()
-        mBackgroundHandler = Handler(mBackgroundThread?.looper)
+        mBackgroundHandler = mBackgroundThread?.looper?.let { Handler(it) }
     }
 
     fun stopBackgroundThread(){

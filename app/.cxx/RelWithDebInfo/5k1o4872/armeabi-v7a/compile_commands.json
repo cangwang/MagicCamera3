@@ -1,0 +1,397 @@
+[
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_lib_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\native-lib.dir\\src\\main\\cpp\\native-lib.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\native-lib.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/native-lib.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\magicjni.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\magicjni.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/magicjni.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\utils\\OpenglUtils.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\utils\\OpenglUtils.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/utils/OpenglUtils.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\utils\\Rotation.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\utils\\Rotation.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/utils/Rotation.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\utils\\TextureRotationUtil.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\utils\\TextureRotationUtil.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/utils/TextureRotationUtil.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\utils\\Matrix.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\utils\\Matrix.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/utils/Matrix.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\camera\\CameraFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\camera\\CameraFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/camera/CameraFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\camera\\CameraEngine.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\camera\\CameraEngine.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/camera/CameraEngine.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\image\\ImageFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\image\\ImageFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/image/ImageFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\image\\ImageInput.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\image\\ImageInput.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/image/ImageInput.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\egl\\EGLCore.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\egl\\EGLCore.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/egl/EGLCore.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicAmaroFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicAmaroFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicAmaroFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicAntiqueFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicAntiqueFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicAntiqueFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicBlackCatFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicBlackCatFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicBlackCatFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicBrannanFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicBrannanFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicBrannanFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicBrooklynFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicBrooklynFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicBrooklynFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicBeautyFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicBeautyFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicBeautyFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicCoolFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicCoolFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicCoolFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicCalmFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicCalmFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicCalmFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicCrayonFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicCrayonFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicCrayonFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicEarlyBirdFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicEarlyBirdFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicEarlyBirdFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicEmeraldFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicEmeraldFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicEmeraldFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicEvergreenFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicEvergreenFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicEvergreenFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicFreudFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicFreudFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicFreudFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicFairytableFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicFairytableFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicFairytableFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicHefeFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicHefeFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicHefeFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicHealthyFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicHealthyFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicHealthyFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicHudsonFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicHudsonFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicHudsonFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicInkwellFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicInkwellFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicInkwellFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicKevinFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicKevinFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicKevinFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicLomoFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicLomoFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicLomoFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicLookupFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicLookupFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicLookupFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicLatteFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicLatteFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicLatteFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicN1977Filter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicN1977Filter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicN1977Filter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicNashvilleFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicNashvilleFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicNashvilleFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicNostalgiaFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicNostalgiaFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicNostalgiaFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicNoneFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicNoneFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicNoneFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicPixarFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicPixarFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicPixarFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicRiseFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicRiseFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicRiseFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicRomanceFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicRomanceFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicRomanceFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicSakuraFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicSakuraFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicSakuraFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicSierraFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicSierraFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicSierraFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicSketchFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicSketchFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicSketchFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicSkinWhiteFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicSkinWhiteFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicSkinWhiteFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicSunriseFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicSunriseFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicSunriseFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicSunsetFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicSunsetFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicSunsetFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicSutroFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicSutroFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicSutroFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicSweetsFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicSweetsFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicSweetsFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicTenderFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicTenderFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicTenderFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicToasterFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicToasterFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicToasterFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicValenciaFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicValenciaFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicValenciaFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicWaldenFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicWaldenFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicWaldenFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicWarmFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicWarmFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicWarmFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicWhiteCatFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicWhiteCatFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicWhiteCatFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\advanced\\MagicXproIIFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\advanced\\MagicXproIIFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/advanced/MagicXproIIFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\gpuimage\\GpuImageFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\gpuimage\\GpuImageFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/gpuimage/GpuImageFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\gpuimage\\CameraInputFilterV2.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\gpuimage\\CameraInputFilterV2.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/gpuimage/CameraInputFilterV2.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\MagicFilterFactory.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\MagicFilterFactory.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/MagicFilterFactory.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\douyin\\MagicSoulOutFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\douyin\\MagicSoulOutFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/douyin/MagicSoulOutFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\douyin\\MagicScaleFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\douyin\\MagicScaleFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/douyin/MagicScaleFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\douyin\\MagicGlitchFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\douyin\\MagicGlitchFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/douyin/MagicGlitchFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\douyin\\MagicShakeEffectFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\douyin\\MagicShakeEffectFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/douyin/MagicShakeEffectFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\douyin\\MagicShineWhiteFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\douyin\\MagicShineWhiteFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/douyin/MagicShineWhiteFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\douyin\\MagicVerigoFilter.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\douyin\\MagicVerigoFilter.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/douyin/MagicVerigoFilter.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dmagicjni_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\magicjni.dir\\src\\main\\cpp\\filter\\douyin\\RenderBuffer.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\filter\\douyin\\RenderBuffer.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/filter/douyin/RenderBuffer.cpp"
+},
+
+{
+  "directory": "D:/AndroidProject/MagicCamera/app/.cxx/RelWithDebInfo/5k1o4872/armeabi-v7a",
+  "command": "D:\\AndroidSDK\\ndk\\21.4.7075529\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --gcc-toolchain=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/AndroidSDK/ndk/21.4.7075529/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dtriangle_lib_EXPORTS -I../../../../ -I../../../../src/main/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -std=c++11 -fexceptions -O2 -g -DNDEBUG -fPIC   -o CMakeFiles\\triangle-lib.dir\\src\\main\\cpp\\triangle.cpp.o -c D:\\AndroidProject\\MagicCamera\\app\\src\\main\\cpp\\triangle.cpp",
+  "file": "D:/AndroidProject/MagicCamera/app/src/main/cpp/triangle.cpp"
+}
+]

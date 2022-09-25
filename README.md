@@ -17,5 +17,8 @@ can change front camera </br>
 *2018.12.17</br>
 add 30+ effects in camera filter，all filter write with C++ and opengles.</br>
 
+*2022.9.25</br>
+fix androidX </br>
+
 
 

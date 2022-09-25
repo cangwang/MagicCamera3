@@ -35,17 +35,17 @@ class CameraFilterSurfaceCallback(camera:Camera?):SurfaceHolder.Callback{
     private var height = 0
     private var isTakePhoto = false
 
-    override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         this.width = width
         this.height = height
         changeOpenGL(width,height)
     }
 
-    override fun surfaceDestroyed(holder: SurfaceHolder?) {
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
         releaseOpenGL()
     }
 
-    override fun surfaceCreated(holder: SurfaceHolder?) {
+    override fun surfaceCreated(holder: SurfaceHolder) {
         holder?.let {
             initOpenGL(it.surface)
         }

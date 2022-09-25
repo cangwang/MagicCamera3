@@ -1,11 +1,11 @@
 package com.werb.pickphotoview
 
 import android.app.Activity
-import android.app.FragmentTransaction
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
+import androidx.fragment.app.FragmentTransaction
 import com.werb.eventbus.EventBus
 import com.werb.eventbus.Subscriber
 import com.werb.pickphotoview.event.PickFinishEvent
@@ -154,8 +154,8 @@ class PickPhotoActivity :  BasePickActivity() {
         if (requestCode == PickConfig.CAMERA_PHOTO_DATA) {
             var path: String?
             if (data != null && data.data != null) {
-                path = data.data.path
-                if (path.contains("/pick_camera")) {
+                path = data.data!!.path
+                if (path!!.contains("/pick_camera")) {
                     path = path.replace("/pick_camera", "/storage/emulated/0/DCIM/Camera")
                 }
             } else {

@@ -17,6 +17,7 @@
         android:hardwareAccelerated="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity"
+            android:exported="true"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>

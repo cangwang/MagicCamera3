@@ -5,14 +5,12 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.pm.ActivityInfo
-import android.graphics.Point
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.RelativeLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.cangwang.magic.adapter.FilterAdapter
 import com.cangwang.magic.camera.CameraCompat
 import com.cangwang.magic.util.OpenGLJniLib
@@ -23,7 +21,7 @@ import kotlinx.android.synthetic.main.filter_layout.*
 /**
  * Created by cangwang on 2018/9/12.
  */
-class CameraFilterV2Activity:AppCompatActivity(){
+class CameraFilterV2Activity: AppCompatActivity(){
 
     private var isRecording = false
     private val MODE_PIC = 1

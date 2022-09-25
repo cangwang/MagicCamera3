@@ -1,0 +1,5 @@
+D:/AndroidProject/MagicCamera/app/.cxx/Debug/5z6n3e2y/armeabi-v7a/CMakeFiles/native-lib.dir
+D:/AndroidProject/MagicCamera/app/.cxx/Debug/5z6n3e2y/armeabi-v7a/CMakeFiles/magicjni.dir
+D:/AndroidProject/MagicCamera/app/.cxx/Debug/5z6n3e2y/armeabi-v7a/CMakeFiles/triangle-lib.dir
+D:/AndroidProject/MagicCamera/app/.cxx/Debug/5z6n3e2y/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/AndroidProject/MagicCamera/app/.cxx/Debug/5z6n3e2y/armeabi-v7a/CMakeFiles/rebuild_cache.dir

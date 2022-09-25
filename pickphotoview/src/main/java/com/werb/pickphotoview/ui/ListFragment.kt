@@ -1,11 +1,12 @@
 package com.werb.pickphotoview.ui
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.werb.eventbus.EventBus
 import com.werb.eventbus.Subscriber
 import com.werb.eventbus.ThreadMode
@@ -23,13 +24,14 @@ import kotlinx.android.synthetic.main.pick_fragment_grid.*
 class ListFragment : Fragment() {
 
     private lateinit var adapter: MoreAdapter
+    private val TAG = ListFragment::class.java.simpleName
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.pick_fragment_grid, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        println("ListFragment onViewCreated" + System.currentTimeMillis())
+        Log.i(TAG,"ListFragment onViewCreated" + System.currentTimeMillis())
         EventBus.register(this)
         initView()
     }
@@ -58,6 +60,4 @@ class ListFragment : Fragment() {
             adapter.loadData(it.dirName)
         }
     }
-
-
 }

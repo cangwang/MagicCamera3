@@ -6,7 +6,6 @@ import com.bumptech.glide.Glide
 import com.werb.eventbus.EventBus
 import com.werb.library.MoreViewHolder
 import com.werb.pickphotoview.event.PickFinishEvent
-import com.werb.pickphotoview.model.GroupImage
 import com.werb.pickphotoview.model.MediaModel
 import com.werb.pickphotoview.util.GlideHelper
 import com.werb.pickphotoview.util.PickPhotoHelper

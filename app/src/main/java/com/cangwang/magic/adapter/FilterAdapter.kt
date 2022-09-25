@@ -1,13 +1,14 @@
 package com.cangwang.magic.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
 import com.cangwang.magic.R
 import com.cangwang.magic.helper.FilterTypeHelper
@@ -31,7 +32,7 @@ class FilterAdapter(private val context: Context, private val filters: IntArray)
         return FilterHolder(view)
     }
 
-    override fun onBindViewHolder(holder: FilterHolder, position: Int) {
+    override fun onBindViewHolder(holder: FilterHolder, @SuppressLint("RecyclerView") position: Int) {
         holder.thumbImage.setImageResource(FilterTypeHelper.FilterType2Thumb(filters[position]))
         holder.filterName.setText(FilterTypeHelper.FilterType2Name(filters[position]))
         holder.filterName.setBackgroundColor(context.resources.getColor(

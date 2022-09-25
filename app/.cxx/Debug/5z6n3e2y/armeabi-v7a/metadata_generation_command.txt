@@ -1,0 +1,24 @@
+                    Executable : D:\AndroidSDK\cmake\3.10.2.4988404\bin\cmake.exe
+arguments : 
+-HD:\AndroidProject\MagicCamera\app
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_SYSTEM_VERSION=21
+-DANDROID_PLATFORM=android-21
+-DANDROID_ABI=armeabi-v7a
+-DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a
+-DANDROID_NDK=D:\AndroidSDK\ndk\21.4.7075529
+-DCMAKE_ANDROID_NDK=D:\AndroidSDK\ndk\21.4.7075529
+-DCMAKE_TOOLCHAIN_FILE=D:\AndroidSDK\ndk\21.4.7075529\build\cmake\android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=D:\AndroidSDK\cmake\3.10.2.4988404\bin\ninja.exe
+-DCMAKE_CXX_FLAGS=-std=c++11 -fexceptions
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\AndroidProject\MagicCamera\app\build\intermediates\cxx\Debug\5z6n3e2y\obj\armeabi-v7a
+-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=D:\AndroidProject\MagicCamera\app\build\intermediates\cxx\Debug\5z6n3e2y\obj\armeabi-v7a
+-DCMAKE_BUILD_TYPE=Debug
+-BD:\AndroidProject\MagicCamera\app\.cxx\Debug\5z6n3e2y\armeabi-v7a
+-GNinja
+jvmArgs : 
+
+
+                    Build command args: []
+                    Version: 2
