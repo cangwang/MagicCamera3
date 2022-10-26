@@ -40,12 +40,12 @@ class MoreAdapter : Adapter<MoreViewHolder<Any>>(), MoreLink, AnimExtension, Dat
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoreViewHolder<Any> {
         val viewHolderClass = createViewHolder(viewType)
-        val con = viewHolderClass.getConstructor(MutableMap::class.java, View::class.java)
+        val con = viewHolderClass.getConstructor(View::class.java)
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         var moreViewHolder: MoreViewHolder<Any>? = null
         try {
             val map = allValuesInHolder.plus(linkManager.getinjectValueWithHolder(viewType))
-            moreViewHolder = con.newInstance(map, view) as MoreViewHolder<Any>
+            moreViewHolder = con.newInstance(view) as MoreViewHolder<Any>
         } catch (e: Exception) {
             e.printStackTrace()
             if (moreViewHolder == null) {
