@@ -6,7 +6,7 @@ import android.os.Build
 import android.os.Environment
 import android.util.Log
 import android.view.Surface
-import android.view.SurfaceHolder
+import android.view.TextureView
 import android.widget.Toast
 import com.cangwang.magic.BaseApplication
 import com.cangwang.magic.util.ExifUtil
@@ -21,48 +21,16 @@ import java.util.concurrent.Executors
 /**
  * Created by zjl on 2018/10/12.
  */
-class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
+class ImageFilterTextureCallback(path:String): TextureView.SurfaceTextureListener {
     private val mExecutor = Executors.newSingleThreadExecutor()
 
-    private val TAG= ImageFilterSurfaceCallback::class.java.simpleName!!
+    private val TAG= ImageFilterTextureCallback::class.java.simpleName
     private var mSurfaceTexture:SurfaceTexture?=null
     private val mMatrix = FloatArray(16)
     private var width = 0
     private var height = 0
     private var isTakePhoto = false
     private val imagePath = path
-
-    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        this.width = width
-        this.height = height
-        changeOpenGL(width,height)
-    }
-
-    override fun surfaceDestroyed(holder: SurfaceHolder) {
-        releaseOpenGL()
-    }
-
-    override fun surfaceCreated(holder: SurfaceHolder) {
-        holder?.let {
-            initOpenGL(it.surface)
-        }
-    }
-
-    private fun initOpenGL(surface: Surface){
-        mExecutor.execute {
-            val textureId = OpenGLJniLib.magicImageFilterCreate(surface,BaseApplication.context.assets,imagePath, ExifUtil.getExifOrientation(imagePath))
-            if (textureId < 0){
-                Log.e(TAG, "surfaceCreated init OpenGL ES failed!")
-                return@execute
-            }
-            mSurfaceTexture = SurfaceTexture(textureId)
-            mSurfaceTexture?.setOnFrameAvailableListener {
-                drawOpenGL()
-            }
-
-        }
-    }
-
 
     fun changeOpenGL(width:Int,height:Int){
         mExecutor.execute {
@@ -71,9 +39,9 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
         }
     }
 
-    fun drawOpenGL(){
+    fun drawOpenGL(surface: SurfaceTexture) {
         mExecutor.execute {
-            mSurfaceTexture?.updateTexImage()
+            surface.updateTexImage()
 //            mSurfaceTexture?.getTransformMatrix(mMatrix)
             if (isTakePhoto){
                 val photoAddress = if(Build.BRAND == "Xiaomi"){ // 小米手机
@@ -123,5 +91,31 @@ class ImageFilterSurfaceCallback(path:String):SurfaceHolder.Callback{
                 },{
                     Log.e(TAG,it.toString())
                 })
+    }
+
+    override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
+        mExecutor.execute {
+            val s = Surface(surface)
+            val textureId = OpenGLJniLib.magicImageFilterCreate(s,BaseApplication.context.assets,imagePath, ExifUtil.getExifOrientation(imagePath))
+            if (textureId < 0){
+                Log.e(TAG, "surfaceCreated init OpenGL ES failed!")
+                return@execute
+            }
+            changeOpenGL(width,height)
+            drawOpenGL(surface)
+        }
+    }
+
+    override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture, width: Int, height: Int) {
+        changeOpenGL(width,height)
+    }
+
+    override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
+        releaseOpenGL()
+        return true
+    }
+
+    override fun onSurfaceTextureUpdated(surface: SurfaceTexture) {
+        drawOpenGL(surface)
     }
 }

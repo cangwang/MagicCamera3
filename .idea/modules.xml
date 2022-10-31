@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/MagicCamera.iml" filepath="$PROJECT_DIR$/.idea/MagicCamera.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MagicCamera.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MagicCamera.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/moretype/MagicCamera.moretype.iml" filepath="$PROJECT_DIR$/.idea/modules/moretype/MagicCamera.moretype.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pickphotoview/MagicCamera.pickphotoview.iml" filepath="$PROJECT_DIR$/.idea/modules/pickphotoview/MagicCamera.pickphotoview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MagicCamera3.iml" filepath="$PROJECT_DIR$/.idea/modules/MagicCamera3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MagicCamera3.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MagicCamera3.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/moretype/MagicCamera3.moretype.iml" filepath="$PROJECT_DIR$/.idea/modules/moretype/MagicCamera3.moretype.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pickphotoview/MagicCamera3.pickphotoview.iml" filepath="$PROJECT_DIR$/.idea/modules/pickphotoview/MagicCamera3.pickphotoview.iml" />
     </modules>
   </component>
 </project>
