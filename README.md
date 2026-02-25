@@ -1,5 +1,5 @@
-# MagicCamera3
-MagicCamera3 is code refactoring from MagicCamera(https://github.com/wuhaoyu1990/MagicCamera 3000+star)，more than 30 camera filter effects ，write with C++ and opengles.</br>
+# MagicCamera amazing
+MagicCamera amazing is code refactoring from MagicCamera(https://github.com/wuhaoyu1990/MagicCamera 3000+star)，more than 30 camera filter effects ，write with C++ and opengles.</br>
 
 My blog(https://www.jianshu.com/u/cd0fe10b01d2) ,will introduce this project and add functions in this project later.
 
